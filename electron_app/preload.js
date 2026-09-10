@@ -114,10 +114,10 @@ contextBridge.exposeInMainWorld('di8KbdUpdate', () => 0);
 contextBridge.exposeInMainWorld('di8KbdHeld', di8KbdHeld);
 contextBridge.exposeInMainWorld('di8KbdShutdown', () => 0);
 
-// 串口 mock(libugdev.dll 的 ugSerialCreate),无真实串口时返回假对象
-contextBridge.exposeInMainWorld('ugSerialCreate', () => ({
-  qu: () => false,    // 打开失败
-  _t: () => null,     // 读数据返回 null
-  Xu: () => false,    // 写失败
-  V7: () => {},       // 关闭
-}));
+// 串口 native 函数 mock(libugdev.dll),无真实串口时全部返回失败/空
+contextBridge.exposeInMainWorld('ugSerialCreate', () => 1);          // 返回句柄
+contextBridge.exposeInMainWorld('ugSerialOpen', () => false);        // 打开失败
+contextBridge.exposeInMainWorld('ugSerialWrite', () => false);       // 写失败
+contextBridge.exposeInMainWorld('ugSerialPop', () => null);          // 无数据
+contextBridge.exposeInMainWorld('ugSerialClose', () => {});          // 关闭
+contextBridge.exposeInMainWorld('ugSerialDestroy', () => {});        // 销毁

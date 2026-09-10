@@ -92,6 +92,39 @@ ipcMain.handle('fs:read', (e, p, offset, size) => {
 });
 
 app.whenReady().then(() => {
+  // 拦截 file:// 请求,把虚拟路径(/nameplates/ 等)映射到真实文件系统
+  const MIME = {
+    '.html': 'text/html; charset=utf-8',
+    '.css': 'text/css; charset=utf-8',
+    '.js': 'application/javascript; charset=utf-8',
+    '.png': 'image/png',
+    '.jpg': 'image/jpeg',
+    '.dds': 'application/octet-stream',
+    '.wav': 'audio/wav',
+    '.json': 'application/json; charset=utf-8',
+    '.txt': 'text/plain; charset=utf-8',
+    '.wasm': 'application/wasm',
+    '.mp3': 'audio/mpeg',
+    '.xml': 'text/xml; charset=utf-8',
+  };
+  protocol.handle('file', (request) => {
+    const url = new URL(request.url);
+    let vpath = decodeURIComponent(url.pathname);
+    // Windows 盘符路径: /D:/xxx -> D:/xxx
+    if (/^\/[a-zA-Z]:\//.test(vpath)) {
+      vpath = vpath.slice(1);
+    }
+    const real = virtualToReal(vpath);
+    try {
+      if (fs.existsSync(real) && fs.statSync(real).isFile()) {
+        const data = fs.readFileSync(real);
+        const ext = path.extname(real).toLowerCase();
+        return new Response(data, { headers: { 'Content-Type': MIME[ext] || 'application/octet-stream' } });
+      }
+    } catch (e) {}
+    return new Response('Not found: ' + vpath, { status: 404 });
+  });
+
   const win = new BrowserWindow({
     width: 1280,
     height: 720,
