@@ -1,0 +1,111 @@
+const { app, BrowserWindow, ipcMain, protocol, net } = require('electron');
+const path = require('path');
+const fs = require('fs');
+const { pathToFileURL } = require('url');
+
+const ROOT = 'D:/project/umgr-re/UMIGURI_NEXT';
+
+const PATH_MAP = [
+  ['/chara/', 'data/characters/'],
+  ['/music/', 'data/music/'],
+  ['/voices/', 'data/voices/'],
+  ['/skills/', 'data/skills/'],
+  ['/courses/', 'data/courses/'],
+  ['/player_scenes/', 'data/player_scenes/'],
+  ['/nameplates/', 'data/nameplates/'],
+  ['/titles/', 'data/titles/'],
+  ['/textures/', 'core/textures/'],
+  ['/una/', 'core/una/'],
+  ['/sounds/', 'core/sounds/'],
+  ['/config/', 'core/config/'],
+  ['/extra/', 'core/extra/'],
+];
+
+function virtualToReal(vpath) {
+  // Windows 绝对路径: 直接返回(前端会用 fullPath 继续列子目录)
+  if (/^[a-zA-Z]:[\\/]/.test(vpath)) return vpath;
+  for (const [v, r] of PATH_MAP) {
+    if (vpath.startsWith(v)) return path.join(ROOT, r + vpath.slice(v.length));
+  }
+  return path.join(ROOT, vpath.replace(/^\//, ''));
+}
+
+// 握手配置
+const handshake = {
+  O: { ct: 'DEV_MOCK', B: 1650000, p9: 69 },
+  I: 0, R: 8090, j: 1, M: 3, L: 0, U: false,
+  P: '00 00 00 00 00 00', G: '00 00 00 00 00 00', Y: 0,
+  fe: 'A1B2C3D4E5F6G7H8I9J0K;L\'M,N.O/P-RSTUWY',
+  I4: 'ja-JP', am: 0, W: true, H: 1, J: true, K: true,
+  Z: { X: false, a1: false, d1: false, t1: false, s1: false },
+  u1: '1920x1080', v1: false,
+  h1: { T: '2025/05/24', rr: '16:51:06', C: '9f4d448', GA: 'Release', Ph: false },
+  f1: false,
+  g1: [
+    { name: 'ja-JP', version: 6, packageName: 'hiiragi.una' },
+    { name: 'en-US', version: 6, packageName: 'sakuragi.una' },
+    { name: 'exField', version: 6, packageName: 'natsukawa.una' },
+  ],
+};
+
+// IPC handler
+ipcMain.handle('handshake', () => handshake);
+
+ipcMain.handle('fs:list', (e, p) => {
+  try {
+    const real = virtualToReal(p);
+    const entries = fs.readdirSync(real, { withFileTypes: true });
+    return { status: 0, data: entries.map(x => ({ fullPath: path.join(real, x.name), isDirectory: x.isDirectory(), isFile: x.isFile(), name: x.name })) };
+  } catch (err) {
+    return { status: -1, data: [] };
+  }
+});
+
+ipcMain.handle('fs:file', (e, p) => {
+  try {
+    const data = fs.readFileSync(virtualToReal(p));
+    return { status: 0, data };
+  } catch (err) {
+    return { status: -1 };
+  }
+});
+
+ipcMain.handle('fs:size', (e, p) => {
+  try {
+    const st = fs.statSync(virtualToReal(p));
+    return { status: 0, data: { val: st.size } };
+  } catch (err) {
+    return { status: -1 };
+  }
+});
+
+ipcMain.handle('fs:read', (e, p, offset, size) => {
+  try {
+    const fd = fs.openSync(virtualToReal(p), 'r');
+    const buf = Buffer.alloc(size);
+    const br = fs.readSync(fd, buf, 0, size, offset);
+    fs.closeSync(fd);
+    return { status: 0, data: { buf: new Uint8Array(buf.slice(0, br)), br } };
+  } catch (err) {
+    return { status: -1 };
+  }
+});
+
+app.whenReady().then(() => {
+  const win = new BrowserWindow({
+    width: 1280,
+    height: 720,
+    useContentSize: true,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false,
+    },
+  });
+  win.loadFile('index.html');
+  win.webContents.openDevTools({ mode: 'detach' });
+});
+
+app.on('window-all-closed', () => {
+  app.quit();
+});

@@ -1,0 +1,13 @@
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 日志
+*.log
+
+# Node 依赖
+node_modules/
+
+# 临时文件
+*.tmp
+*.bak
