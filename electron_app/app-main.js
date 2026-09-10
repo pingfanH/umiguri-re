@@ -110,11 +110,21 @@ app.whenReady().then(() => {
   protocol.handle('file', (request) => {
     const url = new URL(request.url);
     let vpath = decodeURIComponent(url.pathname);
-    // Windows 盘符路径: /D:/xxx -> D:/xxx
-    if (/^\/[a-zA-Z]:\//.test(vpath)) {
-      vpath = vpath.slice(1);
+    // 去掉盘符前缀 /D: 等,得到 /xxx
+    let drive = '';
+    const m = vpath.match(/^\/[a-zA-Z]:(.*)$/);
+    if (m) {
+      drive = vpath.slice(1, 3); // D:
+      vpath = m[1];              // /xxx
     }
-    const real = virtualToReal(vpath);
+    // 判断是否虚拟路径(/nameplates/ 等)
+    const isVirtual = PATH_MAP.some(([v]) => vpath.startsWith(v));
+    let real;
+    if (isVirtual) {
+      real = virtualToReal(vpath);   // 虚拟路径 -> 真实文件
+    } else {
+      real = drive + vpath;          // 完整路径(盘符+路径)
+    }
     try {
       if (fs.existsSync(real) && fs.statSync(real).isFile()) {
         const data = fs.readFileSync(real);
