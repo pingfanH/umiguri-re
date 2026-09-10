@@ -3,7 +3,10 @@ const path = require('path');
 const fs = require('fs');
 const { pathToFileURL } = require('url');
 
-const ROOT = 'D:/project/umgr-re/UMIGURI_NEXT';
+// 游戏数据根目录(data/ + core/)
+// 打包后从 resources/game_data 读取,开发时用环境变量或默认路径
+const ROOT = process.env.UMIGURI_DATA_DIR ||
+  (app.isPackaged ? path.join(process.resourcesPath, 'game_data') : 'D:/project/umgr-re/UMIGURI_NEXT');
 
 const PATH_MAP = [
   ['/chara/', 'data/characters/'],
@@ -22,11 +25,13 @@ const PATH_MAP = [
 ];
 
 function virtualToReal(vpath) {
-  // Windows 绝对路径: 直接返回(前端会用 fullPath 继续列子目录)
-  if (/^[a-zA-Z]:[\\/]/.test(vpath)) return vpath;
+  // 虚拟路径: 优先匹配 PATH_MAP(/nameplates/ 等)
   for (const [v, r] of PATH_MAP) {
     if (vpath.startsWith(v)) return path.join(ROOT, r + vpath.slice(v.length));
   }
+  // Windows 盘符绝对路径(D:/...)或 Unix 绝对路径(/home/...)
+  if (/^[a-zA-Z]:[\\/]/.test(vpath) || path.isAbsolute(vpath)) return vpath;
+  // 其他: 拼到 ROOT
   return path.join(ROOT, vpath.replace(/^\//, ''));
 }
 

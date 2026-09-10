@@ -53,14 +53,38 @@ const umgr_elc = {
 
 contextBridge.exposeInMainWorld('umgr_elc', umgr_elc);
 
-// 键盘输入: 用 window keydown/keyup 维护按键状态
+// 键盘输入: 用 e.code(跨平台)映射到 Windows VK 码
 const keyState = new Set();
+
+// e.code -> Windows VK 码(跨平台,Linux/mac/Windows 一致)
+function codeToVk(code) {
+  if (!code) return 0;
+  // KeyA-KeyZ -> 65-90
+  if (code.startsWith('Key') && code.length === 4) return code.charCodeAt(3);
+  // Digit0-Digit9 -> 48-57
+  if (code.startsWith('Digit') && code.length === 6) return code.charCodeAt(5);
+  // Numpad0-Numpad9
+  if (code.startsWith('Numpad') && /^Numpad\d$/.test(code)) return 96 + parseInt(code.slice(6), 10);
+  const map = {
+    'ArrowLeft': 37, 'ArrowRight': 39, 'ArrowUp': 38, 'ArrowDown': 40,
+    'Enter': 13, 'Escape': 27, 'Space': 32, 'Backspace': 8, 'Tab': 9,
+    'ShiftLeft': 16, 'ShiftRight': 16, 'ControlLeft': 17, 'ControlRight': 17, 'AltLeft': 18, 'AltRight': 18,
+    'F1': 112, 'F2': 113, 'F3': 114, 'F4': 115, 'F5': 116,
+    'F6': 117, 'F7': 118, 'F8': 119, 'F9': 120, 'F10': 121, 'F11': 122, 'F12': 123,
+    'Comma': 188, 'Period': 190, 'Semicolon': 186, 'Quote': 222, 'Slash': 191, 'Backslash': 220,
+    'BracketLeft': 219, 'BracketRight': 221, 'Minus': 189, 'Equal': 187, 'Backquote': 192,
+  };
+  return map[code] !== undefined ? map[code] : 0;
+}
+
 window.addEventListener('keydown', (e) => {
-  keyState.add(e.keyCode);
-  if (!e.repeat) keyState.add('down:' + e.keyCode);
+  const vk = codeToVk(e.code) || e.keyCode;
+  keyState.add(vk);
+  if (!e.repeat) keyState.add('down:' + vk);
 });
 window.addEventListener('keyup', (e) => {
-  keyState.delete(e.keyCode);
+  const vk = codeToVk(e.code) || e.keyCode;
+  keyState.delete(vk);
 });
 window.addEventListener('blur', () => keyState.clear());
 

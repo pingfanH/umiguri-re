@@ -1,1 +1,42 @@
-{"name":"umiguri-recovered","version":"2.01","main":"app-main.js"}
+{
+  "name": "umiguri-recovered",
+  "version": "2.01",
+  "main": "app-main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist:win": "electron-builder --win",
+    "dist:mac": "electron-builder --mac",
+    "dist:linux": "electron-builder --linux"
+  },
+  "build": {
+    "appId": "jp.inonote.umiguri",
+    "productName": "UMIGURI",
+    "files": [
+      "**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "../../data",
+        "to": "game_data/data"
+      },
+      {
+        "from": "../../core",
+        "to": "game_data/core"
+      }
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.games"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Game"
+    }
+  }
+}
