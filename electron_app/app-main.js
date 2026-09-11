@@ -1,7 +1,21 @@
 const { app, BrowserWindow, ipcMain, protocol, net } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const crypto = require('crypto');
 const { pathToFileURL } = require('url');
+
+// ============ 源码加密/解密(AES-256-CBC) ============
+const ENC_KEY = 'umiguri-2025-inonote-16bytes-key'; // 32 字节密钥
+const ENC_IV = 'umiguri-iv-16byt';               // 16 字节 IV
+
+// 解密 main.js(main.js.enc -> 明文 Buffer)
+function decryptMainJs() {
+  const encPath = path.join(__dirname, 'main.js.enc');
+  if (!fs.existsSync(encPath)) return null;
+  const data = fs.readFileSync(encPath);
+  const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(ENC_KEY), Buffer.from(ENC_IV));
+  return Buffer.concat([decipher.update(data), decipher.final()]);
+}
 
 // 游戏数据根目录(data/ + core/)
 // 打包后从 resources/game_data 读取,开发时用环境变量或默认路径
@@ -121,6 +135,13 @@ app.whenReady().then(() => {
     if (m) {
       drive = vpath.slice(1, 3); // D:
       vpath = m[1];              // /xxx
+    }
+    // main.js 特殊处理: 返回解密后的明文(源码保护)
+    if (vpath.endsWith('/main.js') || vpath === '/main.js') {
+      const plain = decryptMainJs();
+      if (plain) {
+        return new Response(plain, { headers: { 'Content-Type': 'application/javascript; charset=utf-8' } });
+      }
     }
     // 判断是否虚拟路径(/nameplates/ 等)
     const isVirtual = PATH_MAP.some(([v]) => vpath.startsWith(v));

@@ -11,3 +11,6 @@ node_modules/
 # 涓存椂鏂囦欢
 *.tmp
 *.bak
+
+# 明文 main.js(已加密为 main.js.enc,明文不入库)
+main.js
