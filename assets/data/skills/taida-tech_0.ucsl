@@ -1,0 +1,28 @@
+Meta:
+	Version	1
+	
+	Lang	ja
+	Title	怠惰
+	Desc	300コンボ未満でゲージ上昇しない
+	Desc	300コンボ以上でゲージ上昇UP <#c:00f>(300%)
+	
+	Lang	en
+	Title	Laziness
+	Desc	The gauge doesn't increase while combo is
+	Desc	less than 300. Increments the gauge
+	Desc	increase rate to <#c:00f>300%<#r> while combo is 
+	Desc	greater than or equal to 300.
+	
+	Attr	BTech
+	Indicator	IDBoost	INBoost
+
+OnJudge:
+	If	Combo	<	300
+	If	Answer	!=	M
+		Boost	IDBoost	Mul	0
+	ClearIf
+	
+	If	Combo	>=	300
+	If	Answer	!=	M
+		Boost	INBoost	Mul	3
+	ClearIf

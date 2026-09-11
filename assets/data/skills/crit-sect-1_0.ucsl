@@ -1,0 +1,23 @@
+Meta:
+	Version	1
+	
+	Lang	ja
+	Title	クリティカル・セクション Ⅰ
+	Desc	ゲージ上昇UP <#c:00f>(225%)
+	Desc	TAPの判定が非常に厳しくなる
+	
+	Lang	en
+	Title	Critical Section Ⅰ
+	Desc	Increments the gauge increase rate to
+	Desc	<#c:00f>225%<#r>.
+	Desc	TAP judgments get more harder.
+	
+	JudgeMode	Hard2
+	
+	Attr	BManiac
+	Indicator	INBoost
+
+OnJudge:
+	If	Answer	!=	M
+		Boost	INBoost	Mul	2.25
+	ClearIf

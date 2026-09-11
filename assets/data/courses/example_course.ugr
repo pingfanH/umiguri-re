@@ -1,0 +1,32 @@
+' COURSE ID
+CRSID	s_example_course
+
+' 属するCLASS (1, 2, 3, 4, 5, INF, SP)
+GROUP	1
+
+' CLASS名
+TITLE	チュートリアルの次に簡単な譜面
+
+' LIFE数
+LIFE	50
+
+' 減少条件 (J, A, M)
+DAMAGE	A
+
+' TRACK終了後回復量
+HEAL	10
+
+' ノーツ処理で回復 回復量と回復条件 (C, J, A)
+HEALJDG	1	C
+
+' 1TRACK目楽曲IDと難易度
+MUSIC1	sys_example_hd1	MAS
+
+' 2TRACK目楽曲IDと難易度
+MUSIC2	sys_example_hd2	MAS
+
+' 3TRACK目楽曲IDと難易度
+MUSIC3	sys_example_hd3	MAS
+
+' 設定書き換え
+' REWRITE	SPEED	1.0

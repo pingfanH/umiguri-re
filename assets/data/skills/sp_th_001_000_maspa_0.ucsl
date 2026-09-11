@@ -1,0 +1,25 @@
+Meta:
+	Version	1
+	
+	Lang	ja
+	Title	恋符「マスタースパーク」
+	Desc	HOLD/SLIDE成功時に
+	Desc	ボーナス <#c:00f>+90
+	
+	Lang	en
+	Title	Love Sign "Master Spark"
+	Desc	Bonus <#c:00f>+90<#r> for HOLD / SLIDE notes.
+	
+	Attr	BTarget
+	Indicator	INBoost
+	CountDef	225
+	
+	TargetChara	touhou/001/0
+
+OnJudge:
+	If	Counter	>	0
+	If	Answer	=	JC	J
+	If	NoteCat	=	CHold	CSlide
+		Counter	-1
+		Boost	INBoost	Add	90
+	ClearIf

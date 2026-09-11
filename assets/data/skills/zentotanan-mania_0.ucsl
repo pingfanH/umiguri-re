@@ -1,0 +1,28 @@
+Meta:
+	Version	1
+	
+	Lang	ja
+	Title	前途多難
+	Desc	ゲージ上昇UP <#c:00f>(290%)
+	Desc	ゲージ4本目以上の時
+	Desc	MISS判定時にゲージが0になる
+	
+	Lang	en
+	Title	Grim Prospect
+	Desc	Increments the gauge increase rate to
+	Desc	<#c:00f>290%<#r>.
+	Desc	The gauge become 0 when MISS until you
+	Desc	get 4 gauge blocks.
+	
+	Attr	BManiac
+	Indicator	IDBoost	INBoost
+
+OnJudge:
+	If	Answer	!=	M
+		Boost	INBoost	Mul	2.9
+	ClearIf
+
+	If	Gauge	>=	4
+	If	Answer	=	M
+		Boost	IDBoost	Add	-500000
+	ClearIf

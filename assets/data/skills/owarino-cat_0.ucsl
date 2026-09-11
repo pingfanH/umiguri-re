@@ -1,0 +1,36 @@
+Meta:
+	Version	1
+	
+	Lang	ja
+	Title	終わりの時
+	Desc	ゲージ上昇UP <#c:00f>(240%)
+	Desc	JUSTICE判定以下20回で強制終了
+	
+	Lang	en
+	Title	The End of Time
+	Desc	Increments the gauge increase rate to
+	Desc	<#c:00f>240%<#r>.
+	Desc	<#c:70f>Sidden Death occurs<#r> when JUSTICE or
+	Desc	below counts 50 times.
+	
+	Attr	DCat
+	Indicator	IDanger	INBoost
+	CountDef	20
+
+OnStart:
+	Boost	IDanger	Add	0
+	
+OnJudge:
+	If	Answer	=	J	A	M
+		Counter	-1
+		Boost	IDanger	Add	0.0
+	ClearIf
+	
+	If	Answer	!=	M
+		Boost	INBoost	Mul	2.4
+	ClearIf
+	
+	If	Counter	<=	0
+		Kill
+	ClearIf
+	

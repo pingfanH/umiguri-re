@@ -1,0 +1,26 @@
+Meta:
+	Version	1
+	
+	Lang	ja
+	Title	ボーダー・S
+	Desc	ランクS以上達成で
+	Desc	ゲーム終了時にボーナス <#c:00f>+50000
+	
+	Lang	en
+	Title	Border S
+	Desc	Bonus <#c:00f>+50000<#r> at the end of the track
+	Desc	if you achieved rank S or above.
+	
+	Attr	DAbs
+	Indicator	IDanger	INBoost
+
+OnStart:
+	Boost	IDanger	Add	0
+	
+OnJudge:
+	If	BorderS	<=	0
+		Kill
+	ClearIf
+	
+OnFinish:
+	Boost	INBoost	Add	50000

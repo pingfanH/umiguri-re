@@ -1,0 +1,8 @@
+DefSkill	sp_th_000_000_musoufuuin_0
+Category	東方Project
+
+Lang	ja
+Variation	博麗 霊夢	kaoru (幻想幽玄庵)
+
+Lang	en
+Variation	Reimu Hakurei	kaoru (幻想幽玄庵)

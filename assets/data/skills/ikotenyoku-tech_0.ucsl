@@ -1,0 +1,41 @@
+Meta:
+	Version	1
+	
+	Lang	ja
+	Title	為虎添翼
+	Desc	J-CRITICALでカウント <#c:0da712>[+3]
+	Desc	JUSTICEでカウント <#c:0da712>[+1]
+	Desc	カウント <#c:0da712>[999]<#r> 以上の時
+	Desc	ゲージ上昇UP <#c:00f>(172%)
+	
+	Lang	en
+	Title	Empower
+	Desc	<#c:0da712>[+3]<#r> to counter for J-CRITICAL.
+	Desc	<#c:0da712>[+1]<#r> to counter for CRITICAL.
+	Desc	When counter is <#c:0da712>[999]<#r> or more, increments
+	Desc	the gauge increase rate to <#c:00f>290%<#r>.
+	
+	Attr	BTech
+	Indicator	INBoost
+	CountDef	0
+
+OnStart:
+	Boost	INBoost	Add	0
+
+OnJudge:
+	If	Answer	=	JC
+	If	Counter	<	999
+		Counter	3
+		Boost	INBoost	Add	0.0
+	ClearIf
+
+	If	Answer	=	J
+	If	Counter	<	999
+		Counter	1
+		Boost	INBoost	Add	0.0
+	ClearIf
+	
+	If	Counter	>=	999
+	If	Answer	!=	M
+		Boost	INBoost	Mul	1.72
+	ClearIf

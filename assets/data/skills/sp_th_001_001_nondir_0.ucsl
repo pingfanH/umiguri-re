@@ -1,0 +1,33 @@
+Meta:
+	Version	1
+	
+	Lang	ja
+	Title	恋符「ノンディレクショナルレーザー」
+	Desc	ゲージ上昇UP <#c:00f>(140%)
+	Desc	SLIDE/HOLD成功時に
+	Desc	ボーナス <#c:00f>+120
+	
+	Lang	en
+	Title	Love Sign "Non-Directional Laser"
+	Desc	Increments the gauge increase rate to
+	Desc	<#c:00f>140%<#r>.
+	Desc	Bonus <#c:00f>+120<#r> for SLIDE / HOLD notes.
+	
+	Attr	BTarget
+	Indicator	INBoost
+	CountDef	200
+	
+	TargetChara	touhou/001/0
+
+OnJudge:
+	If	Answer	!=	M
+		Boost	INBoost	Mul	1.4
+	ClearIf
+
+	If	Counter	>	0
+	If	Answer	=	JC	J
+	If	NoteCat	=	CHold	CSlide
+		Counter	-1
+		Boost	INBoost	Add	120
+	ClearIf
+	

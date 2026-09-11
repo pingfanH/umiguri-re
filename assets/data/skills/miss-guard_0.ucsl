@@ -1,0 +1,32 @@
+Meta:
+	Version	1
+	
+	Lang	ja
+	Title	MISSガード
+	Desc	MISS発生時 <#c:00f>+400
+	Desc	1/2 経過まで一定時間ごとにボーナス <#c:00f>+200
+	Desc	1/2 経過後一定時間ごとにボーナス <#c:00f>+400
+	
+	Lang	en
+	Title	MISS Guard
+	Desc	Bonus <#c:00f>+400<#r> for MISS.
+	Desc	Bonus <#c:00f>+200<#r> at regular intervals in the first
+	Desc	half. Bonus <#c:00f>+400<#r> at regular intervals in the
+	Desc	second half.
+	
+	
+	Attr	Guard
+	Indicator	INSupport	INGuard
+
+OnJudge:
+	If	Answer	=	M
+		Boost	INGuard	Add	400
+	ClearIf
+
+OnTimer:
+	If	ProgTime	<	60
+		Boost	INSupport	Add	200
+	ClearIf
+	If	ProgTime	>=	60
+		Boost	INSupport	Add	400
+	ClearIf
