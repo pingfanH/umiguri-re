@@ -59,6 +59,7 @@ fn virtual_to_real(vpath: &str) -> PathBuf {
 }
 
 #[derive(Serialize, Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
 struct FileEntry {
     full_path: String,
     is_directory: bool,
@@ -162,6 +163,32 @@ fn diag(msg: String) {
 }
 
 // 解析 protocol URI(如 https://umg.localhost/una/hiiragi.una?v=0) -> 虚拟路径
+fn percent_decode(s: &str) -> String {
+    let bytes = s.as_bytes();
+    let mut out: Vec<u8> = Vec::with_capacity(bytes.len());
+    let mut i = 0;
+    let hex = |c: u8| -> Option<u8> {
+        match c {
+            b'0'..=b'9' => Some(c - b'0'),
+            b'a'..=b'f' => Some(c - b'a' + 10),
+            b'A'..=b'F' => Some(c - b'A' + 10),
+            _ => None,
+        }
+    };
+    while i < bytes.len() {
+        if bytes[i] == b'%' && i + 2 < bytes.len() {
+            if let (Some(h), Some(l)) = (hex(bytes[i + 1]), hex(bytes[i + 2])) {
+                out.push(h * 16 + l);
+                i += 3;
+                continue;
+            }
+        }
+        out.push(bytes[i]);
+        i += 1;
+    }
+    String::from_utf8_lossy(&out).to_string()
+}
+
 fn parse_uri(uri: &str) -> String {
     let rest = match uri.find("://") {
         Some(pos) => &uri[pos + 3..],
@@ -173,6 +200,7 @@ fn parse_uri(uri: &str) -> String {
         None => rest,
     };
     let path = rest.split('/').skip(1).collect::<Vec<_>>().join("/");
+    let path = percent_decode(&path);
     if path.is_empty() { "/".to_string() } else { format!("/{}", path) }
 }
 

@@ -83,7 +83,7 @@
   // 整文件缓存: .una 语言包/音频等被反复读,缓存避免重复读取
   const fileCache = new Map();
   function umgUrl(p) {
-    return 'https://umg.localhost' + (p.startsWith('/') ? p : '/' + p);
+    return 'https://umg.localhost' + encodeURI(p.startsWith('/') ? p : '/' + p);
   }
   async function cachedFile(p) {
     const key = String(p).split('?')[0];
@@ -183,4 +183,26 @@
       return realRAF(cb);
     };
   }
+
+  // 拦截 Image.src 相对路径(封面 j.png 等)转成 umg protocol
+  const NativeImage = window.Image;
+  const srcDesc = Object.getOwnPropertyDescriptor(NativeImage.prototype, 'src') ||
+    Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, 'src');
+  window.Image = function (w, h) {
+    const img = new NativeImage(w, h);
+    if (srcDesc && srcDesc.set) {
+      Object.defineProperty(img, 'src', {
+        get: function () { return srcDesc.get.call(this); },
+        set: function (value) {
+          if (typeof value === 'string' && value.indexOf('/') === 0 && value.indexOf('//') !== 0) {
+            value = 'https://umg.localhost' + value;
+          }
+          srcDesc.set.call(this, value);
+        },
+        configurable: true,
+      });
+    }
+    return img;
+  };
+  window.Image.prototype = NativeImage.prototype;
 })();
