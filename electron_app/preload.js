@@ -92,13 +92,25 @@ window.addEventListener('blur', () => keyState.clear());
 function kbdHeld(vk) {
   return keyState.has(vk) ? 1 : 0;
 }
-// kbdUni2Virt(charCode): 字符码转 VK 码(游戏键盘映射 1AQZ2SWX...)
+// kbdUni2Virt(charCode): 字符码转 VK 码(游戏键盘映射,含符号键)
+const CHAR_TO_VK = {
+  59: 186, // ;  VK_OEM_1
+  61: 187, // =  VK_OEM_PLUS
+  44: 188, // ,  VK_OEM_COMMA
+  45: 189, // -  VK_OEM_MINUS
+  46: 190, // .  VK_OEM_PERIOD
+  47: 191, // /  VK_OEM_2
+  96: 192, // `  VK_OEM_3
+  91: 219, // [  VK_OEM_4
+  92: 220, // \\ VK_OEM_5
+  93: 221, // ]  VK_OEM_6
+  39: 222, // '  VK_OEM_7
+};
 function kbdUni2Virt(charCode) {
   if (charCode >= 48 && charCode <= 57) return charCode;       // 数字 0-9
   if (charCode >= 65 && charCode <= 90) return charCode;       // 大写 A-Z
   if (charCode >= 97 && charCode <= 122) return charCode - 32; // 小写转大写
-  if (charCode === 44) return 188; // ',' -> VK_OEM_COMMA
-  if (charCode === 46) return 190; // '.' -> VK_OEM_PERIOD
+  if (CHAR_TO_VK[charCode] !== undefined) return CHAR_TO_VK[charCode]; // 符号键
   return charCode;
 }
 function kbdStart(keys) { return 1; }
@@ -118,8 +130,17 @@ const EVDEV_TO_VK = {
   30: 65, 31: 83, 32: 68, 33: 70, 34: 71, 35: 72, 36: 74, 37: 75, 38: 76, // ASDFGHJKL
   44: 90, 45: 88, 46: 67, 47: 86, 48: 66, 49: 78, 50: 77, // ZXCVBNM
   59: 112, 60: 113, 61: 114, 62: 115, 63: 116, 64: 117, 65: 118, 66: 119, 67: 120, 68: 121, // F1-F10
-  51: 188, // 逗号
-  52: 190, // 句点
+  51: 188, // 逗号 ,
+  52: 190, // 句点 .
+  39: 186, // 分号 ;
+  53: 191, // 斜杠 /
+  12: 189, // 减号 -
+  13: 187, // 等号 =
+  41: 192, // 反引号 `
+  26: 219, // 左方括号 [
+  43: 220, // 反斜杠 \
+  27: 221, // 右方括号 ]
+  40: 222, // 单引号 '
 };
 // di8KbdHeld(evdev 键码): 映射到 VK 码检查
 function di8KbdHeld(evdevKey) {
