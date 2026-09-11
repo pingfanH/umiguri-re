@@ -12,13 +12,13 @@ node_modules/
 *.tmp
 *.bak
 
-# Ã÷ÎÄ main.js(ÒÑ¼ÓÃÜÎª main.js.enc,Ã÷ÎÄ²»Èë¿â)
+# ï¿½ï¿½ï¿½ï¿½ main.js(ï¿½Ñ¼ï¿½ï¿½ï¿½Îª main.js.enc,ï¿½ï¿½ï¿½Ä²ï¿½ï¿½ï¿½ï¿½)
 main.js
 
-# Rust ±àÒë²úÎï(Tauri)
+# Rust ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(Tauri)
 target/
 
-# ¹¹½¨²úÎï
+# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 dist/
 build/
 *.exe
@@ -26,3 +26,4 @@ build/
 *.dmg
 *.deb
 *.AppImage
+PING

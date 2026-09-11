@@ -1,5 +1,4 @@
-// decrypt-loader.js - 移动端 Web 层解密 main.js.enc 并执行
-// 移动端无主进程,解密在 WebView 里用 Web Crypto API 完成
+// decrypt-loader.js - Web 层解密 main.js.enc 并执行
 (function () {
   'use strict';
   const KEY = 'umiguri-2025-inonote-16bytes-key'; // 32 字节

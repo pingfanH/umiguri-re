@@ -116,20 +116,22 @@ function kbdUni2Virt(charCode) {
 function kbdStart(keys) { return 1; }
 function kbdUpdate() { return 1; }
 
-// evdev 键码 -> Windows VK 码 映射(Linux evdev 标准)
+// DirectInput(DIK) 键码 -> Windows VK 码 映射(游戏 m_mi 使用 DIK 键码)
+// 注意: 方向键是 DIK_UP=200/LEFT=203/RIGHT=205/DOWN=208,不是 evdev 的 103/105/106/108
 const EVDEV_TO_VK = {
   1: 27,   // ESC
   28: 13,  // ENTER
   57: 32,  // SPACE
-  103: 38, // UP
-  105: 37, // LEFT
-  106: 39, // RIGHT
-  108: 40, // DOWN
+  200: 38, // UP (DIK_UP)
+  203: 37, // LEFT (DIK_LEFT)
+  205: 39, // RIGHT (DIK_RIGHT)
+  208: 40, // DOWN (DIK_DOWN)
   2: 49, 3: 50, 4: 51, 5: 52, 6: 53, 7: 54, 8: 55, 9: 56, 10: 57, 11: 48, // 1-9,0
   16: 81, 17: 87, 18: 69, 19: 82, 20: 84, 21: 89, 22: 85, 23: 73, 24: 79, 25: 80, // QWERTYUIOP
   30: 65, 31: 83, 32: 68, 33: 70, 34: 71, 35: 72, 36: 74, 37: 75, 38: 76, // ASDFGHJKL
   44: 90, 45: 88, 46: 67, 47: 86, 48: 66, 49: 78, 50: 77, // ZXCVBNM
   59: 112, 60: 113, 61: 114, 62: 115, 63: 116, 64: 117, 65: 118, 66: 119, 67: 120, 68: 121, // F1-F10
+  87: 122, 88: 123, // F11-F12
   51: 188, // 逗号 ,
   52: 190, // 句点 .
   39: 186, // 分号 ;
@@ -141,6 +143,7 @@ const EVDEV_TO_VK = {
   43: 220, // 反斜杠 \
   27: 221, // 右方括号 ]
   40: 222, // 单引号 '
+  42: 16, 54: 16, // ShiftL / ShiftR
 };
 // di8KbdHeld(evdev 键码): 映射到 VK 码检查
 function di8KbdHeld(evdevKey) {

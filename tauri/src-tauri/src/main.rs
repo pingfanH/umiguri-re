@@ -3,6 +3,13 @@
 
 use std::path::{Path, PathBuf};
 use serde::{Deserialize, Serialize};
+use base64::Engine;
+use tauri::http::{Request, Response};
+use tauri::http::header::HeaderValue;
+use tauri::http::status::StatusCode;
+use tauri::Manager;
+use std::sync::{Arc, Mutex};
+use std::time::Instant;
 
 // 游戏数据根目录(通过环境变量或默认路径)
 fn data_root() -> PathBuf {
@@ -45,7 +52,7 @@ fn virtual_to_real(vpath: &str) -> PathBuf {
     }
     for (v, r) in PATH_MAP {
         if vpath.starts_with(v) {
-            return root.join(r).join(&vpath[v.len()..]);
+            return root.join(r).join(vpath[v.len()..].trim_start_matches('/'));
         }
     }
     root.join(vpath.trim_start_matches('/'))
@@ -96,11 +103,12 @@ fn fs_list(path: String) -> FsListResult {
     }
 }
 
-// 读整个文件
+// 读整个文件(base64 编码,避免 Vec<u8> JSON 数组序列化开销)
 #[tauri::command]
-fn fs_file(path: String) -> Result<Vec<u8>, String> {
+fn fs_file(path: String) -> Result<String, String> {
     let real = virtual_to_real(&path);
-    std::fs::read(&real).map_err(|e| e.to_string())
+    let data = std::fs::read(&real).map_err(|e| e.to_string())?;
+    Ok(base64::engine::general_purpose::STANDARD.encode(&data))
 }
 
 // 文件大小
@@ -113,9 +121,9 @@ fn fs_size(path: String) -> FsSizeResult {
     }
 }
 
-// 读文件 offset/size(归档解密用)
+// 读文件 offset/size(归档解密用, base64 编码)
 #[tauri::command]
-fn fs_read(path: String, offset: u64, size: usize) -> Result<Vec<u8>, String> {
+fn fs_read(path: String, offset: u64, size: usize) -> Result<String, String> {
     use std::io::{Read, Seek, SeekFrom};
     let real = virtual_to_real(&path);
     let mut f = std::fs::File::open(&real).map_err(|e| e.to_string())?;
@@ -123,7 +131,7 @@ fn fs_read(path: String, offset: u64, size: usize) -> Result<Vec<u8>, String> {
     let mut buf = vec![0u8; size];
     let n = f.read(&mut buf).map_err(|e| e.to_string())?;
     buf.truncate(n);
-    Ok(buf)
+    Ok(base64::engine::general_purpose::STANDARD.encode(&buf))
 }
 
 // 握手(简化,游戏前端需要)
@@ -153,8 +161,67 @@ fn diag(msg: String) {
     eprintln!("[DIAG] {}", msg);
 }
 
+// 解析 protocol URI(如 https://umg.localhost/una/hiiragi.una?v=0) -> 虚拟路径
+fn parse_uri(uri: &str) -> String {
+    let rest = match uri.find("://") {
+        Some(pos) => &uri[pos + 3..],
+        None => uri,
+    };
+    // 去掉 query string(? 之后)
+    let rest = match rest.find('?') {
+        Some(pos) => &rest[..pos],
+        None => rest,
+    };
+    let path = rest.split('/').skip(1).collect::<Vec<_>>().join("/");
+    if path.is_empty() { "/".to_string() } else { format!("/{}", path) }
+}
+
 fn main() {
+    // 窗口拖动检测: 拖动时暂停前端渲染,缓解 WebView2 拖动卡顿
+    let last_move: Arc<Mutex<Option<Instant>>> = Arc::new(Mutex::new(None));
+
     tauri::Builder::default()
+        .on_window_event({
+            let last_move = last_move.clone();
+            move |event| {
+                if let tauri::WindowEvent::Moved(_) = event.event() {
+                    let was_moving = last_move.lock().unwrap().is_some();
+                    *last_move.lock().unwrap() = Some(Instant::now());
+                    if !was_moving {
+                        let _ = event.window().emit("umg-moving", true);
+                    }
+                    let last_move = last_move.clone();
+                    let win = event.window().clone();
+                    std::thread::spawn(move || {
+                        std::thread::sleep(std::time::Duration::from_millis(200));
+                        let mut lm = last_move.lock().unwrap();
+                        if let Some(t) = *lm {
+                            if t.elapsed() >= std::time::Duration::from_millis(200) {
+                                *lm = None;
+                                let _ = win.emit("umg-moving", false);
+                            }
+                        }
+                    });
+                }
+            }
+        })
+        .register_uri_scheme_protocol("umg", |_app, request: &Request| {
+            let vpath = parse_uri(request.uri());
+            let real = virtual_to_real(&vpath);
+            match std::fs::read(&real) {
+                Ok(data) => {
+                    let mut resp = Response::new(data);
+                    resp.headers_mut().insert("Access-Control-Allow-Origin", HeaderValue::from_static("*"));
+                    Ok(resp)
+                }
+                Err(_) => {
+                    let mut resp = Response::new(Vec::new());
+                    resp.set_status(StatusCode::NOT_FOUND);
+                    resp.headers_mut().insert("Access-Control-Allow-Origin", HeaderValue::from_static("*"));
+                    Ok(resp)
+                }
+            }
+        })
         .invoke_handler(tauri::generate_handler![
             fs_list, fs_file, fs_size, fs_read, handshake, diag
         ])
