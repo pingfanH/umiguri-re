@@ -34,21 +34,30 @@ npx cap run android    # 直接跑 Android 真机/模拟器
 |------|---------------|------------------|
 | 框架 | Electron 主进程 + renderer | WebView 直接加载 www/ |
 | 解密 main.js | app-main.js(主进程 protocol) | decrypt-loader.js(Web Crypto) |
-| 文件系统 | ipcMain + node fs | 待适配(Capacitor Filesystem) |
-| 键盘输入 | keydown/keyup | **待适配(触摸输入)** |
-| 串口 | ugSerial mock | 无(移除) |
+| 文件系统 | ipcMain + node fs | fetch 读 www/assets/(mobile-bridge.js) |
+| 键盘输入 | keydown/keyup | 触摸虚拟按键(mobile-bridge.js) |
+| 串口 | ugSerial mock | ugSerial mock |
 
-## 后续适配清单
+## 触摸适配说明
 
-1. **umgr_elc(文件系统)** — 用 Capacitor Filesystem 插件,把 data/ core/ 打包进 app,运行时读。
-   或简化:把解密后的资源放进 www/assets,前端用 fetch 读。
+`mobile-bridge.js` 在 `decrypt-loader.js` 之前加载,提供:
 
-2. **键盘 → 触摸** — 这是移动端最大工作量:
-   - 前端 `kbdHeld(vk)` 改成检查触摸状态
-   - 屏幕绘制 8 个圆形按键,`touchstart`/`touchend` 维护触摸状态
-   - 游戏前端 `m_Ti/m_Ii/m_Pi`(键盘函数)需要桥接到触摸
+1. **触摸 → 键盘桥接**:`kbdStart`/`kbdUpdate`/`kbdHeld`/`kbdUni2Virt` 由触摸状态驱动。
+   - 游戏默认 Di8 街机板(`handshake.W = true`),移动端设 `W: false` 走键盘分支
+   - 38 字符键(音游主键)+ 方向/OK/返回/空格 功能键,绘制为屏幕底部虚拟按键
+   - `pointerdown`/`pointerup` 维护 `keyDown`,支持多点触控
 
-3. **串口/Di8 移除** — 移动端无街机硬件,`ugSerial*` 返回失败即可。
+2. **umgr_elc 文件系统**:fetch 读 `www/assets/` 下的打包资源(虚拟路径 → assets 路径映射)。
+
+3. **串口/Di8**:无街机硬件,`ugSerial*`/`di8Kbd*` 全部返回失败/0。
+
+## 资源打包
+
+构建前需把游戏资源打包进 `www/assets/`:
+
+```bash
+node copy-assets.js   # 复制 UMIGURI_NEXT/data + core 到 www/assets
+```
 
 ## 已完成
 
@@ -56,3 +65,6 @@ npx cap run android    # 直接跑 Android 真机/模拟器
 - ✅ Web 前端复用(index.html + main.css)
 - ✅ main.js 加密 + Web 层解密(decrypt-loader.js)
 - ✅ 跨平台配置(capacitor.config.ts)
+- ✅ 触摸虚拟按键(mobile-bridge.js: kbdHeld 触摸驱动 + W=false 键盘模式)
+- ✅ umgr_elc 文件系统(fetch 读 www/assets)
+- ✅ 串口/Di8 mock
