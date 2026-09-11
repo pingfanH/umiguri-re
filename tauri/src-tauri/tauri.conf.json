@@ -1,0 +1,56 @@
+{
+  "build": {
+    "beforeDevCommand": "",
+    "beforeBuildCommand": "",
+    "devPath": "../www",
+    "distDir": "../www",
+    "withGlobalTauri": true
+  },
+  "package": {
+    "productName": "UMIGURI",
+    "version": "2.0.1"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": false,
+      "fs": {
+        "all": false
+      },
+      "http": {
+        "all": false
+      },
+      "protocol": {
+        "asset": true,
+        "assetScope": ["**"]
+      },
+      "window": {
+        "all": false,
+        "create": true,
+        "close": true
+      }
+    },
+    "bundle": {
+      "active": true,
+      "targets": ["nsis"],
+      "identifier": "jp.inonote.umiguri",
+      "icon": [
+        "icons/32x32.png",
+        "icons/128x128.png",
+        "icons/128x128@2x.png",
+        "icons/icon.ico"
+      ]
+    },
+    "security": {
+      "csp": null
+    },
+    "windows": [
+      {
+        "title": "UMIGURI",
+        "width": 1280,
+        "height": 720,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ]
+  }
+}

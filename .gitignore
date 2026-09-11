@@ -14,3 +14,15 @@ node_modules/
 
 # 明文 main.js(已加密为 main.js.enc,明文不入库)
 main.js
+
+# Rust 编译产物(Tauri)
+target/
+
+# 构建产物
+dist/
+build/
+*.exe
+*.msi
+*.dmg
+*.deb
+*.AppImage
