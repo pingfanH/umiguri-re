@@ -35,13 +35,106 @@
     59: 186, 61: 187, 44: 188, 45: 189, 46: 190, 47: 191, 96: 192,
     91: 219, 92: 220, 93: 221, 39: 222,
   };
-  function kbdHeld(vk) { return keyState.has(vk) ? 1 : 0; }
+  function kbdHeld(vk) { return (keyState.has(vk) || touchState.has(vk)) ? 1 : 0; }
   function kbdUni2Virt(charCode) {
     if (charCode >= 48 && charCode <= 57) return charCode;
     if (charCode >= 65 && charCode <= 90) return charCode;
     if (charCode >= 97 && charCode <= 122) return charCode - 32;
     if (CHAR_TO_VK[charCode] !== undefined) return CHAR_TO_VK[charCode];
     return charCode;
+  }
+
+  // ============ 触摸输入(多指 + 鼠标) ============
+  // 触摸驱动的按键: 用虚拟按键面板把 touch/click 映射到 VK 码。
+  // keyState(物理键盘)与 touchState(触摸)合并供 kbdHeld 查询。
+  const touchState = new Set();
+  const touchPointers = new Map(); // pointerId -> Set<VK> (该触点按下的键)
+
+  function vkToLabel(vk) {
+    if (vk >= 65 && vk <= 90) return String.fromCharCode(vk);
+    if (vk >= 48 && vk <= 57) return String.fromCharCode(vk);
+    const map = {
+      37: '←', 39: '→', 38: '↑', 40: '↓',
+      13: 'OK', 27: '戻', 32: '␣', 16: 'Shift',
+      186: ';', 187: '=', 188: ',', 189: '-', 190: '.', 191: '/',
+      192: '`', 219: '[', 220: '\\', 221: ']', 222: "'",
+    };
+    if (map[vk]) return map[vk];
+    if (vk >= 112 && vk <= 123) return 'F' + (vk - 111);
+    return 'K' + vk;
+  }
+  function vkClassify(vk) {
+    if (vk >= 65 && vk <= 90) return 'main';
+    if (vk >= 48 && vk <= 57) return 'main';
+    if (vk >= 186 && vk <= 192) return 'main';
+    if (vk >= 219 && vk <= 222) return 'main';
+    if (vk >= 37 && vk <= 40) return 'nav';
+    if (vk === 13 || vk === 27 || vk === 32 || vk === 16) return 'nav';
+    return 'hidden';
+  }
+
+  let keyPanel = null;
+  function ensureKeyPanel(vks) {
+    if (keyPanel) keyPanel.remove();
+    keyPanel = document.createElement('div');
+    keyPanel.id = 'ugv_keys';
+    keyPanel.style.cssText =
+      'position:fixed;left:0;right:0;bottom:0;z-index:99999;display:flex;flex-direction:column;' +
+      'align-items:center;gap:4px;padding:6px;background:rgba(0,0,0,0.35);' +
+      'pointer-events:none;user-select:none;-webkit-user-select:none;touch-action:none;';
+    document.body.appendChild(keyPanel);
+
+    const navs = vks.filter(v => vkClassify(v) === 'nav');
+    const mains = vks.filter(v => vkClassify(v) === 'main');
+
+    const navRow = mkKeyRow(navs, 'nav');
+    const mainRow = mkKeyRow(mains, 'main');
+    if (navRow) keyPanel.appendChild(navRow);
+    if (mainRow) keyPanel.appendChild(mainRow);
+  }
+
+  function mkKeyRow(vks, kind) {
+    if (!vks.length) return null;
+    const row = document.createElement('div');
+    row.style.cssText =
+      'display:flex;gap:4px;justify-content:center;width:100%;flex-wrap:wrap;pointer-events:auto;';
+    for (const vk of vks) {
+      const b = document.createElement('div');
+      const isMain = kind === 'main';
+      b.textContent = vkToLabel(vk);
+      b.dataset.vk = vk;
+      b.style.cssText =
+        (isMain ? 'min-width:44px;height:56px;' : 'min-width:48px;height:44px;') +
+        'flex:1 1 auto;max-width:70px;display:flex;align-items:center;justify-content:center;' +
+        'background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.35);' +
+        'border-radius:8px;color:#fff;font:bold 16px/1 system-ui;cursor:pointer;touch-action:none;';
+      bindKeyTouch(b, vk);
+      row.appendChild(b);
+    }
+    return row;
+  }
+
+  function touchPress(vk) { touchState.add(vk); }
+  function touchRelease(vk) { touchState.delete(vk); }
+
+  function bindKeyTouch(el, vk) {
+    const press = (e) => {
+      if (e.button !== undefined && e.button !== 0) return; // 仅左键
+      e.preventDefault();
+      touchPress(vk);
+      try { el.setPointerCapture && el.setPointerCapture(e.pointerId); } catch (err) {}
+      el.style.background = 'rgba(255,220,80,0.55)';
+      el.style.borderColor = '#ffd';
+    };
+    const release = () => {
+      touchRelease(vk);
+      el.style.background = 'rgba(255,255,255,0.12)';
+      el.style.borderColor = 'rgba(255,255,255,0.35)';
+    };
+    el.addEventListener('pointerdown', press);
+    el.addEventListener('pointerup', release);
+    el.addEventListener('pointercancel', release);
+    el.addEventListener('pointerleave', release);
   }
 
   // DirectInput(DIK) 键码 -> Windows VK 码(游戏 m_mi 使用 DIK 键码)
@@ -67,9 +160,10 @@
   }
 
   // ============ umgr_elc(Tauri invoke 调 Rust command) ============
-  const invoke = window.__TAURI__ && window.__TAURI__.invoke;
+  // Tauri v2: core API 在 window.__TAURI__.core 命名空间下
+  const invoke = window.__TAURI__ && window.__TAURI__.core && window.__TAURI__.core.invoke;
   if (!invoke) {
-    console.error('[tauri-bridge] window.__TAURI__ 不可用');
+    console.error('[tauri-bridge] window.__TAURI__.core.invoke 不可用');
   }
 
   // base64 -> Uint8Array(Rust 端 fs_file/fs_read 返回 base64)
@@ -82,8 +176,14 @@
 
   // 整文件缓存: .una 语言包/音频等被反复读,缓存避免重复读取
   const fileCache = new Map();
+  // Tauri v2 自定义协议 origin:
+  //   macOS/Linux/iOS: <scheme>://localhost
+  //   Windows/Android: http://<scheme>.localhost (默认)
+  const UMG_ORIGIN = /Windows/i.test(navigator.userAgent)
+    ? 'http://umg.localhost'
+    : 'umg://localhost';
   function umgUrl(p) {
-    return 'https://umg.localhost' + encodeURI(p.startsWith('/') ? p : '/' + p);
+    return UMG_ORIGIN + encodeURI(p.startsWith('/') ? p : '/' + p);
   }
   async function cachedFile(p) {
     const key = String(p).split('?')[0];
@@ -96,7 +196,7 @@
   }
 
   const handshake = {
-    O: { ct: 'DEV_MOCK', B: 1650000, p9: 69 },
+    O: { ct: 'PINGFANH', B: 1650000, p9: 69 },
     I: 0, R: 8090, j: 1, M: 3, L: 0, U: false,
     P: '00 00 00 00 00 00', G: '00 00 00 00 00 00', Y: 0,
     fe: 'A1B2C3D4E5F6G7H8I9J0K;L\'M,N.O/P-RSTUWY',
@@ -139,14 +239,21 @@
       t2: async () => false, sa: async () => null,
     },
     g4: {
-      x4: async () => {}, jc: async () => ({}), ss: async () => ({}),
-      so: async () => ({}), xo: async () => ({}), sp: async () => ({}),
+      x4: async (cb) => { console.log('[BRIDGE] g4.x4'); },
+      jc: async (lang, force) => { console.log('[BRIDGE] g4.jc', lang, force); return []; },
+      ss: async () => { console.log('[BRIDGE] g4.ss'); },
+      so: async () => { console.log('[BRIDGE] g4.so'); },
+      xo: async () => { console.log('[BRIDGE] g4.xo'); },
+      sp: async () => { console.log('[BRIDGE] g4.sp'); },
     },
   };
 
   // 键盘函数
   window.getCurrentProcessId = () => 0;
-  window.kbdStart = () => 1;
+  window.kbdStart = (keys) => {
+    if (Array.isArray(keys) && keys.length) ensureKeyPanel(keys);
+    return 1;
+  };
   window.kbdUpdate = () => 1;
   window.kbdHeld = kbdHeld;
   window.kbdUni2Virt = kbdUni2Virt;
@@ -190,12 +297,14 @@
     Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, 'src');
   window.Image = function (w, h) {
     const img = new NativeImage(w, h);
+    // 跨源加载(umg:// 协议),需标注 crossOrigin 以通过 WebGL canvas 的 CORS 检查
+    img.crossOrigin = 'anonymous';
     if (srcDesc && srcDesc.set) {
       Object.defineProperty(img, 'src', {
         get: function () { return srcDesc.get.call(this); },
         set: function (value) {
           if (typeof value === 'string' && value.indexOf('/') === 0 && value.indexOf('//') !== 0) {
-            value = 'https://umg.localhost' + value;
+            value = UMG_ORIGIN + value;
           }
           srcDesc.set.call(this, value);
         },
@@ -205,4 +314,23 @@
     return img;
   };
   window.Image.prototype = NativeImage.prototype;
+
+  // 利用規約(terms)iframe: 游戏用 sandbox="allow-popups" 但之后又要访问 contentWindow,
+  // 在 WebKit 里会因缺 allow-same-origin 抛 SecurityError。此处补上 allow-same-origin/allow-scripts。
+  (function () {
+    const iframeProto = HTMLIFrameElement.prototype;
+    const sbDesc = Object.getOwnPropertyDescriptor(iframeProto, 'sandbox');
+    if (sbDesc && sbDesc.set) {
+      Object.defineProperty(iframeProto, 'sandbox', {
+        get: function () { return sbDesc.get.call(this); },
+        set: function (v) {
+          var tokens = String(v).split(/\s+/).filter(Boolean);
+          if (tokens.indexOf('allow-same-origin') < 0) tokens.push('allow-same-origin');
+          if (tokens.indexOf('allow-scripts') < 0) tokens.push('allow-scripts');
+          sbDesc.set.call(this, tokens.join(' '));
+        },
+        configurable: true,
+      });
+    }
+  })();
 })();

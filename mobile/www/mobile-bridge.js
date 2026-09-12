@@ -151,6 +151,10 @@
 
   // 虚拟路径 -> 打包资源路径(www/assets 下)
   const PATH_MAP = [
+    ['/reverie/', 'assets/core/una/hiiragi.una/'],
+    ['/reverie_exField/', 'assets/core/una/natsukawa.una/'],
+    ['/reverie_en-US/', 'assets/core/una/sakuragi.una/'],
+    ['/una/', 'assets/core/una/'],
     ['/chara/', 'assets/data/characters/'],
     ['/music/', 'assets/data/music/'],
     ['/voices/', 'assets/data/voices/'],
@@ -160,21 +164,29 @@
     ['/nameplates/', 'assets/data/nameplates/'],
     ['/titles/', 'assets/data/titles/'],
     ['/textures/', 'assets/core/textures/'],
-    ['/una/', 'assets/core/una/'],
     ['/sounds/', 'assets/core/sounds/'],
     ['/config/', 'assets/core/config/'],
     ['/extra/', 'assets/core/extra/'],
+    ['/terms/', 'assets/terms/'],
+    ['/caches/', 'assets/caches/'],
   ];
   function virtualToAsset(vpath) {
+    // .rsb 内纹理引用使用 Windows 反斜杠,归一化
+    const p = String(vpath).replace(/\\/g, '/');
     for (const [v, r] of PATH_MAP) {
-      if (vpath.startsWith(v)) return r + vpath.slice(v.length);
+      if (p.startsWith(v)) return r + p.slice(v.length).replace(/^\//, '');
     }
-    return 'assets' + (vpath.startsWith('/') ? vpath : '/' + vpath);
+    return 'assets' + (p.startsWith('/') ? p : '/' + p);
   }
 
   async function fsFetch(path) {
-    const url = virtualToAsset(path);
-    const resp = await fetch(url);
+    let url = virtualToAsset(path);
+    let resp = await fetch(url);
+    // 双扩展名回退(解密脚本曾重复追加扩展名: name.ext -> name.ext.ext)
+    if (!resp.ok && !path.includes('?') && /\.[^.]+$/.test(url)) {
+      const ext = url.slice(url.lastIndexOf('.'));
+      resp = await fetch(url + ext);
+    }
     if (!resp.ok) throw new Error('HTTP ' + resp.status + ' ' + url);
     return new Uint8Array(await resp.arrayBuffer());
   }

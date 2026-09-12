@@ -4,10 +4,9 @@
 use std::path::{Path, PathBuf};
 use serde::{Deserialize, Serialize};
 use base64::Engine;
-use tauri::http::{Request, Response};
-use tauri::http::header::HeaderValue;
+use tauri::http::{header, Response};
 use tauri::http::status::StatusCode;
-use tauri::Manager;
+use tauri::Emitter;
 use std::sync::{Arc, Mutex};
 use std::time::Instant;
 
@@ -16,46 +15,86 @@ fn data_root() -> PathBuf {
     if let Ok(dir) = std::env::var("UMIGURI_DATA_DIR") {
         return PathBuf::from(dir);
     }
-    // 默认: 项目根目录的 UMIGURI_NEXT(source/tauri/src-tauri 上三级)
+    // 默认: 仓库根目录的 assets/(tauri/src-tauri 上两级)
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .parent()
         .unwrap()
         .parent()
         .unwrap()
-        .parent()
-        .unwrap()
-        .join("UMIGURI_NEXT")
+        .join("assets")
 }
 
-// 虚拟路径 -> 真实路径映射
+// 虚拟路径 -> 真实路径映射(前缀不含首尾斜杠)
 const PATH_MAP: &[(&str, &str)] = &[
-    ("/chara/", "data/characters/"),
-    ("/music/", "data/music/"),
-    ("/voices/", "data/voices/"),
-    ("/skills/", "data/skills/"),
-    ("/courses/", "data/courses/"),
-    ("/player_scenes/", "data/player_scenes/"),
-    ("/nameplates/", "data/nameplates/"),
-    ("/titles/", "data/titles/"),
-    ("/textures/", "core/textures/"),
-    ("/una/", "core/una/"),
-    ("/sounds/", "core/sounds/"),
-    ("/config/", "core/config/"),
-    ("/extra/", "core/extra/"),
+    ("reverie/", "core/una/hiiragi.una/"),
+    ("reverie_exField/", "core/una/natsukawa.una/"),
+    ("reverie_en-US/", "core/una/sakuragi.una/"),
+    ("chara/", "data/characters/"),
+    ("music/", "data/music/"),
+    ("voices/", "data/voices/"),
+    ("skills/", "data/skills/"),
+    ("courses/", "data/courses/"),
+    ("player_scenes/", "data/player_scenes/"),
+    ("nameplates/", "data/nameplates/"),
+    ("titles/", "data/titles/"),
+    ("textures/", "core/textures/"),
+    ("una/", "core/una/"),
+    ("sounds/", "core/sounds/"),
+    ("config/", "core/config/"),
+    ("extra/", "core/extra/"),
+    ("terms/", "terms/"),
+    ("caches/", "caches/"),
+    ("license.xml", "license.xml"),
 ];
+
+// 解密脚本(decrypt_arc.js)曾为每个文件重复追加一次扩展名,
+// 导致磁盘上文件名为双扩展名(startup.rsb.rsb / _VERSION.txt)。
+// 此处做回退: name.ext -> name.ext.ext,无扩展名 -> name.txt。
+fn resolve_existing(path: &Path) -> PathBuf {
+    if path.exists() {
+        return path.to_path_buf();
+    }
+    if let Some(ext) = path.extension().and_then(|e| e.to_str()) {
+        let mut doubled = path.as_os_str().to_owned();
+        doubled.push(".");
+        doubled.push(ext);
+        let candidate = PathBuf::from(doubled);
+        if candidate.exists() {
+            return candidate;
+        }
+    }
+    let mut txt = path.as_os_str().to_owned();
+    txt.push(".txt");
+    let candidate = PathBuf::from(txt);
+    if candidate.exists() {
+        return candidate;
+    }
+    path.to_path_buf()
+}
 
 fn virtual_to_real(vpath: &str) -> PathBuf {
     let root = data_root();
-    // Windows 盘符或 Unix 绝对路径
-    if vpath.chars().nth(1) == Some(':') || Path::new(vpath).is_absolute() {
-        return PathBuf::from(vpath);
+    // .rsb 内纹理引用使用 Windows 风格反斜杠路径,归一化为正斜杠
+    let normalized = vpath.replace('\\', "/");
+    // 真实绝对路径: Windows 盘符(D:/...) 或 Unix 绝对路径,直接使用
+    if normalized.len() >= 2 && normalized.as_bytes()[1] == b':' {
+        return PathBuf::from(&normalized);
     }
-    for (v, r) in PATH_MAP {
-        if vpath.starts_with(v) {
-            return root.join(r).join(vpath[v.len()..].trim_start_matches('/'));
+    if normalized.starts_with('/') {
+        let p = Path::new(&normalized);
+        // 已映射到真实 assets/ 下的绝对路径(来自 fs_list 返回的 full_path),直接使用
+        let root_str = root.to_string_lossy();
+        if normalized.starts_with(root_str.as_ref()) {
+            return resolve_existing(p);
         }
     }
-    root.join(vpath.trim_start_matches('/'))
+    let v = normalized.trim_start_matches('/');
+    for (prefix, real) in PATH_MAP {
+        if v.starts_with(prefix) {
+            return resolve_existing(&root.join(real).join(v[prefix.len()..].trim_start_matches('/')));
+        }
+    }
+    resolve_existing(&root.join(v))
 }
 
 #[derive(Serialize, Deserialize, Clone)]
@@ -90,11 +129,14 @@ fn fs_list(path: String) -> FsListResult {
                 .map(|e| {
                     let is_dir = e.file_type().map(|t| t.is_dir()).unwrap_or(false);
                     let is_file = e.file_type().map(|t| t.is_file()).unwrap_or(false);
+                    let name = e.file_name().to_string_lossy().to_string();
                     FileEntry {
+                        // 返回真实路径(与 Electron 参考实现一致,前端基于 full_path 拼接后续请求;
+                        // virtual_to_real 会识别绝对路径原样返回)
                         full_path: e.path().to_string_lossy().to_string(),
                         is_directory: is_dir,
                         is_file,
-                        name: e.file_name().to_string_lossy().to_string(),
+                        name,
                     }
                 })
                 .collect();
@@ -139,7 +181,7 @@ fn fs_read(path: String, offset: u64, size: usize) -> Result<String, String> {
 #[tauri::command]
 fn handshake() -> serde_json::Value {
     serde_json::json!({
-        "O": { "ct": "DEV_MOCK", "B": 1650000, "p9": 69 },
+        "O": { "ct": "PINGFANH", "B": 1650000, "p9": 69 },
         "I": 0, "R": 8090, "j": 1, "M": 3, "L": 0, "U": false,
         "P": "00 00 00 00 00 00", "G": "00 00 00 00 00 00", "Y": 0,
         "fe": "A1B2C3D4E5F6G7H8I9J0K;L'M,N.O/P-RSTUWY",
@@ -204,6 +246,32 @@ fn parse_uri(uri: &str) -> String {
     if path.is_empty() { "/".to_string() } else { format!("/{}", path) }
 }
 
+// 根据扩展名推断 MIME 类型(图片/音频/3D 模型需正确 content-type 才能被 WebView 渲染)
+fn mime_from_path(path: &str) -> &'static str {
+    let ext = path.rsplit('.').next().unwrap_or("").to_ascii_lowercase();
+    match ext.as_str() {
+        "png" => "image/png",
+        "jpg" | "jpeg" => "image/jpeg",
+        "gif" => "image/gif",
+        "webp" => "image/webp",
+        "svg" => "image/svg+xml",
+        "wav" => "audio/wav",
+        "mp3" => "audio/mpeg",
+        "ogg" => "audio/ogg",
+        "m4a" => "audio/mp4",
+        "glb" => "model/gltf-binary",
+        "gltf" => "model/gltf+json",
+        "js" => "application/javascript",
+        "json" => "application/json",
+        "css" => "text/css",
+        "html" => "text/html",
+        "txt" => "text/plain",
+        "xml" => "application/xml",
+        "dds" => "image/vnd.ms-dds",
+        _ => "application/octet-stream",
+    }
+}
+
 fn main() {
     // 窗口拖动检测: 拖动时暂停前端渲染,缓解 WebView2 拖动卡顿
     let last_move: Arc<Mutex<Option<Instant>>> = Arc::new(Mutex::new(None));
@@ -211,15 +279,15 @@ fn main() {
     tauri::Builder::default()
         .on_window_event({
             let last_move = last_move.clone();
-            move |event| {
-                if let tauri::WindowEvent::Moved(_) = event.event() {
+            move |window, event| {
+                if let tauri::WindowEvent::Moved(_) = event {
                     let was_moving = last_move.lock().unwrap().is_some();
                     *last_move.lock().unwrap() = Some(Instant::now());
                     if !was_moving {
-                        let _ = event.window().emit("umg-moving", true);
+                        let _ = window.emit("umg-moving", true);
                     }
                     let last_move = last_move.clone();
-                    let win = event.window().clone();
+                    let win = window.clone();
                     std::thread::spawn(move || {
                         std::thread::sleep(std::time::Duration::from_millis(200));
                         let mut lm = last_move.lock().unwrap();
@@ -233,20 +301,27 @@ fn main() {
                 }
             }
         })
-        .register_uri_scheme_protocol("umg", |_app, request: &Request| {
-            let vpath = parse_uri(request.uri());
+        .register_asynchronous_uri_scheme_protocol("umg", |_ctx, request, responder| {
+            let vpath = parse_uri(&request.uri().to_string());
             let real = virtual_to_real(&vpath);
+            eprintln!("[PROTO] {}", vpath);
             match std::fs::read(&real) {
                 Ok(data) => {
-                    let mut resp = Response::new(data);
-                    resp.headers_mut().insert("Access-Control-Allow-Origin", HeaderValue::from_static("*"));
-                    Ok(resp)
+                    let resp: Response<Vec<u8>> = Response::builder()
+                        .status(StatusCode::OK)
+                        .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+                        .header(header::CONTENT_TYPE, mime_from_path(&real.to_string_lossy()))
+                        .body(data)
+                        .unwrap();
+                    let _ = responder.respond(resp);
                 }
                 Err(_) => {
-                    let mut resp = Response::new(Vec::new());
-                    resp.set_status(StatusCode::NOT_FOUND);
-                    resp.headers_mut().insert("Access-Control-Allow-Origin", HeaderValue::from_static("*"));
-                    Ok(resp)
+                    let resp: Response<Vec<u8>> = Response::builder()
+                        .status(StatusCode::NOT_FOUND)
+                        .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+                        .body(Vec::new())
+                        .unwrap();
+                    let _ = responder.respond(resp);
                 }
             }
         })

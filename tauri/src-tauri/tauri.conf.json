@@ -1,56 +1,41 @@
 {
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "UMIGURI",
+  "version": "2.0.1",
+  "identifier": "jp.inonote.umiguri",
   "build": {
     "beforeDevCommand": "",
     "beforeBuildCommand": "",
-    "devPath": "../www",
-    "distDir": "../www",
-    "withGlobalTauri": true
+    "frontendDist": "../www"
   },
-  "package": {
-    "productName": "UMIGURI",
-    "version": "2.0.1"
-  },
-  "tauri": {
-    "allowlist": {
-      "all": false,
-      "fs": {
-        "all": false
-      },
-      "http": {
-        "all": false
-      },
-      "protocol": {
-        "asset": true,
-        "assetScope": ["**"]
-      },
-      "window": {
-        "all": false,
-        "create": true,
-        "close": true
-      }
-    },
-    "bundle": {
-      "active": true,
-      "targets": ["nsis"],
-      "identifier": "jp.inonote.umiguri",
-      "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.ico"
-      ]
-    },
-    "security": {
-      "csp": null
-    },
+  "app": {
+    "withGlobalTauri": true,
     "windows": [
       {
         "title": "UMIGURI",
         "width": 1280,
         "height": 720,
         "resizable": true,
-        "fullscreen": false
+        "fullscreen": false,
+        "devtools": true
       }
+    ],
+    "security": {
+      "csp": null,
+      "assetProtocol": {
+        "enable": true,
+        "scope": ["**"]
+      }
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.ico"
     ]
   }
 }

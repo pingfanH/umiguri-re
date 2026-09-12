@@ -3,17 +3,14 @@
 const fs = require('fs');
 const path = require('path');
 
-const SRC_ROOT = process.argv[2] || process.env.UMIGURI_DATA_DIR || path.join(__dirname, '..', '..', 'UMIGURI_NEXT');
+const SRC_ROOT = process.argv[2] || process.env.UMIGURI_DATA_DIR || path.join(__dirname, '..', 'assets');
 const DST_ROOT = path.join(__dirname, 'www', 'assets');
 
-// 需要复制的目录(排除 core/bin 的 Electron 运行时 ~206MB)
+// 需要复制的目录(与桌面端 Tauri 的 assets/ 结构一致)
 const COPY_DIRS = [
   ['data', 'data'],
-  ['core/textures', 'core/textures'],
-  ['core/una', 'core/una'],
-  ['core/sounds', 'core/sounds'],
-  ['core/config', 'core/config'],
-  ['core/extra', 'core/extra'],
+  ['core', 'core'],
+  ['terms', 'terms'],
 ];
 
 function copyDir(src, dst) {
