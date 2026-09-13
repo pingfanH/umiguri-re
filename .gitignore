@@ -27,3 +27,12 @@ build/
 *.deb
 *.AppImage
 PING
+# Capacitor 原生工程(由 npx cap add 生成)
+mobile/android/
+mobile/ios/
+
+# 移动端打包资源(由 node copy-assets.js 生成)
+mobile/www/assets/
+
+# 独立子仓库
+chunithm-vcontroller/

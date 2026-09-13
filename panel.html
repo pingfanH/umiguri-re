@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Panel</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #222;
+    color: #fff;
+    font: 14px/1 system-ui, sans-serif;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* air 区域: 宽度占满整个屏幕 */
+  .box {
+    width: 100vw;
+    height: 280px;
+    background: rgba(128,128,128,0.06);
+    border: 1px solid rgba(128,128,128,0.4);
+    border-bottom: none;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+  .box .line {
+    flex: 1;
+    width: 100%;
+    cursor: pointer;
+    position: relative;
+  }
+  .box .line::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 3px;
+    transform: translateY(-50%);
+    background: rgba(128,128,128,0.3);  /* 灰色半透明,air 更透明 */
+  }
+  .box .line.active::after {
+    background: rgba(255,255,255,0.9);   /* 高亮: 横线变颜色 */
+  }
+
+  /* 下方两排按钮 */
+  .panel {
+    width: 100%;
+    max-width: 720px;
+    margin-top: 16px;   /* air 与按钮之间的空隙 */
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    grid-template-rows: repeat(2, 192px);
+    background: rgba(128,128,128,0.08);
+    border: 1px solid rgba(128,128,128,0.4);
+    border-top: none;
+    box-sizing: border-box;
+  }
+  .grid .cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid rgba(128,128,128,0.4);
+    border-bottom: 1px solid rgba(128,128,128,0.4);
+    font: bold 14px/1 system-ui, sans-serif;
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+  .grid .cell:nth-child(16n) { border-right: none; }
+  .grid .cell:nth-child(n+17) { border-bottom: none; }
+  .grid .cell.active { color: #fff; background: rgba(128,128,128,0.25); }
+</style>
+</head>
+<body>
+  <div class="box" id="box"></div>
+  <div class="panel">
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <script>
+    const front = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P'];
+    const back  = ['1','2','3','4','5','6','7','8','9',';','-',"'",',','.','/',']'];
+
+    // 滑动触发: 手指滑过就触发,离开停止。用 elementFromPoint 实时命中,
+    // 保证手指移动到其他触发线时能切换(pointerenter 在触摸滑动时不触发)。
+    let activeEl = null;
+    function setActive(el) {
+      if (activeEl === el) return;
+      if (activeEl) activeEl.classList.remove('active');
+      activeEl = el;
+      if (el) el.classList.add('active');
+    }
+    function hit(x, y) {
+      const el = document.elementFromPoint(x, y);
+      return el ? el.closest('.line, .cell') : null;
+    }
+
+    document.addEventListener('pointerdown', (e) => setActive(hit(e.clientX, e.clientY)));
+    document.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'mouse' && !e.buttons) return; // 鼠标未按下不触发
+      setActive(hit(e.clientX, e.clientY));
+    });
+    document.addEventListener('pointerup', () => setActive(null));
+    document.addEventListener('pointercancel', () => setActive(null));
+
+    // air: 5 条触发线
+    const box = document.getElementById('box');
+    for (let i = 0; i < 5; i++) {
+      const line = document.createElement('div');
+      line.className = 'line';
+      box.appendChild(line);
+    }
+
+    // 按钮: 2×16
+    const grid = document.getElementById('grid');
+    for (const t of front.concat(back)) {
+      const c = document.createElement('div');
+      c.className = 'cell';
+      c.textContent = t;
+      grid.appendChild(c);
+    }
+  </script>
+</body>
+</html>

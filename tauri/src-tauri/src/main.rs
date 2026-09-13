@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 use base64::Engine;
 use tauri::http::{header, Response};
 use tauri::http::status::StatusCode;
-use tauri::Emitter;
+use tauri::{Emitter, Manager};
 use std::sync::{Arc, Mutex};
 use std::time::Instant;
 
@@ -177,6 +177,17 @@ fn fs_read(path: String, offset: u64, size: usize) -> Result<String, String> {
     Ok(base64::engine::general_purpose::STANDARD.encode(&buf))
 }
 
+// 写整个文件(data 为 base64 编码,存档/config 持久化用)
+#[tauri::command]
+fn fs_write(path: String, data: String) -> Result<(), String> {
+    let real = virtual_to_real(&path);
+    let bytes = base64::engine::general_purpose::STANDARD.decode(&data).map_err(|e| e.to_string())?;
+    if let Some(parent) = real.parent() {
+        std::fs::create_dir_all(parent).map_err(|e| e.to_string())?;
+    }
+    std::fs::write(&real, bytes).map_err(|e| e.to_string())
+}
+
 // 握手(简化,游戏前端需要)
 #[tauri::command]
 fn handshake() -> serde_json::Value {
@@ -277,6 +288,21 @@ fn main() {
     let last_move: Arc<Mutex<Option<Instant>>> = Arc::new(Mutex::new(None));
 
     tauri::Builder::default()
+        .setup(|app| {
+            if let Some(win) = app.get_webview_window("main") {
+                // 从 tauri.conf.json 读取窗口尺寸配置(不硬编码)
+                let (w, h) = app.config().app.windows
+                    .iter().next()
+                    .map(|wc| (wc.width, wc.height))
+                    .unwrap_or((1920.0, 1080.0));
+                let _ = win.set_size(tauri::Size::Logical(tauri::LogicalSize::new(w, h)));
+                let _ = win.set_min_size(Some(tauri::Size::Logical(tauri::LogicalSize::new(960.0, 540.0))));
+                // 启动时自动打开 DevTools(仅调试构建)
+                #[cfg(debug_assertions)]
+                win.open_devtools();
+            }
+            Ok(())
+        })
         .on_window_event({
             let last_move = last_move.clone();
             move |window, event| {
@@ -304,7 +330,6 @@ fn main() {
         .register_asynchronous_uri_scheme_protocol("umg", |_ctx, request, responder| {
             let vpath = parse_uri(&request.uri().to_string());
             let real = virtual_to_real(&vpath);
-            eprintln!("[PROTO] {}", vpath);
             match std::fs::read(&real) {
                 Ok(data) => {
                     let resp: Response<Vec<u8>> = Response::builder()
@@ -326,7 +351,7 @@ fn main() {
             }
         })
         .invoke_handler(tauri::generate_handler![
-            fs_list, fs_file, fs_size, fs_read, handshake, diag
+            fs_list, fs_file, fs_size, fs_read, fs_write, handshake, diag
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

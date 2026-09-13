@@ -47,4 +47,45 @@ let total = 0;
 for (const [src, dst] of COPY_DIRS) {
   total += copyDir(path.join(SRC_ROOT, src), path.join(DST_ROOT, dst));
 }
+
+// 生成目录清单 manifest.json(移动端 zu 目录列表依赖,WebView 无法读打包目录)
+generateManifest();
 console.log('完成, 总大小:', (total / 1048576).toFixed(1), 'MB');
+
+// 虚拟路径映射(游戏 zu 枚举的目录)
+function generateManifest() {
+  const VIRTUAL_MAP = [
+    ['data/characters/', '/chara/'],
+    ['data/music/', '/music/'],
+    ['data/voices/', '/voices/'],
+    ['data/skills/', '/skills/'],
+    ['data/courses/', '/courses/'],
+    ['data/player_scenes/', '/player_scenes/'],
+    ['data/nameplates/', '/nameplates/'],
+    ['data/titles/', '/titles/'],
+    ['core/extra/', '/extra/'],
+    ['core/config/', '/config/'],
+  ];
+  const manifest = {};
+
+  function collect(dir, virtDir) {
+    let dirents;
+    try { dirents = fs.readdirSync(dir, { withFileTypes: true }); } catch { return; }
+    manifest[virtDir] = dirents.map(e => ({
+      name: e.name,
+      isDirectory: e.isDirectory(),
+      isFile: e.isFile(),
+      fullPath: virtDir + e.name,
+    }));
+    for (const e of dirents) {
+      if (e.isDirectory()) collect(path.join(dir, e.name), virtDir + e.name + '/');
+    }
+  }
+
+  for (const [real, virt] of VIRTUAL_MAP) {
+    const realDir = path.join(DST_ROOT, real);
+    if (fs.existsSync(realDir)) collect(realDir, virt);
+  }
+  fs.writeFileSync(path.join(DST_ROOT, 'manifest.json'), JSON.stringify(manifest));
+  console.log('  生成 manifest.json:', Object.keys(manifest).length, '个目录');
+}

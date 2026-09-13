@@ -45,10 +45,22 @@
   }
 
   // ============ 触摸输入(多指 + 鼠标) ============
-  // 触摸驱动的按键: 用虚拟按键面板把 touch/click 映射到 VK 码。
-  // keyState(物理键盘)与 touchState(触摸)合并供 kbdHeld 查询。
-  const touchState = new Set();
-  const touchPointers = new Map(); // pointerId -> Set<VK> (该触点按下的键)
+  // 触摸驱动的按键: 用虚拟按键面板把 touch/click 映射到 VK 码,统一写进 keyState。
+  // 物理键盘(keydown)与触摸面板都写 VK 码:
+  //   - W=false 时游戏走 kbdHeld(vk) 查询
+  //   - W=true 时游戏走 di8KbdHeld(dik),内部对 DIK 反查 VK 再查 keyState
+  // 因此两套输入共用 keyState,同时兼容键盘与触摸。
+
+  // 主键布局(音游 16 键: 上排 front 字母, 下排 back 数字/符号):
+  //   front(上排16): A B C D E F G H I J K L M N O P
+  //   back(下排16):  1 2 3 4 5 6 7 8 9 ; - ' , . / ]
+  const MAIN_FRONT = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P'];
+  const MAIN_BACK =  ['1','2','3','4','5','6','7','8','9',';','-',"'",',','.','/',']'];
+  const AIR_KEYS =  ['R','S','T','U','W','Y'];
+
+  function charToVk(c) {
+    return kbdUni2Virt(c.charCodeAt(0));
+  }
 
   function vkToLabel(vk) {
     if (vk >= 65 && vk <= 90) return String.fromCharCode(vk);
@@ -63,78 +75,195 @@
     if (vk >= 112 && vk <= 123) return 'F' + (vk - 111);
     return 'K' + vk;
   }
-  function vkClassify(vk) {
-    if (vk >= 65 && vk <= 90) return 'main';
-    if (vk >= 48 && vk <= 57) return 'main';
-    if (vk >= 186 && vk <= 192) return 'main';
-    if (vk >= 219 && vk <= 222) return 'main';
-    if (vk >= 37 && vk <= 40) return 'nav';
-    if (vk === 13 || vk === 27 || vk === 32 || vk === 16) return 'nav';
-    return 'hidden';
+
+  // 功能键(导航/系统),放在左上
+  const NAV_KEYS = [
+    [13, 'OK'], [27, '戻'], [32, '␣'], [16, 'Shift'],
+    [37, '←'], [39, '→'], [38, '↑'], [40, '↓'],
+  ];
+
+  // 触摸状态独立于物理键盘 keyState: 避免触摸面板干扰/清空键盘按键状态。
+  const touchState = new Set();
+
+  // 虚拟按键面板 UI 开关(默认显示)。用快捷键 Cmd/Ctrl+Shift+H 切换显隐,
+  // 便于接 chu2board 手台/物理键盘时隐藏触摸面板,只保留真实输入。
+  let panelVisible = true;
+  function setPanelVisible(v) {
+    panelVisible = v;
+    if (keyPanel) keyPanel.style.display = v ? '' : 'none';
   }
+  function togglePanel() { setPanelVisible(!panelVisible); }
 
   let keyPanel = null;
-  function ensureKeyPanel(vks) {
-    if (keyPanel) keyPanel.remove();
-    keyPanel = document.createElement('div');
-    keyPanel.id = 'ugv_keys';
-    keyPanel.style.cssText =
-      'position:fixed;left:0;right:0;bottom:0;z-index:99999;display:flex;flex-direction:column;' +
-      'align-items:center;gap:4px;padding:6px;background:rgba(0,0,0,0.35);' +
-      'pointer-events:none;user-select:none;-webkit-user-select:none;touch-action:none;';
-    document.body.appendChild(keyPanel);
 
-    const navs = vks.filter(v => vkClassify(v) === 'nav');
-    const mains = vks.filter(v => vkClassify(v) === 'main');
-
-    const navRow = mkKeyRow(navs, 'nav');
-    const mainRow = mkKeyRow(mains, 'main');
-    if (navRow) keyPanel.appendChild(navRow);
-    if (mainRow) keyPanel.appendChild(mainRow);
-  }
-
-  function mkKeyRow(vks, kind) {
-    if (!vks.length) return null;
-    const row = document.createElement('div');
-    row.style.cssText =
-      'display:flex;gap:4px;justify-content:center;width:100%;flex-wrap:wrap;pointer-events:auto;';
-    for (const vk of vks) {
-      const b = document.createElement('div');
-      const isMain = kind === 'main';
-      b.textContent = vkToLabel(vk);
-      b.dataset.vk = vk;
-      b.style.cssText =
-        (isMain ? 'min-width:44px;height:56px;' : 'min-width:48px;height:44px;') +
-        'flex:1 1 auto;max-width:70px;display:flex;align-items:center;justify-content:center;' +
-        'background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.35);' +
-        'border-radius:8px;color:#fff;font:bold 16px/1 system-ui;cursor:pointer;touch-action:none;';
-      bindKeyTouch(b, vk);
-      row.appendChild(b);
+  // 快捷键开关触摸面板 UI: Cmd/Ctrl+Shift+H
+  window.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.shiftKey && (e.code === 'KeyH' || e.key === 'H' || e.key === 'h')) {
+      e.preventDefault();
+      togglePanel();
     }
-    return row;
+  });
+
+  function mkKey(vk, kind) {
+    const b = document.createElement('div');
+    b.dataset.vk = vk;
+    b.dataset.kind = kind;
+    if (kind === 'air') {
+      // air 横条: 判定线(横线)在判定区中间,更透明
+      b.style.cssText =
+        'position:relative;width:100%;height:40px;cursor:pointer;box-sizing:border-box;';
+      const bar = document.createElement('div');
+      bar.className = 'ugv-bar';
+      bar.style.cssText =
+        'position:absolute;left:0;right:0;top:50%;height:3px;transform:translateY(-50%);' +
+        'background:rgba(128,128,128,0.3);';
+      b.appendChild(bar);
+    } else if (kind === 'cell') {
+      // 按钮单元格(与 panel.html 一致): grid 均分,共享边框
+      b.textContent = vkToLabel(vk);
+      b.style.cssText =
+        'display:flex;align-items:center;justify-content:center;' +
+        'border-right:1px solid rgba(128,128,128,0.4);border-bottom:1px solid rgba(128,128,128,0.4);' +
+        'color:rgba(255,255,255,0.6);font:bold 14px/1 system-ui;cursor:pointer;touch-action:none;' +
+        'box-sizing:border-box;';
+    } else {
+      // 功能键: 灰色半透明
+      b.textContent = vkToLabel(vk);
+      b.style.cssText =
+        'min-width:52px;height:40px;display:flex;align-items:center;justify-content:center;' +
+        'background:rgba(128,128,128,0.15);border:1px solid rgba(128,128,128,0.4);' +
+        'color:rgba(255,255,255,0.6);font:bold 15px/1 system-ui;cursor:pointer;touch-action:none;' +
+        'box-sizing:border-box;';
+    }
+    return b;
   }
 
   function touchPress(vk) { touchState.add(vk); }
   function touchRelease(vk) { touchState.delete(vk); }
 
-  function bindKeyTouch(el, vk) {
-    const press = (e) => {
-      if (e.button !== undefined && e.button !== 0) return; // 仅左键
-      e.preventDefault();
-      touchPress(vk);
-      try { el.setPointerCapture && el.setPointerCapture(e.pointerId); } catch (err) {}
-      el.style.background = 'rgba(255,220,80,0.55)';
-      el.style.borderColor = '#ffd';
-    };
-    const release = () => {
-      touchRelease(vk);
-      el.style.background = 'rgba(255,255,255,0.12)';
-      el.style.borderColor = 'rgba(255,255,255,0.35)';
-    };
-    el.addEventListener('pointerdown', press);
-    el.addEventListener('pointerup', release);
-    el.addEventListener('pointercancel', release);
-    el.addEventListener('pointerleave', release);
+  // 范围触发: 手指按下为一个原点(圆心),以半径为范围,凡与圆接触的按钮/air 都触发
+  const TOUCH_RADIUS = 25; // 原点半径(px)
+
+  let touchedKeys = new Set();
+
+  function setKeyActive(el, active) {
+    if (el.dataset.kind === 'air') {
+      const bar = el.querySelector('.ugv-bar');
+      if (bar) bar.style.background = active ? 'rgba(255,255,255,0.9)' : 'rgba(128,128,128,0.3)';
+    } else {
+      el.style.color = active ? '#fff' : 'rgba(255,255,255,0.6)';
+      el.style.background = active ? 'rgba(128,128,128,0.25)' : (el.dataset.kind === 'cell' ? '' : 'rgba(128,128,128,0.15)');
+    }
+  }
+
+  function keysInCircle(x, y) {
+    const keys = document.querySelectorAll('[data-vk]');
+    const result = [];
+    for (const k of keys) {
+      const r = k.getBoundingClientRect();
+      const cx = Math.max(r.left, Math.min(x, r.right));
+      const cy = Math.max(r.top, Math.min(y, r.bottom));
+      const dx = x - cx, dy = y - cy;
+      if (dx * dx + dy * dy <= TOUCH_RADIUS * TOUCH_RADIUS) {
+        result.push(k);
+      }
+    }
+    return result;
+  }
+
+  function clearTouch() {
+    for (const k of touchedKeys) {
+      touchRelease(+k.dataset.vk);
+      setKeyActive(k, false);
+    }
+    touchedKeys = new Set();
+  }
+
+  function updateTouch(x, y) {
+    const hit = keysInCircle(x, y);
+    const hitSet = new Set(hit);
+    for (const k of touchedKeys) {
+      if (!hitSet.has(k)) { touchRelease(+k.dataset.vk); setKeyActive(k, false); }
+    }
+    for (const k of hit) {
+      if (!touchedKeys.has(k)) { touchPress(+k.dataset.vk); setKeyActive(k, true); }
+    }
+    touchedKeys = hitSet;
+  }
+
+  document.addEventListener('pointerdown', (e) => updateTouch(e.clientX, e.clientY));
+  document.addEventListener('pointermove', (e) => {
+    if (e.pointerType === 'mouse' && !e.buttons) return;
+    updateTouch(e.clientX, e.clientY);
+  });
+  document.addEventListener('pointerup', () => clearTouch());
+  document.addEventListener('pointercancel', () => clearTouch());
+
+  function ensureKeyPanel(vks) {
+    const keySet = new Set(vks);
+    if (keyPanel) keyPanel.remove();
+    keyPanel = document.createElement('div');
+    keyPanel.id = 'ugv_keys';
+    keyPanel.style.cssText =
+      'position:fixed;left:0;right:0;bottom:0;z-index:99999;display:flex;flex-direction:column;align-items:center;' +
+      'pointer-events:none;user-select:none;-webkit-user-select:none;touch-action:none;';
+    document.body.appendChild(keyPanel);
+
+    // AIR 区域: 宽度占满游戏窗口(100vw),横条竖排,判定线在中间
+    const airBox = document.createElement('div');
+    airBox.style.cssText = 'width:100vw;display:flex;flex-direction:column;pointer-events:auto;';
+    const airs = AIR_KEYS.map(charToVk).filter(v => keySet.has(v));
+    for (const vk of airs) airBox.appendChild(mkKey(vk, 'air'));
+    if (airs.length) keyPanel.appendChild(airBox);
+
+    // 主键区域: air 下方,16px 空隙,16 列 × 2 行 grid(与 panel.html 一致)
+    // 整体宽度 = 2/3 屏幕(左右各空 4 键宽),margin 居中,边框紧贴按钮
+    const grid = document.createElement('div');
+    grid.style.cssText =
+      'margin:16px auto 0;display:grid;grid-template-columns:repeat(16,1fr);grid-template-rows:repeat(2,96px);' +
+      'width:calc(100vw * 2 / 3);background:rgba(128,128,128,0.08);' +
+      'border:1px solid rgba(128,128,128,0.4);pointer-events:auto;box-sizing:border-box;';
+    const front = MAIN_FRONT.map(charToVk).filter(v => keySet.has(v));
+    const back = MAIN_BACK.map(charToVk).filter(v => keySet.has(v));
+    const cells = front.concat(back);
+    cells.forEach((vk, i) => {
+      const c = mkKey(vk, 'cell');
+      if ((i + 1) % 16 === 0) c.style.borderRight = 'none';
+      if (i >= 16) c.style.borderBottom = 'none';
+      grid.appendChild(c);
+    });
+    if (cells.length) keyPanel.appendChild(grid);
+
+    // 功能键: 左上竖排
+    const navBox = document.createElement('div');
+    navBox.style.cssText =
+      'position:fixed;left:8px;top:8px;display:flex;flex-direction:column;gap:4px;pointer-events:auto;';
+    for (const [vk] of NAV_KEYS) {
+      if (!keySet.has(vk)) continue;
+      navBox.appendChild(mkKey(vk, 'nav'));
+    }
+    keyPanel.appendChild(navBox);
+  }
+
+  // 惰性采集: W=true(街机板模式)下游戏不调用 kbdStart,而是在每帧低频查询 di8KbdHeld。
+  // 这里累积游戏实际查询到的 VK 键,去重后一次性构建触摸面板。
+  let collectedVks = new Set();
+  let collectScheduled = false;
+  let panelBuilt = false;
+  function collectTouchKey(vk) {
+    if (panelBuilt || collectedVks.has(vk)) return;
+    collectedVks.add(vk);
+    if (!collectScheduled) {
+      collectScheduled = true;
+      setTimeout(() => {
+        collectScheduled = false;
+        if (collectedVks.size) {
+          ensureKeyPanel(Array.from(collectedVks).sort((a, b) => a - b));
+          panelBuilt = true;
+          collectedVks = new Set();
+        }
+      }, 300);
+    }
   }
 
   // DirectInput(DIK) 键码 -> Windows VK 码(游戏 m_mi 使用 DIK 键码)
@@ -156,7 +285,9 @@
   };
   function di8KbdHeld(dik) {
     const vk = DIK_TO_VK[dik];
-    return vk !== undefined && keyState.has(vk) ? 1 : 0;
+    // 惰性采集游戏查询到的键,在 W=true(街机板模式)下构建触摸面板(kbdStart 不被调用)
+    if (vk !== undefined) collectTouchKey(vk);
+    return vk !== undefined && (keyState.has(vk) || touchState.has(vk)) ? 1 : 0;
   }
 
   // ============ umgr_elc(Tauri invoke 调 Rust command) ============
@@ -173,6 +304,19 @@
     for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
     return u8;
   }
+  // Uint8Array -> base64(写文件用)
+  function u8ToB64(u8) {
+    let bin = '';
+    const chunk = 0x8000;
+    for (let i = 0; i < u8.length; i += chunk) {
+      bin += String.fromCharCode.apply(null, u8.subarray(i, i + chunk));
+    }
+    return btoa(bin);
+  }
+  // string -> base64(JSON 等文本写文件用)
+  function strToB64(s) {
+    return btoa(unescape(encodeURIComponent(s)));
+  }
 
   // 整文件缓存: .una 语言包/音频等被反复读,缓存避免重复读取
   const fileCache = new Map();
@@ -187,6 +331,9 @@
   }
   async function cachedFile(p) {
     const key = String(p).split('?')[0];
+    // 以 / 结尾是目录请求(游戏某些 UI 面板引用了空纹理路径,如 m_Ne.ck("") -> /reverie/),
+    // 直接失败,不发 fetch,避免 404 报错,保持与"读不到"一致的 fallback 语义。
+    if (key.endsWith('/')) throw new Error('is directory: ' + key);
     if (fileCache.has(key)) return fileCache.get(key);
     const resp = await fetch(umgUrl(key));
     if (!resp.ok) throw new Error('HTTP ' + resp.status + ' ' + key);
@@ -227,7 +374,15 @@
       n2: async () => ({ status: -1 }),
       o2: async () => ({ status: -1 }),
       l2: async () => ({ status: -1 }),
-      Xu: async () => ({ status: -1, data: { entry: null, writer: null } }),
+      Xu: (p, data) => {
+        let b64 = '';
+        if (data instanceof Uint8Array) b64 = u8ToB64(data);
+        else if (typeof data === 'string') b64 = strToB64(data);
+        else if (data && data.buffer) b64 = u8ToB64(new Uint8Array(data.buffer, data.byteOffset || 0, data.byteLength || data.buffer.byteLength));
+        return invoke('fs_write', { path: p, data: b64 })
+          .then(() => ({ status: 0, data: { entry: null, writer: null } }))
+          .catch(() => ({ status: -1, data: { entry: null, writer: null } }));
+      },
     },
     si: {
       Vu: async () => ({}), w2: async () => ({}), se: async () => ({}),
@@ -314,6 +469,28 @@
     return img;
   };
   window.Image.prototype = NativeImage.prototype;
+
+  // 拦截 XHR/fetch 的虚拟路径(/xxx)转 umg:// 协议。
+  // THREE.js GLTFLoader(FileLoader)用 XHR/fetch 读 /player_scenes/xxx/bg.glb 等 3D 模型,
+  // 若不拦截会解析成 tauri://localhost/xxx(无 handler)导致加载失败 -> 相机为空 -> 渲染报错。
+  (function () {
+    function toUmg(url) {
+      if (typeof url === 'string' && url.indexOf('/') === 0 && url.indexOf('//') !== 0) {
+        return UMG_ORIGIN + url;
+      }
+      return url;
+    }
+    const origOpen = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function (method, url) {
+      return origOpen.apply(this, [method, toUmg(url)].concat([].slice.call(arguments, 2)));
+    };
+    const origFetch = window.fetch;
+    window.fetch = function (url) {
+      const rest = [].slice.call(arguments, 1);
+      if (typeof url === 'string') url = toUmg(url);
+      return origFetch.apply(this, [url].concat(rest));
+    };
+  })();
 
   // 利用規約(terms)iframe: 游戏用 sandbox="allow-popups" 但之后又要访问 contentWindow,
   // 在 WebKit 里会因缺 allow-same-origin 抛 SecurityError。此处补上 allow-same-origin/allow-scripts。

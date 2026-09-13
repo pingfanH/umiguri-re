@@ -3,6 +3,11 @@
 (function () {
   'use strict';
 
+  // 拦截 alert: WKWebView 在首帧前弹 alert 会导致页面 blank,转为 console.error
+  window.addEventListener('error', function (e) { console.error('[UMG]', e.message); });
+  window.addEventListener('unhandledrejection', function (e) { console.error('[UMG]', e.reason); });
+  window.alert = function (m) { console.error('[UMG ALERT]', m); };
+
   // ============ 触摸驱动的键盘输入 ============
   // 触摸状态: Map<VK码, Set<pointerId>>(多点触控)
   const touchState = new Map();
@@ -181,21 +186,54 @@
 
   async function fsFetch(path) {
     let url = virtualToAsset(path);
-    let resp = await fetch(url);
-    // 双扩展名回退(解密脚本曾重复追加扩展名: name.ext -> name.ext.ext)
-    if (!resp.ok && !path.includes('?') && /\.[^.]+$/.test(url)) {
-      const ext = url.slice(url.lastIndexOf('.'));
-      resp = await fetch(url + ext);
+    // Capacitor iOS scheme handler 特殊行为:
+    //  - 有扩展名但文件不存在 -> didFailWithError -> fetch reject("Load failed"),不是 404
+    //  - 无扩展名路径 -> SPA fallback 返回 index.html(假成功)
+    //  - 媒体文件(.wav/.mp3) -> 返回 URLResponse(非 HTTP),resp.ok=false 但数据已传输
+    // 因此: 优先尝试变体路径(双扩展名/.txt),且不检查 resp.ok,直接读 arrayBuffer。
+    let candidates = [];
+    if (!path.includes('?')) {
+      if (/\.[^.]+$/.test(url)) {
+        candidates.push(url + url.slice(url.lastIndexOf('.')));
+        candidates.push(url);
+      } else {
+        candidates.push(url + '.txt');
+        candidates.push(url);
+      }
+    } else {
+      candidates.push(url);
     }
-    if (!resp.ok) throw new Error('HTTP ' + resp.status + ' ' + url);
-    return new Uint8Array(await resp.arrayBuffer());
+    for (const c of candidates) {
+      try {
+        const resp = await fetch(c);
+        return new Uint8Array(await resp.arrayBuffer());
+      } catch (e) { /* reject(Load failed) -> 尝试下一个 */ }
+    }
+    throw new Error('all fetch failed: ' + path);
+  }
+
+  // 目录清单(manifest.json): WebView 无法 readdir 打包资源,用构建时生成的清单实现 zu
+  let manifestCache = null;
+  async function loadManifest() {
+    if (manifestCache) return manifestCache;
+    try {
+      const resp = await fetch('assets/manifest.json');
+      manifestCache = JSON.parse(await resp.text());
+    } catch (e) {
+      manifestCache = {};
+    }
+    return manifestCache;
   }
 
   window.umgr_elc = {
     enable: true,
     _: handshake,
     st: {
-      zu: async (p) => ({ status: -1, data: [] }), // 打包后无目录列表,依赖前端缓存
+      zu: async (p) => {
+        const m = await loadManifest();
+        const key = String(p).endsWith('/') ? p : p + '/';
+        return { status: 0, data: m[key] || [] };
+      },
       sn: async (p) => {
         try { return { status: 0, data: await fsFetch(p) }; }
         catch (e) { return { status: -1 }; }
