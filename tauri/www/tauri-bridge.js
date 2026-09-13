@@ -2,6 +2,28 @@
 (function () {
   'use strict';
 
+  // ============ 移动端: 禁用双指缩放 / 页面滑动拖拽 / 双击缩放 ============
+  (function preventViewportGestures() {
+    const stop = (e) => { if (e.cancelable) e.preventDefault(); };
+    // iOS 手势缩放
+    ['gesturestart', 'gesturechange', 'gestureend'].forEach((t) =>
+      document.addEventListener(t, stop, { passive: false }));
+    // 触摸拖动/多指缩放: 一律阻止浏览器默认(滚动、缩放)行为
+    document.addEventListener('touchmove', stop, { passive: false });
+    // 双击缩放
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', (e) => {
+      const now = Date.now();
+      if (now - lastTouchEnd < 300 && e.touches.length === 0) stop(e);
+      lastTouchEnd = now;
+    }, { passive: false });
+    // 桌面/触控板 Ctrl+滚轮、Ctrl +/- 缩放
+    window.addEventListener('wheel', (e) => { if (e.ctrlKey) stop(e); }, { passive: false });
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0'].includes(e.key)) stop(e);
+    });
+  })();
+
   // ============ 键盘输入(e.code -> VK 码, 跨平台) ============
   const keyState = new Set();
   function codeToVk(code) {
@@ -57,6 +79,7 @@
   const MAIN_FRONT = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P'];
   const MAIN_BACK =  ['1','2','3','4','5','6','7','8','9',';','-',"'",',','.','/',']'];
   const AIR_KEYS =  ['R','S','T','U','W','Y'];
+  const AIR_H = 64; // air 横条高度(间隔),可调
 
   function charToVk(c) {
     return kbdUni2Virt(c.charCodeAt(0));
@@ -78,8 +101,8 @@
 
   // 功能键(导航/系统),放在左上
   const NAV_KEYS = [
-    [13, 'OK'], [27, '戻'], [32, '␣'], [16, 'Shift'],
-    [37, '←'], [39, '→'], [38, '↑'], [40, '↓'],
+    [27, 'Esc'], [112, 'F1'], [113, 'F2'], [114, 'F3'],
+    [115, 'F4'], [116, 'F5'], [13, 'Enter'],
   ];
 
   // 触摸状态独立于物理键盘 keyState: 避免触摸面板干扰/清空键盘按键状态。
@@ -108,10 +131,11 @@
     const b = document.createElement('div');
     b.dataset.vk = vk;
     b.dataset.kind = kind;
+    const NOSEL = 'user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-user-drag:none;';
     if (kind === 'air') {
       // air 横条: 判定线(横线)在判定区中间,更透明
       b.style.cssText =
-        'position:relative;width:100%;height:40px;cursor:pointer;box-sizing:border-box;';
+        'position:relative;width:100%;height:' + AIR_H + 'px;cursor:pointer;box-sizing:border-box;' + NOSEL;
       const bar = document.createElement('div');
       bar.className = 'ugv-bar';
       bar.style.cssText =
@@ -125,15 +149,15 @@
         'display:flex;align-items:center;justify-content:center;' +
         'border-right:1px solid rgba(128,128,128,0.4);border-bottom:1px solid rgba(128,128,128,0.4);' +
         'color:rgba(255,255,255,0.6);font:bold 14px/1 system-ui;cursor:pointer;touch-action:none;' +
-        'box-sizing:border-box;';
+        'box-sizing:border-box;' + NOSEL;
     } else {
       // 功能键: 灰色半透明
       b.textContent = vkToLabel(vk);
       b.style.cssText =
-        'min-width:52px;height:40px;display:flex;align-items:center;justify-content:center;' +
+        'min-width:64px;height:176px;display:flex;align-items:center;justify-content:center;' +
         'background:rgba(128,128,128,0.15);border:1px solid rgba(128,128,128,0.4);' +
         'color:rgba(255,255,255,0.6);font:bold 15px/1 system-ui;cursor:pointer;touch-action:none;' +
-        'box-sizing:border-box;';
+        'box-sizing:border-box;' + NOSEL;
     }
     return b;
   }
@@ -142,8 +166,12 @@
   function touchRelease(vk) { touchState.delete(vk); }
 
   // 范围触发: 手指按下为一个原点(圆心),以半径为范围,凡与圆接触的按钮/air 都触发
-  const TOUCH_RADIUS = 25; // 原点半径(px)
+  const IS_MOBILE = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  const TOUCH_RADIUS = IS_MOBILE ? 10 : 25; // 触摸原点半径(px),移动端更小
 
+  // 多指支持: 每个 pointerId 独立记录其命中(圆形范围)的按键, 取并集写入 touchState。
+  // 单指滑动切换按键、多指同时按不同键都能正确工作。
+  const activePointers = new Map();
   let touchedKeys = new Set();
 
   function setKeyActive(el, active) {
@@ -172,76 +200,121 @@
   }
 
   function clearTouch() {
-    for (const k of touchedKeys) {
-      touchRelease(+k.dataset.vk);
-      setKeyActive(k, false);
-    }
-    touchedKeys = new Set();
+    activePointers.clear();
+    recomputeTouch();
   }
 
-  function updateTouch(x, y) {
-    const hit = keysInCircle(x, y);
-    const hitSet = new Set(hit);
+  // 合并所有指针命中的按键: 新命中 -> 按下, 不再命中 -> 抬起
+  function recomputeTouch() {
+    const hit = new Set();
+    for (const s of activePointers.values()) for (const k of s) hit.add(k);
     for (const k of touchedKeys) {
-      if (!hitSet.has(k)) { touchRelease(+k.dataset.vk); setKeyActive(k, false); }
+      if (!hit.has(k)) { touchRelease(+k.dataset.vk); setKeyActive(k, false); }
     }
     for (const k of hit) {
       if (!touchedKeys.has(k)) { touchPress(+k.dataset.vk); setKeyActive(k, true); }
     }
-    touchedKeys = hitSet;
+    touchedKeys = hit;
   }
 
-  document.addEventListener('pointerdown', (e) => updateTouch(e.clientX, e.clientY));
+  function updatePointer(id, x, y) {
+    activePointers.set(id, new Set(keysInCircle(x, y)));
+    recomputeTouch();
+  }
+
+  document.addEventListener('pointerdown', (e) => {
+    // 触摸/触控笔: 阻止长按选择、拖拽默认行为; 鼠标不拦截(避免破坏桌面端 click)
+    if (e.pointerType !== 'mouse' && e.cancelable) e.preventDefault();
+    updatePointer(e.pointerId, e.clientX, e.clientY);
+  }, { passive: false });
   document.addEventListener('pointermove', (e) => {
     if (e.pointerType === 'mouse' && !e.buttons) return;
-    updateTouch(e.clientX, e.clientY);
+    if (!activePointers.has(e.pointerId)) return;
+    updatePointer(e.pointerId, e.clientX, e.clientY);
+  }, { passive: false });
+  document.addEventListener('pointerup', (e) => {
+    activePointers.delete(e.pointerId);
+    recomputeTouch();
   });
-  document.addEventListener('pointerup', () => clearTouch());
-  document.addEventListener('pointercancel', () => clearTouch());
+  document.addEventListener('pointercancel', (e) => {
+    activePointers.delete(e.pointerId);
+    recomputeTouch();
+  });
+  window.addEventListener('blur', clearTouch);
+  // 长按不弹出选择/上下文菜单
+  document.addEventListener('contextmenu', (e) => {
+    if (e.target && e.target.closest && e.target.closest('#ugv_keys')) e.preventDefault();
+  });
 
-  function ensureKeyPanel(vks) {
-    const keySet = new Set(vks);
+  function ensureKeyPanel() {
     if (keyPanel) keyPanel.remove();
     keyPanel = document.createElement('div');
     keyPanel.id = 'ugv_keys';
     keyPanel.style.cssText =
-      'position:fixed;left:0;right:0;bottom:0;z-index:99999;display:flex;flex-direction:column;align-items:center;' +
-      'pointer-events:none;user-select:none;-webkit-user-select:none;touch-action:none;';
-    document.body.appendChild(keyPanel);
+      'position:absolute;left:0;right:0;top:0;bottom:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;' +
+      'pointer-events:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none;';
+    (document.getElementById('main_container') || document.body).appendChild(keyPanel);
 
     // AIR 区域: 宽度占满游戏窗口(100vw),横条竖排,判定线在中间
+    // 始终按配置(AIR_KEYS)渲染全部 air 键,不做运行时过滤,保证与配置一致
     const airBox = document.createElement('div');
-    airBox.style.cssText = 'width:100vw;display:flex;flex-direction:column;pointer-events:auto;';
-    const airs = AIR_KEYS.map(charToVk).filter(v => keySet.has(v));
-    for (const vk of airs) airBox.appendChild(mkKey(vk, 'air'));
-    if (airs.length) keyPanel.appendChild(airBox);
+    airBox.style.cssText = 'width:100%;display:flex;flex-direction:column;pointer-events:auto;';
+    for (const vk of AIR_KEYS.map(charToVk)) airBox.appendChild(mkKey(vk, 'air'));
+    keyPanel.appendChild(airBox);
 
-    // 主键区域: air 下方,16px 空隙,16 列 × 2 行 grid(与 panel.html 一致)
-    // 整体宽度 = 2/3 屏幕(左右各空 4 键宽),margin 居中,边框紧贴按钮
+    // 主键区域: 固定 16 列 × 2 行, 位置严格对应配置顺序(MAIN_FRONT / MAIN_BACK),
+    // 不按运行时采集结果过滤,避免按键缺失导致整体错位。
     const grid = document.createElement('div');
     grid.style.cssText =
-      'margin:16px auto 0;display:grid;grid-template-columns:repeat(16,1fr);grid-template-rows:repeat(2,96px);' +
-      'width:calc(100vw * 2 / 3);background:rgba(128,128,128,0.08);' +
+      'margin:16px auto 0;display:grid;grid-template-columns:repeat(16,1fr);grid-template-rows:repeat(2,192px);' +
+      'width:66.6667%;background:rgba(128,128,128,0.08);' +
       'border:1px solid rgba(128,128,128,0.4);pointer-events:auto;box-sizing:border-box;';
-    const front = MAIN_FRONT.map(charToVk).filter(v => keySet.has(v));
-    const back = MAIN_BACK.map(charToVk).filter(v => keySet.has(v));
-    const cells = front.concat(back);
-    cells.forEach((vk, i) => {
+    MAIN_FRONT.concat(MAIN_BACK).map(charToVk).forEach((vk, i) => {
       const c = mkKey(vk, 'cell');
       if ((i + 1) % 16 === 0) c.style.borderRight = 'none';
       if (i >= 16) c.style.borderBottom = 'none';
       grid.appendChild(c);
     });
-    if (cells.length) keyPanel.appendChild(grid);
+    keyPanel.appendChild(grid);
 
-    // 功能键: 左上竖排
+    // 功能键: 左上角
+    //   第一行(横向): Esc, Enter
+    //   第二行: [FN] 按钮, 点击横向弹出 F1-F5, 再点收回
     const navBox = document.createElement('div');
     navBox.style.cssText =
-      'position:fixed;left:8px;top:8px;display:flex;flex-direction:column;gap:4px;pointer-events:auto;';
-    for (const [vk] of NAV_KEYS) {
-      if (!keySet.has(vk)) continue;
-      navBox.appendChild(mkKey(vk, 'nav'));
+      'position:absolute;left:8px;top:112px;display:flex;flex-direction:column;gap:6px;pointer-events:auto;';
+    function navRow() {
+      const r = document.createElement('div');
+      r.style.cssText = 'display:flex;flex-direction:row;gap:4px;';
+      return r;
     }
+    function mkFnBtn(label) {
+      const b = document.createElement('div');
+      b.textContent = label;
+      b.style.cssText =
+        'min-width:64px;height:176px;display:flex;align-items:center;justify-content:center;' +
+        'background:rgba(128,128,128,0.15);border:1px solid rgba(128,128,128,0.4);' +
+        'color:rgba(255,255,255,0.6);font:bold 15px/1 system-ui;cursor:pointer;touch-action:none;' +
+        'user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;box-sizing:border-box;';
+      return b;
+    }
+    // 第一行: Esc / Enter
+    const row1 = navRow();
+    for (const vk of [27, 13]) row1.appendChild(mkKey(vk, 'nav'));
+    navBox.appendChild(row1);
+    // 第二行: FN + 可展开的 F1-F5
+    const row2 = navRow();
+    const fnBtn = mkFnBtn('FN');
+    const fWrap = document.createElement('div');
+    fWrap.style.cssText = 'display:none;flex-direction:row;gap:4px;';
+    for (const vk of [112, 113, 114, 115, 116]) fWrap.appendChild(mkKey(vk, 'nav'));
+    fnBtn.addEventListener('pointerdown', function (e) {
+      e.preventDefault();
+      fWrap.style.display = (fWrap.style.display === 'none') ? 'flex' : 'none';
+    });
+    row2.appendChild(fnBtn);
+    row2.appendChild(fWrap);
+    navBox.appendChild(row2);
     keyPanel.appendChild(navBox);
   }
 
@@ -258,7 +331,7 @@
       setTimeout(() => {
         collectScheduled = false;
         if (collectedVks.size) {
-          ensureKeyPanel(Array.from(collectedVks).sort((a, b) => a - b));
+          ensureKeyPanel();
           panelBuilt = true;
           collectedVks = new Set();
         }
@@ -323,7 +396,7 @@
   // Tauri v2 自定义协议 origin:
   //   macOS/Linux/iOS: <scheme>://localhost
   //   Windows/Android: http://<scheme>.localhost (默认)
-  const UMG_ORIGIN = /Windows/i.test(navigator.userAgent)
+  const UMG_ORIGIN = /Windows|Android/i.test(navigator.userAgent)
     ? 'http://umg.localhost'
     : 'umg://localhost';
   function umgUrl(p) {
@@ -351,7 +424,7 @@
     O: { ct: 'PINGFANH', B: 1650000, p9: 69 },
     I: 0, R: 8090, j: 1, M: 3, L: 0, U: false,
     P: '00 00 00 00 00 00', G: '00 00 00 00 00 00', Y: 0,
-    fe: 'A1B2C3D4E5F6G7H8I9J0K;L\'M,N.O/P-RSTUWY',
+    fe: 'A1B2C3D4E5F6G7H8I9J0K;L\'M,N.O/P-RSTUWY]',
     I4: savedLang(), am: 0, W: true, H: 1, J: true, K: true,
     Z: { X: false, a1: false, d1: false, t1: false, s1: false },
     u1: '1920x1080', v1: false,
@@ -452,6 +525,20 @@
     };
   }
 
+  // [诊断] 报告 WebGL 压缩纹理扩展(iOS 常缺 S3TC/DXT)
+  setTimeout(function () {
+    try {
+      var c = document.createElement('canvas');
+      var gl = c.getContext('webgl2') || c.getContext('webgl');
+      var exts = gl ? (gl.getSupportedExtensions() || []) : [];
+      var comp = exts.filter(function (e) { return /compress|s3tc|dxt|etc|astc|pvrtc|bptc/i.test(e); });
+      console.log('[DIAG] GL_COMPRESSED_EXTS ' + comp.join(','));
+      console.log('[DIAG] GL_VERSION ' + (gl ? gl.getParameter(gl.VERSION) : 'NO_GL'));
+      var e3 = gl && gl.getExtension('WEBGL_compressed_texture_s3tc');
+      console.log('[DIAG] S3TC ' + (e3 ? 'YES' : 'NO'));
+    } catch (e) { console.log('[DIAG] GL_EXTS_ERR ' + (e && e.message)); }
+  }, 1500);
+
   // 拦截 Image.src 相对路径(封面 j.png 等)转成 umg protocol
   const NativeImage = window.Image;
   const srcDesc = Object.getOwnPropertyDescriptor(NativeImage.prototype, 'src') ||
@@ -516,4 +603,100 @@
       });
     }
   })();
+
+  // ============ WebKit(iOS) 不支持 S3TC/DXT 压缩纹理 -> 软件解码为 RGBA ============
+  // 桌面 WebView 有 WEBGL_compressed_texture_s3tc；iOS 只有 astc/etc。缺 S3TC 时
+  // 游戏上传 DXT1/3/5 会失败(iOS 上所有 .dds 贴图都不显示)。这里拦截
+  // compressedTexImage2D，把 DXT 解成 RGBA 再用 texImage2D 上传。
+  (function () {
+    function hasS3TC() {
+      try {
+        var c = document.createElement('canvas');
+        var g = c.getContext('webgl2') || c.getContext('webgl');
+        return !!(g && g.getExtension('WEBGL_compressed_texture_s3tc'));
+      } catch (e) { return true; }
+    }
+    if (hasS3TC()) return;
+
+    function decodeBC(data, format, width, height) {
+      var out = new Uint8Array(width * height * 4);
+      var bw = Math.max(1, (width + 3) >> 2), bh = Math.max(1, (height + 3) >> 2), p = 0;
+      function to255(e) { return [(e[0] * 255 / 31) | 0, (e[1] * 255 / 63) | 0, (e[2] * 255 / 31) | 0]; }
+      function rgb565(c) { return [(c >> 11) & 0x1F, (c >> 5) & 0x3F, c & 0x1F]; }
+      for (var by = 0; by < bh; by++) for (var bx = 0; bx < bw; bx++) {
+        var alpha = null, i;
+        if (format === 33778) {
+          alpha = new Uint8Array(16);
+          for (i = 0; i < 16; i++) alpha[i] = (((data[p + (i >> 1)] >> ((i & 1) << 2)) & 0xF) * 17);
+          p += 8;
+        } else if (format === 33779) {
+          var a0 = data[p], a1 = data[p + 1], ab = [a0, a1];
+          if (a0 > a1) { for (i = 1; i <= 6; i++) ab.push((((7 - i) * a0 + i * a1) / 7) | 0); }
+          else { for (i = 1; i <= 4; i++) ab.push((((5 - i) * a0 + i * a1) / 5) | 0); ab.push(0); ab.push(255); }
+          alpha = new Uint8Array(16);
+          for (i = 0; i < 16; i++) {
+            var bit = i * 3, byte = p + 2 + (bit >> 3), sh = bit & 7;
+            var v = (data[byte] | (data[byte + 1] << 8) | (data[byte + 2] << 16) | (data[byte + 3] << 24)) >>> sh;
+            alpha[i] = ab[v & 7];
+          }
+          p += 8;
+        }
+        var c0 = data[p] | (data[p + 1] << 8), c1 = data[p + 2] | (data[p + 3] << 8);
+        p += 4;
+        var cols = [to255(rgb565(c0)), to255(rgb565(c1))];
+        if (c0 > c1 || format !== 33776) {
+          cols.push([((2 * cols[0][0] + cols[1][0]) / 3) | 0, ((2 * cols[0][1] + cols[1][1]) / 3) | 0, ((2 * cols[0][2] + cols[1][2]) / 3) | 0]);
+          cols.push([((cols[0][0] + 2 * cols[1][0]) / 3) | 0, ((cols[0][1] + 2 * cols[1][1]) / 3) | 0, ((cols[0][2] + 2 * cols[1][2]) / 3) | 0]);
+        } else {
+          cols.push([((cols[0][0] + cols[1][0]) / 2) | 0, ((cols[0][1] + cols[1][1]) / 2) | 0, ((cols[0][2] + cols[1][2]) / 2) | 0]);
+          cols.push([0, 0, 0]);
+        }
+        var bits = (data[p] | (data[p + 1] << 8) | (data[p + 2] << 16) | (data[p + 3] << 24)) >>> 0;
+        p += 4;
+        for (i = 0; i < 16; i++) {
+          var cx = (bx << 2) + (i & 3), cy = (by << 2) + (i >> 2);
+          if (cx >= width || cy >= height) continue;
+          var ci = (bits >> (i << 1)) & 3, col = cols[ci], o = (cy * width + cx) << 2;
+          out[o] = col[0]; out[o + 1] = col[1]; out[o + 2] = col[2];
+          out[o + 3] = alpha ? alpha[i] : 255;
+        }
+      }
+      return out;
+    }
+
+    function wrap(orig) {
+      return function (target, level, internalformat, width, height, border, data) {
+        if ((internalformat === 33776 || internalformat === 33778 || internalformat === 33779) && data && data.length) {
+          try {
+            // 压缩纹理不受 UNPACK_FLIP_Y_WEBGL 影响,但 RGBA 上传会。临时关闭避免精灵图翻转/位移。
+            var _flip = true, _premul = false, _align = 4;
+            try {
+              _flip = this.getParameter(this.UNPACK_FLIP_Y_WEBGL);
+              _premul = this.getParameter(this.UNPACK_PREMULTIPLY_ALPHA_WEBGL);
+              _align = this.getParameter(this.UNPACK_ALIGNMENT);
+              this.pixelStorei(this.UNPACK_FLIP_Y_WEBGL, false);
+              this.pixelStorei(this.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+              this.pixelStorei(this.UNPACK_ALIGNMENT, 1);
+            } catch (e0) {}
+            var rgba = decodeBC(data, internalformat, width, height);
+            var rc = this.texImage2D(target, level, this.RGBA, width, height, 0, this.RGBA, this.UNSIGNED_BYTE, rgba);
+            try {
+              this.pixelStorei(this.UNPACK_FLIP_Y_WEBGL, _flip);
+              this.pixelStorei(this.UNPACK_PREMULTIPLY_ALPHA_WEBGL, _premul);
+              this.pixelStorei(this.UNPACK_ALIGNMENT, _align);
+            } catch (e1) {}
+            return rc;
+          } catch (e) { try { console.log('[DIAG] DXT_DECODE_ERR ' + (e && e.message)); } catch (e2) {} }
+        }
+        return orig.apply(this, arguments);
+      };
+    }
+    [window.WebGLRenderingContext, window.WebGL2RenderingContext].forEach(function (C) {
+      if (!C) return;
+      var P = C.prototype;
+      if (P.compressedTexImage2D && !P.__ugvDxt) { P.__ugvDxt = true; P.compressedTexImage2D = wrap(P.compressedTexImage2D); }
+    });
+    console.log('[DIAG] DXT_SOFTWARE_DECODE enabled');
+  })();
+
 })();

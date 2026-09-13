@@ -8,6 +8,28 @@
   window.addEventListener('unhandledrejection', function (e) { console.error('[UMG]', e.reason); });
   window.alert = function (m) { console.error('[UMG ALERT]', m); };
 
+  // ============ 移动端: 禁用双指缩放 / 页面滑动拖拽 / 双击缩放 ============
+  (function preventViewportGestures() {
+    const stop = (e) => { if (e.cancelable) e.preventDefault(); };
+    // iOS 手势缩放
+    ['gesturestart', 'gesturechange', 'gestureend'].forEach((t) =>
+      document.addEventListener(t, stop, { passive: false }));
+    // 触摸拖动/多指缩放: 一律阻止浏览器默认(滚动、缩放)行为
+    document.addEventListener('touchmove', stop, { passive: false });
+    // 双击缩放
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', (e) => {
+      const now = Date.now();
+      if (now - lastTouchEnd < 300 && e.touches.length === 0) stop(e);
+      lastTouchEnd = now;
+    }, { passive: false });
+    // 桌面/触控板 Ctrl+滚轮、Ctrl +/- 缩放
+    window.addEventListener('wheel', (e) => { if (e.ctrlKey) stop(e); }, { passive: false });
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0'].includes(e.key)) stop(e);
+    });
+  })();
+
   // ============ 触摸驱动的键盘输入 ============
   // 触摸状态: Map<VK码, Set<pointerId>>(多点触控)
   const touchState = new Map();
@@ -74,11 +96,11 @@
     panel = document.createElement('div');
     panel.id = 'ugv_keys';
     panel.style.cssText =
-      'position:fixed;left:0;right:0;bottom:0;z-index:99999;display:flex;flex-wrap:wrap;' +
+      'position:absolute;top:auto;left:0;right:0;bottom:0;z-index:99999;display:flex;flex-wrap:wrap;' +
       'justify-content:center;align-items:flex-end;gap:4px;padding:6px;' +
       'background:rgba(0,0,0,0.35);pointer-events:none;user-select:none;' +
       '-webkit-user-select:none;touch-action:none;';
-    document.body.appendChild(panel);
+    (document.getElementById('main_container') || document.body).appendChild(panel);
 
     // 分组: nav 放第一行,main 放第二行
     const navs = vks.filter(v => vkClassify(v) === 'nav');
@@ -146,7 +168,7 @@
     O: { ct: 'DEV_MOCK', B: 1650000, p9: 69 },
     I: 0, R: 8090, j: 1, M: 3, L: 0, U: false,
     P: '00 00 00 00 00 00', G: '00 00 00 00 00 00', Y: 0,
-    fe: 'A1B2C3D4E5F6G7H8I9J0K;L\'M,N.O/P-RSTUWY',
+    fe: 'A1B2C3D4E5F6G7H8I9J0K;L\'M,N.O/P-RSTUWY]',
     I4: savedLang(), am: 0, W: false, H: 1, J: true, K: true,
     Z: { X: false, a1: false, d1: false, t1: false, s1: false },
     u1: '1920x1080', v1: false,
@@ -297,4 +319,100 @@
   window.ugSerialPop = () => null;
   window.ugSerialClose = () => {};
   window.ugSerialDestroy = () => {};
+
+  // ============ WebKit(iOS) 不支持 S3TC/DXT 压缩纹理 -> 软件解码为 RGBA ============
+  // 桌面 WebView 有 WEBGL_compressed_texture_s3tc；iOS 只有 astc/etc。缺 S3TC 时
+  // 游戏上传 DXT1/3/5 会失败(iOS 上所有 .dds 贴图都不显示)。这里拦截
+  // compressedTexImage2D，把 DXT 解成 RGBA 再用 texImage2D 上传。
+  (function () {
+    function hasS3TC() {
+      try {
+        var c = document.createElement('canvas');
+        var g = c.getContext('webgl2') || c.getContext('webgl');
+        return !!(g && g.getExtension('WEBGL_compressed_texture_s3tc'));
+      } catch (e) { return true; }
+    }
+    if (hasS3TC()) return;
+
+    function decodeBC(data, format, width, height) {
+      var out = new Uint8Array(width * height * 4);
+      var bw = Math.max(1, (width + 3) >> 2), bh = Math.max(1, (height + 3) >> 2), p = 0;
+      function to255(e) { return [(e[0] * 255 / 31) | 0, (e[1] * 255 / 63) | 0, (e[2] * 255 / 31) | 0]; }
+      function rgb565(c) { return [(c >> 11) & 0x1F, (c >> 5) & 0x3F, c & 0x1F]; }
+      for (var by = 0; by < bh; by++) for (var bx = 0; bx < bw; bx++) {
+        var alpha = null, i;
+        if (format === 33778) {
+          alpha = new Uint8Array(16);
+          for (i = 0; i < 16; i++) alpha[i] = (((data[p + (i >> 1)] >> ((i & 1) << 2)) & 0xF) * 17);
+          p += 8;
+        } else if (format === 33779) {
+          var a0 = data[p], a1 = data[p + 1], ab = [a0, a1];
+          if (a0 > a1) { for (i = 1; i <= 6; i++) ab.push((((7 - i) * a0 + i * a1) / 7) | 0); }
+          else { for (i = 1; i <= 4; i++) ab.push((((5 - i) * a0 + i * a1) / 5) | 0); ab.push(0); ab.push(255); }
+          alpha = new Uint8Array(16);
+          for (i = 0; i < 16; i++) {
+            var bit = i * 3, byte = p + 2 + (bit >> 3), sh = bit & 7;
+            var v = (data[byte] | (data[byte + 1] << 8) | (data[byte + 2] << 16) | (data[byte + 3] << 24)) >>> sh;
+            alpha[i] = ab[v & 7];
+          }
+          p += 8;
+        }
+        var c0 = data[p] | (data[p + 1] << 8), c1 = data[p + 2] | (data[p + 3] << 8);
+        p += 4;
+        var cols = [to255(rgb565(c0)), to255(rgb565(c1))];
+        if (c0 > c1 || format !== 33776) {
+          cols.push([((2 * cols[0][0] + cols[1][0]) / 3) | 0, ((2 * cols[0][1] + cols[1][1]) / 3) | 0, ((2 * cols[0][2] + cols[1][2]) / 3) | 0]);
+          cols.push([((cols[0][0] + 2 * cols[1][0]) / 3) | 0, ((cols[0][1] + 2 * cols[1][1]) / 3) | 0, ((cols[0][2] + 2 * cols[1][2]) / 3) | 0]);
+        } else {
+          cols.push([((cols[0][0] + cols[1][0]) / 2) | 0, ((cols[0][1] + cols[1][1]) / 2) | 0, ((cols[0][2] + cols[1][2]) / 2) | 0]);
+          cols.push([0, 0, 0]);
+        }
+        var bits = (data[p] | (data[p + 1] << 8) | (data[p + 2] << 16) | (data[p + 3] << 24)) >>> 0;
+        p += 4;
+        for (i = 0; i < 16; i++) {
+          var cx = (bx << 2) + (i & 3), cy = (by << 2) + (i >> 2);
+          if (cx >= width || cy >= height) continue;
+          var ci = (bits >> (i << 1)) & 3, col = cols[ci], o = (cy * width + cx) << 2;
+          out[o] = col[0]; out[o + 1] = col[1]; out[o + 2] = col[2];
+          out[o + 3] = alpha ? alpha[i] : 255;
+        }
+      }
+      return out;
+    }
+
+    function wrap(orig) {
+      return function (target, level, internalformat, width, height, border, data) {
+        if ((internalformat === 33776 || internalformat === 33778 || internalformat === 33779) && data && data.length) {
+          try {
+            // 压缩纹理不受 UNPACK_FLIP_Y_WEBGL 影响,但 RGBA 上传会。临时关闭避免精灵图翻转/位移。
+            var _flip = true, _premul = false, _align = 4;
+            try {
+              _flip = this.getParameter(this.UNPACK_FLIP_Y_WEBGL);
+              _premul = this.getParameter(this.UNPACK_PREMULTIPLY_ALPHA_WEBGL);
+              _align = this.getParameter(this.UNPACK_ALIGNMENT);
+              this.pixelStorei(this.UNPACK_FLIP_Y_WEBGL, false);
+              this.pixelStorei(this.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+              this.pixelStorei(this.UNPACK_ALIGNMENT, 1);
+            } catch (e0) {}
+            var rgba = decodeBC(data, internalformat, width, height);
+            var rc = this.texImage2D(target, level, this.RGBA, width, height, 0, this.RGBA, this.UNSIGNED_BYTE, rgba);
+            try {
+              this.pixelStorei(this.UNPACK_FLIP_Y_WEBGL, _flip);
+              this.pixelStorei(this.UNPACK_PREMULTIPLY_ALPHA_WEBGL, _premul);
+              this.pixelStorei(this.UNPACK_ALIGNMENT, _align);
+            } catch (e1) {}
+            return rc;
+          } catch (e) { try { console.log('[DIAG] DXT_DECODE_ERR ' + (e && e.message)); } catch (e2) {} }
+        }
+        return orig.apply(this, arguments);
+      };
+    }
+    [window.WebGLRenderingContext, window.WebGL2RenderingContext].forEach(function (C) {
+      if (!C) return;
+      var P = C.prototype;
+      if (P.compressedTexImage2D && !P.__ugvDxt) { P.__ugvDxt = true; P.compressedTexImage2D = wrap(P.compressedTexImage2D); }
+    });
+    console.log('[DIAG] DXT_SOFTWARE_DECODE enabled');
+  })();
+
 })();

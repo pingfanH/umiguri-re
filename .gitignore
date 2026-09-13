@@ -39,3 +39,18 @@ chunithm-vcontroller/
 
 # Python 缓存
 __pycache__/
+
+# IDE
+.idea/
+
+# Tauri 生成的移动端原生工程: 仅提交源码/配置, 排除构建产物与大体积生成物
+tauri/src-tauri/gen/android/app/build/
+tauri/src-tauri/gen/android/app/src/main/assets/game_data/
+tauri/src-tauri/gen/android/app/src/main/jniLibs/
+tauri/src-tauri/gen/android/.gradle/
+tauri/src-tauri/gen/android/local.properties
+tauri/src-tauri/gen/apple/Externals/
+tauri/src-tauri/gen/apple/build/
+tauri/src-tauri/gen/apple/Pods/
+tauri/src-tauri/gen/apple/Podfile.lock
+tauri/src-tauri/gen/apple/**/xcuserdata/

@@ -46,3 +46,17 @@
     wrap('_2');
   }
 })();
+
+// [DIAG] WebGL 压缩纹理扩展检测(iOS 常缺 S3TC/DXT)
+(function () {
+  function L(m){ try{ if(window.__TAURI__&&window.__TAURI__.core&&window.__TAURI__.core.invoke) window.__TAURI__.core.invoke('diag',{msg:String(m)}).catch(function(){}); }catch(e){} console.log('[DIAG]',m); }
+  try {
+    var c = document.createElement('canvas');
+    var gl = c.getContext('webgl2') || c.getContext('webgl');
+    var exts = gl ? (gl.getSupportedExtensions() || []) : [];
+    var comp = exts.filter(function (e) { return /compress|s3tc|dxt|astc|etc|pvrtc|bptc/i.test(e); });
+    L('GL_EXTS ' + comp.join(','));
+    L('GL_VER ' + (gl ? gl.getParameter(gl.VERSION) : 'NO_GL'));
+    L('S3TC ' + (gl && gl.getExtension('WEBGL_compressed_texture_s3tc') ? 'YES' : 'NO'));
+  } catch (e) { L('GL_ERR ' + (e && e.message)); }
+})();
