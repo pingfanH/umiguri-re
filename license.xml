@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<licenses>
+  <item>three.js
+Copyright (c) 2010-2025 three.js authors
+License: MIT
+https://github.com/mrdoob/three.js</item>
+  <item>Effekseer
+Copyright (c) 2011-2025 Effekseer Project
+License: MIT
+https://github.com/effekseer/Effekseer</item>
+  <item>Audio assets
+Tap_default.wav (TAMBOURINE.wav, phwguitar / linn tambourine.wav, NoiseCollector)
+License: CC BY 3.0 https://creativecommons.org/licenses/by/3.0/</item>
+  <item>Metronome.wav (Four-times drumstick intro.wav, phwguitar)
+License: CC BY 3.0 https://creativecommons.org/licenses/by/3.0/</item>
+</licenses>

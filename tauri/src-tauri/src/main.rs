@@ -29,6 +29,7 @@ const PATH_MAP: &[(&str, &str)] = &[
     ("reverie/", "core/una/hiiragi.una/"),
     ("reverie_exField/", "core/una/natsukawa.una/"),
     ("reverie_en-US/", "core/una/sakuragi.una/"),
+    ("reverie_zh-CN/", "core/una/zh-CN.una/"),
     ("chara/", "data/characters/"),
     ("music/", "data/music/"),
     ("voices/", "data/voices/"),

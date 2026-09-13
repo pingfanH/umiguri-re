@@ -48,6 +48,15 @@ for (const [src, dst] of COPY_DIRS) {
   total += copyDir(path.join(SRC_ROOT, src), path.join(DST_ROOT, dst));
 }
 
+// 根目录零散文件(licenses 页面依赖 /license.xml)
+for (const f of ['license.xml']) {
+  const s = path.join(SRC_ROOT, f);
+  if (fs.existsSync(s)) {
+    fs.copyFileSync(s, path.join(DST_ROOT, f));
+    console.log('  复制:', s, '->', path.join(DST_ROOT, f));
+  }
+}
+
 // 生成目录清单 manifest.json(移动端 zu 目录列表依赖,WebView 无法读打包目录)
 generateManifest();
 console.log('完成, 总大小:', (total / 1048576).toFixed(1), 'MB');

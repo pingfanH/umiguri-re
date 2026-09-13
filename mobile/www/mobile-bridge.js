@@ -136,13 +136,18 @@
   }
 
   // ============ umgr_elc(文件系统 + 握手) ============
+  // 语言持久化
+  function savedLang() {
+    try { return localStorage.getItem('umg_lang') || 'ja-JP'; } catch (e) { return 'ja-JP'; }
+  }
+
   // 移动端: 资源打包进 www/assets/,用 fetch 读;握手 W=false(键盘模式)
   const handshake = {
     O: { ct: 'DEV_MOCK', B: 1650000, p9: 69 },
     I: 0, R: 8090, j: 1, M: 3, L: 0, U: false,
     P: '00 00 00 00 00 00', G: '00 00 00 00 00 00', Y: 0,
     fe: 'A1B2C3D4E5F6G7H8I9J0K;L\'M,N.O/P-RSTUWY',
-    I4: 'ja-JP', am: 0, W: false, H: 1, J: true, K: true,
+    I4: savedLang(), am: 0, W: false, H: 1, J: true, K: true,
     Z: { X: false, a1: false, d1: false, t1: false, s1: false },
     u1: '1920x1080', v1: false,
     h1: { T: '2025/05/24', rr: '16:51:06', C: '9f4d448', GA: 'Release', Ph: false },
@@ -151,6 +156,7 @@
       { name: 'ja-JP', version: 6, packageName: 'hiiragi.una' },
       { name: 'en-US', version: 6, packageName: 'sakuragi.una' },
       { name: 'exField', version: 6, packageName: 'natsukawa.una' },
+      { name: 'zh-CN', version: 6, packageName: 'zh-CN.una' },
     ],
   };
 
@@ -159,6 +165,7 @@
     ['/reverie/', 'assets/core/una/hiiragi.una/'],
     ['/reverie_exField/', 'assets/core/una/natsukawa.una/'],
     ['/reverie_en-US/', 'assets/core/una/sakuragi.una/'],
+    ['/reverie_zh-CN/', 'assets/core/una/zh-CN.una/'],
     ['/una/', 'assets/core/una/'],
     ['/chara/', 'assets/data/characters/'],
     ['/music/', 'assets/data/music/'],
@@ -269,7 +276,7 @@
     },
     g4: {
       x4: async () => {}, jc: async () => ({}), ss: async () => ({}),
-      so: async () => ({}), xo: async () => ({}), sp: async () => ({}),
+      so: async () => ({}), xo: async () => {}, sp: async (lang) => { try { localStorage.setItem('umg_lang', lang); } catch (e) {} },
     },
   };
 

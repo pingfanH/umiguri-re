@@ -36,3 +36,6 @@ mobile/www/assets/
 
 # 独立子仓库
 chunithm-vcontroller/
+
+# Python 缓存
+__pycache__/
