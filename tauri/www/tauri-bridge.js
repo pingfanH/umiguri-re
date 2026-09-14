@@ -74,12 +74,23 @@
   // 因此两套输入共用 keyState,同时兼容键盘与触摸。
 
   // 主键布局(音游 16 键: 上排 front 字母, 下排 back 数字/符号):
-  //   front(上排16): A B C D E F G H I J K L M N O P
-  //   back(下排16):  1 2 3 4 5 6 7 8 9 ; - ' , . / ]
+  //   来源: 真机握手 dump frontend/handshake_full.json 的 fe 字段(38 键):
+  //     A1 B2 C3 D4 E5 F6 G7 H8 I9 J0 K; L' M, N. O/ P-  +  air  R S T U W Y
   const MAIN_FRONT = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P'];
-  const MAIN_BACK =  ['1','2','3','4','5','6','7','8','9',';','-',"'",',','.','/',']'];
+  const MAIN_BACK =  ['1','2','3','4','5','6','7','8','9','0',';',"'",',','.','/','-'];
   const AIR_KEYS =  ['R','S','T','U','W','Y'];
   const AIR_H = 64; // air 横条高度(间隔),可调
+
+  // 直接档位映射: 面板按键 -> 游戏档位序号, 绕过 VK/DIK 间接层。
+  // 档位序号 = 握手 fe 串里的字符位置(游戏 I1 模块的 s[t])。
+  // 游戏侧在输入刷新时读取 window.__umgLanes[t], 因此面板按下即等同于该档位按下。
+  const FE_KEYMAP = 'A1B2C3D4E5F6G7H8I9J0K;\'M,N.O/P-RSTUWY';
+  const VK_LANE = new Map();
+  FE_KEYMAP.split('').forEach((c, i) => VK_LANE.set(kbdUni2Virt(c.charCodeAt(0)), i));
+  window.__umgLanes = new Uint8Array(40);
+
+  // 虚拟按键的全部可调参数与可视化编辑器见下方 "虚拟按键参数" 段,
+  // 由游戏内「测试菜单」调用 window.umgKeyPanel.openEditor() 打开。
 
   function charToVk(c) {
     return kbdUni2Virt(c.charCodeAt(0));
@@ -127,15 +138,23 @@
     }
   });
 
+  // 导航键显示名(戻/OK 按用户习惯显示为 Test/Service)
+  function navLabel(vk) {
+    if (vk === 27) return 'Test';
+    if (vk === 13) return 'Service';
+    return vkToLabel(vk);
+  }
+
   function mkKey(vk, kind) {
     const b = document.createElement('div');
     b.dataset.vk = vk;
     b.dataset.kind = kind;
     const NOSEL = 'user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-user-drag:none;';
+    const st = panelCfg;
     if (kind === 'air') {
       // air 横条: 判定线(横线)在判定区中间,更透明
       b.style.cssText =
-        'position:relative;width:100%;height:' + AIR_H + 'px;cursor:pointer;box-sizing:border-box;' + NOSEL;
+        'position:relative;width:100%;height:' + st.airH + 'px;cursor:pointer;box-sizing:border-box;' + NOSEL;
       const bar = document.createElement('div');
       bar.className = 'ugv-bar';
       bar.style.cssText =
@@ -148,26 +167,65 @@
       b.style.cssText =
         'display:flex;align-items:center;justify-content:center;' +
         'border-right:1px solid rgba(128,128,128,0.4);border-bottom:1px solid rgba(128,128,128,0.4);' +
-        'color:rgba(255,255,255,0.6);font:bold 14px/1 system-ui;cursor:pointer;touch-action:none;' +
+        'color:rgba(255,255,255,' + st.label + ');font:bold 14px/1 system-ui;cursor:pointer;touch-action:none;' +
         'box-sizing:border-box;' + NOSEL;
     } else {
       // 功能键: 灰色半透明
-      b.textContent = vkToLabel(vk);
+      b.textContent = navLabel(vk);
       b.style.cssText =
         'min-width:64px;height:176px;display:flex;align-items:center;justify-content:center;' +
         'background:rgba(128,128,128,0.15);border:1px solid rgba(128,128,128,0.4);' +
-        'color:rgba(255,255,255,0.6);font:bold 15px/1 system-ui;cursor:pointer;touch-action:none;' +
+        'color:rgba(255,255,255,' + st.label + ');font:bold 15px/1 system-ui;cursor:pointer;touch-action:none;' +
         'box-sizing:border-box;' + NOSEL;
     }
+    b.style.opacity = String(st.alpha);
     return b;
   }
 
-  function touchPress(vk) { touchState.add(vk); }
-  function touchRelease(vk) { touchState.delete(vk); }
+  function touchPress(vk) {
+    touchState.add(vk);
+    const lane = VK_LANE.get(vk);
+    if (lane !== undefined) window.__umgLanes[lane] = 1;
+  }
+  function touchRelease(vk) {
+    touchState.delete(vk);
+    const lane = VK_LANE.get(vk);
+    if (lane !== undefined) window.__umgLanes[lane] = 0;
+  }
 
   // 范围触发: 手指按下为一个原点(圆心),以半径为范围,凡与圆接触的按钮/air 都触发
   const IS_MOBILE = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  const TOUCH_RADIUS = IS_MOBILE ? 10 : 25; // 触摸原点半径(px),移动端更小
+
+  // ============ 虚拟按键参数(由测试菜单的编辑器实时调整, 持久化) ============
+  // 单位说明:
+  //   容器 px  —— 面板在缩放过的 #main_container 内, 桌面 1:1, 手机约 0.33(1920 宽缩到 ~630)
+  //   视口 px  —— 触摸坐标(getBoundingClientRect / clientX), 与屏幕像素一致
+  const PANEL_DEFAULTS = {
+    rowH: 192,          // 按钮高度
+    colGap: 0,          // 每列间距(整体宽度固定 -> 间距变大则按钮变窄)
+    airH: 64,           // air 条高度
+    airGap: 16,         // air 区与按键区(button)的距离: 0 = 紧贴
+    airRowGap: 0,       // air 各判定区(横条)之间的间距
+    bottomInset: 30,    // 按键区距屏幕底边距离(视口 px, 用于避开手势条)
+    radius: IS_MOBILE ? 10 : 25, // 范围触发圆半径(视口 px)
+    alpha: 1,           // 整体不透明度
+    label: 0.6,         // 字色透明度
+    bg: 0.08,           // 面板底色透明度
+    showGuide: true,    // 显示「参考圆」
+    showHit: false,     // 高亮「范围触发」实际命中的键(由设置页的开关控制)
+  };
+  let panelCfg = Object.assign({}, PANEL_DEFAULTS);
+  try { Object.assign(panelCfg, JSON.parse(localStorage.getItem('umg_kbd_cfg') || '{}')); } catch (e) {}
+  let TOUCH_RADIUS = panelCfg.radius; // 圆心为手指, 圆内相交的键都触发
+  function savePanelCfg() {
+    try { localStorage.setItem('umg_kbd_cfg', JSON.stringify(panelCfg)); } catch (e) {}
+  }
+  // #main_container 的缩放比(1 单位容器 px = 多少视口 px)
+  function panelScale() {
+    const mc = document.getElementById('main_container');
+    const r = mc ? mc.getBoundingClientRect() : null;
+    return r && r.width ? r.width / 1920 : 1;
+  }
 
   // 多指支持: 每个 pointerId 独立记录其命中(圆形范围)的按键, 取并集写入 touchState。
   // 单指滑动切换按键、多指同时按不同键都能正确工作。
@@ -184,11 +242,14 @@
     }
   }
 
+  // 命中检测: 以手指为圆心、TOUCH_RADIUS 为半径, 凡与该圆相交的键都触发(原始语义)。
+  // 一次触摸可同时触发多个相邻档位 —— 这是刻意行为(手指覆盖多键)。
+  // 保留的修正: 跳过 display:none 的 0×0 隐藏键(否则会误判左上角)。
   function keysInCircle(x, y) {
-    const keys = document.querySelectorAll('[data-vk]');
     const result = [];
-    for (const k of keys) {
+    for (const k of document.querySelectorAll('[data-vk]')) {
       const r = k.getBoundingClientRect();
+      if (!r.width || !r.height) continue;
       const cx = Math.max(r.left, Math.min(x, r.right));
       const cy = Math.max(r.top, Math.min(y, r.bottom));
       const dx = x - cx, dy = y - cy;
@@ -225,6 +286,7 @@
   document.addEventListener('pointerdown', (e) => {
     // 触摸/触控笔: 阻止长按选择、拖拽默认行为; 鼠标不拦截(避免破坏桌面端 click)
     if (e.pointerType !== 'mouse' && e.cancelable) e.preventDefault();
+    flashCircle(e.clientX, e.clientY); // 编辑器开启「实际触发可视化」时闪现圆
     updatePointer(e.pointerId, e.clientX, e.clientY);
   }, { passive: false });
   document.addEventListener('pointermove', (e) => {
@@ -246,28 +308,43 @@
     if (e.target && e.target.closest && e.target.closest('#ugv_keys')) e.preventDefault();
   });
 
+  // 底部安全距离: 避开 Android 手势条/导航栏(移动端最下一排曾被系统手势截走)。
+  // 面板在缩放过的 #main_container 内, 故需按容器缩放换算成容器坐标。
+  function panelBottomInset() {
+    return Math.round(panelCfg.bottomInset / panelScale());
+  }
+
   function ensureKeyPanel() {
+    clearHits(); // 面板重建后旧的命中引用失效
     if (keyPanel) keyPanel.remove();
     keyPanel = document.createElement('div');
     keyPanel.id = 'ugv_keys';
     keyPanel.style.cssText =
       'position:absolute;left:0;right:0;top:0;bottom:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;' +
       'pointer-events:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none;';
+    keyPanel.style.paddingBottom = panelBottomInset() + 'px';
     (document.getElementById('main_container') || document.body).appendChild(keyPanel);
 
     // AIR 区域: 宽度占满游戏窗口(100vw),横条竖排,判定线在中间
     // 始终按配置(AIR_KEYS)渲染全部 air 键,不做运行时过滤,保证与配置一致
     const airBox = document.createElement('div');
     airBox.style.cssText = 'width:100%;display:flex;flex-direction:column;pointer-events:auto;';
-    for (const vk of AIR_KEYS.map(charToVk)) airBox.appendChild(mkKey(vk, 'air'));
+    const airVks = AIR_KEYS.map(charToVk);
+    airVks.forEach((vk, i) => {
+      const el = mkKey(vk, 'air');
+      if (panelCfg.airRowGap > 0 && i < airVks.length - 1) el.style.marginBottom = panelCfg.airRowGap + 'px';
+      airBox.appendChild(el);
+    });
     keyPanel.appendChild(airBox);
 
     // 主键区域: 固定 16 列 × 2 行, 位置严格对应配置顺序(MAIN_FRONT / MAIN_BACK),
     // 不按运行时采集结果过滤,避免按键缺失导致整体错位。
     const grid = document.createElement('div');
+    const st = panelCfg;
     grid.style.cssText =
-      'margin:16px auto 0;display:grid;grid-template-columns:repeat(16,1fr);grid-template-rows:repeat(2,192px);' +
-      'width:66.6667%;background:rgba(128,128,128,0.08);' +
+      'margin:' + st.airGap + 'px auto 0;display:grid;grid-template-columns:repeat(16,1fr);column-gap:' + st.colGap + 'px;' +
+      'grid-template-rows:repeat(2,' + st.rowH + 'px);' +
+      'width:66.6667%;background:rgba(128,128,128,' + st.bg + ');' +
       'border:1px solid rgba(128,128,128,0.4);pointer-events:auto;box-sizing:border-box;';
     MAIN_FRONT.concat(MAIN_BACK).map(charToVk).forEach((vk, i) => {
       const c = mkKey(vk, 'cell');
@@ -278,8 +355,8 @@
     keyPanel.appendChild(grid);
 
     // 功能键: 左上角
-    //   第一行(横向): Esc, Enter
-    //   第二行: [FN] 按钮, 点击横向弹出 F1-F5, 再点收回
+    //   第一行(横向): Test(Esc), Service(Enter)
+    //   第三行: [FN] 按钮, 点击横向弹出 F1-F5, 再点收回
     const navBox = document.createElement('div');
     navBox.style.cssText =
       'position:absolute;left:8px;top:112px;display:flex;flex-direction:column;gap:6px;pointer-events:auto;';
@@ -302,7 +379,7 @@
     const row1 = navRow();
     for (const vk of [27, 13]) row1.appendChild(mkKey(vk, 'nav'));
     navBox.appendChild(row1);
-    // 第二行: FN + 可展开的 F1-F5
+    // 第三行: FN + 可展开的 F1-F5
     const row2 = navRow();
     const fnBtn = mkFnBtn('FN');
     const fWrap = document.createElement('div');
@@ -424,7 +501,7 @@
     O: { ct: 'PINGFANH', B: 1650000, p9: 69 },
     I: 0, R: 8090, j: 1, M: 3, L: 0, U: false,
     P: '00 00 00 00 00 00', G: '00 00 00 00 00 00', Y: 0,
-    fe: 'A1B2C3D4E5F6G7H8I9J0K;L\'M,N.O/P-RSTUWY]',
+    fe: 'A1B2C3D4E5F6G7H8I9J0K;L\'M,N.O/P-RSTUWY',
     I4: savedLang(), am: 0, W: true, H: 1, J: true, K: true,
     Z: { X: false, a1: false, d1: false, t1: false, s1: false },
     u1: '1920x1080', v1: false,
@@ -495,6 +572,343 @@
   window.di8KbdUpdate = () => 0;
   window.di8KbdHeld = di8KbdHeld;
   window.di8KbdShutdown = () => 0;
+
+  // 虚拟键盘样式 API: 供游戏内「测试菜单」等外部调用。
+  //   umgKeyPanel.count       样式数量
+  //   umgKeyPanel.index       当前索引
+  //   umgKeyPanel.name()      当前样式名
+  //   umgKeyPanel.set(i)      设为第 i 种(持久化并立即重绘)
+  //   umgKeyPanel.next()      切到下一种, 返回样式名
+  // ============ 虚拟按键可视化编辑器(测试菜单入口) ============
+  const EDITOR_ROWS = [
+    { key: 'rowH', label: '按钮高度', min: 60, max: 360, step: 8 },
+    { key: 'colGap', label: '每列间距', min: 0, max: 24, step: 2 },
+    { key: 'airH', label: 'air 条高度', min: 16, max: 140, step: 4 },
+    { key: 'airGap', label: 'air 距底边', min: 0, max: 80, step: 4 },
+    { key: 'airRowGap', label: 'air 间距', min: 0, max: 40, step: 2 },
+    { key: 'bottomInset', label: '距屏幕底边', min: 0, max: 120, step: 4, unit: 'px' },
+    { key: 'radius', label: '范围触发半径', min: 0, max: 60, step: 1, unit: 'px' },
+    { key: 'alpha', label: '整体不透明度', min: 0.2, max: 1, step: 0.05, fixed: 2 },
+    { key: 'bg', label: '底色透明度', min: 0, max: 0.4, step: 0.02, fixed: 2 },
+    { key: 'label', label: '字色透明度', min: 0.2, max: 1, step: 0.05, fixed: 2 },
+  ];
+  let editorEl = null, guideEl = null, editorRowsEl = null;
+  let guidePos = null;      // 「触发距离」行坐标(容器坐标)
+  let panelRows = null;     // 设置页各行坐标(容器坐标) [{x,y,w,h}]
+  let panelRowIndex = 0;    // 当前选中行
+  let rowCursorEl = null;
+
+  // 测试菜单白色 UI 的触摸区(容器坐标) -> 菜单输入位
+  //   ↓(320) ↑(560) 左(800) 右(1040) 決定(1280), 每个 240 宽, y=950..1060
+  const PAD_RECTS = [
+    { x: 320, w: 240, bit: 1 },                    // ↓
+    { x: 560, w: 240, bit: 2 },                    // ↑
+    { x: 800, w: 240, bit: 8 },                    // ← 数值 −
+    { x: 1040, w: 240, bit: 16 },                  // → 数值 +
+    { x: 1280, w: 320, bit: 536870912 },           // Service(決定)
+  ];
+  window.__umgPad = 0;      // 一帧脉冲(游戏侧 g() 消费后清零)
+  let padStamp = 0;
+  window.__umgPadAt = function (cx, cy) {
+    const mc = document.getElementById('main_container');
+    const mr = mc ? mc.getBoundingClientRect() : null;
+    const scale = mr && mr.width ? mr.width / 1920 : 1;
+    const x = cx / scale, y = cy / scale;
+    if (y < 940 || y > 1070) return 0;
+    for (const r of PAD_RECTS) {
+      if (x >= r.x && x < r.x + r.w) {
+        window.__umgPad = r.bit;
+        padStamp = performance.now();
+        return r.bit;
+      }
+    }
+    return 0;
+  };
+  window.__umgPadTake = function () {
+    if (window.__umgPad && performance.now() - padStamp < 250) {
+      const b = window.__umgPad;
+      window.__umgPad = 0;
+      return b;
+    }
+    window.__umgPad = 0;
+    return 0;
+  };
+  let lastHits = [];
+  let settingsActive = false; // 原生设置页/编辑器开启时为 true: 启用命中可视化
+  let nativeSettings = false;  // 原生测试页模式: 强制显示白圈与命中可视化(不受持久化开关影响)
+
+  // 白色空心圆: 仅作「范围触发距离」的尺寸参考, 显示在旁边(不参与交互)
+  function ensureGuide(on) {
+    if (!on) {
+      if (guideEl) { guideEl.remove(); guideEl = null; }
+      return;
+    }
+    if (!guideEl) {
+      guideEl = document.createElement('div');
+      guideEl.id = 'ugv_guide';
+      guideEl.style.cssText =
+        'position:fixed;border:2px solid #fff;border-radius:50%;box-sizing:border-box;' +
+        'pointer-events:none;z-index:100002;opacity:.9;';
+      document.body.appendChild(guideEl);
+    }
+    const r = TOUCH_RADIUS;
+    const mc = document.getElementById('main_container');
+    const mr = mc ? mc.getBoundingClientRect() : { left: 0, top: 0, right: innerWidth, bottom: innerHeight, width: innerWidth };
+    // 放在「设置选项下方」: 左对齐, 紧贴虚拟按键面板上沿之上
+    const scale = mr.width ? mr.width / 1920 : 1;
+    let left, top;
+    if (guidePos) {
+      // 放在「触发距离」文字右边, 垂直居中于该行
+      left = mr.left + (guidePos.x + (guidePos.w || 0) + 10) * scale;
+      top = mr.top + (guidePos.y + (guidePos.h || 0) / 2) * scale - r;
+    } else {
+      const kp = document.getElementById('ugv_keys');
+      const kr = kp ? kp.getBoundingClientRect() : null;
+      const panelTop = kr && kr.height ? kr.top : mr.bottom;
+      left = mr.left + 16;
+      top = Math.max(mr.top + 8, panelTop - 2 * r - 14);
+    }
+    guideEl.style.width = (2 * r) + 'px';
+    guideEl.style.height = (2 * r) + 'px';
+    guideEl.style.left = Math.round(left) + 'px';
+    guideEl.style.top = Math.round(top) + 'px';
+  }
+
+  function clearHits() {
+    for (const k of lastHits) k.style.outline = '';
+    lastHits = [];
+  }
+  function updateHits(x, y) {
+    clearHits();
+    if (!settingsActive || !panelCfg.showHit) return;
+    lastHits = keysInCircle(x, y);
+    for (const k of lastHits) {
+      k.style.outline = '2px solid #ffd400';
+      k.style.outlineOffset = '-1px';
+    }
+  }
+  // 真实触摸处的「实际触发圆」(短暂闪现, 便于对照参考圆)
+  function flashCircle(x, y) {
+    if (!settingsActive || !panelCfg.showHit) return;
+    const d = document.createElement('div');
+    const r = TOUCH_RADIUS;
+    d.style.cssText =
+      'position:fixed;left:' + (x - r) + 'px;top:' + (y - r) + 'px;width:' + (2 * r) + 'px;height:' + (2 * r) +
+      'px;border:1px solid rgba(255,212,0,0.9);border-radius:50%;pointer-events:none;z-index:100002;transition:opacity .5s;';
+    document.body.appendChild(d);
+    setTimeout(() => { d.style.opacity = '0'; }, 250);
+    setTimeout(() => { d.remove(); }, 800);
+  }
+
+  function refreshEditor() {
+    if (!editorEl) return;
+    for (const row of EDITOR_ROWS) {
+      const v = editorEl.querySelector('[data-v="' + row.key + '"]');
+      if (v) v.textContent = Number(panelCfg[row.key]).toFixed(row.fixed || 0);
+    }
+    clearHits();
+    ensureGuide(panelCfg.showGuide);
+  }
+
+  // 选中行指示: 箭头「▶」+ (第 7 行)「返回」项
+  function updateRowCursor() {
+    if (!panelRows || !panelRows.length) {
+      if (rowCursorEl) { rowCursorEl.remove(); rowCursorEl = null; }
+      return;
+    }
+    const mc = document.getElementById('main_container');
+    const mr = mc ? mc.getBoundingClientRect() : null;
+    const scale = mr && mr.width ? mr.width / 1920 : 1;
+    const ox = mr ? mr.left : 0, oy = mr ? mr.top : 0;
+    if (!rowCursorEl) {
+      rowCursorEl = document.createElement('div');
+      rowCursorEl.id = 'ugv_rowcur';
+      rowCursorEl.style.cssText = 'position:fixed;left:0;top:0;pointer-events:none;z-index:100000;color:#fff;';
+      document.body.appendChild(rowCursorEl);
+    }
+    const n = panelRows.length;
+    const r0 = panelRows[0];
+    const rowh = n > 1 ? (panelRows[1].y - panelRows[0].y) : 30;
+    const onBack = panelRowIndex >= n;
+    const rowY = onBack ? (r0.y + rowh * n) : panelRows[Math.max(0, Math.min(panelRowIndex, n - 1))].y;
+    const h = r0.h || rowh;
+    rowCursorEl.innerHTML = '';
+    const arrow = document.createElement('div');
+    arrow.textContent = '▶';
+    arrow.style.cssText = 'position:absolute;font:700 16px system-ui,sans-serif;color:#fff;' +
+      'left:' + Math.round(ox + (r0.x - 26) * scale) + 'px;' +
+      'top:' + Math.round(oy + (rowY + h / 2) * scale - 9) + 'px;';
+    rowCursorEl.appendChild(arrow);
+    if (onBack) {
+      const t = document.createElement('div');
+      t.textContent = '返回';
+      t.style.cssText = 'position:absolute;font:700 18px system-ui,sans-serif;color:#fff;' +
+        'left:' + Math.round(ox + r0.x * scale) + 'px;' +
+        'top:' + Math.round(oy + (rowY + h / 2) * scale - 11) + 'px;';
+      rowCursorEl.appendChild(t);
+    }
+  }
+
+  function closeKeyPanelEditor() {
+    settingsActive = false;
+    clearHits();
+    ensureGuide(false);
+    if (editorEl) { editorEl.remove(); editorEl = null; guideEl = null; editorRowsEl = null; }
+  }
+
+  function openKeyPanelEditor() {
+    nativeSettings = false;
+    settingsActive = true;
+    if (editorEl) { refreshEditor(); return; }
+    editorEl = document.createElement('div');
+    editorEl.id = 'ugv_editor';
+    editorEl.style.cssText =
+      'position:fixed;left:0;right:0;top:0;bottom:0;z-index:100001;pointer-events:none;' +
+      'font:13px/1.5 system-ui,sans-serif;color:#fff;user-select:none;-webkit-user-select:none;';
+    document.body.appendChild(editorEl);
+
+    // 控件面板(左上)
+    const box = document.createElement('div');
+    box.style.cssText =
+      'position:absolute;left:10px;top:10px;width:300px;max-height:calc(100% - 20px);overflow:auto;pointer-events:auto;' +
+      'background:rgba(0,0,0,0.78);border:1px solid rgba(255,255,255,0.25);border-radius:8px;padding:10px;';
+    box.appendChild(Object.assign(document.createElement('div'), {
+      textContent: '虚拟按键设置',
+      style: 'font-weight:700;font-size:15px;margin-bottom:6px;',
+    }));
+    box.appendChild(Object.assign(document.createElement('div'), {
+      textContent: '旁边白圈 = 范围触发距离(直径)。页面上直接触摸面板可看实际命中。',
+      style: 'font-size:11px;opacity:.75;margin-bottom:8px;',
+    }));
+
+    editorRowsEl = document.createElement('div');
+    for (const row of EDITOR_ROWS) {
+      const line = document.createElement('div');
+      line.style.cssText = 'display:flex;align-items:center;gap:6px;margin:3px 0;';
+      line.appendChild(Object.assign(document.createElement('span'), {
+        textContent: row.label, style: 'flex:1;font-size:12px;opacity:.9;',
+      }));
+      const mk = (txt) => {
+        const b = document.createElement('button');
+        b.textContent = txt;
+        b.style.cssText =
+          'width:26px;height:24px;background:#333;color:#fff;border:1px solid #666;border-radius:4px;cursor:pointer;pointer-events:auto;';
+        return b;
+      };
+      const dec = mk('−'), inc = mk('+');
+      const val = Object.assign(document.createElement('span'), {
+        textContent: '0',
+        style: 'width:46px;text-align:right;font-variant-numeric:tabular-nums;',
+      });
+      val.dataset.v = row.key;
+      dec.addEventListener('click', () => {
+        window.umgKeyPanel.set({ [row.key]: +(Number(panelCfg[row.key]) - row.step).toFixed(3) });
+      });
+      inc.addEventListener('click', () => {
+        window.umgKeyPanel.set({ [row.key]: +(Number(panelCfg[row.key]) + row.step).toFixed(3) });
+      });
+      val.addEventListener('click', () => {
+        // 点数值可循环回默认
+        window.umgKeyPanel.set({ [row.key]: PANEL_DEFAULTS[row.key] });
+      });
+      line.appendChild(dec); line.appendChild(val); line.appendChild(inc);
+      editorRowsEl.appendChild(line);
+    }
+    box.appendChild(editorRowsEl);
+
+    const mkToggle = (label, key) => {
+      const l = document.createElement('label');
+      l.style.cssText = 'display:flex;align-items:center;gap:6px;margin:6px 0;cursor:pointer;';
+      const c = document.createElement('input');
+      c.type = 'checkbox';
+      c.checked = !!panelCfg[key];
+      c.addEventListener('change', () => window.umgKeyPanel.set({ [key]: c.checked }));
+      l.appendChild(c);
+      l.appendChild(Object.assign(document.createElement('span'), { textContent: label, style: 'font-size:12px;' }));
+      return l;
+    };
+    box.appendChild(mkToggle('显示参考圆(半径)', 'showGuide'));
+    box.appendChild(mkToggle('高亮实际命中的键 + 触摸圆圈', 'showHit'));
+
+    const btns = document.createElement('div');
+    btns.style.cssText = 'display:flex;gap:8px;margin-top:10px;';
+    const mkBtn = (label, fn) => {
+      const b = document.createElement('button');
+      b.textContent = label;
+      b.style.cssText =
+        'flex:1;padding:7px 8px;background:#2d6cdf;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:12px;pointer-events:auto;';
+      b.addEventListener('click', fn);
+      return b;
+    };
+    btns.appendChild(mkBtn('恢复默认', () => window.umgKeyPanel.reset()));
+    btns.appendChild(mkBtn('关闭', () => closeKeyPanelEditor()));
+    box.appendChild(btns);
+    editorEl.appendChild(box);
+
+    // 白色空心圆: 放在控件面板旁边, 直径 = 范围触发距离(视口 px)
+    guideEl = document.createElement('div');
+    guideEl.id = 'ugv_guide';
+    guideEl.style.cssText =
+      'position:absolute;left:330px;top:24px;border:2px solid #fff;border-radius:50%;pointer-events:none;' +
+      'box-sizing:border-box;opacity:.9;';
+    const glabel = document.createElement('div');
+    glabel.textContent = '触发圆';
+    glabel.style.cssText =
+      'position:absolute;left:0;right:0;bottom:-16px;text-align:center;font-size:11px;color:#fff;opacity:.8;';
+    guideEl.appendChild(glabel);
+    editorEl.appendChild(guideEl);
+
+    refreshEditor();
+  }
+
+  // 虚拟按键参数 API: 供游戏内「测试菜单」调用。
+  window.umgKeyPanel = {
+    defaults() { return Object.assign({}, PANEL_DEFAULTS); },
+    get() { return Object.assign({}, panelCfg); },
+    set(patch) {
+      for (const k of Object.keys(patch || {})) {
+        if (k in PANEL_DEFAULTS) panelCfg[k] = patch[k];
+      }
+      TOUCH_RADIUS = panelCfg.radius;
+      savePanelCfg();
+      if (panelBuilt) ensureKeyPanel();
+      refreshEditor();
+      return Object.assign({}, panelCfg);
+    },
+    reset() { return window.umgKeyPanel.set(Object.assign({}, PANEL_DEFAULTS)); },
+    radius() { return TOUCH_RADIUS; },
+    setRadius(px) { return window.umgKeyPanel.set({ radius: Number(px) }).radius; },
+    openEditor() { openKeyPanelEditor(); },
+    closeEditor() { closeKeyPanelEditor(); },
+    isEditorOpen() { return !!editorEl; },
+    // 原生设置页(游戏测试菜单)进入/离开: 只显示白色参考圆 + 命中可视化
+    settingsBegin() { nativeSettings = true; settingsActive = true; ensureGuide(true); },
+    setViz(on) { return window.umgKeyPanel.set({ showHit: !!on }).showHit; },
+    // 由游戏传入「触发距离」行的容器坐标, 用于把白色参考圆摆到该文字右边
+    setGuidePos(x, y, w, h) { guidePos = { x: x, y: y, w: w, h: h }; if (guideEl) ensureGuide(true); return guidePos; },
+    settingsEnd() {
+      nativeSettings = false; settingsActive = false; clearHits(); ensureGuide(false);
+      if (rowCursorEl) { rowCursorEl.remove(); rowCursorEl = null; }
+      panelRows = null;
+    },
+    // 游戏上报设置页各行坐标与当前选中行
+    setRows(rows, index) {
+      panelRows = Array.isArray(rows) ? rows : null;
+      panelRowIndex = Number(index) || 0;
+      updateRowCursor();
+      return panelRows ? panelRows.length : 0;
+    },
+    // 按步长循环调整某项(带 min/max 环绕), 供原生菜单的「决定」键调用
+    cycle(key, dir) {
+      const row = EDITOR_ROWS.find((r) => r.key === key);
+      if (!row) return null;
+      const step = row.step * (dir < 0 ? -1 : 1);
+      let v = Number(panelCfg[key]) + step;
+      if (v > row.max + 1e-9) v = row.min;
+      if (v < row.min - 1e-9) v = row.max;
+      return window.umgKeyPanel.set({ [key]: +v.toFixed(3) })[key];
+    },
+  };
   // 串口 mock
   window.ugSerialCreate = () => 1;
   window.ugSerialOpen = () => false;

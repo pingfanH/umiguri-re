@@ -168,7 +168,7 @@
     O: { ct: 'DEV_MOCK', B: 1650000, p9: 69 },
     I: 0, R: 8090, j: 1, M: 3, L: 0, U: false,
     P: '00 00 00 00 00 00', G: '00 00 00 00 00 00', Y: 0,
-    fe: 'A1B2C3D4E5F6G7H8I9J0K;L\'M,N.O/P-RSTUWY]',
+    fe: 'A1B2C3D4E5F6G7H8I9J0K;L\'M,N.O/P-RSTUWY',
     I4: savedLang(), am: 0, W: false, H: 1, J: true, K: true,
     Z: { X: false, a1: false, d1: false, t1: false, s1: false },
     u1: '1920x1080', v1: false,

@@ -16,34 +16,137 @@ fn data_root() -> PathBuf {
     default_data_root()
 }
 
-// Android: 游戏数据打进 APK 的 assets/game_data/,首次启动解压到 app 内部 files 目录。
-// 不 panic:任何失败都只记录日志。
+// Android: 游戏数据打进 APK 的 assets/game_data/。
+// 读取顺序: 可写层(见 default_data_root) -> APK 资产。默认【不解压】。
+//
+// 可写层(存档/配置 + data 的额外补丁 + core 的缓存/覆盖)放在用户可见的公共目录:
+//   /storage/emulated/0/Documents/UMIGURI/{core,data,terms,caches}
+// 拿不到「所有文件访问」权限时依次回退到 应用外部私有目录 -> 内部 files。
+#[cfg(target_os = "android")]
+const APK_ASSET_BASE: &str = "game_data";
+
+#[cfg(target_os = "android")]
+fn java_path_of(env: &mut jni::JNIEnv, obj: jni::objects::JObject) -> Option<PathBuf> {
+    if obj.is_null() {
+        return None;
+    }
+    let p = env
+        .call_method(obj, "getAbsolutePath", "()Ljava/lang/String;", &[])
+        .ok()?
+        .l()
+        .ok()?;
+    let s: String = env.get_string(&p.into()).ok()?.into();
+    Some(PathBuf::from(s))
+}
+
+// 公共 Documents 目录(多为 /storage/emulated/0/Documents)
+#[cfg(target_os = "android")]
+fn env_public_documents() -> Option<PathBuf> {
+    use jni::objects::{JString, JValue};
+    let ctx = tauri::tao::platform::android::prelude::main_android_context()?;
+    let vm = unsafe { jni::JavaVM::from_raw(ctx.java_vm.cast()) }.ok()?;
+    let mut env = vm.attach_current_thread().ok()?;
+    let cls = env.find_class("android/os/Environment").ok()?;
+    let key: JString = env.new_string("Documents").ok()?;
+    let file = env
+        .call_static_method(
+            &cls,
+            "getExternalStoragePublicDirectory",
+            "(Ljava/lang/String;)Ljava/io/File;",
+            &[JValue::Object(&key)],
+        )
+        .ok()?
+        .l()
+        .ok()?;
+    java_path_of(&mut env, file)
+}
+
+// 应用外部私有目录(/storage/emulated/0/Android/data/<pkg>/files)
+#[cfg(target_os = "android")]
+fn android_external_files_dir() -> Option<PathBuf> {
+    use jni::objects::{JObject, JValue};
+    let ctx = tauri::tao::platform::android::prelude::main_android_context()?;
+    let vm = unsafe { jni::JavaVM::from_raw(ctx.java_vm.cast()) }.ok()?;
+    let mut env = vm.attach_current_thread().ok()?;
+    let context = unsafe { JObject::from_raw(ctx.context_jobject.cast()) };
+    let null = JObject::null();
+    let file = env
+        .call_method(
+            context,
+            "getExternalFilesDir",
+            "(Ljava/lang/String;)Ljava/io/File;",
+            &[JValue::Object(&null)],
+        )
+        .ok()?
+        .l()
+        .ok()?;
+    java_path_of(&mut env, file)
+}
+
+#[cfg(target_os = "android")]
+fn ensure_writable(dir: &Path) -> bool {
+    if std::fs::create_dir_all(dir).is_err() {
+        return false;
+    }
+    let probe = dir.join(".umg_write_test");
+    match std::fs::write(&probe, b"1") {
+        Ok(_) => {
+            let _ = std::fs::remove_file(&probe);
+            true
+        }
+        Err(_) => false,
+    }
+}
+
+#[cfg(target_os = "android")]
+fn ensure_layout(root: &Path) {
+    for d in ["core", "data", "terms", "caches"] {
+        let _ = std::fs::create_dir_all(root.join(d));
+    }
+}
+
 #[cfg(target_os = "android")]
 fn default_data_root() -> PathBuf {
-    use std::sync::OnceLock;
-    static ROOT: OnceLock<PathBuf> = OnceLock::new();
-    ROOT.get_or_init(|| {
-        let fallback = PathBuf::from("/data/local/tmp/umg_no_data");
-        let files = match android_files_dir() {
-            Some(f) => f,
-            None => {
-                eprintln!("[umg] android_files_dir failed");
-                return fallback;
-            }
-        };
-        let dst = files.join("game_data");
-        if !dst.join("core").is_dir() {
-            match extract_apk_assets("game_data", &dst) {
-                Ok(n) => eprintln!("[umg] game_data extracted ({n} files) -> {}", dst.display()),
-                Err(e) => {
-                    eprintln!("[umg] extract game_data failed: {e}");
-                    return fallback;
+    // 旧行为(可选): 首启把 APK 资产解压到内部目录
+    if std::env::var("UMG_EXTRACT").as_deref() == Ok("1") {
+        if let Some(files) = android_files_dir() {
+            let dst = files.join("game_data");
+            if !dst.join("core").is_dir() {
+                match extract_apk_assets(APK_ASSET_BASE, &dst) {
+                    Ok(n) => eprintln!("[umg] game_data extracted ({n} files) -> {}", dst.display()),
+                    Err(e) => eprintln!("[umg] extract game_data failed: {e}"),
                 }
             }
+            return dst;
         }
-        dst
-    })
-    .clone()
+    }
+    // 1) 公共 Documents/UMIGURI
+    if let Some(docs) = env_public_documents() {
+        let root = docs.join("UMIGURI");
+        if ensure_writable(&root) {
+            eprintln!("[umg] data root = {} (Documents)", root.display());
+            ensure_layout(&root);
+            return root;
+        }
+        eprintln!(
+            "[umg] Documents 不可写(可能缺「所有文件访问」权限): {}",
+            root.display()
+        );
+    }
+    // 2) 应用外部私有目录
+    if let Some(ext) = android_external_files_dir() {
+        let root = ext.join("UMIGURI");
+        if ensure_writable(&root) {
+            eprintln!("[umg] data root = {} (external files)", root.display());
+            ensure_layout(&root);
+            return root;
+        }
+    }
+    // 3) 内部 files
+    let files = android_files_dir().unwrap_or_else(|| PathBuf::from("/data/local/tmp/umg_no_data"));
+    eprintln!("[umg] data root = {} (internal)", files.display());
+    ensure_layout(&files);
+    files
 }
 
 #[cfg(target_os = "android")]
@@ -65,6 +168,141 @@ fn android_files_dir() -> Option<PathBuf> {
         .ok()?;
     let s: String = env.get_string(&path.into()).ok()?.into();
     Some(PathBuf::from(s))
+}
+
+// ============ APK assets 只读访问(免解压) ============
+// .una/.arc 在 build.gradle.kts 里声明为 noCompress -> 以 Stored 入包,
+// 因此可用 AAsset 做 seek/偏移读, 满足游戏的 fs_size/fs_read 语义。
+
+#[cfg(target_os = "android")]
+fn asset_manager_ptr() -> Option<*mut ndk_sys::AAssetManager> {
+    use std::sync::OnceLock;
+    static PTR: OnceLock<Option<usize>> = OnceLock::new();
+    PTR.get_or_init(|| {
+        let ctx = tauri::tao::platform::android::prelude::main_android_context()?;
+        let vm = unsafe { jni::JavaVM::from_raw(ctx.java_vm.cast()) }.ok()?;
+        let mut env = vm.attach_current_thread().ok()?;
+        let context = unsafe { jni::objects::JObject::from_raw(ctx.context_jobject.cast()) };
+        let java_am = env
+            .call_method(context, "getAssets", "()Landroid/content/res/AssetManager;", &[])
+            .ok()?
+            .l()
+            .ok()?;
+        let p = unsafe {
+            ndk_sys::AAssetManager_fromJava(env.get_native_interface(), java_am.as_raw())
+        };
+        if p.is_null() { None } else { Some(p as usize) }
+    })
+    .map(|x| x as *mut ndk_sys::AAssetManager)
+}
+
+#[cfg(target_os = "android")]
+fn apk_open(rel: &str) -> Option<ndk::asset::Asset> {
+    use std::ffi::CString;
+    use std::ptr::NonNull;
+    let ptr = asset_manager_ptr()?;
+    let am = unsafe { ndk::asset::AssetManager::from_ptr(NonNull::new(ptr)?) };
+    let c = CString::new(format!("{APK_ASSET_BASE}/{rel}")).ok()?;
+    am.open(&c)
+}
+
+#[cfg(target_os = "android")]
+fn apk_size(rel: &str) -> Option<u64> {
+    apk_open(rel).map(|a| a.length() as u64)
+}
+
+#[cfg(target_os = "android")]
+fn apk_read_range(rel: &str, offset: u64, size: usize) -> Option<Vec<u8>> {
+    use std::io::{Read, Seek, SeekFrom};
+    let mut a = apk_open(rel)?;
+    if offset > 0 {
+        a.seek(SeekFrom::Start(offset)).ok()?;
+    }
+    let mut buf = vec![0u8; size];
+    let mut read = 0usize;
+    while read < size {
+        match a.read(&mut buf[read..]) {
+            Ok(0) => break,
+            Ok(n) => read += n,
+            Err(_) => return None,
+        }
+    }
+    buf.truncate(read);
+    Some(buf)
+}
+
+#[cfg(target_os = "android")]
+fn apk_list(rel: &str) -> Vec<String> {
+    use jni::objects::{JObjectArray, JString, JValue};
+    let ctx = match tauri::tao::platform::android::prelude::main_android_context() {
+        Some(c) => c,
+        None => return vec![],
+    };
+    let vm = match unsafe { jni::JavaVM::from_raw(ctx.java_vm.cast()) } {
+        Ok(v) => v,
+        Err(_) => return vec![],
+    };
+    let mut env = match vm.attach_current_thread() {
+        Ok(e) => e,
+        Err(_) => return vec![],
+    };
+    let context = unsafe { jni::objects::JObject::from_raw(ctx.context_jobject.cast()) };
+    let java_am = match env
+        .call_method(context, "getAssets", "()Landroid/content/res/AssetManager;", &[])
+        .and_then(|v| v.l())
+    {
+        Ok(a) => a,
+        Err(_) => return vec![],
+    };
+    let full = if rel.is_empty() {
+        APK_ASSET_BASE.to_string()
+    } else {
+        format!("{APK_ASSET_BASE}/{rel}")
+    };
+    let jpath: JString = match env.new_string(full) {
+        Ok(s) => s,
+        Err(_) => return vec![],
+    };
+    let arr = match env
+        .call_method(
+            &java_am,
+            "list",
+            "(Ljava/lang/String;)[Ljava/lang/String;",
+            &[JValue::Object(&jpath)],
+        )
+        .and_then(|v| v.l())
+    {
+        Ok(a) => a,
+        Err(_) => return vec![],
+    };
+    let arr = unsafe { JObjectArray::from_raw(arr.as_raw()) };
+    let len = match env.get_array_length(&arr) {
+        Ok(n) => n,
+        Err(_) => return vec![],
+    };
+    let mut out = Vec::with_capacity(len as usize);
+    for i in 0..len {
+        if let Ok(obj) = env.get_object_array_element(&arr, i) {
+            if let Ok(s) = env.get_string(&JString::from(obj)) {
+                out.push(s.into());
+            }
+        }
+    }
+    out
+}
+
+// 非 Android: 无 APK 资产
+#[cfg(not(target_os = "android"))]
+fn apk_size(_rel: &str) -> Option<u64> {
+    None
+}
+#[cfg(not(target_os = "android"))]
+fn apk_read_range(_rel: &str, _offset: u64, _size: usize) -> Option<Vec<u8>> {
+    None
+}
+#[cfg(not(target_os = "android"))]
+fn apk_list(_rel: &str) -> Vec<String> {
+    vec![]
 }
 
 #[cfg(target_os = "android")]
@@ -194,52 +432,86 @@ const PATH_MAP: &[(&str, &str)] = &[
 
 // 解密脚本(decrypt_arc.js)曾为每个文件重复追加一次扩展名,
 // 导致磁盘上文件名为双扩展名(startup.rsb.rsb / _VERSION.txt)。
-// 此处做回退: name.ext -> name.ext.ext,无扩展名 -> name.txt。
-fn resolve_existing(path: &Path) -> PathBuf {
-    if path.exists() {
-        return path.to_path_buf();
+// 读取时按 exact -> name.ext.ext -> name.txt 依次尝试。
+
+// 虚拟路径 -> game_data 相对路径(仅做前缀映射)
+// 注意: 游戏会拿 fs_list 返回的 fullPath 再拼接, 因此必须归一化:
+// 折叠重复斜杠、去掉首尾斜杠(否则会得到 "/data/nameplates//xxx/" 这种双斜杠路径,
+// AssetManager 不认, 目录列举会失败)。
+fn vpath_to_rel(vpath: &str) -> String {
+    let normalized = vpath.replace('\\', "/");
+    // 只折叠重复斜杠(保留尾斜杠, 否则 PATH_MAP 里 "config/" 这类前缀匹配不上)
+    let mut collapsed = String::with_capacity(normalized.len());
+    let mut prev_slash = false;
+    for ch in normalized.chars() {
+        if ch == '/' {
+            if prev_slash {
+                continue;
+            }
+            prev_slash = true;
+        } else {
+            prev_slash = false;
+        }
+        collapsed.push(ch);
     }
-    if let Some(ext) = path.extension().and_then(|e| e.to_str()) {
-        let mut doubled = path.as_os_str().to_owned();
-        doubled.push(".");
-        doubled.push(ext);
-        let candidate = PathBuf::from(doubled);
-        if candidate.exists() {
-            return candidate;
+    let candidate = collapsed.trim_start_matches('/');
+    for (prefix, real) in PATH_MAP {
+        if candidate.starts_with(prefix) {
+            let rest = candidate[prefix.len()..].trim_matches('/');
+            return format!("{}{}", real, rest);
         }
     }
-    let mut txt = path.as_os_str().to_owned();
-    txt.push(".txt");
-    let candidate = PathBuf::from(txt);
-    if candidate.exists() {
-        return candidate;
-    }
-    path.to_path_buf()
+    candidate.trim_matches('/').to_string()
 }
 
-fn virtual_to_real(vpath: &str) -> PathBuf {
+fn rel_candidates(vpath: &str) -> Vec<String> {
+    let base = vpath_to_rel(vpath);
+    let mut out = vec![base.clone()];
+    if let Some(ext) = Path::new(&base).extension().and_then(|e| e.to_str()) {
+        out.push(format!("{base}.{ext}"));
+    }
+    out.push(format!("{base}.txt"));
+    out
+}
+
+pub enum Src {
+    Disk(PathBuf),
+    Apk(String),
+}
+
+// 解析顺序: 磁盘(可写覆盖, 存档优先) -> APK assets(只读)
+// 注意: Documents 覆盖层在重装后可能残留旧 uid 拥有的文件(不可读),
+// 因此磁盘候选必须是「确实可读的文件」, 否则继续回退到 APK。
+fn resolve_src(vpath: &str) -> Option<Src> {
     let root = data_root();
-    // .rsb 内纹理引用使用 Windows 风格反斜杠路径,归一化为正斜杠
-    let normalized = vpath.replace('\\', "/");
-    // 真实绝对路径: Windows 盘符(D:/...) 或 Unix 绝对路径,直接使用
-    if normalized.len() >= 2 && normalized.as_bytes()[1] == b':' {
-        return PathBuf::from(&normalized);
-    }
-    if normalized.starts_with('/') {
-        let p = Path::new(&normalized);
-        // 已映射到真实 assets/ 下的绝对路径(来自 fs_list 返回的 full_path),直接使用
-        let root_str = root.to_string_lossy();
-        if normalized.starts_with(root_str.as_ref()) {
-            return resolve_existing(p);
+    for rel in rel_candidates(vpath) {
+        let disk = root.join(&rel);
+        if disk.is_file() && std::fs::File::open(&disk).is_ok() {
+            return Some(Src::Disk(disk));
+        }
+        if apk_size(&rel).is_some() {
+            return Some(Src::Apk(rel));
+        }
+        if disk.exists() {
+            return Some(Src::Disk(disk)); // 目录或不可读: 由上层返回错误
         }
     }
-    let v = normalized.trim_start_matches('/');
-    for (prefix, real) in PATH_MAP {
-        if v.starts_with(prefix) {
-            return resolve_existing(&root.join(real).join(v[prefix.len()..].trim_start_matches('/')));
+    None
+}
+
+// 写入路径(始终落磁盘, 不解压覆盖)
+fn write_path(vpath: &str) -> PathBuf {
+    data_root().join(vpath_to_rel(vpath))
+}
+
+fn read_all(vpath: &str) -> Option<Vec<u8>> {
+    match resolve_src(vpath)? {
+        Src::Disk(p) => std::fs::read(p).ok(),
+        Src::Apk(rel) => {
+            let len = apk_size(&rel)? as usize;
+            apk_read_range(&rel, 0, len)
         }
     }
-    resolve_existing(&root.join(v))
 }
 
 #[derive(Serialize, Deserialize, Clone)]
@@ -263,69 +535,102 @@ struct FsSizeResult {
     data: Option<u64>,
 }
 
-// 列目录
+// 列目录(合并: 磁盘可写目录 + APK 内置资产; 游戏只使用 name/isDirectory)
 #[tauri::command]
 fn fs_list(path: String) -> FsListResult {
-    let real = virtual_to_real(&path);
-    match std::fs::read_dir(&real) {
-        Ok(entries) => {
-            let data = entries
-                .filter_map(|e| e.ok())
-                .map(|e| {
-                    let is_dir = e.file_type().map(|t| t.is_dir()).unwrap_or(false);
-                    let is_file = e.file_type().map(|t| t.is_file()).unwrap_or(false);
-                    let name = e.file_name().to_string_lossy().to_string();
-                    FileEntry {
-                        // 返回真实路径(与 Electron 参考实现一致,前端基于 full_path 拼接后续请求;
-                        // virtual_to_real 会识别绝对路径原样返回)
-                        full_path: e.path().to_string_lossy().to_string(),
-                        is_directory: is_dir,
-                        is_file,
-                        name,
-                    }
-                })
-                .collect();
-            FsListResult { status: 0, data }
+    use std::collections::HashSet;
+    let dir_rel = vpath_to_rel(&path);
+    let disk = data_root().join(&dir_rel);
+    let mut data: Vec<FileEntry> = Vec::new();
+    let mut seen: HashSet<String> = HashSet::new();
+    if let Ok(entries) = std::fs::read_dir(&disk) {
+        for e in entries.flatten() {
+            let name = e.file_name().to_string_lossy().to_string();
+            let is_dir = e.file_type().map(|t| t.is_dir()).unwrap_or(false);
+            let is_file = e.file_type().map(|t| t.is_file()).unwrap_or(false);
+            seen.insert(name.clone());
+            data.push(FileEntry {
+                full_path: format!("/{dir_rel}/{name}"),
+                is_directory: is_dir,
+                is_file,
+                name,
+            });
         }
-        Err(_) => FsListResult { status: -1, data: vec![] },
+    }
+    let apk_entries = apk_list(&dir_rel);
+    for name in &apk_entries {
+        if seen.contains(name) {
+            continue;
+        }
+        let child_rel = if dir_rel.is_empty() {
+            name.clone()
+        } else {
+            format!("{dir_rel}/{name}")
+        };
+        // list() 不区分文件/目录: 能用 AAsset 打开就是文件
+        let is_file = apk_size(&child_rel).is_some();
+        data.push(FileEntry {
+            full_path: format!("/{child_rel}"),
+            is_directory: !is_file,
+            is_file,
+            name: name.clone(),
+        });
+    }
+    let exists = disk.is_dir() || !apk_entries.is_empty();
+    FsListResult {
+        status: if exists { 0 } else { -1 },
+        data,
     }
 }
 
 // 读整个文件(base64 编码,避免 Vec<u8> JSON 数组序列化开销)
 #[tauri::command]
 fn fs_file(path: String) -> Result<String, String> {
-    let real = virtual_to_real(&path);
-    let data = std::fs::read(&real).map_err(|e| e.to_string())?;
+    let data = read_all(&path).ok_or_else(|| format!("not found: {path}"))?;
     Ok(base64::engine::general_purpose::STANDARD.encode(&data))
 }
 
 // 文件大小
 #[tauri::command]
 fn fs_size(path: String) -> FsSizeResult {
-    let real = virtual_to_real(&path);
-    match std::fs::metadata(&real) {
-        Ok(m) => FsSizeResult { status: 0, data: Some(m.len()) },
-        Err(_) => FsSizeResult { status: -1, data: None },
+    match resolve_src(&path) {
+        Some(Src::Disk(p)) => match std::fs::metadata(&p) {
+            Ok(m) => FsSizeResult { status: 0, data: Some(m.len()) },
+            Err(_) => FsSizeResult { status: -1, data: None },
+        },
+        Some(Src::Apk(rel)) => match apk_size(&rel) {
+            Some(n) => FsSizeResult { status: 0, data: Some(n) },
+            None => FsSizeResult { status: -1, data: None },
+        },
+        None => FsSizeResult { status: -1, data: None },
     }
 }
 
 // 读文件 offset/size(归档解密用, base64 编码)
 #[tauri::command]
 fn fs_read(path: String, offset: u64, size: usize) -> Result<String, String> {
-    use std::io::{Read, Seek, SeekFrom};
-    let real = virtual_to_real(&path);
-    let mut f = std::fs::File::open(&real).map_err(|e| e.to_string())?;
-    f.seek(SeekFrom::Start(offset)).map_err(|e| e.to_string())?;
-    let mut buf = vec![0u8; size];
-    let n = f.read(&mut buf).map_err(|e| e.to_string())?;
-    buf.truncate(n);
+    let buf = match resolve_src(&path) {
+        Some(Src::Disk(p)) => {
+            use std::io::{Read, Seek, SeekFrom};
+            let mut f = std::fs::File::open(&p).map_err(|e| e.to_string())?;
+            f.seek(SeekFrom::Start(offset)).map_err(|e| e.to_string())?;
+            let mut buf = vec![0u8; size];
+            let n = f.read(&mut buf).map_err(|e| e.to_string())?;
+            buf.truncate(n);
+            buf
+        }
+        Some(Src::Apk(rel)) => {
+            apk_read_range(&rel, offset, size).ok_or_else(|| format!("apk read failed: {rel}"))?
+        }
+        None => return Err(format!("not found: {path}")),
+    };
     Ok(base64::engine::general_purpose::STANDARD.encode(&buf))
 }
 
-// 写整个文件(data 为 base64 编码,存档/config 持久化用)
+// 写整个文件(data 为 base64 编码,存档/config 持久化用; 始终写磁盘)
 #[tauri::command]
 fn fs_write(path: String, data: String) -> Result<(), String> {
-    let real = virtual_to_real(&path);
+    let real = write_path(&path);
     let bytes = base64::engine::general_purpose::STANDARD.decode(&data).map_err(|e| e.to_string())?;
     if let Some(parent) = real.parent() {
         std::fs::create_dir_all(parent).map_err(|e| e.to_string())?;
@@ -475,18 +780,17 @@ pub fn run() {
         })
         .register_asynchronous_uri_scheme_protocol("umg", |_ctx, request, responder| {
             let vpath = parse_uri(&request.uri().to_string());
-            let real = virtual_to_real(&vpath);
-            match std::fs::read(&real) {
-                Ok(data) => {
+            match read_all(&vpath) {
+                Some(data) => {
                     let resp: Response<Vec<u8>> = Response::builder()
                         .status(StatusCode::OK)
                         .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")
-                        .header(header::CONTENT_TYPE, mime_from_path(&real.to_string_lossy()))
+                        .header(header::CONTENT_TYPE, mime_from_path(&vpath))
                         .body(data)
                         .unwrap();
                     let _ = responder.respond(resp);
                 }
-                Err(_) => {
+                None => {
                     let resp: Response<Vec<u8>> = Response::builder()
                         .status(StatusCode::NOT_FOUND)
                         .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")

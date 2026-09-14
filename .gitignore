@@ -50,6 +50,7 @@ tauri/src-tauri/gen/android/app/src/main/jniLibs/
 tauri/src-tauri/gen/android/.gradle/
 tauri/src-tauri/gen/android/local.properties
 tauri/src-tauri/gen/apple/Externals/
+tauri/src-tauri/gen/apple/assets/
 tauri/src-tauri/gen/apple/build/
 tauri/src-tauri/gen/apple/Pods/
 tauri/src-tauri/gen/apple/Podfile.lock
