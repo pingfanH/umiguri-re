@@ -84,7 +84,7 @@
   // 直接档位映射: 面板按键 -> 游戏档位序号, 绕过 VK/DIK 间接层。
   // 档位序号 = 握手 fe 串里的字符位置(游戏 I1 模块的 s[t])。
   // 游戏侧在输入刷新时读取 window.__umgLanes[t], 因此面板按下即等同于该档位按下。
-  const FE_KEYMAP = 'A1B2C3D4E5F6G7H8I9J0K;\'M,N.O/P-RSTUWY';
+  const FE_KEYMAP = 'A1B2C3D4E5F6G7H8I9J0K;L\'M,N.O/P-RSTUWY';
   const VK_LANE = new Map();
   FE_KEYMAP.split('').forEach((c, i) => VK_LANE.set(kbdUni2Virt(c.charCodeAt(0)), i));
   window.__umgLanes = new Uint8Array(40);
@@ -213,6 +213,7 @@
     bg: 0.08,           // 面板底色透明度
     showGuide: true,    // 显示「参考圆」
     showHit: false,     // 高亮「范围触发」实际命中的键(由设置页的开关控制)
+    showLanes: true,    // 显示虚拟键盘主体(air 条 + 32 个按键); 关闭后仅保留功能键
   };
   let panelCfg = Object.assign({}, PANEL_DEFAULTS);
   try { Object.assign(panelCfg, JSON.parse(localStorage.getItem('umg_kbd_cfg') || '{}')); } catch (e) {}
@@ -250,6 +251,11 @@
     for (const k of document.querySelectorAll('[data-vk]')) {
       const r = k.getBoundingClientRect();
       if (!r.width || !r.height) continue;
+      if (k.dataset.kind === 'air') {
+        // air 横条: 精确命中(不套用半径) —— 一条只触发一个 air
+        if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) result.push(k);
+        continue;
+      }
       const cx = Math.max(r.left, Math.min(x, r.right));
       const cy = Math.max(r.top, Math.min(y, r.bottom));
       const dx = x - cx, dy = y - cy;
@@ -260,8 +266,65 @@
     return result;
   }
 
+  // 功能键长按自动重复: 按住后先等待, 再周期性 pulse(松开->按下),
+  // 让游戏的「边沿触发」能把长按识别为连续触发, 而不是只当一次点击。
+  const NAV_REPEAT_DELAY = 450;     // ms: 首次重复前等待
+  const NAV_REPEAT_INTERVAL = 110;  // ms: 重复间隔
+  const NAV_PULSE_RELEASE = 35;     // ms: 每次 pulse 的松开时长(≥2 帧, 保证被采样到)
+  const navTimers = new Map();      // nav 元素 -> { delayTimer, repeatTimer, pulseTimer }
+
+  function startNavRepeat(k) {
+    stopNavRepeat(k);
+    const vk = +k.dataset.vk;
+    const t = { delayTimer: null, repeatTimer: null, pulseTimer: null };
+    t.delayTimer = setTimeout(() => {
+      t.repeatTimer = setInterval(() => {
+        if (!navHold.has(k)) return;
+        touchRelease(vk); setKeyActive(k, false);
+        t.pulseTimer = setTimeout(() => {
+          if (!navHold.has(k)) return;
+          touchPress(vk); setKeyActive(k, true);
+        }, NAV_PULSE_RELEASE);
+      }, NAV_REPEAT_INTERVAL);
+    }, NAV_REPEAT_DELAY);
+    navTimers.set(k, t);
+  }
+  function stopNavRepeat(k) {
+    const t = navTimers.get(k);
+    if (!t) return;
+    clearTimeout(t.delayTimer); clearInterval(t.repeatTimer); clearTimeout(t.pulseTimer);
+    navTimers.delete(k);
+  }
+
+  // 功能键(nav): 按下即锁定, 直到该手指抬起 —— 支持长按, 不受半径/抖动影响
+  const navHold = new Map();   // nav 元素 -> 持有它的 pointerId 集合
+  function pressNav(k, id) {
+    let set = navHold.get(k);
+    if (!set) {
+      set = new Set();
+      navHold.set(k, set);
+      touchPress(+k.dataset.vk);
+      setKeyActive(k, true);
+      startNavRepeat(k);
+    }
+    set.add(id);
+  }
+  function releaseNavPointer(id) {
+    for (const [k, set] of navHold) {
+      if (set.delete(id) && set.size === 0) {
+        navHold.delete(k);
+        stopNavRepeat(k);
+        touchRelease(+k.dataset.vk);
+        setKeyActive(k, false);
+      }
+    }
+  }
+
   function clearTouch() {
     activePointers.clear();
+    for (const k of [...navHold.keys()]) {
+      navHold.delete(k); stopNavRepeat(k); touchRelease(+k.dataset.vk); setKeyActive(k, false);
+    }
     recomputeTouch();
   }
 
@@ -279,7 +342,12 @@
   }
 
   function updatePointer(id, x, y) {
-    activePointers.set(id, new Set(keysInCircle(x, y)));
+    const s = new Set();
+    for (const k of keysInCircle(x, y)) {
+      if (k.dataset.kind === 'nav') pressNav(k, id);
+      else s.add(k);
+    }
+    activePointers.set(id, s);
     recomputeTouch();
   }
 
@@ -295,10 +363,12 @@
     updatePointer(e.pointerId, e.clientX, e.clientY);
   }, { passive: false });
   document.addEventListener('pointerup', (e) => {
+    releaseNavPointer(e.pointerId);
     activePointers.delete(e.pointerId);
     recomputeTouch();
   });
   document.addEventListener('pointercancel', (e) => {
+    releaseNavPointer(e.pointerId);
     activePointers.delete(e.pointerId);
     recomputeTouch();
   });
@@ -326,6 +396,7 @@
     (document.getElementById('main_container') || document.body).appendChild(keyPanel);
 
     // AIR 区域: 宽度占满游戏窗口(100vw),横条竖排,判定线在中间
+    // (始终构建; showLanes=false 时只设为不可见, 不销毁、不影响触摸)
     // 始终按配置(AIR_KEYS)渲染全部 air 键,不做运行时过滤,保证与配置一致
     const airBox = document.createElement('div');
     airBox.style.cssText = 'width:100%;display:flex;flex-direction:column;pointer-events:auto;';
@@ -354,44 +425,53 @@
     });
     keyPanel.appendChild(grid);
 
-    // 功能键: 左上角
-    //   第一行(横向): Test(Esc), Service(Enter)
-    //   第三行: [FN] 按钮, 点击横向弹出 F1-F5, 再点收回
+    // 「显示虚拟键盘」关闭: 仅不可见(元素保留, 布局与触摸命中不变)
+    if (!panelCfg.showLanes) {
+      airBox.style.opacity = '0';
+      grid.style.opacity = '0';
+    }
+
+    // 功能键: 左上角, 三个横向排列 (Test/Esc, Service/Enter, FN)
+    //   FN 点击后在下一行横向展开 F1-F5; 点任一功能键或再点 FN 收回
     const navBox = document.createElement('div');
     navBox.style.cssText =
-      'position:absolute;left:8px;top:112px;display:flex;flex-direction:column;gap:6px;pointer-events:auto;';
-    function navRow() {
-      const r = document.createElement('div');
-      r.style.cssText = 'display:flex;flex-direction:row;gap:4px;';
-      return r;
+      'position:absolute;left:8px;top:112px;display:flex;flex-direction:column;gap:6px;pointer-events:auto;align-items:flex-start;';
+    function barStyle(b, w, h) {
+      b.style.minWidth = '0';
+      b.style.width = w + 'px';
+      b.style.height = h + 'px';
+      return b;
     }
     function mkFnBtn(label) {
       const b = document.createElement('div');
       b.textContent = label;
       b.style.cssText =
-        'min-width:64px;height:176px;display:flex;align-items:center;justify-content:center;' +
+        'display:flex;align-items:center;justify-content:center;' +
         'background:rgba(128,128,128,0.15);border:1px solid rgba(128,128,128,0.4);' +
         'color:rgba(255,255,255,0.6);font:bold 15px/1 system-ui;cursor:pointer;touch-action:none;' +
         'user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;box-sizing:border-box;';
       return b;
     }
-    // 第一行: Esc / Enter
-    const row1 = navRow();
-    for (const vk of [27, 13]) row1.appendChild(mkKey(vk, 'nav'));
-    navBox.appendChild(row1);
-    // 第三行: FN + 可展开的 F1-F5
-    const row2 = navRow();
-    const fnBtn = mkFnBtn('FN');
+    // 一排三个: Test(Esc) / Service(Enter) / FN
+    const navRow = document.createElement('div');
+    navRow.style.cssText = 'display:flex;flex-direction:row;gap:6px;';
+    for (const vk of [27, 13]) navRow.appendChild(barStyle(mkKey(vk, 'nav'), 200, 46));
+    const fnBtn = barStyle(mkFnBtn('FN'), 200, 46);
+    navRow.appendChild(fnBtn);
+    navBox.appendChild(navRow);
+    // F1-F5 弹层: 功能键行下方, 横向
     const fWrap = document.createElement('div');
     fWrap.style.cssText = 'display:none;flex-direction:row;gap:4px;';
-    for (const vk of [112, 113, 114, 115, 116]) fWrap.appendChild(mkKey(vk, 'nav'));
+    for (const vk of [112, 113, 114, 115, 116]) {
+      const b = barStyle(mkKey(vk, 'nav'), 117, 46);
+      b.addEventListener('pointerdown', function () { fWrap.style.display = 'none'; }, true);
+      fWrap.appendChild(b);
+    }
     fnBtn.addEventListener('pointerdown', function (e) {
       e.preventDefault();
       fWrap.style.display = (fWrap.style.display === 'none') ? 'flex' : 'none';
     });
-    row2.appendChild(fnBtn);
-    row2.appendChild(fWrap);
-    navBox.appendChild(row2);
+    navBox.appendChild(fWrap);
     keyPanel.appendChild(navBox);
   }
 
@@ -588,6 +668,7 @@
     { key: 'airRowGap', label: 'air 间距', min: 0, max: 40, step: 2 },
     { key: 'bottomInset', label: '距屏幕底边', min: 0, max: 120, step: 4, unit: 'px' },
     { key: 'radius', label: '范围触发半径', min: 0, max: 60, step: 1, unit: 'px' },
+    { key: 'showLanes', label: '显示虚拟键盘(0/1)', min: 0, max: 1, step: 1 },
     { key: 'alpha', label: '整体不透明度', min: 0.2, max: 1, step: 0.05, fixed: 2 },
     { key: 'bg', label: '底色透明度', min: 0, max: 0.4, step: 0.02, fixed: 2 },
     { key: 'label', label: '字色透明度', min: 0.2, max: 1, step: 0.05, fixed: 2 },
@@ -884,6 +965,7 @@
     // 原生设置页(游戏测试菜单)进入/离开: 只显示白色参考圆 + 命中可视化
     settingsBegin() { nativeSettings = true; settingsActive = true; ensureGuide(true); },
     setViz(on) { return window.umgKeyPanel.set({ showHit: !!on }).showHit; },
+    setLanes(on) { return window.umgKeyPanel.set({ showLanes: !!on }).showLanes; },
     // 由游戏传入「触发距离」行的容器坐标, 用于把白色参考圆摆到该文字右边
     setGuidePos(x, y, w, h) { guidePos = { x: x, y: y, w: w, h: h }; if (guideEl) ensureGuide(true); return guidePos; },
     settingsEnd() {
@@ -1111,6 +1193,88 @@
       if (P.compressedTexImage2D && !P.__ugvDxt) { P.__ugvDxt = true; P.compressedTexImage2D = wrap(P.compressedTexImage2D); }
     });
     console.log('[DIAG] DXT_SOFTWARE_DECODE enabled');
+  })();
+
+  // ============ 「所有文件访问」权限检查 ============
+  // 未授予 MANAGE_EXTERNAL_STORAGE 时, 系统会在 readdir 中隐藏非本应用归属的
+  // 目录条目: 用户用文件管理器拷进 Documents/UMIGURI 的补丁文件夹里, 文件能按
+  // 已知路径打开, 但目录列举为空 → 游戏扫描不到追加数据。
+  (function setupStorageAccessCheck() {
+    if (!invoke) return;
+    let banner = null;
+    let pollTimer = null;
+
+    function stopPolling() {
+      if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+    }
+    async function doRestart() {
+      stopPolling();
+      try {
+        const r = await invoke('restart_app_cmd');
+        if (!r) location.reload();
+      } catch (e) {
+        location.reload();
+      }
+    }
+    function startPolling() {
+      if (pollTimer) return;
+      // 不依赖 focus/visibility 事件(从系统设置返回时不一定触发), 直接轮询
+      pollTimer = setInterval(async function () {
+        const ok = await check();
+        if (ok) doRestart();
+      }, 800);
+    }
+    function showBanner() {
+      if (banner || document.getElementById('ugv_perm')) return;
+      banner = document.createElement('div');
+      banner.id = 'ugv_perm';
+      banner.style.cssText =
+        'position:fixed;left:50%;top:12px;transform:translateX(-50%);z-index:100003;' +
+        'background:rgba(20,20,20,0.92);border:1px solid rgba(255,80,80,0.8);border-radius:8px;' +
+        'padding:10px 14px;color:#fff;font:14px/1.5 system-ui;max-width:80vw;pointer-events:auto;' +
+        'user-select:none;-webkit-user-select:none;';
+      const txt = document.createElement('div');
+      txt.textContent = '需要「所有文件访问」权限, 否则读取不到 Documents/UMIGURI 下的补丁数据 (目录列举为空)。授权后返回将自动重启。';
+      const btn = document.createElement('button');
+      btn.textContent = '去授权';
+      btn.style.cssText =
+        'margin-top:8px;padding:6px 14px;background:#2d6cdf;color:#fff;border:none;border-radius:5px;' +
+        'font:14px system-ui;cursor:pointer;pointer-events:auto;';
+      btn.addEventListener('click', function () {
+        invoke('open_storage_access_settings').catch(function () {});
+      });
+      banner.appendChild(txt);
+      banner.appendChild(btn);
+      document.body.appendChild(banner);
+      startPolling();
+    }
+    async function check() {
+      try {
+        const ok = await invoke('storage_access');
+        if (ok) {
+          stopPolling();
+          if (banner) { banner.remove(); banner = null; }
+          return true;
+        }
+        showBanner();
+        return false;
+      } catch (e) {
+        return true; // 桌面端无此命令
+      }
+    }
+    check();
+    window.addEventListener('focus', async function () {
+      const wasMissing = !!banner;
+      const ok = await check();
+      if (wasMissing && ok) doRestart();
+    });
+    document.addEventListener('visibilitychange', async function () {
+      if (document.visibilityState !== 'visible') return;
+      const wasMissing = !!banner;
+      const ok = await check();
+      if (wasMissing && ok) doRestart();
+    });
+    window.umgStorageAccess = { check: check, granted: check };
   })();
 
 })();

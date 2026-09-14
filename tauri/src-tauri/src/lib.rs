@@ -83,9 +83,206 @@ fn android_external_files_dir() -> Option<PathBuf> {
     java_path_of(&mut env, file)
 }
 
+// 「所有文件访问」(MANAGE_EXTERNAL_STORAGE) 是否已授予。
+// 未授予时, 系统会在 readdir 中隐藏非本应用归属的目录条目(用户用文件管理器
+// 拷进 Documents/UMIGURI 的补丁文件夹就属于这种情况: 文件能按已知路径打开,
+// 但目录列举为空 → 游戏扫描不到追加数据)。
 #[cfg(target_os = "android")]
-fn ensure_writable(dir: &Path) -> bool {
-    if std::fs::create_dir_all(dir).is_err() {
+fn has_all_files_access() -> bool {
+    let Some(ctx) = tauri::tao::platform::android::prelude::main_android_context() else {
+        return false;
+    };
+    let Ok(vm) = (unsafe { jni::JavaVM::from_raw(ctx.java_vm.cast()) }) else {
+        return false;
+    };
+    let Ok(mut env) = vm.attach_current_thread() else {
+        return false;
+    };
+    let Ok(cls) = env.find_class("android/os/Environment") else {
+        return false;
+    };
+    env.call_static_method(&cls, "isExternalStorageManager", "()Z", &[])
+        .ok()
+        .and_then(|v| v.z().ok())
+        .unwrap_or(false)
+}
+
+// 跳转「所有文件访问」设置页, 让用户手动授予
+#[cfg(target_os = "android")]
+fn open_all_files_settings() -> bool {
+    use jni::objects::{JObject, JValue, JString};
+    let Some(ctx) = tauri::tao::platform::android::prelude::main_android_context() else {
+        return false;
+    };
+    let Ok(vm) = (unsafe { jni::JavaVM::from_raw(ctx.java_vm.cast()) }) else {
+        return false;
+    };
+    let Ok(mut env) = vm.attach_current_thread() else {
+        return false;
+    };
+    let context = unsafe { JObject::from_raw(ctx.context_jobject.cast()) };
+    let Ok(uri_cls) = env.find_class("android/net/Uri") else {
+        return false;
+    };
+    let Ok(uri_s) = env.new_string("package:jp.inonote.umiguri") else {
+        return false;
+    };
+    let Ok(uri) = env
+        .call_static_method(
+            &uri_cls,
+            "parse",
+            "(Ljava/lang/String;)Landroid/net/Uri;",
+            &[JValue::Object(&JString::from(uri_s).into())],
+        )
+        .and_then(|v| v.l())
+    else {
+        return false;
+    };
+    let Ok(settings_cls) = env.find_class("android/provider/Settings") else {
+        return false;
+    };
+    let Ok(action) = env
+        .get_static_field(
+            &settings_cls,
+            "ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION",
+            "Ljava/lang/String;",
+        )
+        .and_then(|v| v.l())
+    else {
+        return false;
+    };
+    let Ok(intent_cls) = env.find_class("android/content/Intent") else {
+        return false;
+    };
+    let Ok(intent) = env.new_object(
+        &intent_cls,
+        "(Ljava/lang/String;Landroid/net/Uri;)V",
+        &[JValue::Object(&action), JValue::Object(&uri)],
+    ) else {
+        return false;
+    };
+    let _ = env.call_method(
+        &intent,
+        "addFlags",
+        "(I)Landroid/content/Intent;",
+        &[JValue::Int(0x10000000)], // FLAG_ACTIVITY_NEW_TASK
+    );
+    env.call_method(
+        &context,
+        "startActivity",
+        "(Landroid/content/Intent;)V",
+        &[JValue::Object(&intent)],
+    )
+    .is_ok()
+}
+
+// 重启应用(进程级): 重新拉起主 Activity 后结束当前进程
+#[cfg(target_os = "android")]
+fn restart_app() -> bool {
+    use jni::objects::{JObject, JString, JValue};
+    let Some(ctx) = tauri::tao::platform::android::prelude::main_android_context() else {
+        return false;
+    };
+    let Ok(vm) = (unsafe { jni::JavaVM::from_raw(ctx.java_vm.cast()) }) else {
+        return false;
+    };
+    let Ok(mut env) = vm.attach_current_thread() else {
+        return false;
+    };
+    let context = unsafe { JObject::from_raw(ctx.context_jobject.cast()) };
+    let Ok(pm) = env
+        .call_method(
+            &context,
+            "getPackageManager",
+            "()Landroid/content/pm/PackageManager;",
+            &[],
+        )
+        .and_then(|v| v.l())
+    else {
+        return false;
+    };
+    let Ok(pkg) = env.new_string("jp.inonote.umiguri") else {
+        return false;
+    };
+    let Ok(intent) = env
+        .call_method(
+            &pm,
+            "getLaunchIntentForPackage",
+            "(Ljava/lang/String;)Landroid/content/Intent;",
+            &[JValue::Object(&JString::from(pkg).into())],
+        )
+        .and_then(|v| v.l())
+    else {
+        return false;
+    };
+    if intent.is_null() {
+        return false;
+    }
+    let _ = env.call_method(
+        &intent,
+        "addFlags",
+        "(I)Landroid/content/Intent;",
+        &[JValue::Int(0x10000000)], // FLAG_ACTIVITY_NEW_TASK
+    );
+    // 用 AlarmManager 预约 ~700ms 后拉起, 再结束当前进程。
+    // 不能直接 startActivity 后杀进程: Activity 与当前进程同属一个包, 会被一起杀掉。
+    let pending_flags = 0x10000000 | 0x04000000 | 0x08000000; // NEW_TASK|IMMUTABLE|UPDATE_CURRENT
+    let Ok(pi_cls) = env.find_class("android/app/PendingIntent") else {
+        return false;
+    };
+    let Ok(pi) = env
+        .call_static_method(
+            &pi_cls,
+            "getActivity",
+            "(Landroid/content/Context;ILandroid/content/Intent;I)Landroid/app/PendingIntent;",
+            &[
+                JValue::Object(&context),
+                JValue::Int(0),
+                JValue::Object(&intent),
+                JValue::Int(pending_flags),
+            ],
+        )
+        .and_then(|v| v.l())
+    else {
+        return false;
+    };
+    let Ok(am_key) = env.new_string("alarm") else {
+        return false;
+    };
+    let Ok(am) = env
+        .call_method(
+            &context,
+            "getSystemService",
+            "(Ljava/lang/String;)Ljava/lang/Object;",
+            &[JValue::Object(&JString::from(am_key).into())],
+        )
+        .and_then(|v| v.l())
+    else {
+        return false;
+    };
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|d| d.as_millis() as i64)
+        .unwrap_or(0);
+    let _ = env.call_method(
+        &am,
+        "set",
+        "(IJLandroid/app/PendingIntent;)V",
+        &[JValue::Int(1), JValue::Long(now + 700), JValue::Object(&pi)], // RTC
+    );
+    if let Ok(proc_cls) = env.find_class("android/os/Process") {
+        let _ = env.call_static_method(
+            &proc_cls,
+            "killProcess",
+            "(I)V",
+            &[JValue::Int(std::process::id() as i32)],
+        );
+    }
+    true
+}
+
+#[cfg(target_os = "android")]
+fn ensure_writable(dir: &Path) -> bool {    if std::fs::create_dir_all(dir).is_err() {
         return false;
     }
     let probe = dir.join(".umg_write_test");
@@ -665,6 +862,74 @@ fn diag(msg: String) {
     eprintln!("[DIAG] {}", msg);
 }
 
+// 是否已授予「所有文件访问」; 未授予时 Documents 下的补丁文件夹列举为空
+#[tauri::command]
+fn storage_access() -> bool {
+    #[cfg(target_os = "android")]
+    return has_all_files_access();
+    #[cfg(not(target_os = "android"))]
+    return true;
+}
+
+// 打开系统「所有文件访问」设置页
+#[tauri::command]
+fn open_storage_access_settings() -> bool {
+    #[cfg(target_os = "android")]
+    return open_all_files_settings();
+    #[cfg(not(target_os = "android"))]
+    return false;
+}
+
+// 重启应用(授权后需要完整重扫追加数据)
+#[tauri::command]
+fn restart_app_cmd() -> bool {
+    #[cfg(target_os = "android")]
+    return restart_app();
+    #[cfg(not(target_os = "android"))]
+    return false;
+}
+
+// 临时诊断: 探测虚拟路径在磁盘侧的真实状态(read_dir 的 errno 等)
+#[tauri::command]
+fn debug_probe(path: String) -> String {    use std::os::unix::fs::MetadataExt;
+    let rel = vpath_to_rel(&path);
+    let root = data_root();
+    let disk = root.join(&rel);
+    let mut out = format!("root={} | rel={} | disk={}", root.display(), rel, disk.display());
+    match std::fs::metadata(&disk) {
+        Ok(m) => out.push_str(&format!(
+            " | meta: dir={} file={} mode={:o} uid={} gid={}",
+            m.is_dir(),
+            m.is_file(),
+            m.mode() & 0o7777,
+            m.uid(),
+            m.gid()
+        )),
+        Err(e) => out.push_str(&format!(" | meta ERR: {e}")),
+    }
+    match std::fs::read_dir(&disk) {
+        Ok(it) => {
+            let v: Vec<String> = it
+                .flatten()
+                .map(|e| e.file_name().to_string_lossy().to_string())
+                .collect();
+            out.push_str(&format!(
+                " | read_dir ok n={} sample={:?}",
+                v.len(),
+                v.iter().take(6).collect::<Vec<_>>()
+            ));
+            if let Some(name) = v.first() {
+                match std::fs::read(disk.join(name)) {
+                    Ok(b) => out.push_str(&format!(" | first read ok {}B", b.len())),
+                    Err(e) => out.push_str(&format!(" | first read ERR: {e}")),
+                }
+            }
+        }
+        Err(e) => out.push_str(&format!(" | read_dir ERR: {e}")),
+    }
+    out
+}
+
 // 解析 protocol URI(如 https://umg.localhost/una/hiiragi.una?v=0) -> 虚拟路径
 fn percent_decode(s: &str) -> String {
     let bytes = s.as_bytes();
@@ -801,7 +1066,7 @@ pub fn run() {
             }
         })
         .invoke_handler(tauri::generate_handler![
-            fs_list, fs_file, fs_size, fs_read, fs_write, handshake, diag
+            fs_list, fs_file, fs_size, fs_read, fs_write, handshake, diag, debug_probe, storage_access, open_storage_access_settings, restart_app_cmd
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
