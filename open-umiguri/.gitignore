@@ -19,3 +19,9 @@ dist/main.js.enc
 *.log
 *.tmp
 *.bak
+
+# 父仓库 .gitignore 的 `main.js` / `build/` / `dist/` 是「任意层级」匹配,
+# 会误伤本目录的宿主入口与构建脚本, 这里显式放行。
+!build/
+!src/host/main.js
+
