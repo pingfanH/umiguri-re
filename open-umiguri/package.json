@@ -5,11 +5,12 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "deobf": "node tools/deobfuscate-fixed.mjs ../game_main.original.js dist/game_main.deobf.js",
     "build:host": "node build/bundle-host.mjs",
-    "build:game": "node build/bundle-game.mjs",
+    "build:game": "node build/assemble-game.mjs && node build/bundle-game.mjs",
     "build": "npm run build:host && npm run build:game",
     "assemble:game": "node build/assemble-game.mjs",
-    "check": "node build/check.mjs && node build/contract-check.mjs",
+    "check": "node build/check.mjs && node build/contract-check.mjs && node build/freevar-check.mjs",
     "extract:game": "node tools/split-game.mjs",
     "analyze:game": "node tools/analyze-bundle.mjs",
     "analyze:props": "node tools/analyze-props.mjs"

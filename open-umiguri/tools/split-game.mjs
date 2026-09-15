@@ -22,7 +22,11 @@ import { fileURLToPath } from 'node:url';
 import { parser, generate, loadSymbols, applySymbols, loadProps, applyProps } from './lib/symbols.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const srcFile = process.argv[2] || process.env.GAME_SRC || '/Users/pingfanh/project/umiguri-re/game_main.deobf.js';
+const fixedSrc = path.join(root, 'dist/game_main.deobf.js');
+const srcFile =
+  process.argv[2] ||
+  process.env.GAME_SRC ||
+  (fs.existsSync(fixedSrc) ? fixedSrc : '/Users/pingfanh/project/umiguri-re/game_main.deobf.js');
 const outDir = path.resolve(process.argv[3] || path.join(root, 'src/game'));
 const symbolsFile = process.argv.includes('--symbols')
   ? process.argv[process.argv.indexOf('--symbols') + 1]

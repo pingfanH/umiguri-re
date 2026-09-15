@@ -8,9 +8,13 @@
 ```bash
 cd open-umiguri
 npm install                # 首次
+npm run deobf              # 从 ../game_main.original.js 生成可用反混淆源(修正版)
 npm run build              # 宿主 dist/www/tauri-bridge.js + 游戏 dist/www/main.js.enc
-npm run check              # 语法 + 宿主/游戏契约检查
+npm run check              # 语法 + 契约 + 自由变量检查
 ```
+
+> `src/game/**` 已提交为生成产物;若本地重新 `npm run deobf && npm run extract:game`,会重算它们。
+> 若跳过 `deobf` 直接 `build`,会沿用已提交的片段(即上次修正后的源码),仍可运行。
 
 ## 1. 桌面运行
 

@@ -658,7 +658,7 @@
             v_H_30265.js = v_Be_28119(await languagePackages.ck(v_a_30385 + "txJudgeLine.dds"), !1, v_i_30380), v_H_30265.Uo.push(v_Be_28119(await languagePackages.ck(v_a_30385 + "txFieldLineWhite.dds"), !1, v_i_30380)), v_H_30265.Uo.push(v_Be_28119(await languagePackages.ck(v_a_30385 + "txFieldLineRed.dds"), !1, v_i_30380)), v_H_30265.Uo.push(v_Be_28119(await languagePackages.ck(v_a_30385 + "txFieldLineOrange.dds"), !1, v_i_30380)), v_H_30265.Uo.push(v_Be_28119(await languagePackages.ck(v_a_30385 + "txFieldLineYellow.dds"), !1, v_i_30380)), v_H_30265.Uo.push(v_Be_28119(await languagePackages.ck(v_a_30385 + "txFieldLineLime.dds"), !1, v_i_30380)), v_H_30265.Uo.push(v_Be_28119(await languagePackages.ck(v_a_30385 + "txFieldLineGreen.dds"), !1, v_i_30380)), v_H_30265.Uo.push(v_Be_28119(await languagePackages.ck(v_a_30385 + "txFieldLineSkyblue.dds"), !1, v_i_30380)), v_H_30265.Uo.push(v_Be_28119(await languagePackages.ck(v_a_30385 + "txFieldLineBlue.dds"), !1, v_i_30380)), v_H_30265.Uo.push(v_Be_28119(await languagePackages.ck(v_a_30385 + "txFieldLinePurple.dds"), !1, v_i_30380)), v_H_30265.Hs = v_Be_28119(await languagePackages.ck(v_a_30385 + "txFieldWall.dds"), !1, v_e_30381), v_H_30265.by = v_Be_28119(await languagePackages.ck(v_a_30385 + "txTap.dds"), !1, v_i_30380), v_H_30265.Os = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirUp.dds"), !1, v_s_30384), v_H_30265.Js = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirUpR.dds"), !1, v_s_30384), v_H_30265.Ws = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirDown.dds"), !1, v_s_30384), v_H_30265.Ks = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirDownR.dds"), !1, v_s_30384), v_H_30265.yy = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirUpFx.dds"), !1, v_s_30384), v_H_30265.Ay = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirUpFxR.dds"), !1, v_s_30384), v_H_30265.Sy = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirDownFx.dds"), !1, v_s_30384), v_H_30265.xy = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirDownFxR.dds"), !1, v_s_30384), v_H_30265.zs = v_Be_28119(await languagePackages.ck(v_a_30385 + "txSlideBg.dds"), !1, v_e_30381), v_H_30265.Xs = v_Be_28119(await languagePackages.ck(v_a_30385 + "txHoldBg.dds"), !1, v_e_30381), v_H_30265.Zs = v_Be_28119(await languagePackages.ck(v_a_30385 + "txSlideActive.dds"), !1, v_i_30380), v_H_30265.Ys = v_Be_28119(await languagePackages.ck(v_a_30385 + "txSlideCenter.dds"), !1, v_i_30380), v_H_30265.$s = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirHoldCenter.dds"), !1, v_i_30380), v_H_30265.qs = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirHoldCenterR.dds"), !1, v_i_30380), v_H_30265.Qs = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirHoldCover.dds"), !1, v_e_30381), v_H_30265.eo = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirHoldCoverR.dds"), !1, v_e_30381), v_H_30265._y = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirActionBox.dds"), !1, v_i_30380), v_H_30265.uy = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirActionEffectTop.dds"), !1, v_r_30383), v_H_30265.hy = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirActionEffectBottom.dds"), !1, v_r_30383), v_H_30265.vy = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirCrushBox.dds"), !1, v_i_30380), v_H_30265.py = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirCrushTop0.dds"), !1, v_i_30380), v_H_30265.ky = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirCrushTop1.dds"), !1, v_i_30380), v_H_30265.gy = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirCrushEffect.dds"), !1, v_i_30380), v_H_30265.ro = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirTrace.dds"), !1, v_i_30380), v_H_30265.Iy = v_Be_28119(await languagePackages.ck(v_a_30385 + "txExTapEffect.dds"), !1, v_r_30383), v_H_30265.ao = v_Be_28119(await languagePackages.ck(v_a_30385 + "txComboFont.dds"), !1, v_i_30380), v_H_30265.$x = v_Be_28119(await languagePackages.ck(v_a_30385 + "txComboChainFont.dds"), !1, v_i_30380), v_H_30265.oo = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxBall.dds"), !1, v_i_30380), v_H_30265.lo = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxAir.dds"), !1, v_i_30380), v_H_30265.co = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxAirAurora.dds"), !1, v_n_30382), v_H_30265.uo = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxAirAuroraColor.dds"), !1, v_i_30380), v_H_30265.fo = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxSlideThunder.dds"), !1, v_i_30380), v_H_30265._o = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxTapRing.dds"), !1, v_i_30380), v_H_30265.do = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxTapCore.dds"), !1, v_i_30380), v_H_30265.ho = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxTapWave.dds"), !1, v_i_30380), v_H_30265.vo = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxTapBg.dds"), !1, v_i_30380), v_H_30265.wo = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxTapGlowing.dds"), !1, v_i_30380), v_H_30265.po = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxExTapFront.dds"), !1, v_i_30380), v_H_30265.ko = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxDamage.dds"), !1, v_i_30380), v_H_30265.bo = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxDamageFront.dds"), !1, v_i_30380), v_H_30265.mo = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxAirActionRing.dds"), !1, v_i_30380), v_H_30265.So = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxAirActionEnd.dds"), !1, v_i_30380), v_H_30265.gL = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxAirActionEndBlur.dds"), !1, v_i_30380), v_H_30265.Io = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxAirActionFeedback.dds"), !1, v_i_30380), v_H_30265.yo = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxAirCrush.dds"), !1, v_i_30380), v_H_30265.Co = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxAirCrushBreak.dds"), !1, v_i_30380), v_H_30265.Ao = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxFlick.dds"), !1, v_i_30380), v_H_30265.To = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxStar.dds"), !1, v_i_30380), v_H_30265.Lo = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxDamageThunder.dds"), !1, v_i_30380), v_H_30265.Eo = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirHoldJudgeLine.dds"), !1, v_i_30380), v_H_30265.Va = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirHoldPositionLine.dds"), !1, v_i_30380), v_H_30265.wL = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirHoldGrid.dds"), !1, v_i_30380), v_H_30265.Po = v_Be_28119(await languagePackages.ck(v_a_30385 + "txJudgeAnswer.dds"), !1, v_i_30380), v_H_30265.Do = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxExTapBgLine.dds"), !1, v_i_30380), v_t_30379();
           },
           Il: function () {
-            function v_t_30403(v_t_30403, v_i_30404, v_e_30405) {
+            function v_t_30386(v_t_30403, v_i_30404, v_e_30405) {
               var v_n_30406 = new glRuntime.Mesh({
                   coords: !0,
                   colors: !0
@@ -674,7 +674,7 @@
                 v_o_30410 = v_o_30410 * v_e_30405;
               return v_n_30406.vertices = [[v_l_30411 + v_a_30409, v_u_30413, 0], [v_c_30412 + v_a_30409, v_u_30413, 0], [v_l_30411, v_o_30410, 0], [v_c_30412, v_o_30410, 0], [v_c_30412 + v_a_30409, v_u_30413, 0], [v_r_30407 + v_a_30409, v_u_30413, 0], [v_c_30412, v_o_30410, 0], [v_r_30407, v_o_30410, 0]], v_n_30406.coords = [[0, 1], [(v_c_30412 - v_l_30411) / (v_Yt_30269 / 2), 1], [0, 0], [(v_c_30412 - v_l_30411) / (v_Yt_30269 / 2), 0], [(v_r_30407 - v_c_30412) / (v_Yt_30269 / 2), 1], [0, 1], [(v_r_30407 - v_c_30412) / (v_Yt_30269 / 2), 0], [0, 0]], v_i_30404 === v_Yn_27688 || v_i_30404 === v_Qn_27692 || v_i_30404 === v_$n_27691 ? v_n_30406.colors = [[v_t_30403, v_s_30408, 1, v_s_30408], [v_t_30403, v_s_30408, 0, v_s_30408], [v_t_30403, v_s_30408, 1, v_s_30408], [v_t_30403, v_s_30408, 0, v_s_30408], [v_t_30403, v_s_30408, 0, v_s_30408], [v_t_30403, v_s_30408, 1, v_s_30408], [v_t_30403, v_s_30408, 0, v_s_30408], [v_t_30403, v_s_30408, 1, v_s_30408]] : v_n_30406.colors = [[v_t_30403, v_s_30408, 0, 0], [v_t_30403, v_s_30408, 1, 0], [v_t_30403, v_s_30408, 0, 0], [v_t_30403, v_s_30408, 1, 0], [v_t_30403, v_s_30408, 1, 0], [v_t_30403, v_s_30408, 0, 0], [v_t_30403, v_s_30408, 1, 0], [v_t_30403, v_s_30408, 0, 0]], v_n_30406.triangles = [[0, 1, 2], [2, 1, 3], [4, 5, 6], [6, 5, 7]], v_n_30406.compile(), v_n_30406;
             }
-            function v_i_30414(v_i_30414) {
+            function v_i_30387(v_i_30414) {
               var v_e_30415 = new glRuntime.Mesh({
                 coords: !0,
                 colors: !0
@@ -1947,7 +1947,7 @@
               });
               return v_i_30950;
             }
-            function v_s_30957(v_i_30952, v_e_30953, v_t_30954, v_n_30955, v_r_30956) {
+            function v_s_30855(v_i_30952, v_e_30953, v_t_30954, v_n_30955, v_r_30956) {
               let v_s_30957, v_a_30958, v_o_30959, v_l_30960, v_c_30961;
               var v_u_30962 = v_n_30955 / 30,
                 v_f_30963 = v_J_30266.ml.Gl("vertices"),
@@ -4375,7 +4375,7 @@
           Ee: void 0
         };
       }
-      function v_i_31837(v_t_31836, v_i_31837, v_e_31838) {
+      function v_i_31823(v_t_31836, v_i_31837, v_e_31838) {
         this.ou = v_t_31836, this.w = v_i_31837, this.lu = 0, this.Ae = v_e_31838;
       }
       function v_n_31824() {
@@ -4445,7 +4445,7 @@
       function v_d_31832(v_t_31848) {
         v_f_31826.a0 && (v_f_31826.a0.uu.visible = !1, v_f_31826.a0._u && v_f_31826.a0._u(), v_f_31826.Qc = !0), v_f_31826.r0 = v_t_31848, v_f_31826.a0 = v_e_31828[v_t_31848], v_f_31826.a0.fu && v_f_31826.a0.fu(), v_f_31826.a0.vu && v_f_31826.a0.vu(), v_f_31826.a0.uu.visible = !0;
       }
-      function v_s_31852() {
+      function v_s_31833() {
         let v_t_31849;
         var v_i_31850, v_e_31851;
         function v_s_31852() {
@@ -4527,7 +4527,7 @@
           this.On.Bu.Wt = this.On.Bu.Tn.An(v_n_31859);
         }, v_t_31849.du = function (v_t_31864, v_i_31865) {
           this.pu(v_t_31864, v_i_31865) || v_t_31864 & (v_c_31820 | v_u_31821) && v_i_31865 & v_c_31820 && v_i_31865 & v_u_31821 && v_d_31832("Root");
-        }), (v_t_31849 = v_n_31824.Vc("OutputTest")) && (v_t_31849.wu = v_l_31818 | v_o_31817 | v_v_31819, v_t_31849.gu = ["OutputTest0", "OutputTest1", "OutputTest2", "OutputTest3", "OutputTest4", "Back"], v_t_31849.au = 0, v_t_31849.K = function () {
+        }), (v_t_31849 = v_n_31824.Vc("OutputTest")) && (v_t_31849.wu = v_l_31818 | v_o_31817 | v_v_31819, v_t_31849.gu = ["OutputTest0", "OutputTest1", "OutputTest2", "OutputTest3", "OutputTest4", "OutputTest5", "OutputTest6", "Back"], v_t_31849.au = 0, v_t_31849.K = function () {
           try {
             var v_glL_31866 = v_w_31825 && v_w_31825.rsbTree && v_w_31825.rsbTree.elementByName("keyGuideLeft"),
               v_glR_31867 = v_w_31825 && v_w_31825.rsbTree && v_w_31825.rsbTree.elementByName("keyGuideRight");
@@ -4542,17 +4542,13 @@
             var v_p_31870 = window.umgKeyPanel && window.umgKeyPanel.get();
             if (!v_p_31870) return;
             var v_u_31871 = this.uu;
-            var rows = [["textMenuOutputTest0Value", v_p_31870.rowH], ["textMenuOutputTest1Value", v_p_31870.colGap], ["textMenuOutputTest2Value", v_p_31870.airGap], ["textMenuOutputTest3Value", v_p_31870.airRowGap], ["textMenuOutputTest4Value", v_p_31870.bottomInset]];
+            var rows = [["textMenuOutputTest0Value", v_p_31870.rowH], ["textMenuOutputTest1Value", v_p_31870.colGap], ["textMenuOutputTest2Value", v_p_31870.airGap], ["textMenuOutputTest3Value", v_p_31870.airRowGap], ["textMenuOutputTest4Value", v_p_31870.bottomInset], ["textMenuOutputTest5Value", v_p_31870.radius], ["textMenuOutputTest6Value", v_p_31870.showLanes ? "ON" : "OFF"]];
             for (var v_i_31872 = 0; v_i_31872 < rows.length; ++v_i_31872) {
               var v_e_31873 = v_u_31871.elementByName(rows[v_i_31872][0]);
               if (v_e_31873) v_e_31873.Wt = "" + rows[v_i_31872][1];
             }
-            var v_kb_31874 = v_w_31825 && v_w_31825.rsbTree && v_w_31825.rsbTree.elementByName("keyGuideLabel");
-            if (v_kb_31874) {
-              v_kb_31874.visible = !0;
-              v_kb_31874.Wt = "触发距离 " + v_p_31870.radius;
-              if (window.umgKeyPanel) window.umgKeyPanel.setGuidePos((v_w_31825.rsbTree.x || 0) + v_kb_31874.x, (v_w_31825.rsbTree.y || 0) + v_kb_31874.y, v_kb_31874.w, v_kb_31874.h);
-            }
+            var v_gr_31874 = v_u_31871.elementByName("textMenuOutputTest5Value");
+            if (v_gr_31874 && window.umgKeyPanel) window.umgKeyPanel.setGuidePos((v_u_31871.x || 0) + v_gr_31874.x, (v_u_31871.y || 0) + v_gr_31874.y, v_gr_31874.w, v_gr_31874.h);
           } catch (v_e_31875) {}
         }, v_t_31849.fu = function () {
           try {
@@ -4588,10 +4584,10 @@
               v_d_31832("Root");
               return;
             }
-            var keys = ["rowH", "colGap", "airGap", "airRowGap", "bottomInset", null],
+            var keys = ["rowH", "colGap", "airGap", "airRowGap", "bottomInset", "radius", "showLanes", null],
               v_dir_31886 = 0;
             if (v_t_31880 & 16) v_dir_31886 = 1;else if (v_t_31880 & 8) v_dir_31886 = -1;else if (v_t_31880 & v_u_31821) v_dir_31886 = 1;else return;
-            if (this.au === 5) {
+            if (this.au === 7) {
               v_d_31832("Root");
               return;
             }
@@ -4599,7 +4595,11 @@
             if (!v_k_31887) {
               return;
             }
-            window.umgKeyPanel && window.umgKeyPanel.cycle(v_k_31887, v_dir_31886);
+            if (v_k_31887 === "showLanes") {
+              window.umgKeyPanel && window.umgKeyPanel.setLanes(!window.umgKeyPanel.get().showLanes);
+            } else {
+              window.umgKeyPanel && window.umgKeyPanel.cycle(v_k_31887, v_dir_31886);
+            }
             this.K();
           } catch (v_e_31888) {}
         }, v_t_31849.vu = function () {

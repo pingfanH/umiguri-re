@@ -12,7 +12,11 @@ import { fileURLToPath } from 'node:url';
 import { parser, traverse, generate, loadSymbols, applySymbols } from './lib/symbols.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const srcFile = process.argv[2] || process.env.GAME_SRC || '/Users/pingfanh/project/umiguri-re/game_main.deobf.js';
+const fixedSrc = path.join(root, 'dist/game_main.deobf.js');
+const srcFile =
+  process.argv[2] ||
+  process.env.GAME_SRC ||
+  (fs.existsSync(fixedSrc) ? fixedSrc : '/Users/pingfanh/project/umiguri-re/game_main.deobf.js');
 const outFile = process.argv[3] || path.join(root, 'src/game/logic/COUPLING.md');
 
 let code = fs.readFileSync(srcFile, 'utf8');

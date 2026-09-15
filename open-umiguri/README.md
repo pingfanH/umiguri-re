@@ -94,6 +94,17 @@ cargo tauri android build --debug --apk --target aarch64   # Android
 
 ## 游戏本体拆分策略(重要)
 
+> ⚠️ 上游的 `game_main.deobf.js` **不可运行**: 原 `tools/deobfuscate.js` 在改名时对每个
+> 标识符现场 `getBinding`，而声明已被就地改过名，导致约 106 个名字「有引用、无声明」
+> (例: `function t(){}` → 声明名 `v_t_28361`，但 `new t()` → 不存在的 `v_t_28347`)。
+> 本工程用修正版 `tools/deobfuscate-fixed.mjs` 重新生成可用源码:
+> ```bash
+> npm run deobf        # ../game_main.original.js -> dist/game_main.deobf.js
+> npm run extract:game # 再按 symbols/props/upstream 拆分
+> ```
+> 修正点: 函数/类声明的名字标识符必须用**外层作用域**的绑定(Babel 在函数名节点上会
+> 解析到函数自身的同名形参绑定)。`npm run check` 含 `freevar-check`, 会拦截此类断裂。
+
 `tools/split-game.mjs` 按**顶层语句**与**游戏 IIFE 体内语句**切分,并且:
 
 1. 生成 `logic/entry.preamble|footer|postamble.js` 与 277 个体内片段;

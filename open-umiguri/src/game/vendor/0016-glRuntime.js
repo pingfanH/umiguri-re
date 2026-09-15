@@ -400,7 +400,7 @@ var glRuntime = function () {
   function v_h_27099(v_t_27360, v_n_27361, v_i_27362) {
     this.t = arguments.length ? v_t_27360 : Number.MAX_VALUE, this.hit = v_n_27361, this.normal = v_i_27362;
   }
-  function v_t_27363() {
+  function v_t_27100() {
     var v_t_27363 = v_p_27086.getParameter(v_p_27086.VIEWPORT),
       v_n_27364 = v_p_27086.modelviewMatrix.m,
       v_i_27365 = new v_V_27108(v_n_27364[0], v_n_27364[4], v_n_27364[8]),
@@ -426,7 +426,7 @@ var glRuntime = function () {
     }
     return v_n_27372.compile(), v_n_27372;
   }, v_P_27096.sphere = function (v_t_27378) {
-    function v_n_27394(v_t_27393, v_n_27394, v_i_27395) {
+    function v_n_27379(v_t_27393, v_n_27394, v_i_27395) {
       return v_u_27385 ? [v_t_27393, v_i_27395, v_n_27394] : [v_t_27393, v_n_27394, v_i_27395];
     }
     function v_i_27380(v_t_27396) {

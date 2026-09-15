@@ -1,6 +1,6 @@
 {
   "generatedBy": "tools/split-game.mjs",
-  "source": "../game_main.deobf.js",
+  "source": "dist/game_main.deobf.js",
   "note": "按顺序拼接 pieces[].file 即得到完整 bundle;logic 片段共享同一 IIFE 闭包作用域。",
   "pieces": [
     {
@@ -648,7 +648,7 @@
       "role": "body",
       "index": 65,
       "type": "VariableDeclaration",
-      "bytes": 480882
+      "bytes": 481057
     },
     {
       "file": "logic/0066-v_fr_27933.js",
