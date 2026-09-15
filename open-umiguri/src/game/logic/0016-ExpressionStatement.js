@@ -1,0 +1,6 @@
+// game: 语句 16 (ExpressionStatement)
+// 自动生成: tools/split-game.mjs
+// 来源: game_main.deobf.js
+// 说明: 本文件是 bundle 片段, 由 build/assemble-game.mjs 按 manifest 拼接;请勿手改拼接顺序。
+
+  v_Q_27767[v_gt_27748] = "None", v_Q_27767[v_mt_27749] = "Matching", v_Q_27767[v_pt_27750] = "Guard", v_Q_27767[v_kt_27751] = "Support", v_Q_27767[v_bt_27752] = "BoostNml", v_Q_27767[v_yt_27753] = "BoostTgt", v_Q_27767[v_St_27754] = "BoostTcn", v_Q_27767[v_At_27755] = "BoostMna", v_Q_27767[v_jt_27756] = "DangerHrd", v_Q_27767[v_Ot_27757] = "DangerAbs", v_Q_27767[v_Vt_27758] = "DangerCts", v_Q_27767[v_qt_27762] = "Boost", v_Q_27767[1009] = "DBoost", v_Q_27767[1007] = "DGuard", v_Q_27767[1006] = "DMatching", v_Q_27767[1008] = "DSupport", v_Q_27767[v_Zt_27763] = "Danger", v_Q_27767[v_Kt_27760] = "Guard", v_Q_27767[v_$t_27764] = "Hard", v_Q_27767[v_Wt_27759] = "Matching", v_Q_27767[v_Yt_27761] = "Support", v_Q_27767[2001] = "Matching", v_Q_27767[2002] = "Guard", v_Q_27767[2003] = "Support", v_Q_27767[2004] = "Boost", v_Q_27767[v_Z_27765] = "Danger";

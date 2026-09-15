@@ -1,0 +1,2317 @@
+{
+  "generatedBy": "tools/split-game.mjs",
+  "source": "../game_main.deobf.js",
+  "note": "按顺序拼接 pieces[].file 即得到完整 bundle;logic 片段共享同一 IIFE 闭包作用域。",
+  "pieces": [
+    {
+      "file": "vendor/0000-EmptyStatement.js",
+      "kind": "vendor",
+      "bytes": 1
+    },
+    {
+      "file": "vendor/0001-ExpressionStatement.js",
+      "kind": "vendor",
+      "bytes": 1082635
+    },
+    {
+      "file": "vendor/0002-EmptyStatement.js",
+      "kind": "vendor",
+      "bytes": 2
+    },
+    {
+      "file": "vendor/0003-effekseer.js",
+      "kind": "vendor",
+      "bytes": 8884983
+    },
+    {
+      "file": "vendor/0004-IfStatement.js",
+      "kind": "vendor",
+      "bytes": 266
+    },
+    {
+      "file": "vendor/0005-ExpressionStatement.js",
+      "kind": "vendor",
+      "bytes": 14
+    },
+    {
+      "file": "vendor/0006-typeof.js",
+      "kind": "vendor",
+      "bytes": 330
+    },
+    {
+      "file": "vendor/0007-createClass.js",
+      "kind": "vendor",
+      "bytes": 655
+    },
+    {
+      "file": "vendor/0008-classCallCheck.js",
+      "kind": "vendor",
+      "bytes": 162
+    },
+    {
+      "file": "vendor/0009-effekseer.js",
+      "kind": "vendor",
+      "bytes": 36584
+    },
+    {
+      "file": "vendor/0010-IfStatement.js",
+      "kind": "vendor",
+      "bytes": 63
+    },
+    {
+      "file": "vendor/0011-EmptyStatement.js",
+      "kind": "vendor",
+      "bytes": 2
+    },
+    {
+      "file": "vendor/0012-ExpressionStatement.js",
+      "kind": "vendor",
+      "bytes": 19793
+    },
+    {
+      "file": "vendor/0013-EmptyStatement.js",
+      "kind": "vendor",
+      "bytes": 2
+    },
+    {
+      "file": "vendor/0014-ExpressionStatement.js",
+      "kind": "vendor",
+      "bytes": 82626
+    },
+    {
+      "file": "vendor/0015-EmptyStatement.js",
+      "kind": "vendor",
+      "bytes": 2
+    },
+    {
+      "file": "vendor/0016-m_GL_0.js",
+      "kind": "vendor",
+      "bytes": 68037
+    },
+    {
+      "file": "vendor/0017-EmptyStatement.js",
+      "kind": "vendor",
+      "bytes": 2
+    },
+    {
+      "file": "vendor/0018-ExpressionStatement.js",
+      "kind": "vendor",
+      "bytes": 181836
+    },
+    {
+      "file": "vendor/0019-EmptyStatement.js",
+      "kind": "vendor",
+      "bytes": 2
+    },
+    {
+      "file": "logic/entry.preamble.js",
+      "kind": "logic",
+      "role": "preamble",
+      "bytes": 25
+    },
+    {
+      "file": "logic/0000-v_y_27559_x6.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 0,
+      "type": "VariableDeclaration",
+      "bytes": 375
+    },
+    {
+      "file": "logic/0001-v_i_27565_x87.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 1,
+      "type": "VariableDeclaration",
+      "bytes": 2043
+    },
+    {
+      "file": "logic/0002-v_G_27652_x10.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 2,
+      "type": "VariableDeclaration",
+      "bytes": 239
+    },
+    {
+      "file": "logic/0003-v_Cn_27662_x15.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 3,
+      "type": "VariableDeclaration",
+      "bytes": 319
+    },
+    {
+      "file": "logic/0004-v_Hn_27677_x26.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 4,
+      "type": "VariableDeclaration",
+      "bytes": 560
+    },
+    {
+      "file": "logic/0005-v_c0_27703_x2.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 5,
+      "type": "VariableDeclaration",
+      "bytes": 48
+    },
+    {
+      "file": "logic/0006-v_0_27710.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 6,
+      "type": "VariableDeclaration",
+      "bytes": 474
+    },
+    {
+      "file": "logic/0007-v_h0_27711_x9.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 7,
+      "type": "VariableDeclaration",
+      "bytes": 263
+    },
+    {
+      "file": "logic/0008-v_g0_27720_x2.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 8,
+      "type": "VariableDeclaration",
+      "bytes": 50
+    },
+    {
+      "file": "logic/0009-v_p0_27722_x3.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 9,
+      "type": "VariableDeclaration",
+      "bytes": 64
+    },
+    {
+      "file": "logic/0010-v_y0_27725_x8.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 10,
+      "type": "VariableDeclaration",
+      "bytes": 461
+    },
+    {
+      "file": "logic/0011-v_I0_27733_x3.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 11,
+      "type": "VariableDeclaration",
+      "bytes": 78
+    },
+    {
+      "file": "logic/0012-v_R0_27736_x4.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 12,
+      "type": "VariableDeclaration",
+      "bytes": 102
+    },
+    {
+      "file": "logic/0013-v_D0_27740_x25.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 13,
+      "type": "VariableDeclaration",
+      "bytes": 588
+    },
+    {
+      "file": "logic/0014-v_Z_27765.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 14,
+      "type": "VariableDeclaration",
+      "bytes": 26
+    },
+    {
+      "file": "logic/0015-v_$_27766_x2.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 15,
+      "type": "VariableDeclaration",
+      "bytes": 350
+    },
+    {
+      "file": "logic/0016-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 16,
+      "type": "ExpressionStatement",
+      "bytes": 859
+    },
+    {
+      "file": "logic/0017-v_Qt_27768_x7.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 17,
+      "type": "VariableDeclaration",
+      "bytes": 149
+    },
+    {
+      "file": "logic/0018-v_U0_27775_x9.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 18,
+      "type": "VariableDeclaration",
+      "bytes": 204
+    },
+    {
+      "file": "logic/0019-v_at_27784.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 19,
+      "type": "VariableDeclaration",
+      "bytes": 25
+    },
+    {
+      "file": "logic/0020-v_ot_27785.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 20,
+      "type": "VariableDeclaration",
+      "bytes": 114
+    },
+    {
+      "file": "logic/0021-v_lt_27786_x5.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 21,
+      "type": "VariableDeclaration",
+      "bytes": 294
+    },
+    {
+      "file": "logic/0022-v_W0_27791_x2.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 22,
+      "type": "VariableDeclaration",
+      "bytes": 53
+    },
+    {
+      "file": "logic/0023-v_ai_27793_x5.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 23,
+      "type": "VariableDeclaration",
+      "bytes": 137
+    },
+    {
+      "file": "logic/0024-v_ct_27798.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 24,
+      "type": "VariableDeclaration",
+      "bytes": 23
+    },
+    {
+      "file": "logic/0025-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 25,
+      "type": "ExpressionStatement",
+      "bytes": 344
+    },
+    {
+      "file": "logic/0026-v_z0_27799_x10.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 26,
+      "type": "VariableDeclaration",
+      "bytes": 292
+    },
+    {
+      "file": "logic/0027-v_hi_27809_x7.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 27,
+      "type": "VariableDeclaration",
+      "bytes": 147
+    },
+    {
+      "file": "logic/0028-v_mi_27816_x4.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 28,
+      "type": "VariableDeclaration",
+      "bytes": 12592
+    },
+    {
+      "file": "logic/0029-v_t1_27820.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 29,
+      "type": "VariableDeclaration",
+      "bytes": 25
+    },
+    {
+      "file": "logic/0030-v_ge_27821_x13.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 30,
+      "type": "VariableDeclaration",
+      "bytes": 363
+    },
+    {
+      "file": "logic/0031-v_o1_27834_x2.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 31,
+      "type": "VariableDeclaration",
+      "bytes": 39
+    },
+    {
+      "file": "logic/0032-v_xi_27836.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 32,
+      "type": "FunctionDeclaration",
+      "bytes": 411
+    },
+    {
+      "file": "logic/0033-v_c1_27846_x6.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 33,
+      "type": "VariableDeclaration",
+      "bytes": 2202
+    },
+    {
+      "file": "logic/0034-v_Hi_27855.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 34,
+      "type": "VariableDeclaration",
+      "bytes": 28
+    },
+    {
+      "file": "logic/0035-v_Ji_27856.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 35,
+      "type": "VariableDeclaration",
+      "bytes": 115
+    },
+    {
+      "file": "logic/0036-v_be_27857_x4.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 36,
+      "type": "VariableDeclaration",
+      "bytes": 4047
+    },
+    {
+      "file": "logic/0037-v_Oi_27861.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 37,
+      "type": "FunctionDeclaration",
+      "bytes": 763
+    },
+    {
+      "file": "logic/0038-v_Vi_27862.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 38,
+      "type": "FunctionDeclaration",
+      "bytes": 105
+    },
+    {
+      "file": "logic/0039-v_Wi_27863.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 39,
+      "type": "FunctionDeclaration",
+      "bytes": 50
+    },
+    {
+      "file": "logic/0040-v_Xi_27864_x7.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 40,
+      "type": "VariableDeclaration",
+      "bytes": 154
+    },
+    {
+      "file": "logic/0041-v_d1_27871.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 41,
+      "type": "FunctionDeclaration",
+      "bytes": 445
+    },
+    {
+      "file": "logic/0042-v_v1_27872.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 42,
+      "type": "FunctionDeclaration",
+      "bytes": 188
+    },
+    {
+      "file": "logic/0043-v_Qi_27873.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 43,
+      "type": "FunctionDeclaration",
+      "bytes": 964
+    },
+    {
+      "file": "logic/0044-v_te_27874.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 44,
+      "type": "FunctionDeclaration",
+      "bytes": 57
+    },
+    {
+      "file": "logic/0045-v_ie_27875.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 45,
+      "type": "FunctionDeclaration",
+      "bytes": 295
+    },
+    {
+      "file": "logic/0046-v_ee_27876.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 46,
+      "type": "FunctionDeclaration",
+      "bytes": 1711
+    },
+    {
+      "file": "logic/0047-v_ne_27877.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 47,
+      "type": "FunctionDeclaration",
+      "bytes": 311
+    },
+    {
+      "file": "logic/0048-v_re_27878.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 48,
+      "type": "FunctionDeclaration",
+      "bytes": 51
+    },
+    {
+      "file": "logic/0049-v_w1_27879.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 49,
+      "type": "FunctionDeclaration",
+      "bytes": 50
+    },
+    {
+      "file": "logic/0050-v_g1_27880.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 50,
+      "type": "FunctionDeclaration",
+      "bytes": 50
+    },
+    {
+      "file": "logic/0051-v_m1_27881.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 51,
+      "type": "FunctionDeclaration",
+      "bytes": 135
+    },
+    {
+      "file": "logic/0052-v_p1_27882.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 52,
+      "type": "FunctionDeclaration",
+      "bytes": 921
+    },
+    {
+      "file": "logic/0053-v_k1_27883.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 53,
+      "type": "FunctionDeclaration",
+      "bytes": 61
+    },
+    {
+      "file": "logic/0054-v_b1_27884.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 54,
+      "type": "FunctionDeclaration",
+      "bytes": 85
+    },
+    {
+      "file": "logic/0055-v_y1_27885.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 55,
+      "type": "VariableDeclaration",
+      "bytes": 173
+    },
+    {
+      "file": "logic/0056-v_S1_27886.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 56,
+      "type": "VariableDeclaration",
+      "bytes": 23
+    },
+    {
+      "file": "logic/0057-v_A1_27887.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 57,
+      "type": "FunctionDeclaration",
+      "bytes": 302
+    },
+    {
+      "file": "logic/0058-v_x1_27888.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 58,
+      "type": "FunctionDeclaration",
+      "bytes": 244
+    },
+    {
+      "file": "logic/0059-v_Se_27889.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 59,
+      "type": "VariableDeclaration",
+      "bytes": 6817
+    },
+    {
+      "file": "logic/0060-v_C1_27890.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 60,
+      "type": "FunctionDeclaration",
+      "bytes": 197
+    },
+    {
+      "file": "logic/0061-v_T1_27891.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 61,
+      "type": "FunctionDeclaration",
+      "bytes": 268
+    },
+    {
+      "file": "logic/0062-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 62,
+      "type": "ExpressionStatement",
+      "bytes": 2004
+    },
+    {
+      "file": "logic/0063-v_Ae_27892_x29.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 63,
+      "type": "VariableDeclaration",
+      "bytes": 314571
+    },
+    {
+      "file": "logic/0064-v_ar_27928.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 64,
+      "type": "FunctionDeclaration",
+      "bytes": 254
+    },
+    {
+      "file": "logic/0065-v_or_27929_x4.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 65,
+      "type": "VariableDeclaration",
+      "bytes": 474407
+    },
+    {
+      "file": "logic/0066-v_fr_27933.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 66,
+      "type": "FunctionDeclaration",
+      "bytes": 4612
+    },
+    {
+      "file": "logic/0067-v_r_27934.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 67,
+      "type": "FunctionDeclaration",
+      "bytes": 96
+    },
+    {
+      "file": "logic/0068-v_hr_27935.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 68,
+      "type": "FunctionDeclaration",
+      "bytes": 77
+    },
+    {
+      "file": "logic/0069-v_dr_27936.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 69,
+      "type": "FunctionDeclaration",
+      "bytes": 826
+    },
+    {
+      "file": "logic/0070-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 70,
+      "type": "ExpressionStatement",
+      "bytes": 10487
+    },
+    {
+      "file": "logic/0071-v_vr_27937.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 71,
+      "type": "VariableDeclaration",
+      "bytes": 32346
+    },
+    {
+      "file": "logic/0072-v_wr_27938.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 72,
+      "type": "FunctionDeclaration",
+      "bytes": 315
+    },
+    {
+      "file": "logic/0073-v_gr_27939.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 73,
+      "type": "FunctionDeclaration",
+      "bytes": 508
+    },
+    {
+      "file": "logic/0074-v_mr_27940.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 74,
+      "type": "FunctionDeclaration",
+      "bytes": 232
+    },
+    {
+      "file": "logic/0075-v_pr_27941.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 75,
+      "type": "FunctionDeclaration",
+      "bytes": 655
+    },
+    {
+      "file": "logic/0076-v_kr_27942.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 76,
+      "type": "VariableDeclaration",
+      "bytes": 69123
+    },
+    {
+      "file": "logic/0077-v_yr_27944.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 77,
+      "type": "FunctionDeclaration",
+      "bytes": 118
+    },
+    {
+      "file": "logic/0078-v_Sr_27945.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 78,
+      "type": "FunctionDeclaration",
+      "bytes": 86
+    },
+    {
+      "file": "logic/0079-v_Ar_27946.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 79,
+      "type": "FunctionDeclaration",
+      "bytes": 70
+    },
+    {
+      "file": "logic/0080-v_xr_27947.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 80,
+      "type": "FunctionDeclaration",
+      "bytes": 398
+    },
+    {
+      "file": "logic/0081-v_Cr_27948.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 81,
+      "type": "FunctionDeclaration",
+      "bytes": 120
+    },
+    {
+      "file": "logic/0082-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 82,
+      "type": "ExpressionStatement",
+      "bytes": 2275
+    },
+    {
+      "file": "logic/0083-v_Tr_27949.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 83,
+      "type": "VariableDeclaration",
+      "bytes": 9394
+    },
+    {
+      "file": "logic/0084-v_Ir_27950.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 84,
+      "type": "FunctionDeclaration",
+      "bytes": 186
+    },
+    {
+      "file": "logic/0085-v_Pr_27951.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 85,
+      "type": "VariableDeclaration",
+      "bytes": 21065
+    },
+    {
+      "file": "logic/0086-v_Lr_27953.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 86,
+      "type": "FunctionDeclaration",
+      "bytes": 588
+    },
+    {
+      "file": "logic/0087-v_Mr_27954.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 87,
+      "type": "VariableDeclaration",
+      "bytes": 106
+    },
+    {
+      "file": "logic/0088-v_Er_27955.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 88,
+      "type": "FunctionDeclaration",
+      "bytes": 296
+    },
+    {
+      "file": "logic/0089-v_Dr_27956.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 89,
+      "type": "FunctionDeclaration",
+      "bytes": 421
+    },
+    {
+      "file": "logic/0090-v_Fr_27957.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 90,
+      "type": "FunctionDeclaration",
+      "bytes": 277
+    },
+    {
+      "file": "logic/0091-v_Br_27958_x2.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 91,
+      "type": "VariableDeclaration",
+      "bytes": 30293
+    },
+    {
+      "file": "logic/0092-v_Gr_27960.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 92,
+      "type": "FunctionDeclaration",
+      "bytes": 64
+    },
+    {
+      "file": "logic/0093-v_Ur_27961.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 93,
+      "type": "FunctionDeclaration",
+      "bytes": 92
+    },
+    {
+      "file": "logic/0094-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 94,
+      "type": "ExpressionStatement",
+      "bytes": 1028
+    },
+    {
+      "file": "logic/0095-v_Jr_27963_x4.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 95,
+      "type": "VariableDeclaration",
+      "bytes": 30404
+    },
+    {
+      "file": "logic/0096-v_Vr_27967.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 96,
+      "type": "FunctionDeclaration",
+      "bytes": 288
+    },
+    {
+      "file": "logic/0097-v_Wr_27968.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 97,
+      "type": "VariableDeclaration",
+      "bytes": 6293
+    },
+    {
+      "file": "logic/0098-v_zr_27970.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 98,
+      "type": "FunctionDeclaration",
+      "bytes": 143
+    },
+    {
+      "file": "logic/0099-v_Kr_27971.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 99,
+      "type": "FunctionDeclaration",
+      "bytes": 248
+    },
+    {
+      "file": "logic/0100-v_Yr_27972.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 100,
+      "type": "FunctionDeclaration",
+      "bytes": 76
+    },
+    {
+      "file": "logic/0101-v_qr_27973.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 101,
+      "type": "FunctionDeclaration",
+      "bytes": 174
+    },
+    {
+      "file": "logic/0102-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 102,
+      "type": "ExpressionStatement",
+      "bytes": 12900
+    },
+    {
+      "file": "logic/0103-v_Zr_27974_x3.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 103,
+      "type": "VariableDeclaration",
+      "bytes": 7287
+    },
+    {
+      "file": "logic/0104-v_s_27989.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 104,
+      "type": "VariableDeclaration",
+      "bytes": 3922
+    },
+    {
+      "file": "logic/0105-v_hs_27990.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 105,
+      "type": "FunctionDeclaration",
+      "bytes": 1592
+    },
+    {
+      "file": "logic/0106-v_ds_27991.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 106,
+      "type": "FunctionDeclaration",
+      "bytes": 453
+    },
+    {
+      "file": "logic/0107-v_vs_27992.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 107,
+      "type": "FunctionDeclaration",
+      "bytes": 288
+    },
+    {
+      "file": "logic/0108-v_ws_27993.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 108,
+      "type": "FunctionDeclaration",
+      "bytes": 118
+    },
+    {
+      "file": "logic/0109-v_gs_27994.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 109,
+      "type": "FunctionDeclaration",
+      "bytes": 122
+    },
+    {
+      "file": "logic/0110-v_ms_27995.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 110,
+      "type": "FunctionDeclaration",
+      "bytes": 48
+    },
+    {
+      "file": "logic/0111-v_ps_27996.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 111,
+      "type": "FunctionDeclaration",
+      "bytes": 173
+    },
+    {
+      "file": "logic/0112-v_ks_27997.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 112,
+      "type": "FunctionDeclaration",
+      "bytes": 175
+    },
+    {
+      "file": "logic/0113-v_bs_27998.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 113,
+      "type": "FunctionDeclaration",
+      "bytes": 76
+    },
+    {
+      "file": "logic/0114-v_ys_27999.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 114,
+      "type": "FunctionDeclaration",
+      "bytes": 243
+    },
+    {
+      "file": "logic/0115-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 115,
+      "type": "ExpressionStatement",
+      "bytes": 39948
+    },
+    {
+      "file": "logic/0116-v_Ss_28000.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 116,
+      "type": "FunctionDeclaration",
+      "bytes": 823
+    },
+    {
+      "file": "logic/0117-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 117,
+      "type": "ExpressionStatement",
+      "bytes": 2609
+    },
+    {
+      "file": "logic/0118-v_As_28001.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 118,
+      "type": "FunctionDeclaration",
+      "bytes": 703
+    },
+    {
+      "file": "logic/0119-v_xs_28002.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 119,
+      "type": "FunctionDeclaration",
+      "bytes": 108
+    },
+    {
+      "file": "logic/0120-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 120,
+      "type": "ExpressionStatement",
+      "bytes": 4650
+    },
+    {
+      "file": "logic/0121-v_Cs_28003.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 121,
+      "type": "FunctionDeclaration",
+      "bytes": 207
+    },
+    {
+      "file": "logic/0122-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 122,
+      "type": "ExpressionStatement",
+      "bytes": 8175
+    },
+    {
+      "file": "logic/0123-v_Ts_28004_x3.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 123,
+      "type": "VariableDeclaration",
+      "bytes": 64
+    },
+    {
+      "file": "logic/0124-v_Rs_28007.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 124,
+      "type": "FunctionDeclaration",
+      "bytes": 284
+    },
+    {
+      "file": "logic/0125-v_Ls_28008.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 125,
+      "type": "FunctionDeclaration",
+      "bytes": 286
+    },
+    {
+      "file": "logic/0126-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 126,
+      "type": "ExpressionStatement",
+      "bytes": 7271
+    },
+    {
+      "file": "logic/0127-v_Ms_28009_x4.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 127,
+      "type": "VariableDeclaration",
+      "bytes": 88
+    },
+    {
+      "file": "logic/0128-v_Bs_28013.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 128,
+      "type": "FunctionDeclaration",
+      "bytes": 157
+    },
+    {
+      "file": "logic/0129-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 129,
+      "type": "ExpressionStatement",
+      "bytes": 13215
+    },
+    {
+      "file": "logic/0130-v_Ns_28014.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 130,
+      "type": "VariableDeclaration",
+      "bytes": 9683
+    },
+    {
+      "file": "logic/0131-v_Gs_28015.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 131,
+      "type": "FunctionDeclaration",
+      "bytes": 118
+    },
+    {
+      "file": "logic/0132-v_Us_28016.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 132,
+      "type": "FunctionDeclaration",
+      "bytes": 197
+    },
+    {
+      "file": "logic/0133-v_Hs_28017.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 133,
+      "type": "FunctionDeclaration",
+      "bytes": 493
+    },
+    {
+      "file": "logic/0134-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 134,
+      "type": "ExpressionStatement",
+      "bytes": 12776
+    },
+    {
+      "file": "logic/0135-v_Js_28018_x20.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 135,
+      "type": "VariableDeclaration",
+      "bytes": 444
+    },
+    {
+      "file": "logic/0136-v_oa_28038_x19.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 136,
+      "type": "VariableDeclaration",
+      "bytes": 387
+    },
+    {
+      "file": "logic/0137-v_Ca_28057.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 137,
+      "type": "FunctionDeclaration",
+      "bytes": 243
+    },
+    {
+      "file": "logic/0138-v_Ta_28058.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 138,
+      "type": "FunctionDeclaration",
+      "bytes": 243
+    },
+    {
+      "file": "logic/0139-v_Ia_28059.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 139,
+      "type": "FunctionDeclaration",
+      "bytes": 620
+    },
+    {
+      "file": "logic/0140-v_Pa_28060.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 140,
+      "type": "FunctionDeclaration",
+      "bytes": 196
+    },
+    {
+      "file": "logic/0141-v_Ra_28061.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 141,
+      "type": "FunctionDeclaration",
+      "bytes": 88
+    },
+    {
+      "file": "logic/0142-v_La_28062.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 142,
+      "type": "FunctionDeclaration",
+      "bytes": 216
+    },
+    {
+      "file": "logic/0143-v_Ma_28063.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 143,
+      "type": "FunctionDeclaration",
+      "bytes": 77
+    },
+    {
+      "file": "logic/0144-v_Pe_28064.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 144,
+      "type": "FunctionDeclaration",
+      "bytes": 140
+    },
+    {
+      "file": "logic/0145-v_Ea_28065.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 145,
+      "type": "FunctionDeclaration",
+      "bytes": 140
+    },
+    {
+      "file": "logic/0146-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 146,
+      "type": "ExpressionStatement",
+      "bytes": 25303
+    },
+    {
+      "file": "logic/0147-v_Re_28066.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 147,
+      "type": "VariableDeclaration",
+      "bytes": 33
+    },
+    {
+      "file": "logic/0148-v_Da_28067.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 148,
+      "type": "FunctionDeclaration",
+      "bytes": 131
+    },
+    {
+      "file": "logic/0149-v_Fa_28068.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 149,
+      "type": "FunctionDeclaration",
+      "bytes": 218
+    },
+    {
+      "file": "logic/0150-v_Ba_28069.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 150,
+      "type": "FunctionDeclaration",
+      "bytes": 214
+    },
+    {
+      "file": "logic/0151-v_Na_28070.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 151,
+      "type": "FunctionDeclaration",
+      "bytes": 678
+    },
+    {
+      "file": "logic/0152-v_Ga_28071.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 152,
+      "type": "FunctionDeclaration",
+      "bytes": 602
+    },
+    {
+      "file": "logic/0153-v_Ua_28072.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 153,
+      "type": "FunctionDeclaration",
+      "bytes": 179
+    },
+    {
+      "file": "logic/0154-v_Ha_28073.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 154,
+      "type": "FunctionDeclaration",
+      "bytes": 1746
+    },
+    {
+      "file": "logic/0155-v_Ja_28074.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 155,
+      "type": "FunctionDeclaration",
+      "bytes": 77
+    },
+    {
+      "file": "logic/0156-v_ja_28075.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 156,
+      "type": "FunctionDeclaration",
+      "bytes": 411
+    },
+    {
+      "file": "logic/0157-v_Le_28076.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 157,
+      "type": "FunctionDeclaration",
+      "bytes": 113
+    },
+    {
+      "file": "logic/0158-v_Oa_28077.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 158,
+      "type": "FunctionDeclaration",
+      "bytes": 165
+    },
+    {
+      "file": "logic/0159-v_Me_28078.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 159,
+      "type": "FunctionDeclaration",
+      "bytes": 226
+    },
+    {
+      "file": "logic/0160-v_Va_28079.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 160,
+      "type": "FunctionDeclaration",
+      "bytes": 2544
+    },
+    {
+      "file": "logic/0161-v_Wa_28080.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 161,
+      "type": "FunctionDeclaration",
+      "bytes": 2530
+    },
+    {
+      "file": "logic/0162-v_Xa_28081.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 162,
+      "type": "FunctionDeclaration",
+      "bytes": 133
+    },
+    {
+      "file": "logic/0163-v_za_28082.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 163,
+      "type": "FunctionDeclaration",
+      "bytes": 97
+    },
+    {
+      "file": "logic/0164-v_Ka_28083.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 164,
+      "type": "FunctionDeclaration",
+      "bytes": 160
+    },
+    {
+      "file": "logic/0165-v_Ee_28084.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 165,
+      "type": "FunctionDeclaration",
+      "bytes": 125
+    },
+    {
+      "file": "logic/0166-v_Ya_28085.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 166,
+      "type": "FunctionDeclaration",
+      "bytes": 123
+    },
+    {
+      "file": "logic/0167-v_qa_28086.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 167,
+      "type": "FunctionDeclaration",
+      "bytes": 120
+    },
+    {
+      "file": "logic/0168-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 168,
+      "type": "ExpressionStatement",
+      "bytes": 13070
+    },
+    {
+      "file": "logic/0169-v_Za_28087.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 169,
+      "type": "VariableDeclaration",
+      "bytes": 33
+    },
+    {
+      "file": "logic/0170-v_$a_28088.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 170,
+      "type": "FunctionDeclaration",
+      "bytes": 142
+    },
+    {
+      "file": "logic/0171-v_Qa_28089.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 171,
+      "type": "FunctionDeclaration",
+      "bytes": 155
+    },
+    {
+      "file": "logic/0172-v_to_28090.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 172,
+      "type": "FunctionDeclaration",
+      "bytes": 219
+    },
+    {
+      "file": "logic/0173-v_io_28091.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 173,
+      "type": "FunctionDeclaration",
+      "bytes": 170
+    },
+    {
+      "file": "logic/0174-v_eo_28092.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 174,
+      "type": "FunctionDeclaration",
+      "bytes": 427
+    },
+    {
+      "file": "logic/0175-v_no_28093.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 175,
+      "type": "FunctionDeclaration",
+      "bytes": 179
+    },
+    {
+      "file": "logic/0176-v_ro_28094.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 176,
+      "type": "FunctionDeclaration",
+      "bytes": 681
+    },
+    {
+      "file": "logic/0177-v_so_28095.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 177,
+      "type": "FunctionDeclaration",
+      "bytes": 100
+    },
+    {
+      "file": "logic/0178-v_De_28096.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 178,
+      "type": "FunctionDeclaration",
+      "bytes": 215
+    },
+    {
+      "file": "logic/0179-v_ao_28097.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 179,
+      "type": "FunctionDeclaration",
+      "bytes": 211
+    },
+    {
+      "file": "logic/0180-v_oo_28098.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 180,
+      "type": "FunctionDeclaration",
+      "bytes": 331
+    },
+    {
+      "file": "logic/0181-v_lo_28099.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 181,
+      "type": "FunctionDeclaration",
+      "bytes": 371
+    },
+    {
+      "file": "logic/0182-v_co_28100.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 182,
+      "type": "FunctionDeclaration",
+      "bytes": 277
+    },
+    {
+      "file": "logic/0183-v_Fe_28101.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 183,
+      "type": "FunctionDeclaration",
+      "bytes": 69
+    },
+    {
+      "file": "logic/0184-v_uo_28102.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 184,
+      "type": "FunctionDeclaration",
+      "bytes": 95
+    },
+    {
+      "file": "logic/0185-v_fo_28103.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 185,
+      "type": "FunctionDeclaration",
+      "bytes": 110
+    },
+    {
+      "file": "logic/0186-v_o_28104.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 186,
+      "type": "FunctionDeclaration",
+      "bytes": 246
+    },
+    {
+      "file": "logic/0187-v_ho_28105.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 187,
+      "type": "FunctionDeclaration",
+      "bytes": 108
+    },
+    {
+      "file": "logic/0188-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 188,
+      "type": "ExpressionStatement",
+      "bytes": 2060
+    },
+    {
+      "file": "logic/0189-v_vo_28106_x12.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 189,
+      "type": "VariableDeclaration",
+      "bytes": 295
+    },
+    {
+      "file": "logic/0190-v_To_28118.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 190,
+      "type": "FunctionDeclaration",
+      "bytes": 1023
+    },
+    {
+      "file": "logic/0191-v_Be_28119.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 191,
+      "type": "FunctionDeclaration",
+      "bytes": 356
+    },
+    {
+      "file": "logic/0192-v_Io_28120.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 192,
+      "type": "FunctionDeclaration",
+      "bytes": 4496
+    },
+    {
+      "file": "logic/0193-v_Po_28121.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 193,
+      "type": "FunctionDeclaration",
+      "bytes": 278
+    },
+    {
+      "file": "logic/0194-v_Ro_28122.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 194,
+      "type": "FunctionDeclaration",
+      "bytes": 89
+    },
+    {
+      "file": "logic/0195-v_Lo_28123.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 195,
+      "type": "FunctionDeclaration",
+      "bytes": 151
+    },
+    {
+      "file": "logic/0196-v_Mo_28124.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 196,
+      "type": "FunctionDeclaration",
+      "bytes": 190
+    },
+    {
+      "file": "logic/0197-v_Eo_28125.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 197,
+      "type": "FunctionDeclaration",
+      "bytes": 665
+    },
+    {
+      "file": "logic/0198-v_Do_28126.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 198,
+      "type": "FunctionDeclaration",
+      "bytes": 106
+    },
+    {
+      "file": "logic/0199-v_Fo_28127.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 199,
+      "type": "FunctionDeclaration",
+      "bytes": 233
+    },
+    {
+      "file": "logic/0200-v_Bo_28128.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 200,
+      "type": "FunctionDeclaration",
+      "bytes": 71
+    },
+    {
+      "file": "logic/0201-v_No_28129.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 201,
+      "type": "FunctionDeclaration",
+      "bytes": 578
+    },
+    {
+      "file": "logic/0202-v_Go_28130.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 202,
+      "type": "FunctionDeclaration",
+      "bytes": 261
+    },
+    {
+      "file": "logic/0203-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 203,
+      "type": "ExpressionStatement",
+      "bytes": 29106
+    },
+    {
+      "file": "logic/0204-v_Uo_28131_x16.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 204,
+      "type": "VariableDeclaration",
+      "bytes": 325
+    },
+    {
+      "file": "logic/0205-v_il_28147.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 205,
+      "type": "FunctionDeclaration",
+      "bytes": 2662
+    },
+    {
+      "file": "logic/0206-v_el_28148.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 206,
+      "type": "FunctionDeclaration",
+      "bytes": 813
+    },
+    {
+      "file": "logic/0207-v_nl_28149.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 207,
+      "type": "FunctionDeclaration",
+      "bytes": 1396
+    },
+    {
+      "file": "logic/0208-v_rl_28150.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 208,
+      "type": "FunctionDeclaration",
+      "bytes": 1886
+    },
+    {
+      "file": "logic/0209-v_sl_28151.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 209,
+      "type": "FunctionDeclaration",
+      "bytes": 362
+    },
+    {
+      "file": "logic/0210-v_al_28152.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 210,
+      "type": "FunctionDeclaration",
+      "bytes": 57
+    },
+    {
+      "file": "logic/0211-v_xt_28153.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 211,
+      "type": "FunctionDeclaration",
+      "bytes": 93
+    },
+    {
+      "file": "logic/0212-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 212,
+      "type": "ExpressionStatement",
+      "bytes": 283
+    },
+    {
+      "file": "logic/0213-v_ol_28154_x2.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 213,
+      "type": "VariableDeclaration",
+      "bytes": 72
+    },
+    {
+      "file": "logic/0214-v_cl_28156.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 214,
+      "type": "FunctionDeclaration",
+      "bytes": 86
+    },
+    {
+      "file": "logic/0215-v_ul_28157.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 215,
+      "type": "FunctionDeclaration",
+      "bytes": 116
+    },
+    {
+      "file": "logic/0216-v_fl_28158.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 216,
+      "type": "FunctionDeclaration",
+      "bytes": 48
+    },
+    {
+      "file": "logic/0217-v_l_28159.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 217,
+      "type": "FunctionDeclaration",
+      "bytes": 48
+    },
+    {
+      "file": "logic/0218-v_hl_28160.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 218,
+      "type": "FunctionDeclaration",
+      "bytes": 107
+    },
+    {
+      "file": "logic/0219-v_dl_28161.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 219,
+      "type": "FunctionDeclaration",
+      "bytes": 55
+    },
+    {
+      "file": "logic/0220-v_vl_28162.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 220,
+      "type": "FunctionDeclaration",
+      "bytes": 62
+    },
+    {
+      "file": "logic/0221-v_wl_28163.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 221,
+      "type": "FunctionDeclaration",
+      "bytes": 82
+    },
+    {
+      "file": "logic/0222-v_gl_28164.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 222,
+      "type": "FunctionDeclaration",
+      "bytes": 55
+    },
+    {
+      "file": "logic/0223-v_ml_28165.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 223,
+      "type": "FunctionDeclaration",
+      "bytes": 87
+    },
+    {
+      "file": "logic/0224-v_pl_28166.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 224,
+      "type": "FunctionDeclaration",
+      "bytes": 48
+    },
+    {
+      "file": "logic/0225-v_kl_28167.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 225,
+      "type": "FunctionDeclaration",
+      "bytes": 82
+    },
+    {
+      "file": "logic/0226-v_bl_28168.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 226,
+      "type": "FunctionDeclaration",
+      "bytes": 203
+    },
+    {
+      "file": "logic/0227-v_yl_28169.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 227,
+      "type": "FunctionDeclaration",
+      "bytes": 103
+    },
+    {
+      "file": "logic/0228-v_Sl_28170.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 228,
+      "type": "FunctionDeclaration",
+      "bytes": 73
+    },
+    {
+      "file": "logic/0229-v_Al_28171.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 229,
+      "type": "FunctionDeclaration",
+      "bytes": 55
+    },
+    {
+      "file": "logic/0230-v_xl_28172.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 230,
+      "type": "FunctionDeclaration",
+      "bytes": 78
+    },
+    {
+      "file": "logic/0231-v_Cl_28173.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 231,
+      "type": "FunctionDeclaration",
+      "bytes": 299
+    },
+    {
+      "file": "logic/0232-v_Tl_28174.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 232,
+      "type": "FunctionDeclaration",
+      "bytes": 105
+    },
+    {
+      "file": "logic/0233-v_Il_28175.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 233,
+      "type": "FunctionDeclaration",
+      "bytes": 523
+    },
+    {
+      "file": "logic/0234-v_Pl_28176.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 234,
+      "type": "FunctionDeclaration",
+      "bytes": 70
+    },
+    {
+      "file": "logic/0235-v_Rl_28177.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 235,
+      "type": "FunctionDeclaration",
+      "bytes": 385
+    },
+    {
+      "file": "logic/0236-v_Ll_28178.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 236,
+      "type": "FunctionDeclaration",
+      "bytes": 271
+    },
+    {
+      "file": "logic/0237-v_Ml_28179.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 237,
+      "type": "FunctionDeclaration",
+      "bytes": 159
+    },
+    {
+      "file": "logic/0238-v_El_28180.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 238,
+      "type": "FunctionDeclaration",
+      "bytes": 133
+    },
+    {
+      "file": "logic/0239-v_Dl_28181.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 239,
+      "type": "FunctionDeclaration",
+      "bytes": 64
+    },
+    {
+      "file": "logic/0240-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 240,
+      "type": "ExpressionStatement",
+      "bytes": 80221
+    },
+    {
+      "file": "logic/0241-v_Fl_28182.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 241,
+      "type": "FunctionDeclaration",
+      "bytes": 1543
+    },
+    {
+      "file": "logic/0242-v_Bl_28183.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 242,
+      "type": "FunctionDeclaration",
+      "bytes": 689
+    },
+    {
+      "file": "logic/0243-v_Nl_28184.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 243,
+      "type": "FunctionDeclaration",
+      "bytes": 142
+    },
+    {
+      "file": "logic/0244-v_Gl_28185.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 244,
+      "type": "FunctionDeclaration",
+      "bytes": 185
+    },
+    {
+      "file": "logic/0245-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 245,
+      "type": "ExpressionStatement",
+      "bytes": 11009
+    },
+    {
+      "file": "logic/0246-v_Ne_28186.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 246,
+      "type": "VariableDeclaration",
+      "bytes": 3410
+    },
+    {
+      "file": "logic/0247-v_Ul_28187.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 247,
+      "type": "VariableDeclaration",
+      "bytes": 57
+    },
+    {
+      "file": "logic/0248-IfStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 248,
+      "type": "IfStatement",
+      "bytes": 18442
+    },
+    {
+      "file": "logic/0249-v_Vl_28189.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 249,
+      "type": "FunctionDeclaration",
+      "bytes": 94
+    },
+    {
+      "file": "logic/0250-v_Wl_28190.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 250,
+      "type": "FunctionDeclaration",
+      "bytes": 90
+    },
+    {
+      "file": "logic/0251-v_Xl_28191.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 251,
+      "type": "FunctionDeclaration",
+      "bytes": 97
+    },
+    {
+      "file": "logic/0252-v_zl_28192.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 252,
+      "type": "FunctionDeclaration",
+      "bytes": 89
+    },
+    {
+      "file": "logic/0253-v_Kl_28193.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 253,
+      "type": "FunctionDeclaration",
+      "bytes": 138
+    },
+    {
+      "file": "logic/0254-v_Yl_28194.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 254,
+      "type": "FunctionDeclaration",
+      "bytes": 85
+    },
+    {
+      "file": "logic/0255-v_ql_28195.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 255,
+      "type": "FunctionDeclaration",
+      "bytes": 84
+    },
+    {
+      "file": "logic/0256-v_Zl_28196.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 256,
+      "type": "FunctionDeclaration",
+      "bytes": 97
+    },
+    {
+      "file": "logic/0257-v_$l_28197.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 257,
+      "type": "FunctionDeclaration",
+      "bytes": 109
+    },
+    {
+      "file": "logic/0258-v_Ql_28198.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 258,
+      "type": "FunctionDeclaration",
+      "bytes": 96
+    },
+    {
+      "file": "logic/0259-v_tc_28199.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 259,
+      "type": "FunctionDeclaration",
+      "bytes": 217
+    },
+    {
+      "file": "logic/0260-v_ic_28200.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 260,
+      "type": "FunctionDeclaration",
+      "bytes": 922
+    },
+    {
+      "file": "logic/0261-v_ec_28201.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 261,
+      "type": "FunctionDeclaration",
+      "bytes": 80
+    },
+    {
+      "file": "logic/0262-v_nc_28202.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 262,
+      "type": "FunctionDeclaration",
+      "bytes": 101
+    },
+    {
+      "file": "logic/0263-v_rc_28203.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 263,
+      "type": "FunctionDeclaration",
+      "bytes": 225
+    },
+    {
+      "file": "logic/0264-v_Ge_28204.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 264,
+      "type": "FunctionDeclaration",
+      "bytes": 71
+    },
+    {
+      "file": "logic/0265-v_sc_28205.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 265,
+      "type": "FunctionDeclaration",
+      "bytes": 330
+    },
+    {
+      "file": "logic/0266-v_ac_28206.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 266,
+      "type": "FunctionDeclaration",
+      "bytes": 755
+    },
+    {
+      "file": "logic/0267-v_oc_28207.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 267,
+      "type": "FunctionDeclaration",
+      "bytes": 169
+    },
+    {
+      "file": "logic/0268-v_lc_28208.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 268,
+      "type": "FunctionDeclaration",
+      "bytes": 87
+    },
+    {
+      "file": "logic/0269-v_Ue_28209.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 269,
+      "type": "FunctionDeclaration",
+      "bytes": 81
+    },
+    {
+      "file": "logic/0270-v_cc_28210.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 270,
+      "type": "FunctionDeclaration",
+      "bytes": 250
+    },
+    {
+      "file": "logic/0271-v_uc_28211.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 271,
+      "type": "FunctionDeclaration",
+      "bytes": 103
+    },
+    {
+      "file": "logic/0272-v_fc_28212.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 272,
+      "type": "FunctionDeclaration",
+      "bytes": 27
+    },
+    {
+      "file": "logic/0273-ExpressionStatement.js",
+      "kind": "logic",
+      "role": "body",
+      "index": 273,
+      "type": "ExpressionStatement",
+      "bytes": 743
+    },
+    {
+      "file": "logic/entry.footer.js",
+      "kind": "logic",
+      "role": "footer",
+      "bytes": 2
+    },
+    {
+      "file": "logic/entry.postamble.js",
+      "kind": "logic",
+      "role": "postamble",
+      "bytes": 11
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+# 构建产物
+dist/
+node_modules/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# Rust / Tauri
+src-tauri/target/
+src-tauri/gen/
+src-tauri/.cargo/
+Cargo.lock
+
+# 加密后的游戏包(由 build:game + encrypt 生成)
+dist/main.js.enc
+
+# 临时文件
+*.log
+*.tmp
+*.bak

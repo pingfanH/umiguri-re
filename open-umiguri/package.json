@@ -1,0 +1,23 @@
+{
+  "name": "open-umiguri",
+  "version": "2.0.1",
+  "description": "UMIGURI 反混淆重构工程: 模块化宿主层(Tauri 2) + 模块化游戏本体",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build:host": "node build/bundle-host.mjs",
+    "build:game": "node build/bundle-game.mjs",
+    "build": "npm run build:host && npm run build:game",
+    "assemble:game": "node build/assemble-game.mjs",
+    "check": "node build/check.mjs",
+    "extract:game": "node tools/split-game.mjs",
+    "analyze:game": "node tools/analyze-bundle.mjs"
+  },
+  "devDependencies": {
+    "@babel/generator": "^7.24.0",
+    "@babel/parser": "^7.24.0",
+    "@babel/traverse": "^7.24.0",
+    "@babel/types": "^7.24.0",
+    "esbuild": "^0.23.0"
+  }
+}

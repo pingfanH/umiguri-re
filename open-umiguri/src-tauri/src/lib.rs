@@ -1,0 +1,135 @@
+// Tauri 后端入口: 文件系统 command(替代 Electron 的 ipcMain) + umg:// 协议。
+mod android;
+mod fs;
+mod handshake;
+mod paths;
+mod protocol;
+
+use std::sync::{Arc, Mutex};
+use std::time::Instant;
+
+use tauri::http::status::StatusCode;
+use tauri::http::{header, Response};
+use tauri::{Emitter, Manager};
+
+use fs::{debug_probe, fs_file, fs_list, fs_read, fs_size, fs_write};
+use handshake::{diag, handshake};
+use paths::read_all;
+use protocol::{mime_from_path, parse_uri};
+
+// 是否已授予「所有文件访问」; 未授予时 Documents 下的补丁文件夹列举为空
+#[tauri::command]
+fn storage_access() -> bool {
+    #[cfg(target_os = "android")]
+    return android::has_all_files_access();
+    #[cfg(not(target_os = "android"))]
+    return true;
+}
+
+// 打开系统「所有文件访问」设置页
+#[tauri::command]
+fn open_storage_access_settings() -> bool {
+    #[cfg(target_os = "android")]
+    return android::open_all_files_settings();
+    #[cfg(not(target_os = "android"))]
+    return false;
+}
+
+// 重启应用(授权后需要完整重扫追加数据)
+#[tauri::command]
+fn restart_app_cmd() -> bool {
+    #[cfg(target_os = "android")]
+    return android::restart_app();
+    #[cfg(not(target_os = "android"))]
+    return false;
+}
+
+#[cfg_attr(mobile, tauri::mobile_entry_point)]
+pub fn run() {
+    // 窗口拖动检测: 拖动时暂停前端渲染,缓解 WebView2 拖动卡顿
+    let last_move: Arc<Mutex<Option<Instant>>> = Arc::new(Mutex::new(None));
+
+    tauri::Builder::default()
+        .setup(|app| {
+            if let Some(win) = app.get_webview_window("main") {
+                // 从 tauri.conf.json 读取窗口尺寸配置(不硬编码)
+                let (w, h) = app
+                    .config()
+                    .app
+                    .windows
+                    .iter()
+                    .next()
+                    .map(|wc| (wc.width, wc.height))
+                    .unwrap_or((1920.0, 1080.0));
+                let _ = win.set_size(tauri::Size::Logical(tauri::LogicalSize::new(w, h)));
+                let _ = win.set_min_size(Some(tauri::Size::Logical(tauri::LogicalSize::new(
+                    960.0, 540.0,
+                ))));
+                // 启动时自动打开 DevTools(仅调试构建)
+                #[cfg(debug_assertions)]
+                win.open_devtools();
+            }
+            Ok(())
+        })
+        .on_window_event({
+            let last_move = last_move.clone();
+            move |window, event| {
+                if let tauri::WindowEvent::Moved(_) = event {
+                    let was_moving = last_move.lock().unwrap().is_some();
+                    *last_move.lock().unwrap() = Some(Instant::now());
+                    if !was_moving {
+                        let _ = window.emit("umg-moving", true);
+                    }
+                    let last_move = last_move.clone();
+                    let win = window.clone();
+                    std::thread::spawn(move || {
+                        std::thread::sleep(std::time::Duration::from_millis(200));
+                        let mut lm = last_move.lock().unwrap();
+                        if let Some(t) = *lm {
+                            if t.elapsed() >= std::time::Duration::from_millis(200) {
+                                *lm = None;
+                                let _ = win.emit("umg-moving", false);
+                            }
+                        }
+                    });
+                }
+            }
+        })
+        .register_asynchronous_uri_scheme_protocol("umg", |_ctx, request, responder| {
+            let vpath = parse_uri(&request.uri().to_string());
+            match read_all(&vpath) {
+                Some(data) => {
+                    let resp: Response<Vec<u8>> = Response::builder()
+                        .status(StatusCode::OK)
+                        .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+                        .header(header::CONTENT_TYPE, mime_from_path(&vpath))
+                        .body(data)
+                        .unwrap();
+                    let _ = responder.respond(resp);
+                }
+                None => {
+                    let resp: Response<Vec<u8>> = Response::builder()
+                        .status(StatusCode::NOT_FOUND)
+                        .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+                        .body(Vec::new())
+                        .unwrap();
+                    let _ = responder.respond(resp);
+                }
+            }
+        })
+        .invoke_handler(tauri::generate_handler![
+            fs_list,
+            fs_file,
+            fs_size,
+            fs_read,
+            fs_write,
+            handshake,
+            diag,
+            debug_probe,
+            storage_access,
+            open_storage_access_settings,
+            restart_app_cmd
+        ])
+        .run(tauri::generate_context!())
+        .expect("error while running tauri application");
+}

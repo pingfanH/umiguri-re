@@ -1,0 +1,8 @@
+// game: 语句 258 (FunctionDeclaration)
+// 自动生成: tools/split-game.mjs
+// 来源: game_main.deobf.js
+// 说明: 本文件是 bundle 片段, 由 build/assemble-game.mjs 按 manifest 拼接;请勿手改拼接顺序。
+
+  function v_Ql_28198(v_t_35224) {
+    return v_Si_27831(1 - v_Ai_27832(v_t_35224 - 1, 2));
+  }
