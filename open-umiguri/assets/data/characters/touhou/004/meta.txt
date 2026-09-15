@@ -1,0 +1,8 @@
+DefSkill	sp_th_004_000_missdirection_0
+Category	東方Project
+	
+Lang	ja
+Variation	十六夜 咲夜	kaoru (幻想幽玄庵)
+
+Lang	en
+Variation	Sakuya Izayoi	kaoru (幻想幽玄庵)

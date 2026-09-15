@@ -1,0 +1,74 @@
+Meta:
+	Version	1
+	
+	Lang	ja
+	Title	薄明光線
+	Desc	一定時間ごとにボーナス <#c:00f>+200
+	Desc	ゲーム終了時に
+	Desc	ゲージの本数に応じてボーナス 最大 <#c:00f>+15000
+	
+	Lang	en
+	Title	Crepuscular Rays
+	Desc	Bonus <#c:00f>+200<#r> at regular intervals.
+	Desc	Bonus up to <#c:00f>+15000<#r> depending on the
+	Desc	number of gauge blocks at the end of the
+	Desc	track.
+	
+	Attr	Support
+	Indicator	INSupport
+
+OnTimer:
+	Boost	INSupport	Add	200
+
+OnFinish:
+	# boost = 1500 * gauge
+	
+	# ゲージ 1 本
+	If	Gauge	=	1
+		Boost	INSupport	Add	1500
+	ClearIf
+	
+	# ゲージ 2 本
+	If	Gauge	=	2
+		Boost	INSupport	Add	3000
+	ClearIf
+	
+	# ゲージ 3 本
+	If	Gauge	=	3
+		Boost	INSupport	Add	4500
+	ClearIf
+	
+	# ゲージ 4 本
+	If	Gauge	=	4
+		Boost	INSupport	Add	6000
+	ClearIf
+	
+	# ゲージ 5 本
+	If	Gauge	=	5
+		Boost	INSupport	Add	7500
+	ClearIf
+	
+	# ゲージ 6 本
+	If	Gauge	=	6
+		Boost	INSupport	Add	9000
+	ClearIf
+	
+	# ゲージ 7 本
+	If	Gauge	=	7
+		Boost	INSupport	Add	10500
+	ClearIf
+	
+	# ゲージ 8 本
+	If	Gauge	=	8
+		Boost	INSupport	Add	12000
+	ClearIf
+	
+	# ゲージ 9 本
+	If	Gauge	=	9
+		Boost	INSupport	Add	13500
+	ClearIf
+	
+	# ゲージ 10 本+
+	If	Gauge	>=	10
+		Boost	INSupport	Add	15000
+	ClearIf

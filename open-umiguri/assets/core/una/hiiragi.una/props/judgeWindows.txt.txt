@@ -1,0 +1,155 @@
+@propName	judgeWindows
+@propVer	1
+
+offset.autoplay	0.0
+offset.manual	-1.0
+
+tapEasy.fastAtk	6.0
+tapEasy.fastJst	4.0
+tapEasy.fastJcr	2.0
+tapEasy.fastHjc	1.0
+tapEasy.lateHjc	-1.0
+tapEasy.lateJcr	-2.0
+tapEasy.lateJst	-4.0
+tapEasy.lateAtk	-6.0
+
+tapHard.fastAtk	5.0
+tapHard.fastJst	4.0
+tapHard.fastJcr	2.0
+tapHard.fastHjc	1.0
+tapHard.lateHjc	-1.0
+tapHard.lateJcr	-2.0
+tapHard.lateJst	-4.0
+tapHard.lateAtk	-5.0
+
+long.offsetJudge	0.5
+long.offsetSE	2.0
+long.limitJcr	3.0
+long.limigJst	6.0
+long.limitAtk	9.0
+
+slide.sustainFast	3.0
+slide.sustainLate	-3.0
+slide.touchFast	9.0
+slide.touchLate	-9.0
+slide.width1	1.95
+slide.width2	2.95
+slide.width3	3.95
+slide.width4	4.0
+slide.width5	5.0
+slide.width6	6.0
+slide.width7	7.0
+slide.width8	8.0
+slide.width9	9.0
+slide.width10	10.0
+slide.width11	11.0
+slide.width12	12.0
+slide.width13	13.0
+slide.width14	14.0
+slide.width15	15.0
+slide.width16	16.0
+
+airUp.fastAtk	10.0
+airUp.fastJst	5.0
+airUp.fastJcr	0.0
+airUp.fastHjc	0.0
+airUp.lateHjc	-9.0
+airUp.lateJcr	-9.0
+airUp.lateJst	-14.0
+airUp.lateAtk	-19.0
+
+airDown.fastAtk	16.0
+airDown.fastJst	11.0
+airDown.fastJcr	6.0
+airDown.fastHjc	6.0
+airDown.lateHjc	-6.0
+airDown.lateJcr	-6.0
+airDown.lateJst	-11.0
+airDown.lateAtk	-16.0
+
+
+airUpFlick.fastAtk	10.0
+airUpFlick.fastJst	5.0
+airUpFlick.fastJcr	0.0
+airUpFlick.fastHjc	0.0
+airUpFlick.lateHjc	-12.0
+airUpFlick.lateJcr	-12.0
+airUpFlick.lateJst	-17.0
+airUpFlick.lateAtk	-22.0
+
+airDownFlick.fastAtk	16.0
+airDownFlick.fastJst	11.0
+airDownFlick.fastJcr	6.0
+airDownFlick.fastHjc	6.0
+airDownFlick.lateHjc	-9.0
+airDownFlick.lateJcr	-9.0
+airDownFlick.lateJst	-14.0
+airDownFlick.lateAtk	-19.0
+
+airLong.limitJcr	12.0
+airLong.limitJst	24.0
+airLong.limitAtk	36.0
+
+airAction.fastAtk	16.0
+airAction.fastJst	11.0
+airAction.fastJcr	6.0
+airAction.fastHjc	6.0
+airAction.lateHjc	-6.0
+airAction.lateJcr	-6.0
+airAction.lateJst	-11.0
+airAction.lateAtk	-16.0
+
+airCrush.fastAtk	16.0
+airCrush.fastJst	16.0
+airCrush.fastJcr	16.0
+airCrush.fastHjc	16.0
+airCrush.lateHjc	-16.0
+airCrush.lateJcr	-16.0
+airCrush.lateJst	-16.0
+airCrush.lateAtk	-16.0
+
+damage.ok	-0.0001
+damage.bad	2.0
+
+flick.tapFast	5.0
+flick.tapLate	-5.0
+flick.fastJst	10.0
+flick.fastJcr	5.0
+flick.fastHjc	5.0
+flick.lateHjc	-5.0
+flick.lateJcr	-5.0
+flick.lateJst	-10.0
+
+flick.width1	3.0
+flick.width2	4.0
+flick.width3	5.0
+flick.width4	6.0
+flick.width5	7.0
+flick.width6	8.0
+flick.width7	9.0
+flick.width8	10.0
+flick.width9	11.0
+flick.width10	12.0
+flick.width11	13.0
+flick.width12	14.0
+flick.width13	15.0
+flick.width14	16.0
+flick.width15	16.0
+flick.width16	16.0
+
+flick.slash1	0.5
+flick.slash2	0.6
+flick.slash3	0.7
+flick.slash4	1.0
+flick.slash5	1.0
+flick.slash6	1.0
+flick.slash7	1.0
+flick.slash8	1.5
+flick.slash9	1.5
+flick.slash10	1.5
+flick.slash11	1.5
+flick.slash12	1.5
+flick.slash13	1.5
+flick.slash14	1.5
+flick.slash15	1.5
+flick.slash16	1.5

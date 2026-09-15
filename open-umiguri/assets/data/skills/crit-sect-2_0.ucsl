@@ -1,0 +1,25 @@
+Meta:
+	Version	1
+	
+	Lang	ja
+	Title	クリティカル・セクション Ⅱ
+	Desc	ゲージ上昇UP <#c:00f>(250%)
+	Desc	TAPの判定が非常に厳しくなる
+	Desc	AIR/AIR-ACTIONの判定が非常に厳しくなる
+	
+	Lang	en
+	Title	Critical Section Ⅱ
+	Desc	Increments the gauge increase rate to
+	Desc	<#c:00f>250%<#r>.
+	Desc	TAP judgments get more harder.
+	Desc	AIR/AIR-ACTION judgments get more harder.
+	
+	JudgeMode	Hard2Air
+	
+	Attr	BManiac
+	Indicator	INBoost
+
+OnJudge:
+	If	Answer	!=	M
+		Boost	INBoost	Mul	2.5
+	ClearIf

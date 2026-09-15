@@ -41,7 +41,8 @@ pub fn data_root() -> PathBuf {
     default_data_root()
 }
 
-// 桌面 / iOS 模拟器: 仓库根目录的 assets/(src-tauri 上两级)
+// 桌面 / iOS 模拟器: 构建产物 dist/game_data(由 npm run build:assets 生成),
+// 即「解密存源 assets/ -> 打包加密 dist/game_data/」。
 #[cfg(not(target_os = "android"))]
 fn default_data_root() -> PathBuf {
     if let Ok(dir) = std::env::var("UMIGURI_ASSETS_DIR") {
@@ -50,9 +51,8 @@ fn default_data_root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .parent()
         .unwrap()
-        .parent()
-        .unwrap()
-        .join("assets")
+        .join("dist")
+        .join("game_data")
 }
 
 // Android: 见 android::default_data_root

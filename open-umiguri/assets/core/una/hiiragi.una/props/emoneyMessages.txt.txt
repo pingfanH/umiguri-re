@@ -1,0 +1,26 @@
+@propName	emoneyMessages
+@propVer	1
+
+_ Must save with sjis
+
+brand0000	
+brand0001	nanaco
+brand0002	楽天Edy
+brand0003	iD
+brand0004	交通系
+brand0005	WAON
+brand0006	PASELI
+
+message0000	
+message0001	電子マネー使えます
+message0002	電子マネー使えません
+message0010	支払
+message0011	チャージ
+message0012	残高照会
+message1000	{BRAND} {MODE} カードをタッチしてください
+message1001	もう一度、タッチしてください
+message1002	このカードはご利用できません
+message1003	残高不足です
+message1010	{BRAND} 支払 {AMOUNT}
+message1011	{BRAND} チャージ {AMOUNT}
+message1012	{BRAND} 残高 {BALANCE}

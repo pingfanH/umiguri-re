@@ -13,24 +13,48 @@ UMIGURI(inonote PC 音游)的反混淆重构工程: **宿主层(Tauri 2)模块�
 
 ```
 open-umiguri/
+├── assets/                 解密/解包态资源(入库;构建时自动打包加密)
+│   ├── core/una/*.una/     .una 归档解包后的目录
+│   ├── data/**/data.arc/   data.arc 解包后的目录
+│   └── core/{sounds,textures,config}, data/*, terms/, license.xml
 ├── build/
-│   ├── bundle-host.mjs     宿主层打包(esbuild -> IIFE)
-│   ├── assemble-game.mjs   按 manifest 拼接游戏源码
-│   ├── bundle-game.mjs     拼接 + esbuild 压缩 + AES 加密
-│   ├── encrypt.mjs         AES-256-CBC(与 desktop/encrypt.js 兼容)
-│   └── check.mjs           产物 node --check
+│   ├── pack-assets.mjs      assets/ -> dist/game_data(打包加密)
+│   ├── bundle-host.mjs      宿主层打包(esbuild -> IIFE)
+│   ├── assemble-game.mjs    按 manifest 拼接游戏源码
+│   ├── bundle-game.mjs      拼接 + esbuild 压缩 + AES 加密
+│   ├── encrypt.mjs          AES-256-CBC(与 desktop/encrypt.js 兼容)
+│   ├── freevar-check.mjs    反混淆断裂检查
+│   └── check.mjs            产物 node --check
 ├── tools/
-│   ├── split-game.mjs      从 bundle 拆出 vendor/ 与 logic/ 片段(逐字节校验)
-│   └── analyze-bundle.mjs  游戏模块「闭包外层引用」耦合分析
-├── src/host/               宿主层 ES 模块(见下)
-├── src/game/
-│   ├── vendor/             第三方库片段(THREE / Effekseer / 字形数据 / emscripten …)
-│   ├── vendor-upstream/    上游官方源码覆盖(three r137 等, MIT)
-│   ├── logic/              游戏逻辑片段 + MODULE_MAP.md + COUPLING.md
-│   └── manifest.json       拼接顺序(权威)
-└── src-tauri/              Rust 后端(模块化)
-    └── src/{lib,main,paths,fs,protocol,handshake,android}.rs
+│   ├── deobfuscate-fixed.mjs 修正版反混淆器(生成可运行源码)
+│   ├── split-game.mjs        从 bundle 拆出 vendor/ 与 logic/(逐字节校验)
+│   ├── analyze-bundle.mjs    闭包耦合分析
+│   ├── analyze-props.mjs     对象字段使用分析
+│   ├── import-assets.mjs     ../assets(仓库根) -> assets/(解密)
+│   ├── umg.cjs               归档/AES 读写工具(pack/unpack/list/roundtrip)
+│   └── symbols.json / prop-symbols.json / vendor-overrides.json
+├── src/host/               宿主层 ES 模块
+├── src/game/               游戏本体源码(vendor/ + vendor-upstream/ + logic/)
+└── src-tauri/              Rust 后端(模块化) + tauri 配置
 ```
+
+## 资源(assets)策略
+
+仓库里**只存解密/解包形态**,运行时所需加密包在构建时自动生成:
+
+| 形态 | 位置 | 说明 |
+|---|---|---|
+| 解密源 | `open-umiguri/assets/` | `.una`/`data.arc` 已解包为目录;`data`/`sounds`/`textures`/`terms`/`license.xml` 明文 |
+| 运行时态 | `dist/game_data/`(不入库) | `npm run build:assets` 把目录重新打包加密为 `.una`(P2=2)/`data.arc`(P2=1) |
+| 游戏脚本 | `dist/www/main.js.enc`(不入库) | 由 `src/game/**` 拼接压缩后 AES 加密 |
+
+- 首次导入(从仓库根的上游资源解密):`npm run import:assets`。
+- 打包:`npm run build`(含 assets + host + game)。
+- 桌面默认读 `dist/game_data`(可用 `UMIGURI_ASSETS_DIR`/`UMIGURI_DATA_DIR` 覆盖);
+  Android 按 `src-tauri/tauri.android.conf.json` 打进 APK `assets/game_data/`。
+- 校验:`node tools/umg.cjs roundtrip <archive> --p2 N` 可验证打包/解包可逆;
+  实测 `.una` 重打包与原始**逐字节一致**,`data.arc` 条目名一致、解压数据相等。
+
 
 ## 宿主层模块
 

@@ -6,9 +6,11 @@
   "private": true,
   "scripts": {
     "deobf": "node tools/deobfuscate-fixed.mjs ../game_main.original.js dist/game_main.deobf.js",
+    "import:assets": "node tools/import-assets.mjs",
+    "build:assets": "node build/pack-assets.mjs",
     "build:host": "node build/bundle-host.mjs",
     "build:game": "node build/assemble-game.mjs && node build/bundle-game.mjs",
-    "build": "npm run build:host && npm run build:game",
+    "build": "npm run build:assets && npm run build:host && npm run build:game",
     "assemble:game": "node build/assemble-game.mjs",
     "check": "node build/check.mjs && node build/contract-check.mjs && node build/freevar-check.mjs",
     "extract:game": "node tools/split-game.mjs",

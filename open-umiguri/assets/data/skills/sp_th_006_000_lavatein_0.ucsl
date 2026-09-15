@@ -1,0 +1,39 @@
+Meta:
+	Version	1
+	
+	Lang	ja
+	Title	禁忌「レーヴァテイン」
+	Desc	TAPのJ-CRITICAL判定時
+	Desc	ボーナス <#c:00f>+350
+	Desc	TAPの判定が極端に厳しくなる
+	Desc	495回/JUSTICE以下を出すと強制終了
+	
+	Lang	en
+	Title	Taboo "Lävatein"
+	Desc	Bonus <#c:00f>+350<#r> when get TAP with J-CRITICAL
+	Desc	TAP judgments get more harder.
+	Desc	Sidden Death occurs when JUSTICE or below counts 495 times.
+	
+	Attr	DCat
+	Indicator	IDanger	INBoost
+	
+	TargetChara	touhou/006/0
+	
+	JudgeMode	Hard3
+	
+	CountDef	495
+
+OnJudge:
+	If	Answer	=	JC
+	If	NoteCat	=	CTap
+		Boost	INBoost	Add	350
+	ClearIf
+	
+	If	Answer	=	M	A	J
+		Counter	-1
+	ClearIf
+	
+	If	Counter	=	0
+		Kill
+	ClearIf
+

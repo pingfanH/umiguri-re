@@ -1,0 +1,8 @@
+DefSkill	sp_th_006_000_lavatein_0
+Category	東方Project
+
+Lang	ja
+Variation	フランドール・スカーレット	kaoru (幻想幽玄庵)
+
+Lang	en
+Variation	Flandre Scarlet	kaoru (幻想幽玄庵)

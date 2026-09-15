@@ -9,28 +9,28 @@
 cd open-umiguri
 npm install                # 首次
 npm run deobf              # 从 ../game_main.original.js 生成可用反混淆源(修正版)
-npm run build              # 宿主 dist/www/tauri-bridge.js + 游戏 dist/www/main.js.enc
+npm run build              # assets 打包 + 宿主 + 游戏(全部产物在 dist/)
 npm run check              # 语法 + 契约 + 自由变量检查
 ```
 
-> `src/game/**` 已提交为生成产物;若本地重新 `npm run deobf && npm run extract:game`,会重算它们。
-> 若跳过 `deobf` 直接 `build`,会沿用已提交的片段(即上次修正后的源码),仍可运行。
+> 资源:`assets/` 是解密态(入库),`npm run build:assets` 生成 `dist/game_data/`(加密态)。
+> 若 `assets/` 缺失,先 `npm run import:assets` 从仓库根 `../assets` 解密导入。
+> 桌面运行读 `dist/game_data`(`UMIGURI_ASSETS_DIR`/`UMIGURI_DATA_DIR` 可覆盖)。
 
 ## 1. 桌面运行
 
 ```bash
 cd src-tauri
-cargo tauri dev            # 会先执行 npm run build:host
+cargo tauri dev            # 先执行 npm run build(assets + host + game)
 ```
 
-- 数据目录: 默认 `../../assets`(= 仓库 `umiguri-re/assets`),可用
-  `UMIGURI_DATA_DIR` / `UMIGURI_ASSETS_DIR` 覆盖。
+- 数据目录: 默认 `dist/game_data`(构建产物),可用 `UMIGURI_DATA_DIR` / `UMIGURI_ASSETS_DIR` 覆盖。
 - 入口 `dist/www/index.html` 加载 `tauri-bridge.js` 后解密 `main.js.enc` 并执行游戏。
 
 ## 2. Android 运行
 
 参考仓库根 `PROJECT_INFO.md` 的 Android 章节(noCompress / ignoreAssetsPattern / 清中间产物)。
-`src-tauri/tauri.android.conf.json` 的 resources 指向 `../../assets/`(= `umiguri-re/assets`)。
+`src-tauri/tauri.android.conf.json` 的 resources 指向 `../dist/game_data/`。
 首次需要 `cargo tauri android init` 生成 `gen/android`。
 
 ## 3. 回归清单
