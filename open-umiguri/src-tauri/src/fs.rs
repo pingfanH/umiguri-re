@@ -2,7 +2,7 @@
 use base64::Engine;
 use serde::{Deserialize, Serialize};
 
-use crate::paths::{data_root, read_all, resolve_src, vpath_to_rel, write_path, Src};
+use crate::paths::{data_root, disk_roots, read_all, resolve_src, vpath_to_rel, write_path, Src};
 
 #[derive(Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
@@ -25,26 +25,32 @@ pub struct FsSizeResult {
     data: Option<u64>,
 }
 
-// 列目录(合并: 磁盘可写目录 + APK 内置资产; 游戏只使用 name/isDirectory)
+// 列目录(合并: 磁盘可写层 + 只读资源 + APK 内置资产; 游戏只使用 name/isDirectory)
 #[tauri::command]
 pub fn fs_list(path: String) -> FsListResult {
     use std::collections::HashSet;
     let dir_rel = vpath_to_rel(&path);
-    let disk = data_root().join(&dir_rel);
     let mut data: Vec<FileEntry> = Vec::new();
     let mut seen: HashSet<String> = HashSet::new();
-    if let Ok(entries) = std::fs::read_dir(&disk) {
-        for e in entries.flatten() {
-            let name = e.file_name().to_string_lossy().to_string();
-            let is_dir = e.file_type().map(|t| t.is_dir()).unwrap_or(false);
-            let is_file = e.file_type().map(|t| t.is_file()).unwrap_or(false);
-            seen.insert(name.clone());
-            data.push(FileEntry {
-                full_path: format!("/{dir_rel}/{name}"),
-                is_directory: is_dir,
-                is_file,
-                name,
-            });
+    let mut any_dir = false;
+    for root in disk_roots() {
+        let disk = root.join(&dir_rel);
+        if let Ok(entries) = std::fs::read_dir(&disk) {
+            any_dir = true;
+            for e in entries.flatten() {
+                let name = e.file_name().to_string_lossy().to_string();
+                if !seen.insert(name.clone()) {
+                    continue;
+                }
+                let is_dir = e.file_type().map(|t| t.is_dir()).unwrap_or(false);
+                let is_file = e.file_type().map(|t| t.is_file()).unwrap_or(false);
+                data.push(FileEntry {
+                    full_path: format!("/{dir_rel}/{name}"),
+                    is_directory: is_dir,
+                    is_file,
+                    name,
+                });
+            }
         }
     }
     let apk_entries = crate::paths::apk_list(&dir_rel);
@@ -66,7 +72,7 @@ pub fn fs_list(path: String) -> FsListResult {
             name: name.clone(),
         });
     }
-    let exists = disk.is_dir() || !apk_entries.is_empty();
+    let exists = any_dir || !apk_entries.is_empty();
     FsListResult {
         status: if exists { 0 } else { -1 },
         data,

@@ -24,7 +24,8 @@ cd src-tauri
 cargo tauri dev            # 先执行 npm run build(assets + host + game)
 ```
 
-- 数据目录: 默认 `dist/game_data`(构建产物),可用 `UMIGURI_DATA_DIR` / `UMIGURI_ASSETS_DIR` 覆盖。
+- 数据目录: 只读资源默认 `dist/game_data`(`UMIGURI_ASSETS_DIR` 可覆盖),
+  可写层默认 `dist/userdata`(`UMIGURI_DATA_DIR` 可覆盖, 读取时优先)。
 - 入口 `dist/www/index.html` 加载 `tauri-bridge.js` 后解密 `main.js.enc` 并执行游戏。
 
 ## 2. Android 运行

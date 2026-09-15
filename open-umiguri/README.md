@@ -50,8 +50,11 @@ open-umiguri/
 
 - 首次导入(从仓库根的上游资源解密):`npm run import:assets`。
 - 打包:`npm run build`(含 assets + host + game)。
-- 桌面默认读 `dist/game_data`(可用 `UMIGURI_ASSETS_DIR`/`UMIGURI_DATA_DIR` 覆盖);
-  Android 按 `src-tauri/tauri.android.conf.json` 打进 APK `assets/game_data/`。
+- 桌面读取分两层(避免构建清掉存档):
+  - 只读资源 `dist/game_data`(构建产物,`UMIGURI_ASSETS_DIR` 可覆盖);
+  - 可写层 `dist/userdata`(存档/配置,`UMIGURI_DATA_DIR` 可覆盖),读取时优先于只读层。
+- Android 按 `src-tauri/tauri.android.conf.json` 打进 APK `assets/game_data/`;
+  可写层用 Documents/UMIGURI(见 `android.rs`)。
 - 校验:`node tools/umg.cjs roundtrip <archive> --p2 N` 可验证打包/解包可逆;
   实测 `.una` 重打包与原始**逐字节一致**,`data.arc` 条目名一致、解压数据相等。
 

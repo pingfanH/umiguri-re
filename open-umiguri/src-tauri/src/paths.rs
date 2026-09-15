@@ -33,7 +33,7 @@ pub enum Src {
     Apk(String),
 }
 
-// 游戏数据根目录(通过环境变量或默认路径)
+// 可写层根目录(存档/配置写入处)。env UMIGURI_DATA_DIR 可覆盖。
 pub fn data_root() -> PathBuf {
     if let Ok(dir) = std::env::var("UMIGURI_DATA_DIR") {
         return PathBuf::from(dir);
@@ -41,10 +41,10 @@ pub fn data_root() -> PathBuf {
     default_data_root()
 }
 
-// 桌面 / iOS 模拟器: 构建产物 dist/game_data(由 npm run build:assets 生成),
-// 即「解密存源 assets/ -> 打包加密 dist/game_data/」。
+// 只读资源根目录(构建产物 dist/game_data)。env UMIGURI_ASSETS_DIR 可覆盖。
+// Android 无此层(直接读 APK assets)。
 #[cfg(not(target_os = "android"))]
-fn default_data_root() -> PathBuf {
+pub fn asset_root() -> PathBuf {
     if let Ok(dir) = std::env::var("UMIGURI_ASSETS_DIR") {
         return PathBuf::from(dir);
     }
@@ -55,11 +55,34 @@ fn default_data_root() -> PathBuf {
         .join("game_data")
 }
 
-// Android: 见 android::default_data_root
+// 桌面: 可写层独立于构建产物, 避免 npm run build:assets 清掉存档。
+#[cfg(not(target_os = "android"))]
+fn default_data_root() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .unwrap()
+        .join("dist")
+        .join("userdata")
+}
+
+// Android: 见 android::default_data_root(已是可写层)
 #[cfg(target_os = "android")]
 fn default_data_root() -> PathBuf {
     crate::android::default_data_root()
 }
+
+// 磁盘读取顺序: 可写层(覆盖/存档) -> 只读资源(桌面)。Android 只有可写层(其余走 APK)。
+pub fn disk_roots() -> Vec<PathBuf> {
+    #[cfg(not(target_os = "android"))]
+    {
+        vec![data_root(), asset_root()]
+    }
+    #[cfg(target_os = "android")]
+    {
+        vec![data_root()]
+    }
+}
+
 
 #[cfg(not(target_os = "android"))]
 pub fn apk_size(_rel: &str) -> Option<u64> {
@@ -116,21 +139,26 @@ pub fn rel_candidates(vpath: &str) -> Vec<String> {
     out
 }
 
-// 解析顺序: 磁盘(可写覆盖, 存档优先) -> APK assets(只读)
-// 注意: Documents 覆盖层在重装后可能残留旧 uid 拥有的文件(不可读),
-// 因此磁盘候选必须是「确实可读的文件」, 否则继续回退到 APK。
+// 解析顺序: 可写层 -> 只读资源 -> APK assets。
+// 注意: 覆盖层在重装后可能残留旧 uid 拥有的文件(不可读),
+// 因此磁盘候选必须是「确实可读的文件」, 否则继续回退。
 pub fn resolve_src(vpath: &str) -> Option<Src> {
-    let root = data_root();
+    let roots = disk_roots();
     for rel in rel_candidates(vpath) {
-        let disk = root.join(&rel);
-        if disk.is_file() && std::fs::File::open(&disk).is_ok() {
-            return Some(Src::Disk(disk));
+        for root in &roots {
+            let disk = root.join(&rel);
+            if disk.is_file() && std::fs::File::open(&disk).is_ok() {
+                return Some(Src::Disk(disk));
+            }
         }
         if apk_size(&rel).is_some() {
             return Some(Src::Apk(rel));
         }
-        if disk.exists() {
-            return Some(Src::Disk(disk)); // 目录或不可读: 由上层返回错误
+        for root in &roots {
+            let disk = root.join(&rel);
+            if disk.exists() {
+                return Some(Src::Disk(disk)); // 目录或不可读: 由上层返回错误
+            }
         }
     }
     None
