@@ -1,0 +1,33 @@
+{
+  "_note": "bindings: 旧绑定名 -> { name, note, confidence }。仅重命名变量绑定, 不改逻辑。confidence=high 来自 MODULE_INDEX/PROJECT_INFO 的既有结论; low 为中性命名。",
+  "bindings": {
+    "v_He_27558": { "name": "win", "note": "游戏 IIFE 参数 = window", "confidence": "high" },
+    "v_ye_27858": { "name": "handshake", "note": "window.umgr_elc._ 握手对象(.rm)", "confidence": "high" },
+    "m_GL_0": { "name": "glRuntime", "note": "WebGL 渲染初始化(顶层)", "confidence": "high" },
+
+    "v_I1_27893": { "name": "inputModule", "note": "输入模块(32 档位+6 air)", "confidence": "high" },
+    "v_xe_27894": { "name": "menuSystem", "note": "菜单/对话框子系统(vt/It/T9)", "confidence": "medium" },
+    "v_P1_27895": { "name": "ledOutput", "note": "LED/灯光/串口输出", "confidence": "medium" },
+    "v_L1_27897": { "name": "playerInfoBoard", "note": "玩家信息板", "confidence": "medium" },
+    "v_Ce_27901": { "name": "sceneManager", "note": "场景切换(ft/ri/ti)", "confidence": "medium" },
+    "v_B1_27903": { "name": "localization", "note": "语言/文案", "confidence": "medium" },
+    "v_W1_27913": { "name": "coopLobby", "note": "合作大厅", "confidence": "medium" },
+    "v_Y1_27917": { "name": "settingsStore", "note": "设置持久化", "confidence": "medium" },
+    "v_q1_27918": { "name": "audioFontHub", "note": "音频+字体+输入聚合", "confidence": "medium" },
+    "v_tr_27922": { "name": "uiComponentA", "note": "UI 组件(职责待确认)", "confidence": "low" },
+    "v_ir_27923": { "name": "uiComponentB", "note": "UI 组件(职责待确认)", "confidence": "low" },
+    "v_er_27924": { "name": "uiComponentC", "note": "UI 组件(职责待确认)", "confidence": "low" },
+    "v_or_27929": { "name": "gameCore", "note": "游戏核心(成绩/存档/场景/贴图)", "confidence": "high" },
+    "v_b_30288": { "name": "backgroundRenderer", "note": "背景场景渲染(model:/player_scenes/)", "confidence": "medium" },
+    "v_W_30307": { "name": "judgeSound", "note": "判定音", "confidence": "medium" },
+    "v_X_30308": { "name": "skillTrigger", "note": "技能触发", "confidence": "medium" },
+    "v_cr_27931": { "name": "testMenu", "note": "测试菜单(sysTestMenu)", "confidence": "high" },
+    "v_kr_27942": { "name": "chartParser", "note": "谱面解析(.mgxc/.ugc)", "confidence": "medium" },
+    "v_Pr_27951": { "name": "dataLoader", "note": "数据加载(贴图/包)", "confidence": "medium" },
+    "v_Jr_27963": { "name": "settingsTables", "note": "设置+存档表", "confidence": "medium" },
+    "v_jr_27964": { "name": "recordsStore", "note": "存档表(records/player.krtbl)", "confidence": "medium" },
+    "v_Zr_27974": { "name": "hostBridge", "note": "前端桥封装(window.umgr_elc)", "confidence": "high" },
+    "v_Qr_27976": { "name": "systemMisc", "note": "窗口/媒体/截图/系统杂项", "confidence": "medium" },
+    "v_Ne_28186": { "name": "languagePackages", "note": "语言包管理(/una/*.una)", "confidence": "high" }
+  }
+}

@@ -5,13 +5,13 @@
 
   if (addEventListener("resize", v_m1_27881), addEventListener("unload", v_re_27878), addEventListener("focus", v_w1_27879), addEventListener("blur", v_g1_27880), addEventListener("beforeunload", v_t_35119 => {
     v_M_27644 && v_M_27644.V7(), v_E_27645 && v_E_27645.V7(), v_D_27646 && v_D_27646.V7(), v_F_27647 && v_F_27647.V7();
-  }), v_y_27559.addEventListener("contextmenu", v_t_35120 => v_t_35120.preventDefault()), v_ee_27876(), v_y_27559.style.display = "block", v_Hl_28188 = umgr_elc._, v_ye_27858.rm.I4 = v_Hl_28188.I4, v_ye_27858.rm.am = v_Hl_28188.am, v_ye_27858.rm.om = v_Hl_28188.O.ct, v_ye_27858.rm.lm = v_Hl_28188.O.B, v_ye_27858.rm.um = v_Hl_28188.O.p9, v_ye_27858.rm.b7 = v_Hl_28188.I, v_ye_27858.rm.y7 = v_Hl_28188.R, v_ye_27858.rm.A7 = v_Hl_28188.j, v_ye_27858.rm.S7 = v_Hl_28188.M, v_ye_27858.rm.A9 = v_Hl_28188.L, v_ye_27858.rm.S9 = v_Hl_28188.U, v_ye_27858.rm.x9 = v_Hl_28188.P, v_ye_27858.rm.I9 = v_Hl_28188.G, v_ye_27858.rm.OA = v_Hl_28188.Y, v_ye_27858.rm.dm = v_Hl_28188.fe, v_ye_27858.rm.vm = v_Hl_28188.v1, v_ye_27858.rm.gm = v_Hl_28188.J, v_ye_27858.rm.u8 = v_Hl_28188.K, v_ye_27858.rm.wm = v_Hl_28188.W, v_ye_27858.rm.pm = v_Hl_28188.u1, v_ye_27858.rm.km = v_Hl_28188.H, v_ye_27858.rm.bm = v_Hl_28188.f1, v_ye_27858.rm.Sm = v_Hl_28188.h1.T, v_ye_27858.rm.xm = v_Hl_28188.h1.rr, v_ye_27858.rm.ym = v_Hl_28188.h1.C, v_ye_27858.rm.Cm = v_Hl_28188.h1.GA, v_ye_27858.rm.Im = v_Hl_28188.Z.X, v_ye_27858.rm.Am = v_Hl_28188.Z.a1, v_ye_27858.rm.Tm = v_Hl_28188.Z.d1, v_ye_27858.rm.Lm = v_Hl_28188.Z.t1, v_ye_27858.rm.Rm = v_Hl_28188.Z.s1, v_ye_27858.rm.gb = v_Hl_28188.g1, setInterval(v_A1_27887, 500), v_He_27558.body.addEventListener("keydown", function (v_t_35121) {
-    v_t_35121.repeat || ("Enter" !== v_t_35121.key || v_t_35121.shiftKey || v_t_35121.metaKey || !v_t_35121.altKey || v_t_35121.ctrlKey ? "F1" !== v_t_35121.key || !v_t_35121.shiftKey || v_t_35121.metaKey || v_t_35121.altKey || v_t_35121.ctrlKey || v_ur_27932.bb() : (v_Qr_27976.w2(), v_t_35121.preventDefault()));
-  }), v_Hi_27855 = v_ye_27858.rm.I4, v_h1_27859 = v_ye_27858.rm.Am, v_R_27641 = v_ye_27858.rm.pm, v_L_27642 = v_ye_27858.rm.km, v_bn_27637 = v_ye_27858.rm.vm || v_ye_27858.rm.gm, -1 === v_Ui_27854.indexOf(v_Hi_27855) && (v_ye_27858.A4 = !0, v_Hi_27855 = "ja-JP"), v_Ul_28187.has("errDisp")) {
+  }), v_y_27559.addEventListener("contextmenu", v_t_35120 => v_t_35120.preventDefault()), v_ee_27876(), v_y_27559.style.display = "block", v_Hl_28188 = umgr_elc._, handshake.rm.I4 = v_Hl_28188.I4, handshake.rm.am = v_Hl_28188.am, handshake.rm.om = v_Hl_28188.O.ct, handshake.rm.lm = v_Hl_28188.O.B, handshake.rm.um = v_Hl_28188.O.p9, handshake.rm.b7 = v_Hl_28188.I, handshake.rm.y7 = v_Hl_28188.R, handshake.rm.A7 = v_Hl_28188.j, handshake.rm.S7 = v_Hl_28188.M, handshake.rm.A9 = v_Hl_28188.L, handshake.rm.S9 = v_Hl_28188.U, handshake.rm.x9 = v_Hl_28188.P, handshake.rm.I9 = v_Hl_28188.G, handshake.rm.OA = v_Hl_28188.Y, handshake.rm.dm = v_Hl_28188.fe, handshake.rm.vm = v_Hl_28188.v1, handshake.rm.gm = v_Hl_28188.J, handshake.rm.u8 = v_Hl_28188.K, handshake.rm.wm = v_Hl_28188.W, handshake.rm.pm = v_Hl_28188.u1, handshake.rm.km = v_Hl_28188.H, handshake.rm.bm = v_Hl_28188.f1, handshake.rm.Sm = v_Hl_28188.h1.T, handshake.rm.xm = v_Hl_28188.h1.rr, handshake.rm.ym = v_Hl_28188.h1.C, handshake.rm.Cm = v_Hl_28188.h1.GA, handshake.rm.Im = v_Hl_28188.Z.X, handshake.rm.Am = v_Hl_28188.Z.a1, handshake.rm.Tm = v_Hl_28188.Z.d1, handshake.rm.Lm = v_Hl_28188.Z.t1, handshake.rm.Rm = v_Hl_28188.Z.s1, handshake.rm.gb = v_Hl_28188.g1, setInterval(v_A1_27887, 500), win.body.addEventListener("keydown", function (v_t_35121) {
+    v_t_35121.repeat || ("Enter" !== v_t_35121.key || v_t_35121.shiftKey || v_t_35121.metaKey || !v_t_35121.altKey || v_t_35121.ctrlKey ? "F1" !== v_t_35121.key || !v_t_35121.shiftKey || v_t_35121.metaKey || v_t_35121.altKey || v_t_35121.ctrlKey || v_ur_27932.bb() : (systemMisc.w2(), v_t_35121.preventDefault()));
+  }), v_Hi_27855 = handshake.rm.I4, v_h1_27859 = handshake.rm.Am, v_R_27641 = handshake.rm.pm, v_L_27642 = handshake.rm.km, v_bn_27637 = handshake.rm.vm || handshake.rm.gm, -1 === v_Ui_27854.indexOf(v_Hi_27855) && (handshake.A4 = !0, v_Hi_27855 = "ja-JP"), v_Ul_28187.has("errDisp")) {
     var v_Hl_28188 = v_Pe_28064(v_Ul_28187.get("errDisp"));
-    let v_t_35122 = v_He_27558.createElement("div"),
-      v_i_35123 = (v_t_35122.setAttribute("style", "width: 1920px;height: 1080px;background: #000;font-family: system-ui;font-size: 16px;padding: 12px;z-index:99;"), v_He_27558.createElement("div")),
-      v_e_35124 = (v_i_35123.setAttribute("style", ""), v_t_35122.appendChild(v_i_35123), v_He_27558.createElement("div")),
+    let v_t_35122 = win.createElement("div"),
+      v_i_35123 = (v_t_35122.setAttribute("style", "width: 1920px;height: 1080px;background: #000;font-family: system-ui;font-size: 16px;padding: 12px;z-index:99;"), win.createElement("div")),
+      v_e_35124 = (v_i_35123.setAttribute("style", ""), v_t_35122.appendChild(v_i_35123), win.createElement("div")),
       v_n_35125 = (v_e_35124.setAttribute("style", "margin-left:24px"), v_t_35122.appendChild(v_e_35124), v_y_27559.appendChild(v_t_35122), v_i_35123.innerText = "FAITAL ERROR (0x" + v_Xa_28081(v_Hl_28188.toString(16), 4, "0") + ")", "");
     switch (v_Hl_28188) {
       case v_W_27705:
@@ -24,13 +24,13 @@
       case v_K_27708:
         v_n_35125 = "Graphics engine error.";
     }
-    v_n_35125 += "\n\n--- App Info ---\nVersion: " + v_U_27653 + "\nBuild Time: " + v_ye_27858.rm.Sm + " " + v_ye_27858.rm.xm + "\nBuild Hash: " + v_ye_27858.rm.ym + "\nBuild Conf: " + v_ye_27858.rm.Cm, v_e_35124.innerText = v_n_35125;
+    v_n_35125 += "\n\n--- App Info ---\nVersion: " + v_U_27653 + "\nBuild Time: " + handshake.rm.Sm + " " + handshake.rm.xm + "\nBuild Hash: " + handshake.rm.ym + "\nBuild Conf: " + handshake.rm.Cm, v_e_35124.innerText = v_n_35125;
   } else if (v_Ul_28187.has("fix")) {
-    let v_t_35126 = v_He_27558.createElement("canvas"),
+    let v_t_35126 = win.createElement("canvas"),
       v_e_35127 = (v_t_35126.width = v_yn_27656, v_t_35126.height = v_Sn_27657, v_y_27559.appendChild(v_t_35126), v_t_35126.getContext("2d", {
         alpha: !1
       })),
-      v_n_35128 = v_G_27652 + " v" + v_U_27653 + " Build " + v_ye_27858.rm.Sm + " " + v_ye_27858.rm.xm + " (" + v_ye_27858.rm.ym + ") @" + v_ye_27858.rm.Cm,
+      v_n_35128 = v_G_27652 + " v" + v_U_27653 + " Build " + handshake.rm.Sm + " " + handshake.rm.xm + " (" + handshake.rm.ym + ") @" + handshake.rm.Cm,
       v_i_35129 = {
         "ja-JP": {
           ci: "問題の解決のため、ゲーム データを再ダウンロードします。",
@@ -91,7 +91,7 @@
     }();
   } else {
     v_o1_27834 = new v_ja_28075(0, -.78, 1, .01).tg(), v_l1_27835 = [new v_ja_28075(.04, 1.18, .83, 1.12).tg(), new v_ja_28075(.04, 1.18, 1, 1).tg(), new v_ja_28075(.04, 1.18, 1, 1.3).tg(), new v_ja_28075(.19, 1.05, 1, 1).tg()], v_Na_28070();
-    let v_i_35143 = v_ye_27858.rm.bm,
+    let v_i_35143 = handshake.rm.bm,
       v_r_35144 = void 0,
       v_e_35145 = void 0,
       v_n_35146 = void 0,
@@ -107,7 +107,7 @@
     }, [function (v_t_35155) {
       !function () {
         try {
-          v_se_27562 = m_GL_0.create({
+          v_se_27562 = glRuntime.create({
             stencil: !0,
             antialias: !1
           });
@@ -116,7 +116,7 @@
         }
         {
           var v_t_35156 = v_se_27562.getExtension("WEBGL_debug_renderer_info");
-          v_Qr_27976.b2({
+          systemMisc.b2({
             renderer: v_se_27562.getParameter(v_t_35156.UNMASKED_RENDERER_WEBGL),
             max_rend_buf_size: v_se_27562.getParameter(v_se_27562.MAX_RENDERBUFFER_SIZE),
             max_tex_units: v_se_27562.getParameter(v_se_27562.MAX_TEXTURE_IMAGE_UNITS),
@@ -129,11 +129,11 @@
         v_Me_28078(v_t_35155);
       });
     }, function (v_t_35158) {
-      v_Ne_28186.ue(function () {
+      languagePackages.ue(function () {
         v_Me_28078(v_t_35158);
       });
     }, function (v_i_35159) {
-      v_Ne_28186.Sb(function (v_t_35160) {
+      languagePackages.Sb(function (v_t_35160) {
         v_t_35160 ? v_Me_28078(v_i_35159) : v_k1_27883();
       });
     }, function (v_t_35161) {
@@ -149,7 +149,7 @@
         v_Me_28078(v_t_35163);
       });
     }, function (v_i_35164) {
-      v_Ne_28186.it("ui/startup.rsb", function (v_t_35165) {
+      languagePackages.it("ui/startup.rsb", function (v_t_35165) {
         v_t_35165 ? (v_t_35165 = new v_Dl_28181(v_t_35165), v_ae_27643.ut("startup", v_t_35165.rt(v_ae_27643.p5()), 0, v_t_35166 => {
           (v_r_35144 = v_t_35166).e8(1), v_r_35144.e8(0), v_e_35145 = v_r_35144.lt.yk(4), v_n_35146 = v_r_35144.lt.yk(5), v_s_35147 = v_r_35144.lt.yk(7), v_r_35144.lt.yk(17).Be = !1, v_n_35146.Be = !1, v_Me_28078(v_i_35164);
         })) : v_k1_27883();
@@ -166,12 +166,12 @@
       });
     }, function (v_e_35170) {
       v_c_35151(v_Ue_28209("startupSavedata")), v_Le_28076([function (v_i_35171) {
-        v_Jr_27963.ue(function (v_t_35172) {
+        settingsTables.ue(function (v_t_35172) {
           v_Me_28078(!1 === v_t_35172 ? v_e_35170 : v_i_35171);
         });
       }, function (v_i_35173) {
-        v_Jr_27963._n(1003, function (v_t_35174) {
-          v_t_35174 && (v_ye_27858.Dm = v_t_35174.loop_points || {}), v_Me_28078(v_i_35173);
+        settingsTables._n(1003, function (v_t_35174) {
+          v_t_35174 && (handshake.Dm = v_t_35174.loop_points || {}), v_Me_28078(v_i_35173);
         });
       }, function (v_t_35175) {
         v_Ns_28014.ue(), v_Me_28078(v_e_35170);
@@ -187,11 +187,11 @@
     }, function (v_t_35179) {
       v_j1_27909.ue(() => v_Me_28078(v_t_35179));
     }, function (v_t_35180) {
-      v_Ce_27901.ue(() => v_Me_28078(v_t_35180));
+      sceneManager.ue(() => v_Me_28078(v_t_35180));
     }, function (v_t_35181) {
       v_Te_27911.ue(() => v_Me_28078(v_t_35181));
     }, function (v_t_35182) {
-      v_L1_27897.ue(() => v_Me_28078(v_t_35182));
+      playerInfoBoard.ue(() => v_Me_28078(v_t_35182));
     }, function (v_t_35183) {
       v_V1_27912.ue(() => v_Me_28078(v_t_35183));
     }, function (v_t_35184) {
@@ -199,25 +199,25 @@
     }, function (v_t_35185) {
       v_i_35143 ? v_Me_28078(v_t_35185) : v_nr_27925.ue(() => v_Me_28078(v_t_35185));
     }, function (v_t_35186) {
-      v_i_35143 ? v_Me_28078(v_t_35186) : v_W1_27913.ue(() => v_Me_28078(v_t_35186));
+      v_i_35143 ? v_Me_28078(v_t_35186) : coopLobby.ue(() => v_Me_28078(v_t_35186));
     }, function (v_t_35187) {
-      v_i_35143 ? v_Me_28078(v_t_35187) : v_tr_27922.ue(() => v_Me_28078(v_t_35187));
+      v_i_35143 ? v_Me_28078(v_t_35187) : uiComponentA.ue(() => v_Me_28078(v_t_35187));
     }, function (v_t_35188) {
       v_i_35143 ? v_Me_28078(v_t_35188) : v_Q1_27921.ue(() => v_Me_28078(v_t_35188));
     }, function (v_t_35189) {
-      v_i_35143 ? v_Me_28078(v_t_35189) : v_ir_27923.ue(() => v_Me_28078(v_t_35189));
+      v_i_35143 ? v_Me_28078(v_t_35189) : uiComponentB.ue(() => v_Me_28078(v_t_35189));
     }, function (v_t_35190) {
-      v_i_35143 ? v_Me_28078(v_t_35190) : v_er_27924.ue(() => v_Me_28078(v_t_35190));
+      v_i_35143 ? v_Me_28078(v_t_35190) : uiComponentC.ue(() => v_Me_28078(v_t_35190));
     }, function (v_t_35191) {
       v_i_35143 ? v_Me_28078(v_t_35191) : v_$1_27920.ue(() => v_Me_28078(v_t_35191));
     }, function (v_t_35192) {
-      v_cr_27931.ue(() => v_Me_28078(v_t_35192));
+      testMenu.ue(() => v_Me_28078(v_t_35192));
     }, function (v_t_35193) {
       v_i_35143 ? v_Me_28078(v_t_35193) : v_N1_27904.ue(() => v_Me_28078(v_t_35193));
     }, function (v_t_35194) {
       v_i_35143 ? v_Me_28078(v_t_35194) : v_G1_27905.ue(() => v_Me_28078(v_t_35194));
     }, function (v_t_35195) {
-      v_i_35143 ? v_Me_28078(v_t_35195) : v_B1_27903.ue(() => v_Me_28078(v_t_35195));
+      v_i_35143 ? v_Me_28078(v_t_35195) : localization.ue(() => v_Me_28078(v_t_35195));
     }, function (v_t_35196) {
       v_i_35143 ? v_Me_28078(v_t_35196) : v_O1_27910.ue(() => v_Me_28078(v_t_35196));
     }, function (v_t_35197) {
@@ -231,28 +231,28 @@
     }, function (v_t_35201) {
       v_i_35143 ? v_Me_28078(v_t_35201) : v_X1_27914.ue(() => v_Me_28078(v_t_35201));
     }, function (v_t_35202) {
-      v_i_35143 ? v_Me_28078(v_t_35202) : v_Y1_27917.ue(() => v_Me_28078(v_t_35202));
+      v_i_35143 ? v_Me_28078(v_t_35202) : settingsStore.ue(() => v_Me_28078(v_t_35202));
     }, function (v_t_35203) {
-      v_i_35143 ? v_Me_28078(v_t_35203) : v_q1_27918.ue(() => v_Me_28078(v_t_35203));
+      v_i_35143 ? v_Me_28078(v_t_35203) : audioFontHub.ue(() => v_Me_28078(v_t_35203));
     }, function (v_t_35204) {
-      v_or_27929.ue(() => v_Me_28078(v_t_35204));
+      gameCore.ue(() => v_Me_28078(v_t_35204));
     }, async function (v_i_35205) {
-      if (v_c_35151(v_Ue_28209("startupInitDevices")), v_I1_27893.ue(), v_I1_27893.fe(v_ye_27858.rm.dm), 1 === v_ye_27858.rm.b7) v_c_35151(v_Ue_28209("startupLedServer")), v_P1_27895.ue(function (v_t_35209) {
+      if (v_c_35151(v_Ue_28209("startupInitDevices")), inputModule.ue(), inputModule.fe(handshake.rm.dm), 1 === handshake.rm.b7) v_c_35151(v_Ue_28209("startupLedServer")), ledOutput.ue(function (v_t_35209) {
         0 === v_t_35209 ? v_Me_28078(v_i_35205) : (1 === v_t_35209 ? v_c_35151(v_Ue_28209("startupLedServerErrorCommunication")) : 2 === v_t_35209 && v_c_35151(v_Ue_28209("startupLedServerError")), v_ae_27643.W6(() => v_Me_28078(v_i_35205), 500));
       });else {
-        if (2 === v_ye_27858.rm.b7) {
+        if (2 === handshake.rm.b7) {
           v_r_35144.lt.yk(17).Be = !0, v_r_35144.e8(2);
           for (let v_t_35210 = 4; 0 <= v_t_35210; --v_t_35210) v_r_35144.lt.yk(21).Wt = v_Ba_28069(v_Ue_28209("sysMsgDevInit2"), [["TIME", v_t_35210]]), await v_ae_27643.C7(1e3);
-          var v_t_35206 = new v_Ss_28000(v_ye_27858.rm.A7);
+          var v_t_35206 = new v_Ss_28000(handshake.rm.A7);
           if (await v_t_35206.ue()) {
             v_r_35144.lt.yk(21).Wt = v_Ue_28209("sysMsgDevInit2Ok"), (v_M_27644 = v_t_35206).BR(), v_M_27644.o9();
-            var v_e_35207 = new v_As_28001(v_ye_27858.rm.S7);
+            var v_e_35207 = new v_As_28001(handshake.rm.S7);
             if (await v_e_35207.ue()) {
-              if (v_r_35144.lt.yk(23).Wt = "GOOD", (v_E_27645 = v_e_35207).H9(), v_E_27645.o9(), v_ye_27858.rm.A9) {
-                var v_n_35208 = new v_Rs_28007(v_ye_27858.rm.A9, v_ye_27858.rm.S9, v_ye_27858.rm.x9, v_ye_27858.rm.I9);
+              if (v_r_35144.lt.yk(23).Wt = "GOOD", (v_E_27645 = v_e_35207).H9(), v_E_27645.o9(), handshake.rm.A9) {
+                var v_n_35208 = new v_Rs_28007(handshake.rm.A9, handshake.rm.S9, handshake.rm.x9, handshake.rm.I9);
                 if (!(await v_n_35208.ue())) return v_n_35208.V7(), v_M_27644.V7(), v_M_27644 = null, v_E_27645.V7(), v_E_27645 = null, v_r_35144.lt.yk(25).Wt = "BAD", await v_ae_27643.C7(2e3), void v_Me_28078(v_i_35205);
-                if (v_r_35144.lt.yk(25).Wt = "GOOD", v_D_27646 = v_n_35208, v_ye_27858.rm.OA) {
-                  v_n_35208 = new v_xs_28002(v_ye_27858.rm.OA);
+                if (v_r_35144.lt.yk(25).Wt = "GOOD", v_D_27646 = v_n_35208, handshake.rm.OA) {
+                  v_n_35208 = new v_xs_28002(handshake.rm.OA);
                   if (!(await v_n_35208.ue())) return v_n_35208.V7(), v_r_35144.lt.yk(27).Wt = "BAD", await v_ae_27643.C7(2e3), void v_Me_28078(v_i_35205);
                   v_r_35144.lt.yk(27).Wt = "GOOD", v_F_27647 = v_n_35208, v_D_27646.HS(v_F_27647);
                 }
@@ -266,17 +266,17 @@
     }, function (v_t_35211) {
       v_D_27646 || (v_D_27646 = new v_Ls_28008()).ue(), v_r_35144.lt.yk(17).Be = !1, v_Me_28078(v_t_35211);
     }, function (v_t_35212) {
-      v_xe_27894.ue(() => {
+      menuSystem.ue(() => {
         v_Me_28078(v_t_35212);
       });
     }, function (v_t_35213) {
-      v_ye_27858.l.p = [v_Ue_28209("sortReadingA"), v_Ue_28209("sortReadingH"), v_Ue_28209("sortReadingO"), v_Ue_28209("sortReadingV"), v_Ue_28209("sortReadingRa"), v_Ue_28209("sortReadingRk"), v_Ue_28209("sortReadingRs"), v_Ue_28209("sortReadingRt"), v_Ue_28209("sortReadingRn"), v_Ue_28209("sortReadingRh"), v_Ue_28209("sortReadingRm"), v_Ue_28209("sortReadingRy"), v_Ue_28209("sortReadingRr"), v_Ue_28209("sortReadingRw"), v_Ue_28209("sortReadingNums"), v_Ue_28209("sortReadingOthers")], v_ye_27858.l.k = [v_Ue_28209("sortVersionUmgr"), v_Ue_28209("sortVersionUmgrPlus"), v_Ue_28209("sortVersionUmgrNext")], v_ae_27643.W6(() => {
+      handshake.l.p = [v_Ue_28209("sortReadingA"), v_Ue_28209("sortReadingH"), v_Ue_28209("sortReadingO"), v_Ue_28209("sortReadingV"), v_Ue_28209("sortReadingRa"), v_Ue_28209("sortReadingRk"), v_Ue_28209("sortReadingRs"), v_Ue_28209("sortReadingRt"), v_Ue_28209("sortReadingRn"), v_Ue_28209("sortReadingRh"), v_Ue_28209("sortReadingRm"), v_Ue_28209("sortReadingRy"), v_Ue_28209("sortReadingRr"), v_Ue_28209("sortReadingRw"), v_Ue_28209("sortReadingNums"), v_Ue_28209("sortReadingOthers")], handshake.l.k = [v_Ue_28209("sortVersionUmgr"), v_Ue_28209("sortVersionUmgrPlus"), v_Ue_28209("sortVersionUmgrNext")], v_ae_27643.W6(() => {
         v_ae_27643._i("startup"), v_r_35144 = void 0, v_Me_28078(v_t_35213);
       }, 500);
     }, function (v_t_35214) {
-      v_R1_27896.ue(), v_cr_27931.Ju(), v_D_27646.jS(), v_i_35143 ? v_F1_27902.T0(async () => {
-        await v_Ns_28014.cA(), v_L1_27897.N4(v_ye_27858.rm.om), v_L1_27897.H4(v_ye_27858.On.$p), await v_L1_27897.V4(v_ye_27858.On.qp), v_L1_27897.U4(v_ye_27858.On.im), v_L1_27897.J4(v_ye_27858.rm.lm, v_Ie_27966.D0("showRating")), v_L1_27897.O4(v_ye_27858.rm.um, v_Ie_27966.D0("showLevel")), v_L1_27897.ti(), v__s_27989.ue(), v_or_27929.lg();
-      }) : (v_Se_27889.fn(.75), v_B1_27903.T0(() => v_F1_27902.T0(() => {
+      v_R1_27896.ue(), testMenu.Ju(), v_D_27646.jS(), v_i_35143 ? v_F1_27902.T0(async () => {
+        await v_Ns_28014.cA(), playerInfoBoard.N4(handshake.rm.om), playerInfoBoard.H4(handshake.On.$p), await playerInfoBoard.V4(handshake.On.qp), playerInfoBoard.U4(handshake.On.im), playerInfoBoard.J4(handshake.rm.lm, v_Ie_27966.D0("showRating")), playerInfoBoard.O4(handshake.rm.um, v_Ie_27966.D0("showLevel")), playerInfoBoard.ti(), v__s_27989.ue(), gameCore.lg();
+      }) : (v_Se_27889.fn(.75), localization.T0(() => v_F1_27902.T0(() => {
         v_nr_27925.z0(), v_N1_27904.T0();
       })));
     }]);

@@ -4,5 +4,5 @@
 // 说明: 本文件是 bundle 片段, 由 build/assemble-game.mjs 按 manifest 拼接;请勿手改拼接顺序。
 
   function v_re_27878() {
-    v_I1_27893.ce();
+    inputModule.ce();
   }

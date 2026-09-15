@@ -3,7 +3,7 @@
 // 来源: game_main.deobf.js
 // 说明: 本文件是 bundle 片段, 由 build/assemble-game.mjs 按 manifest 拼接;请勿手改拼接顺序。
 
-  const v_Ne_28186 = function () {
+  const languagePackages = function () {
     function v_n_35079(v_t_35089, v_i_35090, v_e_35091) {
       this.ct = v_t_35089, this.uk = v_i_35090, this.fk = v_e_35091;
     }
@@ -40,7 +40,7 @@
         if (!v_o_35080) {
           var v_i_35105;
           if ("ja-JP" !== v_a_35086(v_Hi_27855) && (v_i_35105 = v_a_35086(v_Hi_27855), v_u_35085.unshift(new v_n_35079(v_i_35105, "reverie_" + v_i_35105, v_s_35083[v_i_35105]))), v_l_35081 = await new Promise(v_t_35106 => {
-            v_Zr_27974.qu("/reverie/_VERSION", () => v_t_35106(!1), () => v_t_35106(!0));
+            hostBridge.qu("/reverie/_VERSION", () => v_t_35106(!1), () => v_t_35106(!0));
           })) for (const v_e_35107 of v_u_35085) {
             let v_i_35108 = new v_ds_27991(v_e_35107.fk, 0, 2);
             if (!(await new Promise(v_t_35109 => v_i_35108.xl(v_t_35109)))) return void v_t_35104();
@@ -60,9 +60,9 @@
       },
       Sb: async function (v_t_35114) {
         if (v_l_35081) {
-          if (null === v_ye_27858.rm.gb) v_t_35114(!1);else if (v_o_35080) {
+          if (null === handshake.rm.gb) v_t_35114(!1);else if (v_o_35080) {
             for (let v_i_35117 = 0; v_i_35117 < v_c_35084.length; ++v_i_35117) {
-              var v_e_35115 = v_ye_27858.rm.gb.find(v_t_35118 => v_t_35118.name === v_u_35085[v_i_35117].ct);
+              var v_e_35115 = handshake.rm.gb.find(v_t_35118 => v_t_35118.name === v_u_35085[v_i_35117].ct);
               if (!v_e_35115) return void v_t_35114(!1);
               if (!v_c_35084[v_i_35117].E4("_VERSION")) return void v_t_35114(!1);
               var v_n_35116 = await v_c_35084[v_i_35117].pi("_VERSION");

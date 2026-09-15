@@ -5,7 +5,7 @@
 
   v_hs_27990.Gb = async function (v_t_33401, v_i_33402) {
     var v_e_33403 = v_t_33401 < 2,
-      v_t_33401 = await v_Ne_28186.f7("props/" + v_i_33402 + ".txt");
+      v_t_33401 = await languagePackages.f7("props/" + v_i_33402 + ".txt");
     if (null === v_t_33401) return null;
     var v_n_33404 = new v_hs_27990();
     for (const v_s_33406 of v_t_33401.replace(/\r\n/g, "\n").split("\n")) {

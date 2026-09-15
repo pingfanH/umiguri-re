@@ -178,7 +178,7 @@
       };
     for (let v_i_34465 = 0; v_i_34465 < v_n_34453; ++v_i_34465) {
       let v_t_34466;
-      v_t_34466 = v_a_34457 ? await new v_tc_28199(v_e_34452.I3(v_s_34456[v_i_34465].E3)).kR() : v_e_34452.I3(v_s_34456[v_i_34465].E3), v_u_34461 = new m_GL_0.Texture(v_r_34455.k_, v_r_34455.b_, v_f_34462), v_se_27562.pixelStorei(v_se_27562.UNPACK_FLIP_Y_WEBGL, !1), 6406 == v_s_34456[v_i_34465].T3 ? v_se_27562.texImage2D(v_se_27562.TEXTURE_2D, 0, v_s_34456[v_i_34465].T3, v_r_34455.k_, v_r_34455.b_, 0, v_s_34456[v_i_34465].T3, v_se_27562.UNSIGNED_BYTE, v_t_34466) : v_se_27562.compressedTexImage2D(v_se_27562.TEXTURE_2D, 0, v_s_34456[v_i_34465].T3, v_r_34455.k_, v_r_34455.b_, 0, v_t_34466), v_r_34455.Mf.push(v_u_34461);
+      v_t_34466 = v_a_34457 ? await new v_tc_28199(v_e_34452.I3(v_s_34456[v_i_34465].E3)).kR() : v_e_34452.I3(v_s_34456[v_i_34465].E3), v_u_34461 = new glRuntime.Texture(v_r_34455.k_, v_r_34455.b_, v_f_34462), v_se_27562.pixelStorei(v_se_27562.UNPACK_FLIP_Y_WEBGL, !1), 6406 == v_s_34456[v_i_34465].T3 ? v_se_27562.texImage2D(v_se_27562.TEXTURE_2D, 0, v_s_34456[v_i_34465].T3, v_r_34455.k_, v_r_34455.b_, 0, v_s_34456[v_i_34465].T3, v_se_27562.UNSIGNED_BYTE, v_t_34466) : v_se_27562.compressedTexImage2D(v_se_27562.TEXTURE_2D, 0, v_s_34456[v_i_34465].T3, v_r_34455.k_, v_r_34455.b_, 0, v_t_34466), v_r_34455.Mf.push(v_u_34461);
     }
     return v_r_34455;
   }, v_Eo_28125.prototype = {

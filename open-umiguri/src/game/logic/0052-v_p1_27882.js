@@ -11,5 +11,5 @@
         for (let v_t_28236 = 0; v_t_28236 < v_i_28233.byteLength; ++v_t_28236) !v_e_28234 || !v_t_28236 || 15 & v_t_28236 || (v_n_28235 += "\n"), v_n_28235 += v_Xa_28081(v_i_28233[v_t_28236].toString(16), 2, "0");
         return v_n_28235;
       }(v_t_28231, !0);
-    v_Wi_27863(), v_Qr_27976.m2("----------------"), v_Qr_27976.m2(v_i_28232), alert(v_i_28232 + "\n\nthis report is saved in log.txt");
+    v_Wi_27863(), systemMisc.m2("----------------"), systemMisc.m2(v_i_28232), alert(v_i_28232 + "\n\nthis report is saved in log.txt");
   }

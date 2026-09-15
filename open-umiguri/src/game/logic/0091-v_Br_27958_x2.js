@@ -12,7 +12,7 @@
           let v_s_32889 = [],
             v_a_32890;
           v_Le_28076([function (v_r_32891) {
-            v_Zr_27974.zu("/skills/", function (v_t_32892) {
+            hostBridge.zu("/skills/", function (v_t_32892) {
               let v_n_32893;
               v_Fe_28101(() => function v_i_32895(v_e_32894) {
                 if (0 === v_e_32894.length) return void v_Fe_28101(() => v_Me_28078(v_r_32891));

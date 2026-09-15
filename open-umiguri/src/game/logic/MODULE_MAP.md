@@ -68,9 +68,9 @@
 | `logic/0060-v_C1_27890.js` | 177716–177718 | FunctionDeclaration |  |
 | `logic/0061-v_T1_27891.js` | 177719–177721 | FunctionDeclaration |  |
 | `logic/0062-ExpressionStatement.js` | 177722–177762 | ExpressionStatement |  |
-| `logic/0063-v_Ae_27892_x29.js` | 177763–181836 | VariableDeclaration | v_Ae_27892 (177763–177812), v_I1_27893 (177813–177953), v_xe_27894 (177954–178159), v_P1_27895 (178160–178277), v_R1_27896 (178278–178305), v_L1_27897 (178306–178380), v_M1_27898 (178381–178383), v_Ce_27901 (178386–178476), v_F1_27902 (178477–178548), v_B1_27903 (178549–178652), v_N1_27904 (178653–178712), v_G1_27905 (178713–178925), v_U1_27906 (178926–178979), v_H1_27907 (178980–178998), v_J1_27908 (178999–179014), v_j1_27909 (179015–179036), v_O1_27910 (179037–179058), v_Te_27911 (179059–179162), v_V1_27912 (179163–179198), v_W1_27913 (179199–179445), v_X1_27914 (179446–179522), v_Y1_27917 (179525–179641), v_q1_27918 (179642–179771), v_$1_27920 (179854–180210), v_Q1_27921 (180211–180398), v_tr_27922 (180399–180607), v_ir_27923 (180608–180718), v_er_27924 (180719–180788), v_nr_27925 (180789–181834) |
+| `logic/0063-v_Ae_27892_x29.js` | 177763–181836 | VariableDeclaration | v_Ae_27892 (177763–177812), inputModule (177813–177953), menuSystem (177954–178159), ledOutput (178160–178277), v_R1_27896 (178278–178305), playerInfoBoard (178306–178380), v_M1_27898 (178381–178383), sceneManager (178386–178476), v_F1_27902 (178477–178548), localization (178549–178652), v_N1_27904 (178653–178712), v_G1_27905 (178713–178925), v_U1_27906 (178926–178979), v_H1_27907 (178980–178998), v_J1_27908 (178999–179014), v_j1_27909 (179015–179036), v_O1_27910 (179037–179058), v_Te_27911 (179059–179162), v_V1_27912 (179163–179198), coopLobby (179199–179445), v_X1_27914 (179446–179522), settingsStore (179525–179641), audioFontHub (179642–179771), v_$1_27920 (179854–180210), v_Q1_27921 (180211–180398), uiComponentA (180399–180607), uiComponentB (180608–180718), uiComponentC (180719–180788), v_nr_27925 (180789–181834) |
 | `logic/0064-v_ar_27928.js` | 181837–181839 | FunctionDeclaration |  |
-| `logic/0065-v_or_27929_x4.js` | 181840–186704 | VariableDeclaration | v_or_27929 (181840–186156), v_lr_27930 (186157–186196), v_cr_27931 (186197–186674), v_ur_27932 (186675–186704) |
+| `logic/0065-gameCore_x4.js` | 181840–186704 | VariableDeclaration | gameCore (181840–186156), v_lr_27930 (186157–186196), testMenu (186197–186674), v_ur_27932 (186675–186704) |
 | `logic/0066-v_fr_27933.js` | 186705–186777 | FunctionDeclaration |  |
 | `logic/0067-v_r_27934.js` | 186778–186780 | FunctionDeclaration |  |
 | `logic/0068-v_hr_27935.js` | 186781–186783 | FunctionDeclaration |  |
@@ -81,7 +81,7 @@
 | `logic/0073-v_gr_27939.js` | 187437–187446 | FunctionDeclaration |  |
 | `logic/0074-v_mr_27940.js` | 187447–187453 | FunctionDeclaration |  |
 | `logic/0075-v_pr_27941.js` | 187454–187464 | FunctionDeclaration |  |
-| `logic/0076-v_kr_27942.js` | 187465–188412 | VariableDeclaration | v_kr_27942 (187465–188188) |
+| `logic/0076-chartParser.js` | 187465–188412 | VariableDeclaration | chartParser (187465–188188) |
 | `logic/0077-v_yr_27944.js` | 188413–188415 | FunctionDeclaration |  |
 | `logic/0078-v_Sr_27945.js` | 188416–188418 | FunctionDeclaration |  |
 | `logic/0079-v_Ar_27946.js` | 188419–188421 | FunctionDeclaration |  |
@@ -90,7 +90,7 @@
 | `logic/0082-ExpressionStatement.js` | 188439–188484 | ExpressionStatement |  |
 | `logic/0083-v_Tr_27949.js` | 188485–188627 | VariableDeclaration |  |
 | `logic/0084-v_Ir_27950.js` | 188628–188630 | FunctionDeclaration |  |
-| `logic/0085-v_Pr_27951.js` | 188631–188971 | VariableDeclaration | v_Pr_27951 (188631–188789) |
+| `logic/0085-dataLoader.js` | 188631–188971 | VariableDeclaration | dataLoader (188631–188789) |
 | `logic/0086-v_Lr_27953.js` | 188972–188985 | FunctionDeclaration |  |
 | `logic/0087-v_Mr_27954.js` | 188986–188988 | VariableDeclaration | v_Mr_27954 (188986–188988) |
 | `logic/0088-v_Er_27955.js` | 188989–188991 | FunctionDeclaration |  |
@@ -100,7 +100,7 @@
 | `logic/0092-v_Gr_27960.js` | 189621–189623 | FunctionDeclaration |  |
 | `logic/0093-v_Ur_27961.js` | 189624–189626 | FunctionDeclaration |  |
 | `logic/0094-ExpressionStatement.js` | 189627–189642 | ExpressionStatement |  |
-| `logic/0095-v_Jr_27963_x4.js` | 189643–190145 | VariableDeclaration | v_Jr_27963 (189661–189691), v_jr_27964 (189692–189985), v_Or_27965 (189986–190070), v_Ie_27966 (190071–190145) |
+| `logic/0095-settingsTables_x4.js` | 189643–190145 | VariableDeclaration | settingsTables (189661–189691), recordsStore (189692–189985), v_Or_27965 (189986–190070), v_Ie_27966 (190071–190145) |
 | `logic/0096-v_Vr_27967.js` | 190146–190148 | FunctionDeclaration |  |
 | `logic/0097-v_Wr_27968.js` | 190149–190200 | VariableDeclaration | v_Wr_27968 (190149–190177) |
 | `logic/0098-v_zr_27970.js` | 190201–190203 | FunctionDeclaration |  |
@@ -108,7 +108,7 @@
 | `logic/0100-v_Yr_27972.js` | 190207–190209 | FunctionDeclaration |  |
 | `logic/0101-v_qr_27973.js` | 190210–190212 | FunctionDeclaration |  |
 | `logic/0102-ExpressionStatement.js` | 190213–190450 | ExpressionStatement |  |
-| `logic/0103-v_Zr_27974_x3.js` | 190451–190628 | VariableDeclaration | v_Zr_27974 (190451–190523), v_Qr_27976 (190547–190606), v_ts_27977 (190607–190628) |
+| `logic/0103-hostBridge_x3.js` | 190451–190628 | VariableDeclaration | hostBridge (190451–190523), systemMisc (190547–190606), v_ts_27977 (190607–190628) |
 | `logic/0104-v_s_27989.js` | 190629–190714 | VariableDeclaration | v__s_27989 (190640–190714) |
 | `logic/0105-v_hs_27990.js` | 190715–190821 | FunctionDeclaration |  |
 | `logic/0106-v_ds_27991.js` | 190822–190828 | FunctionDeclaration |  |
@@ -251,7 +251,7 @@
 | `logic/0243-v_Nl_28184.js` | 195319–195321 | FunctionDeclaration |  |
 | `logic/0244-v_Gl_28185.js` | 195322–195324 | FunctionDeclaration |  |
 | `logic/0245-ExpressionStatement.js` | 195325–195539 | ExpressionStatement |  |
-| `logic/0246-v_Ne_28186.js` | 195540–195613 | VariableDeclaration | v_Ne_28186 (195540–195613) |
+| `logic/0246-languagePackages.js` | 195540–195613 | VariableDeclaration | languagePackages (195540–195613) |
 | `logic/0247-v_Ul_28187.js` | 195614–195614 | VariableDeclaration |  |
 | `logic/0248-IfStatement.js` | 195615–195892 | IfStatement |  |
 | `logic/0249-v_Vl_28189.js` | 195893–195895 | FunctionDeclaration |  |

@@ -8,7 +8,7 @@
       let v_e_32694 = [],
         v_n_32695 = {};
       v_Le_28076([function (v_i_32696) {
-        v_Zr_27974.zu("/courses/", function (v_t_32697) {
+        hostBridge.zu("/courses/", function (v_t_32697) {
           v_oo_28098(v_t_32697, function (v_i_32698, v_t_32699, v_e_32700) {
             if (!v_Da_28067(v_e_32700.name, ".ugr")) return v_i_32698();
             v_$r_27975.Ic("/courses/" + v_e_32700.name, function (v_t_32701) {

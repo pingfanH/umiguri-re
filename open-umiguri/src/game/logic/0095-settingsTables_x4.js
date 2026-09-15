@@ -6,7 +6,7 @@
   const v_Hr_27962 = {
       ef: function (v_i_33040) {
         v_Le_28076([function (v_i_33041) {
-          v_Zr_27974.zu("/extra/n/", function (v_t_33042) {
+          hostBridge.zu("/extra/n/", function (v_t_33042) {
             v_oo_28098(v_t_33042, function (v_i_33043, v_t_33044, v_e_33045) {
               if (!v_e_33045.isFile || !v_Da_28067(v_e_33045.name, ".arc")) return v_i_33043();
               v_Ur_27961.rt("/extra/n/" + v_e_33045.name, function (v_t_33046) {
@@ -21,7 +21,7 @@
         }]);
       }
     },
-    v_Jr_27963 = function () {
+    settingsTables = function () {
       let v_r_33048 = null,
         v_s_33049 = {
           1001: "user_settings.json",
@@ -31,7 +31,7 @@
         };
       return {
         ue: function (v_i_33050) {
-          v_Zr_27974.zu(v_J_27658, function (v_t_33051) {
+          hostBridge.zu(v_J_27658, function (v_t_33051) {
             v_r_33048 = v_t_33051, v_Fe_28101(() => v_i_33050(!0));
           }, () => v_Fe_28101(() => v_i_33050(!1)));
         },
@@ -48,11 +48,11 @@
           }) : v_Fe_28101(() => v_e_33053(null));
         },
         mi: function (v_t_33059, v_i_33060, v_e_33061, v_n_33062) {
-          null !== v_r_33048 && v_s_33049[v_t_33059] ? (v_t_33059 = v_J_27658 + v_s_33049[v_t_33059], v_Zr_27974.Xu(v_t_33059, v_n_33062 ? JSON.stringify(v_i_33060, null, 2) : JSON.stringify(v_i_33060), "application/json", () => v_e_33061(!0), () => v_e_33061(!1))) : v_Fe_28101(() => v_e_33061(!1));
+          null !== v_r_33048 && v_s_33049[v_t_33059] ? (v_t_33059 = v_J_27658 + v_s_33049[v_t_33059], hostBridge.Xu(v_t_33059, v_n_33062 ? JSON.stringify(v_i_33060, null, 2) : JSON.stringify(v_i_33060), "application/json", () => v_e_33061(!0), () => v_e_33061(!1))) : v_Fe_28101(() => v_e_33061(!1));
         }
       };
     }(),
-    v_jr_27964 = function () {
+    recordsStore = function () {
       let v_k_33063, v_b_33064;
       let v_t_33065 = !1;
       function v_e_33066(v_t_33069, v_i_33070) {
@@ -61,7 +61,7 @@
         });
       }
       function v_n_33067(v_t_33072, v_i_33073, v_e_33074) {
-        v_Zr_27974.Xu("/config/" + v_t_33072 + ".krtbl", v_i_33073, "application/octet-stream", () => v_e_33074(!0), () => v_e_33074(!1));
+        hostBridge.Xu("/config/" + v_t_33072 + ".krtbl", v_i_33073, "application/octet-stream", () => v_e_33074(!0), () => v_e_33074(!1));
       }
       function v_r_33068(v_i_33075, v_e_33076, v_t_33077) {
         if (v_t_33077) if ("music" === v_i_33075.K0) {
@@ -96,7 +96,7 @@
             case "player":
               {
                 var v_n_33088 = v_e_33087;
-                let v_i_33101 = v_ye_27858.On;
+                let v_i_33101 = handshake.On;
                 if (v_n_33088) {
                   var v_n_33088 = v_b_33064.ff("meta"),
                     v_r_33089 = (v_n_33088._f(), v_n_33088.df(["version", "10"]), v_b_33064.ff("settings"));
@@ -315,18 +315,18 @@
                 var v_i_33094,
                   v_c_33095 = v_k_33063.ff("music"),
                   v_n_33088 = v_c_33095.hf();
-                v_ye_27858.Mm = new Map();
+                handshake.Mm = new Map();
                 for (const v_m_33107 of v_n_33088) {
                   var v_u_33096,
                     v_f_33097 = (v_u_33096 = v_c_33095.vf(v_m_33107)).uid.split("/").slice(-1)[0];
-                  v_ye_27858.Mm.has(v_f_33097) || v_ye_27858.Mm.set(v_f_33097, new Map()), (v_i_33094 = new v_zr_27970()).Sr = v_me_27822(v_pe_27823(v_u_33096.score, 0), 101e4), v_i_33094.ni = 1 & v_u_33096.flag, v_i_33094.R4 = 2 & v_u_33096.flag, v_i_33094.B4 = 4 & v_u_33096.flag, v_i_33094.M4 = 8 & v_u_33096.flag, v_i_33094.D4 = v_u_33096.updated_at, v_i_33094.P4 = v_u_33096.play_count, v_i_33094.G4 = !!v_u_33096.is_played, v_ye_27858.Mm.get(v_f_33097).set(v_u_33096.diff, v_i_33094);
+                  handshake.Mm.has(v_f_33097) || handshake.Mm.set(v_f_33097, new Map()), (v_i_33094 = new v_zr_27970()).Sr = v_me_27822(v_pe_27823(v_u_33096.score, 0), 101e4), v_i_33094.ni = 1 & v_u_33096.flag, v_i_33094.R4 = 2 & v_u_33096.flag, v_i_33094.B4 = 4 & v_u_33096.flag, v_i_33094.M4 = 8 & v_u_33096.flag, v_i_33094.D4 = v_u_33096.updated_at, v_i_33094.P4 = v_u_33096.play_count, v_i_33094.G4 = !!v_u_33096.is_played, handshake.Mm.get(v_f_33097).set(v_u_33096.diff, v_i_33094);
                 }
                 var v___33098,
                   v_h_33099,
                   v_d_33100 = v_k_33063.ff("course"),
                   v_n_33088 = v_d_33100.hf();
-                v_ye_27858.Em = new Map();
-                for (const v_p_33108 of v_n_33088) v___33098 = v_d_33100.vf(v_p_33108), (v_h_33099 = new v_zr_27970()).Sr = v_me_27822(v_pe_27823(v___33098.score, 0), 303e4), v_h_33099.ni = 1 & v___33098.flag, v_h_33099.R4 = 2 & v___33098.flag, v_h_33099.B4 = 4 & v___33098.flag, v_h_33099.D4 = v___33098.updated_at, v_h_33099.P4 = v___33098.play_count, v_h_33099.G4 = !!v___33098.is_played, v_ye_27858.Em.set(v___33098.uid, v_h_33099);
+                handshake.Em = new Map();
+                for (const v_p_33108 of v_n_33088) v___33098 = v_d_33100.vf(v_p_33108), (v_h_33099 = new v_zr_27970()).Sr = v_me_27822(v_pe_27823(v___33098.score, 0), 303e4), v_h_33099.ni = 1 & v___33098.flag, v_h_33099.R4 = 2 & v___33098.flag, v_h_33099.B4 = 4 & v___33098.flag, v_h_33099.D4 = v___33098.updated_at, v_h_33099.P4 = v___33098.play_count, v_h_33099.G4 = !!v___33098.is_played, handshake.Em.set(v___33098.uid, v_h_33099);
               }
               return;
           }
@@ -434,12 +434,12 @@
     v_Ie_27966 = function () {
       let v_c_33137 = [],
         v_u_33138 = {},
-        v_n_33139 = v_ye_27858.On.ae;
+        v_n_33139 = handshake.On.ae;
       return {
         _n: function (v_o_33140) {
           let v_l_33141 = new v_ms_27995();
           v_Le_28076([v_i_33142 => {
-            v_Ne_28186.it("tables/settingTable.krtbl", function (v_t_33143) {
+            languagePackages.it("tables/settingTable.krtbl", function (v_t_33143) {
               null === v_t_33143 ? v_o_33140(!1) : (v_l_33141.uf(v_t_33143), v_Me_28078(v_i_33142));
             });
           }, v_t_33144 => {
@@ -490,7 +490,7 @@
         $c: function (v_t_33157) {
           if (void 0 === v_u_33138[v_t_33157]) return 0;
           let v_i_33158 = 0;
-          return v_i_33158 = (v_ye_27858.On.re < 3 ? v_ji_27860[v_ye_27858.On.re] : v_n_33139)[v_t_33157], "updown" === v_u_33138[v_t_33157].Fi ? v_u_33138[v_t_33157].R0[v_i_33158].Sf : !!v_i_33158;
+          return v_i_33158 = (handshake.On.re < 3 ? v_ji_27860[handshake.On.re] : v_n_33139)[v_t_33157], "updown" === v_u_33138[v_t_33157].Fi ? v_u_33138[v_t_33157].R0[v_i_33158].Sf : !!v_i_33158;
         },
         I0: function (v_t_33159) {
           var v_i_33160 = v_u_33138[v_t_33159];

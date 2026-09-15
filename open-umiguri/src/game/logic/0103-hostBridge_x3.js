@@ -3,7 +3,7 @@
 // 来源: game_main.deobf.js
 // 说明: 本文件是 bundle 片段, 由 build/assemble-game.mjs 按 manifest 拼接;请勿手改拼接顺序。
 
-  const v_Zr_27974 = function () {
+  const hostBridge = function () {
       let v_s_33263 = window.umgr_elc.st;
       function v_a_33264(v_t_33265) {
         return "function" == typeof v_t_33265 && v_t_33265(), !1;
@@ -78,13 +78,13 @@
     }(),
     v_$r_27975 = {
       Ic: function (v_t_33314, v_e_33315) {
-        v_Zr_27974.qu(v_t_33314, function (v_t_33316) {
+        hostBridge.qu(v_t_33314, function (v_t_33316) {
           let v_i_33317 = new FileReader();
           v_i_33317.onload = () => v_e_33315(v_i_33317.result), v_i_33317.onerror = () => v_e_33315(null), v_i_33317.readAsText(v_t_33316);
         }, () => v_e_33315(null));
       },
       xi: function (v_t_33318, v_e_33319) {
-        v_Zr_27974.qu(v_t_33318, function (v_t_33320) {
+        hostBridge.qu(v_t_33318, function (v_t_33320) {
           let v_i_33321 = new FileReader();
           v_i_33321.onload = () => {
             var v_t_33322 = new DOMParser().parseFromString(v_i_33321.result, "application/xml");
@@ -93,13 +93,13 @@
         }, () => v_e_33319(null));
       },
       it: function (v_t_33323, v_e_33324) {
-        v_Zr_27974.qu(v_t_33323, function (v_t_33325) {
+        hostBridge.qu(v_t_33323, function (v_t_33325) {
           let v_i_33326 = new FileReader();
           v_i_33326.onload = () => v_e_33324(v_i_33326.result), v_i_33326.onerror = () => v_e_33324(null), v_i_33326.readAsArrayBuffer(v_t_33325);
         }, () => v_e_33324(null));
       }
     },
-    v_Qr_27976 = function () {
+    systemMisc = function () {
       let v_n_33327 = window.umgr_elc.si,
         v_e_33328 = getCurrentProcessId(),
         v_s_33329 = void 0;

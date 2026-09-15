@@ -18,29 +18,36 @@
 //   默认: /Users/pingfanh/project/umiguri-re/game_main.deobf.js  ->  ./src/game
 import fs from 'node:fs';
 import path from 'node:path';
-import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
+import { parser, generate, loadSymbols, applySymbols } from './lib/symbols.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const srcFile = process.argv[2] || process.env.GAME_SRC || '/Users/pingfanh/project/umiguri-re/game_main.deobf.js';
 const outDir = path.resolve(process.argv[3] || path.join(root, 'src/game'));
+const symbolsFile = process.argv.includes('--symbols')
+  ? process.argv[process.argv.indexOf('--symbols') + 1]
+  : path.join(root, 'tools/symbols.json');
+const skipRename = process.argv.includes('--no-rename');
 
-function loadParser() {
-  const candidates = [root, '/tmp/deobf'];
-  for (const base of candidates) {
-    try {
-      const req = createRequire(path.join(base, 'noop.js'));
-      return req('@babel/parser');
-    } catch (e) {}
-  }
-  console.error('缺少 @babel/parser。请 npm install 或设置 NODE_PATH=/tmp/deobf/node_modules');
-  process.exit(2);
-}
-const parser = loadParser();
-
-const code = fs.readFileSync(srcFile, 'utf8');
+let code = fs.readFileSync(srcFile, 'utf8');
 process.stderr.write(`解析 ${srcFile} (${(code.length / 1048576).toFixed(2)} MB)...\n`);
-const ast = parser.parse(code, { sourceType: 'script', allowReturnOutsideFunction: true, errorRecovery: true });
+let ast = parser.parse(code, { sourceType: 'script', allowReturnOutsideFunction: true, errorRecovery: true });
+
+// 先应用语义重命名(只改绑定名), 再重新生成并解析, 以便按新文本切分。
+let renamedCount = 0;
+if (!skipRename) {
+  const map = loadSymbols(symbolsFile);
+  const { conflicts, renamed } = applySymbols(ast, map);
+  if (conflicts.length) {
+    console.error('存在命名冲突, 已中止: ' + conflicts.join(', '));
+    process.exit(3);
+  }
+  renamedCount = renamed;
+  code = generate(ast, { comments: true, compact: false, concise: false, retainLines: false, jsescOption: { minimal: true } }, code).code;
+  ast = parser.parse(code, { sourceType: 'script', allowReturnOutsideFunction: true, errorRecovery: true });
+}
+process.stderr.write(`语义重命名绑定: ${renamedCount}\n`);
+
 const top = ast.program.body;
 
 const gameStmt = top.find((s) => code.slice(s.start, s.end).includes('umgr_elc'));

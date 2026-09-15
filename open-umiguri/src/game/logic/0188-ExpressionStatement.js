@@ -12,7 +12,7 @@
       var v_s_34339 = {};
       for (const v_u_34344 in v_r_34338) v_s_34339[v_u_34344] = 1;
       for (const v_f_34345 in v_i_34335) v_s_34339[v_f_34345] = v_i_34335[v_f_34345];
-      var v_a_34340 = new m_GL_0.Mesh(v_r_34338);
+      var v_a_34340 = new glRuntime.Mesh(v_r_34338);
       v_n_34337 && v_n_34337(v_a_34340);
       for (const v___34346 in v_t_34334) v_a_34340[v___34346] = v_t_34334[v___34346];
       for (const v_h_34347 in this.n_) v_a_34340[v_h_34347] = this.i_[v_h_34347].buffer;

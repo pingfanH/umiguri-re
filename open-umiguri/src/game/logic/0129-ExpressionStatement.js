@@ -132,104 +132,104 @@
     Ly: async function () {
       var v_i_33782 = await this.Dy();
       if (v_Bs_28013.By(v_i_33782)) return !1;
-      v_ye_27858.On.Wp = v_i_33782.targetVersion, v_ye_27858.On.zp = !1, v_ye_27858.On.Kp = v_i_33782.termsAgreed, v_ye_27858.rm.om = v_i_33782.playerName, v_ye_27858.rm.um = v_i_33782.playerLevel, v_ye_27858.rm.lm = v_i_33782.playerRating, v_ye_27858.On.im = v_i_33782.charaId, v_ye_27858.On.nI = v_i_33782.charaTransIdx, v_ye_27858.On.qp = v_i_33782.nameplateId, v_ye_27858.On.$p = v_i_33782.titleId, v_ye_27858.On.Qp = v_i_33782.voiceId, v_ye_27858.On.tm = v_i_33782.voiceLong, v_ye_27858.On.q.ee = v_i_33782.lastMusicId, v_ye_27858.On.q.te = v_i_33782.lastMusicDiff, v_ye_27858.On.q.ie = v_i_33782.lastActivePlayLevel, v_ye_27858.On.q.ne = v_i_33782.lastActiveLevelSelect, v_ye_27858.On.q.HP = v_i_33782.lastActiveUltimaSelect, v_ye_27858.On.q.pL = v_i_33782.musicListSort;
-      for (let v_t_33783 = 0; v_t_33783 < 20; ++v_t_33783) v_ye_27858.On.iI[v_t_33783] = v_i_33782.chatIds[v_t_33783];
+      handshake.On.Wp = v_i_33782.targetVersion, handshake.On.zp = !1, handshake.On.Kp = v_i_33782.termsAgreed, handshake.rm.om = v_i_33782.playerName, handshake.rm.um = v_i_33782.playerLevel, handshake.rm.lm = v_i_33782.playerRating, handshake.On.im = v_i_33782.charaId, handshake.On.nI = v_i_33782.charaTransIdx, handshake.On.qp = v_i_33782.nameplateId, handshake.On.$p = v_i_33782.titleId, handshake.On.Qp = v_i_33782.voiceId, handshake.On.tm = v_i_33782.voiceLong, handshake.On.q.ee = v_i_33782.lastMusicId, handshake.On.q.te = v_i_33782.lastMusicDiff, handshake.On.q.ie = v_i_33782.lastActivePlayLevel, handshake.On.q.ne = v_i_33782.lastActiveLevelSelect, handshake.On.q.HP = v_i_33782.lastActiveUltimaSelect, handshake.On.q.pL = v_i_33782.musicListSort;
+      for (let v_t_33783 = 0; v_t_33783 < 20; ++v_t_33783) handshake.On.iI[v_t_33783] = v_i_33782.chatIds[v_t_33783];
       return !0;
     },
     Ey: async function () {
-      return v_ye_27858.On.Wp = 1101, v_ye_27858.On.zp = !0, v_ye_27858.On.Kp = !1, v_ye_27858.rm.om = "ＵＭＩＧＵＲＩ", v_ye_27858.rm.um = 1, v_ye_27858.rm.lm = 0, v_ye_27858.On.im = "UMIGURI/uni", v_ye_27858.On.nI = 0, v_ye_27858.On.qp = "_0000000_sys_default", v_ye_27858.On.$p = "s_00000000", v_ye_27858.On.Qp = "_0000000_sys_silence", v_ye_27858.On.tm = !1, v_ye_27858.On.q.ee = "", v_ye_27858.On.q.te = 0, v_ye_27858.On.q.ie = 0, v_ye_27858.On.q.ne = !1, v_ye_27858.On.q.HP = !1, v_ye_27858.On.q.pL = 0, v_ye_27858.On.iI = v_Ji_27856.concat(), !0;
+      return handshake.On.Wp = 1101, handshake.On.zp = !0, handshake.On.Kp = !1, handshake.rm.om = "ＵＭＩＧＵＲＩ", handshake.rm.um = 1, handshake.rm.lm = 0, handshake.On.im = "UMIGURI/uni", handshake.On.nI = 0, handshake.On.qp = "_0000000_sys_default", handshake.On.$p = "s_00000000", handshake.On.Qp = "_0000000_sys_silence", handshake.On.tm = !1, handshake.On.q.ee = "", handshake.On.q.te = 0, handshake.On.q.ie = 0, handshake.On.q.ne = !1, handshake.On.q.HP = !1, handshake.On.q.pL = 0, handshake.On.iI = v_Ji_27856.concat(), !0;
     },
     TA: async function () {
       var v_t_33784 = {
-        targetVersion: v_ye_27858.On.Wp,
-        termsAgreed: v_ye_27858.On.Kp,
-        playerName: v_ye_27858.rm.om,
-        playerLevel: v_ye_27858.rm.um,
-        playerRating: v_ye_27858.rm.lm,
+        targetVersion: handshake.On.Wp,
+        termsAgreed: handshake.On.Kp,
+        playerName: handshake.rm.om,
+        playerLevel: handshake.rm.um,
+        playerRating: handshake.rm.lm,
         playerMaxRating: 0,
-        charaId: v_ye_27858.On.im,
-        charaTransIdx: v_ye_27858.On.nI,
-        nameplateId: v_ye_27858.On.qp,
-        titleId: v_ye_27858.On.$p,
-        voiceId: v_ye_27858.On.Qp,
-        voiceLong: v_ye_27858.On.tm,
+        charaId: handshake.On.im,
+        charaTransIdx: handshake.On.nI,
+        nameplateId: handshake.On.qp,
+        titleId: handshake.On.$p,
+        voiceId: handshake.On.Qp,
+        voiceLong: handshake.On.tm,
         readNewsIdx: 0,
-        lastMusicId: v_ye_27858.On.q.ee,
-        lastMusicDiff: v_ye_27858.On.q.te,
-        lastActivePlayLevel: v_ye_27858.On.q.ie,
-        lastActiveLevelSelect: v_ye_27858.On.q.ne,
-        lastActiveUltimaSelect: v_ye_27858.On.q.HP,
-        musicListSort: v_ye_27858.On.q.pL,
-        chatIds: v_ye_27858.On.iI
+        lastMusicId: handshake.On.q.ee,
+        lastMusicDiff: handshake.On.q.te,
+        lastActivePlayLevel: handshake.On.q.ie,
+        lastActiveLevelSelect: handshake.On.q.ne,
+        lastActiveUltimaSelect: handshake.On.q.HP,
+        musicListSort: handshake.On.q.pL,
+        chatIds: handshake.On.iI
       };
       return v_Bs_28013.By(await this.bA(v_t_33784));
     },
     My: async function () {
       var v_t_33785 = await this.iA();
-      return !v_Bs_28013.By(v_t_33785) && (v_ye_27858.On.re = v_Pe_28064(v_t_33785.optionPreset), v_ye_27858.On.ae.scrollSpeed = v_Pe_28064(v_t_33785.scrollSpeed), v_ye_27858.On.ae.mirror = v_Pe_28064(v_t_33785.mirror), v_ye_27858.On.ae.jdgTimingA = v_Pe_28064(v_t_33785.jdgTimingA), v_ye_27858.On.ae.jdgTimingB = v_Pe_28064(v_t_33785.jdgTimingB), v_ye_27858.On.ae.jdgTimingAir = v_Pe_28064(v_t_33785.jdgTimingAir), v_ye_27858.On.ae.showLevel = v_Pe_28064(v_t_33785.showLevel), v_ye_27858.On.ae.showRating = v_Pe_28064(v_t_33785.showRating), v_ye_27858.On.ae.showOverpower = v_Pe_28064(v_t_33785.showOverpower), v_ye_27858.On.ae.trackSkip = v_Pe_28064(v_t_33785.trackSkip), v_ye_27858.On.ae.autoPlay = v_Pe_28064(v_t_33785.autoPlay), v_ye_27858.On.ae.volGuide = v_Pe_28064(v_t_33785.volGuide), v_ye_27858.On.ae.tapSe = v_Pe_28064(v_t_33785.tapSe), v_ye_27858.On.ae.volTap = v_Pe_28064(v_t_33785.volTap), v_ye_27858.On.ae.volExTap = v_Pe_28064(v_t_33785.volExTap), v_ye_27858.On.ae.volSlide = v_Pe_28064(v_t_33785.volSlide), v_ye_27858.On.ae.volAir = v_Pe_28064(v_t_33785.volAir), v_ye_27858.On.ae.volFlick = v_Pe_28064(v_t_33785.volFlick), v_ye_27858.On.ae.volSkill = v_Pe_28064(v_t_33785.volSkill), v_ye_27858.On.ae.jTimingSeCond = v_Pe_28064(v_t_33785.jTimingSeCond), v_ye_27858.On.ae.judgeAnsPos = v_Pe_28064(v_t_33785.judgeAnsPos), v_ye_27858.On.ae.judgeAnsJcDetails = v_Pe_28064(v_t_33785.judgeAnsJcDetails), v_ye_27858.On.ae.judgeAnsJDetails = v_Pe_28064(v_t_33785.judgeAnsJDetails), v_ye_27858.On.ae.judgeAnsADetails = v_Pe_28064(v_t_33785.judgeAnsADetails), v_ye_27858.On.ae.fieldLines = v_Pe_28064(v_t_33785.fieldLines), v_ye_27858.On.ae.fieldColor = v_Pe_28064(v_t_33785.fieldColor), v_ye_27858.On.ae.fieldWall = v_Pe_28064(v_t_33785.fieldWall), v_ye_27858.On.ae.fieldInfo = v_Pe_28064(v_t_33785.fieldInfo), v_ye_27858.On.Xp.Yp = v_Pe_28064(v_t_33785.masterVolume), !0);
+      return !v_Bs_28013.By(v_t_33785) && (handshake.On.re = v_Pe_28064(v_t_33785.optionPreset), handshake.On.ae.scrollSpeed = v_Pe_28064(v_t_33785.scrollSpeed), handshake.On.ae.mirror = v_Pe_28064(v_t_33785.mirror), handshake.On.ae.jdgTimingA = v_Pe_28064(v_t_33785.jdgTimingA), handshake.On.ae.jdgTimingB = v_Pe_28064(v_t_33785.jdgTimingB), handshake.On.ae.jdgTimingAir = v_Pe_28064(v_t_33785.jdgTimingAir), handshake.On.ae.showLevel = v_Pe_28064(v_t_33785.showLevel), handshake.On.ae.showRating = v_Pe_28064(v_t_33785.showRating), handshake.On.ae.showOverpower = v_Pe_28064(v_t_33785.showOverpower), handshake.On.ae.trackSkip = v_Pe_28064(v_t_33785.trackSkip), handshake.On.ae.autoPlay = v_Pe_28064(v_t_33785.autoPlay), handshake.On.ae.volGuide = v_Pe_28064(v_t_33785.volGuide), handshake.On.ae.tapSe = v_Pe_28064(v_t_33785.tapSe), handshake.On.ae.volTap = v_Pe_28064(v_t_33785.volTap), handshake.On.ae.volExTap = v_Pe_28064(v_t_33785.volExTap), handshake.On.ae.volSlide = v_Pe_28064(v_t_33785.volSlide), handshake.On.ae.volAir = v_Pe_28064(v_t_33785.volAir), handshake.On.ae.volFlick = v_Pe_28064(v_t_33785.volFlick), handshake.On.ae.volSkill = v_Pe_28064(v_t_33785.volSkill), handshake.On.ae.jTimingSeCond = v_Pe_28064(v_t_33785.jTimingSeCond), handshake.On.ae.judgeAnsPos = v_Pe_28064(v_t_33785.judgeAnsPos), handshake.On.ae.judgeAnsJcDetails = v_Pe_28064(v_t_33785.judgeAnsJcDetails), handshake.On.ae.judgeAnsJDetails = v_Pe_28064(v_t_33785.judgeAnsJDetails), handshake.On.ae.judgeAnsADetails = v_Pe_28064(v_t_33785.judgeAnsADetails), handshake.On.ae.fieldLines = v_Pe_28064(v_t_33785.fieldLines), handshake.On.ae.fieldColor = v_Pe_28064(v_t_33785.fieldColor), handshake.On.ae.fieldWall = v_Pe_28064(v_t_33785.fieldWall), handshake.On.ae.fieldInfo = v_Pe_28064(v_t_33785.fieldInfo), handshake.On.Xp.Yp = v_Pe_28064(v_t_33785.masterVolume), !0);
     },
     lA: async function () {
       var v_t_33786 = {
-        optionPreset: v_ye_27858.On.re,
-        scrollSpeed: v_ye_27858.On.ae.scrollSpeed,
-        mirror: v_ye_27858.On.ae.mirror,
-        jdgTimingA: v_ye_27858.On.ae.jdgTimingA,
-        jdgTimingB: v_ye_27858.On.ae.jdgTimingB,
-        jdgTimingAir: v_ye_27858.On.ae.jdgTimingAir,
-        showLevel: v_ye_27858.On.ae.showLevel,
-        showRating: v_ye_27858.On.ae.showRating,
-        showOverpower: v_ye_27858.On.ae.showOverpower,
-        trackSkip: v_ye_27858.On.ae.trackSkip,
-        autoPlay: v_ye_27858.On.ae.autoPlay,
-        volGuide: v_ye_27858.On.ae.volGuide,
-        tapSe: v_ye_27858.On.ae.tapSe,
-        volTap: v_ye_27858.On.ae.volTap,
-        volExTap: v_ye_27858.On.ae.volExTap,
-        volSlide: v_ye_27858.On.ae.volSlide,
-        volAir: v_ye_27858.On.ae.volAir,
-        volFlick: v_ye_27858.On.ae.volFlick,
-        volSkill: v_ye_27858.On.ae.volSkill,
-        jTimingSeCond: v_ye_27858.On.ae.jTimingSeCond,
-        judgeAnsPos: v_ye_27858.On.ae.judgeAnsPos,
-        judgeAnsJcDetails: v_ye_27858.On.ae.judgeAnsJcDetails,
-        judgeAnsJDetails: v_ye_27858.On.ae.judgeAnsJDetails,
-        judgeAnsADetails: v_ye_27858.On.ae.judgeAnsADetails,
-        fieldLines: v_ye_27858.On.ae.fieldLines,
-        fieldColor: v_ye_27858.On.ae.fieldColor,
-        fieldWall: v_ye_27858.On.ae.fieldWall,
-        fieldInfo: v_ye_27858.On.ae.fieldInfo,
-        masterVolume: v_ye_27858.On.Xp.Yp
+        optionPreset: handshake.On.re,
+        scrollSpeed: handshake.On.ae.scrollSpeed,
+        mirror: handshake.On.ae.mirror,
+        jdgTimingA: handshake.On.ae.jdgTimingA,
+        jdgTimingB: handshake.On.ae.jdgTimingB,
+        jdgTimingAir: handshake.On.ae.jdgTimingAir,
+        showLevel: handshake.On.ae.showLevel,
+        showRating: handshake.On.ae.showRating,
+        showOverpower: handshake.On.ae.showOverpower,
+        trackSkip: handshake.On.ae.trackSkip,
+        autoPlay: handshake.On.ae.autoPlay,
+        volGuide: handshake.On.ae.volGuide,
+        tapSe: handshake.On.ae.tapSe,
+        volTap: handshake.On.ae.volTap,
+        volExTap: handshake.On.ae.volExTap,
+        volSlide: handshake.On.ae.volSlide,
+        volAir: handshake.On.ae.volAir,
+        volFlick: handshake.On.ae.volFlick,
+        volSkill: handshake.On.ae.volSkill,
+        jTimingSeCond: handshake.On.ae.jTimingSeCond,
+        judgeAnsPos: handshake.On.ae.judgeAnsPos,
+        judgeAnsJcDetails: handshake.On.ae.judgeAnsJcDetails,
+        judgeAnsJDetails: handshake.On.ae.judgeAnsJDetails,
+        judgeAnsADetails: handshake.On.ae.judgeAnsADetails,
+        fieldLines: handshake.On.ae.fieldLines,
+        fieldColor: handshake.On.ae.fieldColor,
+        fieldWall: handshake.On.ae.fieldWall,
+        fieldInfo: handshake.On.ae.fieldInfo,
+        masterVolume: handshake.On.Xp.Yp
       };
       return v_Bs_28013.By(await this.nA(v_t_33786));
     },
     CA: async function () {
-      v_ye_27858.Mm.clear();
+      handshake.Mm.clear();
       var v_t_33787 = await this.rA();
       if (v_Bs_28013.By(v_t_33787)) return !1;
       for (const v_n_33790 of v_t_33787.table) {
-        v_ye_27858.Mm.has(v_n_33790.musicId) || v_ye_27858.Mm.set(v_n_33790.musicId, new Map());
+        handshake.Mm.has(v_n_33790.musicId) || handshake.Mm.set(v_n_33790.musicId, new Map());
         var v_i_33788 = new v_zr_27970(),
           v_e_33789 = (v_i_33788.Sr = v_me_27822(v_pe_27823(v_Pe_28064(v_n_33790.score), 0), 101e4), v_Pe_28064(v_n_33790.flags));
-        v_i_33788.ni = v_Bs_28013.RA(v_e_33789), v_i_33788.R4 = v_Bs_28013.RA(v_e_33789), v_i_33788.B4 = v_Bs_28013.LA(v_e_33789), v_i_33788.M4 = v_Bs_28013.IA(v_e_33789), v_i_33788.D4 = v_n_33790.updatedAt, v_i_33788.P4 = v_n_33790.playCount, v_i_33788.G4 = !0, v_ye_27858.Mm.get(v_n_33790.musicId).set(v_n_33790.musicDiff, v_i_33788);
+        v_i_33788.ni = v_Bs_28013.RA(v_e_33789), v_i_33788.R4 = v_Bs_28013.RA(v_e_33789), v_i_33788.B4 = v_Bs_28013.LA(v_e_33789), v_i_33788.M4 = v_Bs_28013.IA(v_e_33789), v_i_33788.D4 = v_n_33790.updatedAt, v_i_33788.P4 = v_n_33790.playCount, v_i_33788.G4 = !0, handshake.Mm.get(v_n_33790.musicId).set(v_n_33790.musicDiff, v_i_33788);
       }
     },
     EA: async function () {
-      v_ye_27858.Em.clear();
+      handshake.Em.clear();
       var v_t_33791 = await this.sA();
       if (v_Bs_28013.By(v_t_33791)) return !1;
       for (const v_n_33794 of v_t_33791.table) {
         var v_i_33792 = new v_zr_27970(),
           v_e_33793 = (v_i_33792.Sr = v_me_27822(v_pe_27823(v_Pe_28064(v_n_33794.score), 0), 303e4), v_Pe_28064(v_n_33794.flags));
-        v_i_33792.ni = v_Bs_28013.RA(v_e_33793), v_i_33792.R4 = v_Bs_28013.RA(v_e_33793), v_i_33792.B4 = v_Bs_28013.LA(v_e_33793), v_i_33792.D4 = v_n_33794.updatedAt, v_i_33792.P4 = v_n_33794.playCount, v_i_33792.G4 = !0, v_ye_27858.Em.set(v_n_33794.courseId, v_i_33792);
+        v_i_33792.ni = v_Bs_28013.RA(v_e_33793), v_i_33792.R4 = v_Bs_28013.RA(v_e_33793), v_i_33792.B4 = v_Bs_28013.LA(v_e_33793), v_i_33792.D4 = v_n_33794.updatedAt, v_i_33792.P4 = v_n_33794.playCount, v_i_33792.G4 = !0, handshake.Em.set(v_n_33794.courseId, v_i_33792);
       }
     },
     MA: async function () {
-      v_ye_27858.On.nm = {};
+      handshake.On.nm = {};
       var v_t_33795 = await this.SA();
       if (v_Bs_28013.By(v_t_33795)) return !1;
       for (const v_e_33797 of v_t_33795.table) {
         var v_i_33796 = new v_Mr_27954();
-        v_i_33796.Pm = v_Pe_28064(v_e_33797.rank), v_i_33796.Gm = v_Pe_28064(v_e_33797.exp), v_i_33796.En = v_e_33797.skillId, v_i_33796.jm = v_Pe_28064(v_e_33797.transIdx), v_ye_27858.On.nm[v_e_33797.charaId] = v_i_33796;
+        v_i_33796.Pm = v_Pe_28064(v_e_33797.rank), v_i_33796.Gm = v_Pe_28064(v_e_33797.exp), v_i_33796.En = v_e_33797.skillId, v_i_33796.jm = v_Pe_28064(v_e_33797.transIdx), handshake.On.nm[v_e_33797.charaId] = v_i_33796;
       }
     }
   }, v_Bs_28013.By = function (v_t_33798) {

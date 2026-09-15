@@ -3,7 +3,7 @@
 // 来源: game_main.deobf.js
 // 说明: 本文件是 bundle 片段, 由 build/assemble-game.mjs 按 manifest 拼接;请勿手改拼接顺序。
 
-  const v_kr_27942 = function () {
+  const chartParser = function () {
       function v_g_32319() {
         this.Fi = v_An_27660, this.mp = 0, this.yp = 0, this.Xg = 0, this.ou = 0, this.Le = 0, this.G0 = 0, this.Lw = 0, this.Jg = 0, this.Yg = 0, this.Sp = 0, this.We = [], this.Rw = 1, this.CL = 0, this.dw = v_An_27660, this.Vg = !1, this.gw = !1, this.xk = 0, this.Ty = 0, this.xp = 0;
       }
@@ -176,7 +176,7 @@
           v_s_32347 = 0,
           v_u_32348 = (v_De_28096(v_v_32336.yc.$g, function (v_t_32407) {
             (v_c_32341 = v_t_32407.Fi & v_xn_27661) === v_Cn_27662 || v_c_32341 === v_zn_27686 || v_t_32407.Fi === v_l0_27701 ? (v_r_32346 = null === v_r_32346 ? v_t_32407.od : v_me_27822(v_r_32346, v_t_32407.od), v_s_32347 = v_pe_27823(v_s_32347, v_t_32407.od)) : v_c_32341 !== v_Hn_27677 && v_c_32341 !== v_Gn_27674 && 64 !== v_c_32341 && 256 !== v_c_32341 || (v_r_32346 = null === v_r_32346 ? v_t_32407.od : v_me_27822(v_r_32346, v_t_32407.od), v_s_32347 = v_pe_27823(v_s_32347, v_t_32407.od), 0 < v_t_32407.We.length && (v_s_32347 = v_pe_27823(v_s_32347, v_t_32407.We[v_t_32407.We.length - 1].od)));
-          }), v_v_32336.Zu.ow = v_r_32346, v_v_32336.Zu.yi = v_s_32347, v_ye_27858.rm.u8 || v_v_32336.$w.dk ? v_De_28096(v_v_32336.yc.$g, function (v_a_32408) {
+          }), v_v_32336.Zu.ow = v_r_32346, v_v_32336.Zu.yi = v_s_32347, handshake.rm.u8 || v_v_32336.$w.dk ? v_De_28096(v_v_32336.yc.$g, function (v_a_32408) {
             switch (v_a_32408.Fi) {
               case v_ce_27678:
               case v_le_27675:
@@ -773,7 +773,7 @@
                   if (null !== v_t_32579) {
                     let v_n_32580 = null;
                     v_Io_28120(v_t_32579, !1, (v_t_32581, v_i_32582, v_e_32583) => {
-                      v_t_32581 === v_xo_28116 ? (v_n_32580 = new m_GL_0.Texture(v_i_32582, v_e_32583, {
+                      v_t_32581 === v_xo_28116 ? (v_n_32580 = new glRuntime.Texture(v_i_32582, v_e_32583, {
                         wrapS: v_se_27562.CLAMP_TO_EDGE,
                         wrapT: v_se_27562.CLAMP_TO_EDGE,
                         format: v_se_27562.RGB
@@ -782,7 +782,7 @@
                   }
                   v_i_32576();
                 }) : v__o_28104("/music/" + v_e_32578.dir + "/" + v_e_32578.res_info.jacket, function (v_t_32584) {
-                  v_t_32584 && (v_ae_27643.Yt.Zt["jkt:" + v_e_32578.w0] = m_GL_0.Texture.fromImage(v_t_32584, v_c_32558)), v_i_32576();
+                  v_t_32584 && (v_ae_27643.Yt.Zt["jkt:" + v_e_32578.w0] = glRuntime.Texture.fromImage(v_t_32584, v_c_32558)), v_i_32576();
                 }) : v_i_32576();
               }, function () {
                 v_Me_28078(v_t_32575);
@@ -812,7 +812,7 @@
                 v_Me_28078(v_n_32593);
               });
             }, function (v_i_32598) {
-              v_Zr_27974.zu(v_n_32553, function (v_t_32599) {
+              hostBridge.zu(v_n_32553, function (v_t_32599) {
                 v_De_28096(v_t_32599, function (v_t_32600) {
                   v_t_32600.isDirectory && v_e_32554.push([v_t_32600.name]);
                 }), v_Me_28078(v_i_32598);
@@ -821,7 +821,7 @@
               });
             }, function (v_t_32601) {
               v_oo_28098(v_e_32554, function (v_i_32602, v_t_32603, v_e_32604) {
-                v_Zr_27974.zu(v_n_32553 + v_e_32604.join("/") + "/", function (v_t_32605) {
+                hostBridge.zu(v_n_32553 + v_e_32604.join("/") + "/", function (v_t_32605) {
                   -1 !== v_t_32605.findIndex(v_t_32606 => ".umgrignore" === v_t_32606.name && !v_t_32606.isDirectory) || v_De_28096(v_t_32605, function (v_t_32607) {
                     v_t_32607.isDirectory && (v_r_32555.push([v_e_32604.join("/"), v_t_32607.name]), ++v_u_32586);
                   }), v_i_32602();
@@ -833,7 +833,7 @@
               v_oo_28098(v_r_32555, function (v_i_32609, v_t_32610, v_l_32611) {
                 v___32552 && v___32552(v_f_32587, v_u_32586, 0), ++v_f_32587;
                 let v_c_32612 = v_l_32611.join("/");
-                v_Zr_27974.zu(v_n_32553 + v_c_32612 + "/", function (v_t_32613) {
+                hostBridge.zu(v_n_32553 + v_c_32612 + "/", function (v_t_32613) {
                   v_oo_28098(v_t_32613, function (v_s_32614, v_t_32615, v_a_32616) {
                     if (v_a_32616.isDirectory) return v_s_32614();
                     var v_i_32617 = v_Da_28067(v_a_32616.name, ".sus");
@@ -841,7 +841,7 @@
                     if (!v_i_32617 && !v_o_32618) return v_s_32614();
                     v_$r_27975.Ic(v_n_32553 + v_c_32612 + "/" + v_a_32616.name, function (v_t_32619) {
                       var v_i_32620, v_e_32621, v_n_32622, v_r_32623;
-                      null !== v_t_32619 && (v_i_32620 = v_o_32618 ? v_kr_27942 : v_vr_27937, v_i_32620 = v_i_32620.rt(v_t_32619, !0), v_t_32619 = v_l_32611[0], v_e_32621 = v_c_32612, v_n_32622 = v_a_32616.name, v_r_32623 = v_i_32620.Zu.ee, void 0 === v_h_32556[v_r_32623] && (v_h_32556[v_r_32623] = {
+                      null !== v_t_32619 && (v_i_32620 = v_o_32618 ? chartParser : v_vr_27937, v_i_32620 = v_i_32620.rt(v_t_32619, !0), v_t_32619 = v_l_32611[0], v_e_32621 = v_c_32612, v_n_32622 = v_a_32616.name, v_r_32623 = v_i_32620.Zu.ee, void 0 === v_h_32556[v_r_32623] && (v_h_32556[v_r_32623] = {
                         charts: {},
                         fnames: {},
                         dir: "",
@@ -881,7 +881,7 @@
                   if (null !== v_t_32635) {
                     let v_n_32636 = null;
                     v_Io_28120(v_t_32635, !1, (v_t_32637, v_i_32638, v_e_32639) => {
-                      v_t_32637 === v_xo_28116 ? (v_n_32636 = new m_GL_0.Texture(v_i_32638, v_e_32639, {
+                      v_t_32637 === v_xo_28116 ? (v_n_32636 = new glRuntime.Texture(v_i_32638, v_e_32639, {
                         wrapS: v_se_27562.CLAMP_TO_EDGE,
                         wrapT: v_se_27562.CLAMP_TO_EDGE,
                         format: v_se_27562.RGB
@@ -890,17 +890,17 @@
                   }
                   v_i_32626();
                 }) : v__o_28104("/music/" + v_a_32632.dir + "/" + v_o_32633.res_info.jacket, function (v_t_32640) {
-                  v_t_32640 && (v_ae_27643.Yt.Zt["jkt:" + v_e_32628] = m_GL_0.Texture.fromImage(v_t_32640, v_c_32558)), v_i_32626();
+                  v_t_32640 && (v_ae_27643.Yt.Zt["jkt:" + v_e_32628] = glRuntime.Texture.fromImage(v_t_32640, v_c_32558)), v_i_32626();
                 }) : v_i_32626();
               }, function () {
                 v_Me_28078(v_t_32624);
               });
             }, function (v_t_32641) {
-              v_l_32557.sort((v_t_32642, v_i_32643) => v_t_32642.w0 < v_i_32643.w0 ? -1 : v_t_32642.w0 > v_i_32643.w0 ? 1 : 0), v_ye_27858.rm.Im && v_Zr_27974.Xu("/caches/music.json", JSON.stringify(v_l_32557), "application/json", () => {}, () => {}), v_Fe_28101(() => v_i_32551(v_l_32557, v_s_32559, v_a_32560));
+              v_l_32557.sort((v_t_32642, v_i_32643) => v_t_32642.w0 < v_i_32643.w0 ? -1 : v_t_32642.w0 > v_i_32643.w0 ? 1 : 0), handshake.rm.Im && hostBridge.Xu("/caches/music.json", JSON.stringify(v_l_32557), "application/json", () => {}, () => {}), v_Fe_28101(() => v_i_32551(v_l_32557, v_s_32559, v_a_32560));
             }]);
           }
         }
-        v_ye_27858.rm.Im ? v_$r_27975.Ic("/caches/music.json", function (v_t_32644) {
+        handshake.rm.Im ? v_$r_27975.Ic("/caches/music.json", function (v_t_32644) {
           if (null !== v_t_32644) try {
             v_l_32557 = JSON.parse(v_t_32644), v_o_32561 = !0;
           } catch (v_t_32645) {}
@@ -927,16 +927,16 @@
           let v_n_32657 = v_Da_28067(v_t_32655, ".ugc");
           if (!v_e_32656 && !v_n_32657) return v_o_32650(null);
           v_$r_27975.Ic(v_c_32652 + v_t_32655, function (v_t_32658) {
-            null === v_t_32658 ? v_o_32650(null) : (v_t_32658 = (v_n_32657 ? v_kr_27942 : v_vr_27937).rt(v_t_32658, !1, v_a_32649), (v_l_32651.q1 = v_t_32658).Zu.jw && (v_u_32653.bg = v_t_32658.Zu.jw), v_t_32658.Zu.Ww && (v_u_32653.field_bg = v_t_32658.Zu.Ww), v_t_32658.Zu.Gw && (v_u_32653.wave = v_t_32658.Zu.Gw), v_Me_28078(v_i_32654));
+            null === v_t_32658 ? v_o_32650(null) : (v_t_32658 = (v_n_32657 ? chartParser : v_vr_27937).rt(v_t_32658, !1, v_a_32649), (v_l_32651.q1 = v_t_32658).Zu.jw && (v_u_32653.bg = v_t_32658.Zu.jw), v_t_32658.Zu.Ww && (v_u_32653.field_bg = v_t_32658.Zu.Ww), v_t_32658.Zu.Gw && (v_u_32653.wave = v_t_32658.Zu.Gw), v_Me_28078(v_i_32654));
           });
         }, v_i_32659 => {
           if (void 0 === v_u_32653.bg || "" === v_u_32653.bg || v_t_32648) return v_Me_28078(v_i_32659);
-          v_Zr_27974.qu(v_c_32652 + v_u_32653.bg, function (v_t_32660) {
+          hostBridge.qu(v_c_32652 + v_u_32653.bg, function (v_t_32660) {
             v_l_32651.Yu.bg = v_t_32660, v_Me_28078(v_i_32659);
           }, () => v_Me_28078(v_i_32659));
         }, v_i_32661 => {
           if (void 0 === v_u_32653.field_bg || "" === v_u_32653.field_bg || v_t_32648) return v_Me_28078(v_i_32661);
-          v_Zr_27974.qu(v_c_32652 + v_u_32653.field_bg, function (v_t_32662) {
+          hostBridge.qu(v_c_32652 + v_u_32653.field_bg, function (v_t_32662) {
             v_l_32651.Yu.field_bg = v_t_32662, v_Me_28078(v_i_32661);
           }, () => v_Me_28078(v_i_32661));
         }, v_t_32663 => {
@@ -944,7 +944,7 @@
         }]);
       },
       b0: function (v_t_32664, v_i_32665, v_e_32666) {
-        "" === v_i_32665 ? v_e_32666(null) : v_Zr_27974.qu("/music/" + v_t_32664 + "/" + v_i_32665, function (v_t_32667) {
+        "" === v_i_32665 ? v_e_32666(null) : hostBridge.qu("/music/" + v_t_32664 + "/" + v_i_32665, function (v_t_32667) {
           v_e_32666(v_t_32667);
         }, function () {
           v_e_32666(null);

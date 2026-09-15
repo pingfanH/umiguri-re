@@ -8,25 +8,28 @@
 //   默认源: /Users/pingfanh/project/umiguri-re/game_main.deobf.js
 import fs from 'node:fs';
 import path from 'node:path';
-import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
+import { parser, traverse, generate, loadSymbols, applySymbols } from './lib/symbols.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const srcFile = process.argv[2] || process.env.GAME_SRC || '/Users/pingfanh/project/umiguri-re/game_main.deobf.js';
 const outFile = process.argv[3] || path.join(root, 'src/game/logic/COUPLING.md');
 
-function loadParser() {
-  for (const base of [root, '/tmp/deobf']) {
-    try {
-      return createRequire(path.join(base, 'noop.js'))('@babel/parser');
-    } catch (e) {}
+let code = fs.readFileSync(srcFile, 'utf8');
+let ast = parser.parse(code, { sourceType: 'script', allowReturnOutsideFunction: true, errorRecovery: true });
+
+// 与 split-game 一致: 先应用语义重命名, 保证报告里的名字是可读名。
+if (!process.argv.includes('--no-rename')) {
+  const map = loadSymbols(path.join(root, 'tools/symbols.json'));
+  const { conflicts } = applySymbols(ast, map);
+  if (conflicts.length) {
+    console.error('命名冲突: ' + conflicts.join(', '));
+    process.exit(3);
   }
-  console.error('缺少 @babel/parser');
-  process.exit(2);
+  code = generate(ast, { retainLines: false, jsescOption: { minimal: true } }, code).code;
+  ast = parser.parse(code, { sourceType: 'script', allowReturnOutsideFunction: true, errorRecovery: true });
 }
-const parser = loadParser();
-const code = fs.readFileSync(srcFile, 'utf8');
-const ast = parser.parse(code, { sourceType: 'script', allowReturnOutsideFunction: true, errorRecovery: true });
+
 const gameStmt = ast.program.body.find((s) => code.slice(s.start, s.end).includes('umgr_elc'));
 
 const inside = (node, container) => node && node.start >= container.start && node.end <= container.end;
@@ -37,17 +40,6 @@ const isIifeInit = (init) =>
     (init.type === 'FunctionExpression' && init.loc.end.line - init.loc.start.line > 30));
 
 const rows = [];
-function loadTraverse() {
-  for (const base of [root, '/tmp/deobf']) {
-    try {
-      const req = createRequire(path.join(base, 'noop.js'));
-      const m = req('@babel/traverse');
-      return m.default || m;
-    } catch (e) {}
-  }
-  throw new Error('缺少 @babel/traverse');
-}
-const traverse = loadTraverse();
 
 traverse(ast, {
   VariableDeclarator(p) {

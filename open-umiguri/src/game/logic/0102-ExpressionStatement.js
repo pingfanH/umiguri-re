@@ -171,7 +171,7 @@
             function v_f_33216(v_t_33226, v_i_33227) {
               var v_e_33228 = {},
                 v_n_33229 = {},
-                v_e_33228 = ("" !== v_i_33227.Wf && (v_n_33229.vertices = v_r_33208[v_i_33227.Wf].xf), v_t_33226.Cf && (v_e_33228.coords = !0, "" !== v_i_33227.Kf) && (v_n_33229.coords = v_r_33208[v_i_33227.Kf].xf), v_t_33226.Af && (v_e_33228.triangles = !0, "" !== v_i_33227.zf) && (v_n_33229.triangles = v_r_33208[v_i_33227.zf].xf), v_t_33226.Tf && (v_e_33228.colors = !0, "" !== v_i_33227.Xf) && (v_n_33229.colors = v_r_33208[v_i_33227.Xf].xf), v_t_33226.Lf && (v_e_33228.normals = !0, "" !== v_i_33227.Zf) && (v_n_33229.normals = v_r_33208[v_i_33227.Zf].xf), v_t_33226.xf = new m_GL_0.Mesh(v_e_33228), v_t_33226.xf);
+                v_e_33228 = ("" !== v_i_33227.Wf && (v_n_33229.vertices = v_r_33208[v_i_33227.Wf].xf), v_t_33226.Cf && (v_e_33228.coords = !0, "" !== v_i_33227.Kf) && (v_n_33229.coords = v_r_33208[v_i_33227.Kf].xf), v_t_33226.Af && (v_e_33228.triangles = !0, "" !== v_i_33227.zf) && (v_n_33229.triangles = v_r_33208[v_i_33227.zf].xf), v_t_33226.Tf && (v_e_33228.colors = !0, "" !== v_i_33227.Xf) && (v_n_33229.colors = v_r_33208[v_i_33227.Xf].xf), v_t_33226.Lf && (v_e_33228.normals = !0, "" !== v_i_33227.Zf) && (v_n_33229.normals = v_r_33208[v_i_33227.Zf].xf), v_t_33226.xf = new glRuntime.Mesh(v_e_33228), v_t_33226.xf);
               v_n_33229.vertices || (v_e_33228.vertices = Float32Array.from(v_i_33227.Hf).buffer), v_t_33226.Cf && !v_n_33229.coords && (v_e_33228.coords = Float32Array.from(v_i_33227.Uf).buffer), v_t_33226.Af && !v_n_33229.triangles && (v_e_33228.triangles = Uint16Array.from(v_i_33227.Vf).buffer), v_t_33226.Tf && !v_n_33229.colors && (v_e_33228.colors = Float32Array.from(v_i_33227.Of).buffer), v_t_33226.Lf && !v_n_33229.normals && (v_e_33228.normals = Float32Array.from(v_i_33227.Jf).buffer), v_e_33228.use_shared(v_n_33229), v_e_33228.compilef(v_se_27562.STATIC_DRAW, {
                 vertices: 3,
                 coords: 2,
@@ -188,7 +188,7 @@
             if (null !== v_t_33234) {
               let v_n_33235 = null;
               v_Io_28120(v_t_33234, !1, function (v_t_33236, v_i_33237, v_e_33238) {
-                v_t_33236 === v_xo_28116 ? v_n_33235 = new m_GL_0.Texture(v_i_33237, v_e_33238, v_r_33233.qf) : v_t_33236 === v_Ao_28115 && (v_n_33235 = null);
+                v_t_33236 === v_xo_28116 ? v_n_33235 = new glRuntime.Texture(v_i_33237, v_e_33238, v_r_33233.qf) : v_t_33236 === v_Ao_28115 && (v_n_33235 = null);
               }), v_n_33235 && (v_m_33200.jf[v_r_33233.Ae] = v_n_33235);
             }
             v_i_33231();
@@ -213,7 +213,7 @@
             v_i_33251 = -1;
           for (const v_r_33252 of v_n_33249.Df) "VTX" === v_r_33252[0] ? v_t_33250 = v_r_33252[1] : "FRG" === v_r_33252[0] && (v_i_33251 = v_r_33252[1]);
           var v_e_33248;
-          -1 !== v_t_33250 && -1 !== v_i_33251 && void 0 !== v_s_33202.Rf[v_t_33250] && void 0 !== v_s_33202.Rf[v_i_33251] && (v_e_33248 = [v_t_33250, v_i_33251].join(","), v_m_33200.Gf[v_e_33248] || (v_m_33200.Gf[v_e_33248] = new m_GL_0.Shader(v_s_33202.Rf[v_t_33250], v_s_33202.Rf[v_i_33251])), v_n_33249.Rf = v_m_33200.Gf[v_e_33248]);
+          -1 !== v_t_33250 && -1 !== v_i_33251 && void 0 !== v_s_33202.Rf[v_t_33250] && void 0 !== v_s_33202.Rf[v_i_33251] && (v_e_33248 = [v_t_33250, v_i_33251].join(","), v_m_33200.Gf[v_e_33248] || (v_m_33200.Gf[v_e_33248] = new glRuntime.Shader(v_s_33202.Rf[v_t_33250], v_s_33202.Rf[v_i_33251])), v_n_33249.Rf = v_m_33200.Gf[v_e_33248]);
         }
         v_Me_28078(v_t_33247);
       }, function (v_t_33253) {

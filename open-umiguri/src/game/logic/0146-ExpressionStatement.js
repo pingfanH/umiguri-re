@@ -271,7 +271,7 @@
           this.bL = -1;
           for (const v_t_34023 of this.G7) 1 === v_t_34023.KT && (v_t_34023.KT = 0);
         }
-        this.yL = !1, await this.AL(), this.yL = !0, v_L1_27897.kL(this.bL);
+        this.yL = !1, await this.AL(), this.yL = !0, playerInfoBoard.kL(this.bL);
       }, 2e3), v_Ms_28009) : v_Es_28010;
     },
     aS: function () {
@@ -447,9 +447,9 @@
     },
     tT: async function (v_t_34051, v_i_34052, v_e_34053) {
       var v_n_34054 = v_Lr_27953();
-      let v_r_34055 = v_ye_27858.On.$p;
+      let v_r_34055 = handshake.On.$p;
       var v_s_34056 = v_be_27857.Hp.find(v_t_34057 => v_t_34057.id === v_r_34055),
-        v_e_34053 = (this.UT(2), this.GT._g(20), this.GT.hg(v_e_34053), this.GT.vg(v_t_34051), this.GT.vg(v_i_34052), this.GT.vg(v_ye_27858.rm.om), this.GT._g(v_ye_27858.rm.lm), this.GT._g(v_ye_27858.rm.lm), this.GT._g(v_s_34056 ? v_s_34056.rarity : 0), this.GT.vg(v_s_34056 ? v_s_34056.text : "NEW COMER"), this.GT.vg(v_n_34054 ? v_n_34054.Q1.ct[v_n_34054.dC] : "？？？"), this.GT._g(v_n_34054 ? v_n_34054.Ar.Vm : v_gt_27748), this.GT.vg(v_n_34054 ? v_n_34054.Ar.ct : "？？？"), await this.mP());
+        v_e_34053 = (this.UT(2), this.GT._g(20), this.GT.hg(v_e_34053), this.GT.vg(v_t_34051), this.GT.vg(v_i_34052), this.GT.vg(handshake.rm.om), this.GT._g(handshake.rm.lm), this.GT._g(handshake.rm.lm), this.GT._g(v_s_34056 ? v_s_34056.rarity : 0), this.GT.vg(v_s_34056 ? v_s_34056.text : "NEW COMER"), this.GT.vg(v_n_34054 ? v_n_34054.Q1.ct[v_n_34054.dC] : "？？？"), this.GT._g(v_n_34054 ? v_n_34054.Ar.Vm : v_gt_27748), this.GT.vg(v_n_34054 ? v_n_34054.Ar.ct : "？？？"), await this.mP());
       return v_e_34053.wP ? {
         wP: v_e_34053.wP
       } : (v_t_34051 = v_e_34053.fT.v3(), v_i_34052 = v_e_34053.fT.v3(), {
