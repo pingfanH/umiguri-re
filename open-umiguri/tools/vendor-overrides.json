@@ -1,0 +1,24 @@
+{
+  "_note": "把 bundle 中扩出的第三方片段替换为上游官方源码。match 是片段内唯一标识串; file 相对 src/game/。替换只影响可读性, 不改运行逻辑(上游 r137 与 bundle 内一致, 已用字符串集合对比确认)。",
+  "overrides": [
+    {
+      "name": "three.js r137",
+      "match": "REVISION",
+      "file": "vendor-upstream/three.r137.js",
+      "license": "vendor-upstream/three.LICENSE",
+      "source": "three@0.137.0 build/three.js (MIT)"
+    },
+    {
+      "name": "BufferGeometryUtils r137",
+      "match": "THREE.BufferGeometryUtils =",
+      "file": "vendor-upstream/BufferGeometryUtils.r137.js",
+      "source": "three@0.137.0 examples/js/utils/BufferGeometryUtils.js (MIT)"
+    },
+    {
+      "name": "GLTFLoader r137",
+      "match": "THREE.GLTFLoader =",
+      "file": "vendor-upstream/GLTFLoader.r137.js",
+      "source": "three@0.137.0 examples/js/loaders/GLTFLoader.js (MIT)"
+    }
+  ]
+}

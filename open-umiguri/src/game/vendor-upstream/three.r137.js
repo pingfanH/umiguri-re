@@ -1,7 +1,3 @@
-// 上游源码覆盖: three.js r137
-// 来源: three@0.137.0 build/three.js (MIT)
-// 许可证: vendor-upstream/three.LICENSE
-// 由 tools/split-game.mjs 依据 tools/vendor-overrides.json 替换 bundle 内同名片段。
 /**
  * @license
  * Copyright 2010-2022 Three.js Authors

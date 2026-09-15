@@ -1,7 +1,3 @@
-// 上游源码覆盖: BufferGeometryUtils r137
-// 来源: three@0.137.0 examples/js/utils/BufferGeometryUtils.js (MIT)
-// 许可证: undefined
-// 由 tools/split-game.mjs 依据 tools/vendor-overrides.json 替换 bundle 内同名片段。
 ( function () {
 
 	function computeTangents( geometry ) {

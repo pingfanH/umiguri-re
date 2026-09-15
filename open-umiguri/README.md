@@ -25,6 +25,7 @@ open-umiguri/
 ├── src/host/               宿主层 ES 模块(见下)
 ├── src/game/
 │   ├── vendor/             第三方库片段(THREE / Effekseer / 字形数据 / emscripten …)
+│   ├── vendor-upstream/    上游官方源码覆盖(three r137 等, MIT)
 │   ├── logic/              游戏逻辑片段 + MODULE_MAP.md + COUPLING.md
 │   └── manifest.json       拼接顺序(权威)
 └── src-tauri/              Rust 后端(模块化)
@@ -110,6 +111,22 @@ cargo tauri android build --debug --apk --target aarch64   # Android
 
 > ⚠️ 不确定项: 游戏 `vendor/` 内 emscripten / Effekseer 生成代码依赖 `this`/全局,
 > 不适合作为原生 ESM 直接 `import`;本工程以经典脚本片段拼接(等价于原 bundle 执行环境)。
+
+## vendor 上游替换
+
+`tools/vendor-overrides.json` 把 bundle 内可识别的第三方片段替换为**上游官方源码**:
+
+| 片段 | 替换为 | 依据 |
+|---|---|---|
+| THREE 核心 | `vendor-upstream/three.r137.js` | `three@0.137.0` build/three.js(MIT) |
+| BufferGeometryUtils | `vendor-upstream/BufferGeometryUtils.r137.js` | 同上 examples/js |
+| GLTFLoader | `vendor-upstream/GLTFLoader.r137.js` | 同上 examples/js |
+
+- 替换前已用「字符串字面量集合」比对确认与上游一致;并校验游戏引用的 201 个
+  `THREE.*` 名称在上游中均存在(仅 `GLTFLoader` 由独立文件提供)。
+- 未替换的: Emscripten 版 Effekseer(8.8MB, 编译产物, 非公开源码)、Babel 辅助函数、
+  游戏自有 WebGL 包装 `glRuntime`、字形/字符数据。
+- 重新拆分时自动应用覆盖;`--no-upstream` 可关闭。
 
 ## 与上游仓库的关系
 

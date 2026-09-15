@@ -11,7 +11,12 @@
     {
       "file": "vendor/0001-ExpressionStatement.js",
       "kind": "vendor",
-      "bytes": 1082635
+      "bytes": 1082635,
+      "upstream": {
+        "name": "three.js r137",
+        "source": "three@0.137.0 build/three.js (MIT)",
+        "license": "vendor-upstream/three.LICENSE"
+      }
     },
     {
       "file": "vendor/0002-EmptyStatement.js",
@@ -66,7 +71,11 @@
     {
       "file": "vendor/0012-ExpressionStatement.js",
       "kind": "vendor",
-      "bytes": 19793
+      "bytes": 19793,
+      "upstream": {
+        "name": "BufferGeometryUtils r137",
+        "source": "three@0.137.0 examples/js/utils/BufferGeometryUtils.js (MIT)"
+      }
     },
     {
       "file": "vendor/0013-EmptyStatement.js",
@@ -76,7 +85,11 @@
     {
       "file": "vendor/0014-ExpressionStatement.js",
       "kind": "vendor",
-      "bytes": 82626
+      "bytes": 82626,
+      "upstream": {
+        "name": "GLTFLoader r137",
+        "source": "three@0.137.0 examples/js/loaders/GLTFLoader.js (MIT)"
+      }
     },
     {
       "file": "vendor/0015-EmptyStatement.js",

@@ -112,6 +112,33 @@ for (const stmt of top) {
   pieces.push({ file: rel, kind: 'vendor', bytes: text.length });
 }
 
+// ---------- 1b) 上游覆盖: 把第三方片段替换为官方源码 ----------
+const applied = [];
+if (!process.argv.includes('--no-upstream')) {
+  const ovFile = path.join(root, 'tools/vendor-overrides.json');
+  if (fs.existsSync(ovFile)) {
+    const overrides = JSON.parse(fs.readFileSync(ovFile, 'utf8')).overrides || [];
+    for (const ov of overrides) {
+      const piece = pieces.find(
+        (p) => p.kind === 'vendor' && fs.readFileSync(path.join(outDir, p.file), 'utf8').includes(ov.match)
+      );
+      if (!piece) {
+        process.stderr.write(`⚠ 未找到上游覆盖目标: ${ov.name} (match=${ov.match})\n`);
+        continue;
+      }
+      const up = fs.readFileSync(path.join(outDir, ov.file), 'utf8');
+      const head =
+        `// 上游源码覆盖: ${ov.name}\n` +
+        `// 来源: ${ov.source}\n` +
+        `// 许可证: ${ov.license}\n` +
+        `// 由 tools/split-game.mjs 依据 tools/vendor-overrides.json 替换 bundle 内同名片段。\n`;
+      fs.writeFileSync(path.join(outDir, piece.file), head + up);
+      piece.upstream = { name: ov.name, source: ov.source, license: ov.license };
+      applied.push(`${piece.file} <- ${ov.file}`);
+    }
+  }
+}
+
 // ---------- 2) 游戏逻辑 IIFE ----------
 // 把上一条顶层语句结束到 IIFE 开头之间的 trivia 归入 preamble, 保证逐字节可重建。
 const gamePreambleStart = cursor;
@@ -193,6 +220,7 @@ fs.writeFileSync(
 
 process.stderr.write(`vendor 片段: ${pieces.filter((p) => p.kind === 'vendor').length}\n`);
 process.stderr.write(`logic 片段: ${pieces.filter((p) => p.kind === 'logic').length}\n`);
+if (applied.length) process.stderr.write(`上游覆盖: ${applied.join(' | ')}\n`);
 process.stderr.write(`校验 vendor: ${vendorOk ? 'OK' : 'FAIL'} | bundle 逐字节重建: ${overallOk ? 'OK' : 'FAIL'}\n`);
 if (!overallOk || !vendorOk) process.exit(3);
 process.stderr.write(`已写出 -> ${outDir}\n`);
