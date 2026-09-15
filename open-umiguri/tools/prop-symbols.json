@@ -1,0 +1,12 @@
+{
+  "_note": "props: 旧字段名 -> { name, note, confidence }。仅用于 tools/lib/symbols.mjs 的 applyProps: 会自动拒绝 字符串/动态访问/简写/解构 命中的字段。依据 PROJECT_INFO §2.2 / §7.5 的实测结论。",
+  "props": {
+    "Be": { "name": "visible", "note": "RSB 元素 flags.bit0 = 可见(PROJECT_INFO §2.2)", "confidence": "medium" },
+    "Te": { "name": "x", "note": "RSB 元素 x 坐标", "confidence": "medium" },
+    "Qt": { "name": "y", "note": "RSB 元素 y 坐标", "confidence": "medium" },
+    "Le": { "name": "w", "note": "RSB 元素宽度", "confidence": "medium" },
+    "G0": { "name": "h", "note": "RSB 元素高度", "confidence": "medium" },
+    "yk": { "name": "elementByIndex", "note": "RSB 元素树: 按序号取元素(PROJECT_INFO §7.5)", "confidence": "high" },
+    "ot": { "name": "elementByName", "note": "RSB 元素树: 按名字向下查元素", "confidence": "high" }
+  }
+}

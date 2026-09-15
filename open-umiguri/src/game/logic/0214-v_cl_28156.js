@@ -4,5 +4,5 @@
 // 说明: 本文件是 bundle 片段, 由 build/assemble-game.mjs 按 manifest 拼接;请勿手改拼接顺序。
 
   function v_cl_28156() {
-    this.ou = 0, this.Oa = 0, this.Le = 0, this.G0 = 0;
+    this.ou = 0, this.Oa = 0, this.w = 0, this.h = 0;
   }

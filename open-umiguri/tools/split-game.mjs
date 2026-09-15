@@ -19,7 +19,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { parser, generate, loadSymbols, applySymbols } from './lib/symbols.mjs';
+import { parser, generate, loadSymbols, applySymbols, loadProps, applyProps } from './lib/symbols.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const srcFile = process.argv[2] || process.env.GAME_SRC || '/Users/pingfanh/project/umiguri-re/game_main.deobf.js';
@@ -33,8 +33,10 @@ let code = fs.readFileSync(srcFile, 'utf8');
 process.stderr.write(`解析 ${srcFile} (${(code.length / 1048576).toFixed(2)} MB)...\n`);
 let ast = parser.parse(code, { sourceType: 'script', allowReturnOutsideFunction: true, errorRecovery: true });
 
-// 先应用语义重命名(只改绑定名), 再重新生成并解析, 以便按新文本切分。
+// 先应用语义重命名(只改绑定名)与对象字段改名, 再重新生成并解析, 以便按新文本切分。
 let renamedCount = 0;
+let propRenamed = 0;
+const propBlocked = [];
 if (!skipRename) {
   const map = loadSymbols(symbolsFile);
   const { conflicts, renamed } = applySymbols(ast, map);
@@ -43,10 +45,21 @@ if (!skipRename) {
     process.exit(3);
   }
   renamedCount = renamed;
+
+  if (!process.argv.includes('--no-props')) {
+    const propFile = path.join(root, 'tools/prop-symbols.json');
+    if (fs.existsSync(propFile)) {
+      const propMap = loadProps(propFile);
+      const r = applyProps(ast, propMap, { force: process.argv.includes('--force-props') });
+      propRenamed = r.renamed;
+      propBlocked.push(...r.blocked);
+    }
+  }
+
   code = generate(ast, { comments: true, compact: false, concise: false, retainLines: false, jsescOption: { minimal: true } }, code).code;
   ast = parser.parse(code, { sourceType: 'script', allowReturnOutsideFunction: true, errorRecovery: true });
 }
-process.stderr.write(`语义重命名绑定: ${renamedCount}\n`);
+process.stderr.write(`语义重命名绑定: ${renamedCount} | 字段改名: ${propRenamed}${propBlocked.length ? ` | 跳过(危险): ${[...new Set(propBlocked)].join(', ')}` : ''}\n`);
 
 const top = ast.program.body;
 

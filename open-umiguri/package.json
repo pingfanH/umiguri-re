@@ -11,7 +11,8 @@
     "assemble:game": "node build/assemble-game.mjs",
     "check": "node build/check.mjs",
     "extract:game": "node tools/split-game.mjs",
-    "analyze:game": "node tools/analyze-bundle.mjs"
+    "analyze:game": "node tools/analyze-bundle.mjs",
+    "analyze:props": "node tools/analyze-props.mjs"
   },
   "devDependencies": {
     "@babel/generator": "^7.24.0",

@@ -24,8 +24,16 @@ export const generate = generateMod.default || generateMod;
 export function loadSymbols(file) {
   const fs = req('node:fs');
   const symbols = JSON.parse(fs.readFileSync(file, 'utf8'));
-  const map = {};
+  const map = Object.create(null);
   for (const [oldName, meta] of Object.entries(symbols.bindings || {})) map[oldName] = meta.name;
+  return map;
+}
+
+export function loadProps(file) {
+  const fs = req('node:fs');
+  const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+  const map = Object.create(null);
+  for (const [oldName, meta] of Object.entries(data.props || {})) map[oldName] = meta.name;
   return map;
 }
 
@@ -64,4 +72,102 @@ export function applySymbols(ast, map) {
     renamed++;
   }
   return { conflicts: [], renamed, missing };
+}
+
+// 属性(对象字段)改名。默认拒绝任何可能破坏行为的情形:
+//   - 该名字以字符串字面量出现(序列化/动态访问)
+//   - obj["Name"] 形式
+//   - 简写 {Name} / 解构 {Name} = ... (需要改写语法, 保守跳过)
+// force=true 时忽略风险(仅重命名非简写/非字符串位置)。
+export function applyProps(ast, map, { force = false } = {}) {
+  const risky = new Map(); // name -> Set(reason)
+  const addRisk = (name, why) => {
+    if (!risky.has(name)) risky.set(name, new Set());
+    risky.get(name).add(why);
+  };
+
+  traverse(ast, {
+    StringLiteral(p) {
+      const n = p.node.value;
+      if (n in map) addRisk(n, 'string');
+    },
+    MemberExpression(p) {
+      if (p.node.computed && p.node.property.type === 'StringLiteral' && p.node.property.value in map) {
+        addRisk(p.node.property.value, 'computed');
+      }
+    },
+    OptionalMemberExpression(p) {
+      if (p.node.computed && p.node.property.type === 'StringLiteral' && p.node.property.value in map) {
+        addRisk(p.node.property.value, 'computed');
+      }
+    },
+    ObjectProperty(p) {
+      const k = p.node.key;
+      if (!p.node.computed && k.type === 'Identifier' && k.name in map && p.node.shorthand) {
+        addRisk(k.name, 'shorthand');
+      }
+    },
+    ObjectPattern(p) {
+      for (const prop of p.node.properties) {
+        if (prop.type === 'ObjectProperty' && !prop.computed && prop.shorthand && prop.key.type === 'Identifier' && prop.key.name in map) {
+          addRisk(prop.key.name, 'destructuring-shorthand');
+        }
+      }
+    },
+  });
+
+  const blocked = [...risky.keys()].filter((n) => !force);
+  let renamed = 0;
+  traverse(ast, {
+    MemberExpression(p) {
+      if (!p.node.computed && p.node.property.type === 'Identifier' && p.node.property.name in map) {
+        if (!blocked.includes(p.node.property.name)) {
+          p.node.property.name = map[p.node.property.name];
+          renamed++;
+        }
+      }
+    },
+    OptionalMemberExpression(p) {
+      if (!p.node.computed && p.node.property.type === 'Identifier' && p.node.property.name in map) {
+        if (!blocked.includes(p.node.property.name)) {
+          p.node.property.name = map[p.node.property.name];
+          renamed++;
+        }
+      }
+    },
+    ObjectProperty(p) {
+      if (!p.node.computed && p.node.key.type === 'Identifier' && p.node.key.name in map && !p.node.shorthand) {
+        if (!blocked.includes(p.node.key.name)) {
+          p.node.key.name = map[p.node.key.name];
+          renamed++;
+        }
+      }
+    },
+    ObjectMethod(p) {
+      if (!p.node.computed && p.node.key.type === 'Identifier' && p.node.key.name in map) {
+        if (!blocked.includes(p.node.key.name)) {
+          p.node.key.name = map[p.node.key.name];
+          renamed++;
+        }
+      }
+    },
+    ClassMethod(p) {
+      if (!p.node.computed && p.node.key.type === 'Identifier' && p.node.key.name in map) {
+        if (!blocked.includes(p.node.key.name)) {
+          p.node.key.name = map[p.node.key.name];
+          renamed++;
+        }
+      }
+    },
+    ClassProperty(p) {
+      if (!p.node.computed && p.node.key.type === 'Identifier' && p.node.key.name in map) {
+        if (!blocked.includes(p.node.key.name)) {
+          p.node.key.name = map[p.node.key.name];
+          renamed++;
+        }
+      }
+    },
+  });
+
+  return { renamed, blocked, risky: Object.fromEntries([...risky].map(([k, v]) => [k, [...v]])) };
 }
