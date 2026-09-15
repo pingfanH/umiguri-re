@@ -192,14 +192,14 @@
           if (v_i_33999.nR) ;else {
             if (null === v_i_33999.ed) v_e_34000 = !0;else if (null === v_i_33999.th) {
               let v_t_34001 = null;
-              (v_t_34001 = v_i_33999.gi ? await v_i_33999.gi.pi(v_i_33999.ed) : await new Promise(v_t_34002 => v_$r_27975.it(v_i_33999.ed, v_t_34002))) ? (16384 <= v_t_34001.byteLength && v_i_33999.mR ? (v_n_33994 = await new v_tc_28199(new Uint8Array(v_t_34001)).pR(), v_i_33999.th = v_n_33994, v_i_33999.eT |= 2) : v_i_33999.th = new Uint8Array(v_t_34001), v_i_33999.vT = v_e1_27826(v_i_33999.th.byteLength / 8192), this.VI ? v_r_33995.ni() : (this.AT.zI(115, v_r_33995), v_r_33995.hg(this.YC)), v_r_33995.hg(v_i_33999.hT), v_r_33995.hg(4), v_r_33995.hg(v_i_33999.th.byteLength), v_r_33995.hg(v_i_33999.vT), v_r_33995.hg(v_i_33999.eT), v_r_33995.gg(v_Fa_28068(v_i_33999.ed)), this.VI ? this.bT.send(v_r_33995.mg()) : await this.AT.KI(v_r_33995)) : v_e_34000 = !0;
+              (v_t_34001 = v_i_33999.gi ? await v_i_33999.gi.pi(v_i_33999.ed) : await new Promise(v_t_34002 => v_$r_27975.it(v_i_33999.ed, v_t_34002))) ? (16384 <= v_t_34001.byteLength && v_i_33999.mR ? (v_n_33994 = await new v_tc_28199(new Uint8Array(v_t_34001)).pR(), v_i_33999.th = v_n_33994, v_i_33999.eT |= 2) : v_i_33999.th = new Uint8Array(v_t_34001), v_i_33999.vT = mathCeil(v_i_33999.th.byteLength / 8192), this.VI ? v_r_33995.ni() : (this.AT.zI(115, v_r_33995), v_r_33995.hg(this.YC)), v_r_33995.hg(v_i_33999.hT), v_r_33995.hg(4), v_r_33995.hg(v_i_33999.th.byteLength), v_r_33995.hg(v_i_33999.vT), v_r_33995.hg(v_i_33999.eT), v_r_33995.gg(v_Fa_28068(v_i_33999.ed)), this.VI ? this.bT.send(v_r_33995.mg()) : await this.AT.KI(v_r_33995)) : v_e_34000 = !0;
             }
             if (v_e_34000) this.VI ? v_r_33995.ni() : (this.AT.zI(115, v_r_33995), v_r_33995.hg(this.YC)), v_r_33995.hg(v_i_33999.hT), v_r_33995.hg(1), this.VI ? this.bT.send(v_r_33995.mg()) : await this.AT.KI(v_r_33995);else if (!v_i_33999.nR) for (; v_i_33999.mT < v_i_33999.vT;) {
               if (this.VI && this.bT.bufferedAmount > this.bT.bufferedAmountLowThreshold) return void (this.bT.onbufferedamountlow = () => {
                 this.bT.onbufferedamountlow = null, this.XT();
               });
               var v_s_33996 = 8192 * v_i_33999.mT,
-                v_a_33997 = v_me_27822(8192 + v_s_33996, v_i_33999.th.byteLength);
+                v_a_33997 = mathMin(8192 + v_s_33996, v_i_33999.th.byteLength);
               this.VI ? v_r_33995.ni() : (this.AT.zI(115, v_r_33995), v_r_33995.hg(this.YC)), v_r_33995.hg(v_i_33999.hT), v_r_33995.hg(2 | (v_a_33997 >= v_i_33999.th.byteLength ? 1 : 0)), v_r_33995.Mg(v_i_33999.th.subarray(v_s_33996, v_a_33997)), this.VI ? this.bT.send(v_r_33995.mg()) : await this.AT.KI(v_r_33995), ++v_i_33999.mT;
             }
           }
@@ -482,7 +482,7 @@
     },
     zC: function (v_t_34067, v_e_34068, v_n_34069, v_r_34070) {
       if (v_r_34070.length) for (let v_i_34071 = 0; v_i_34071 < v_r_34070.length; v_i_34071 += 64) {
-        this.UT(20), this.GT.hg(v_t_34067), this.GT.hg(v_i_34071 + 64 >= v_r_34070.length), this.GT.hg(v_e_34068), this.GT.hg(v_n_34069), this.GT.hg(v_me_27822(64, v_r_34070.length - v_i_34071));
+        this.UT(20), this.GT.hg(v_t_34067), this.GT.hg(v_i_34071 + 64 >= v_r_34070.length), this.GT.hg(v_e_34068), this.GT.hg(v_n_34069), this.GT.hg(mathMin(64, v_r_34070.length - v_i_34071));
         for (let v_t_34072 = v_i_34071; v_t_34072 < v_i_34071 + 64 && v_t_34072 < v_r_34070.length; ++v_t_34072) this.GT.Lg(v_r_34070[v_t_34072][0]), this.GT.Ag(v_r_34070[v_t_34072][1] ? 1 : 0);
         this.rg();
       } else this.UT(20), this.GT.hg(v_t_34067), this.GT.hg(1), this.GT.hg(v_e_34068), this.GT.hg(v_n_34069), this.GT.hg(0), this.rg();

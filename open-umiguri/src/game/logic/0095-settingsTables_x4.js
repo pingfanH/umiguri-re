@@ -319,14 +319,14 @@
                 for (const v_m_33107 of v_n_33088) {
                   var v_u_33096,
                     v_f_33097 = (v_u_33096 = v_c_33095.vf(v_m_33107)).uid.split("/").slice(-1)[0];
-                  handshake.Mm.has(v_f_33097) || handshake.Mm.set(v_f_33097, new Map()), (v_i_33094 = new v_zr_27970()).Sr = v_me_27822(v_pe_27823(v_u_33096.score, 0), 101e4), v_i_33094.ni = 1 & v_u_33096.flag, v_i_33094.R4 = 2 & v_u_33096.flag, v_i_33094.B4 = 4 & v_u_33096.flag, v_i_33094.M4 = 8 & v_u_33096.flag, v_i_33094.D4 = v_u_33096.updated_at, v_i_33094.P4 = v_u_33096.play_count, v_i_33094.G4 = !!v_u_33096.is_played, handshake.Mm.get(v_f_33097).set(v_u_33096.diff, v_i_33094);
+                  handshake.Mm.has(v_f_33097) || handshake.Mm.set(v_f_33097, new Map()), (v_i_33094 = new v_zr_27970()).Sr = mathMin(mathMax(v_u_33096.score, 0), 101e4), v_i_33094.ni = 1 & v_u_33096.flag, v_i_33094.R4 = 2 & v_u_33096.flag, v_i_33094.B4 = 4 & v_u_33096.flag, v_i_33094.M4 = 8 & v_u_33096.flag, v_i_33094.D4 = v_u_33096.updated_at, v_i_33094.P4 = v_u_33096.play_count, v_i_33094.G4 = !!v_u_33096.is_played, handshake.Mm.get(v_f_33097).set(v_u_33096.diff, v_i_33094);
                 }
                 var v___33098,
                   v_h_33099,
                   v_d_33100 = v_k_33063.ff("course"),
                   v_n_33088 = v_d_33100.hf();
                 handshake.Em = new Map();
-                for (const v_p_33108 of v_n_33088) v___33098 = v_d_33100.vf(v_p_33108), (v_h_33099 = new v_zr_27970()).Sr = v_me_27822(v_pe_27823(v___33098.score, 0), 303e4), v_h_33099.ni = 1 & v___33098.flag, v_h_33099.R4 = 2 & v___33098.flag, v_h_33099.B4 = 4 & v___33098.flag, v_h_33099.D4 = v___33098.updated_at, v_h_33099.P4 = v___33098.play_count, v_h_33099.G4 = !!v___33098.is_played, handshake.Em.set(v___33098.uid, v_h_33099);
+                for (const v_p_33108 of v_n_33088) v___33098 = v_d_33100.vf(v_p_33108), (v_h_33099 = new v_zr_27970()).Sr = mathMin(mathMax(v___33098.score, 0), 303e4), v_h_33099.ni = 1 & v___33098.flag, v_h_33099.R4 = 2 & v___33098.flag, v_h_33099.B4 = 4 & v___33098.flag, v_h_33099.D4 = v___33098.updated_at, v_h_33099.P4 = v___33098.play_count, v_h_33099.G4 = !!v___33098.is_played, handshake.Em.set(v___33098.uid, v_h_33099);
               }
               return;
           }
@@ -411,8 +411,8 @@
         dn: v_e_33118,
         q4: function (v_t_33133, v_i_33134) {
           v_i_33134 ? v_e_33118("result_new_record", function () {
-            v_e_33118("result_rank_" + v_xi_27836(v_t_33133));
-          }) : v_e_33118("result_rank_" + v_xi_27836(v_t_33133));
+            v_e_33118("result_rank_" + rankName(v_t_33133));
+          }) : v_e_33118("result_rank_" + rankName(v_t_33133));
         },
         X4: function () {
           v_e_33118("result_all_justice");

@@ -33,16 +33,16 @@
                       v_r_32706.BP.lf = v_n_32705[1];
                       break;
                     case "LIFE":
-                      v_r_32706.BP.bP = v_pe_27823(v_Pe_28064(v_n_32705[1]), 0);
+                      v_r_32706.BP.bP = mathMax(v_Pe_28064(v_n_32705[1]), 0);
                       break;
                     case "DAMAGE":
-                      "J" === v_n_32705[1] ? v_r_32706.BP.zb = v_w0_27717 : "A" === v_n_32705[1] ? v_r_32706.BP.zb = v__e_27718 : "M" === v_n_32705[1] && (v_r_32706.BP.zb = v_he_27719), v_n_32705[2] && (v_r_32706.BP.TP = v_pe_27823(v_Pe_28064(v_n_32705[2]), 1));
+                      "J" === v_n_32705[1] ? v_r_32706.BP.zb = v_w0_27717 : "A" === v_n_32705[1] ? v_r_32706.BP.zb = v__e_27718 : "M" === v_n_32705[1] && (v_r_32706.BP.zb = v_he_27719), v_n_32705[2] && (v_r_32706.BP.TP = mathMax(v_Pe_28064(v_n_32705[2]), 1));
                       break;
                     case "HEAL":
-                      v_r_32706.BP.SP = v_pe_27823(v_Pe_28064(v_n_32705[1]), 0);
+                      v_r_32706.BP.SP = mathMax(v_Pe_28064(v_n_32705[1]), 0);
                       break;
                     case "HEALJDG":
-                      v_r_32706.BP.EP = v_pe_27823(v_Pe_28064(v_n_32705[1]), 0), "C" === v_n_32705[2] ? v_r_32706.BP.LP = v_fe_27716 : "J" === v_n_32705[2] ? v_r_32706.BP.LP = v_w0_27717 : "A" === v_n_32705[2] && (v_r_32706.BP.LP = v__e_27718);
+                      v_r_32706.BP.EP = mathMax(v_Pe_28064(v_n_32705[1]), 0), "C" === v_n_32705[2] ? v_r_32706.BP.LP = v_fe_27716 : "J" === v_n_32705[2] ? v_r_32706.BP.LP = v_w0_27717 : "A" === v_n_32705[2] && (v_r_32706.BP.LP = v__e_27718);
                       break;
                     case "MUSIC1":
                       v_r_32706.BP.hI[0] = new v_yr_27944(v_n_32705[1], v_Q0_27805.indexOf(v_n_32705[2]));
@@ -62,7 +62,7 @@
                         v_i_32708 = v_Re_28066(v_n_32705[2]);
                         if (!isNaN(v_i_32708)) {
                           let v_t_32709 = 100;
-                          v_t_32709 = v_i_32708 < 1500 ? v_ke_27824(4 * v_i_32708) / .04 : v_ke_27824(2 * v_i_32708) / .02, v_r_32706.BP.CP.DP = v_me_27822(v_pe_27823(v_t_32709, 100), 2e3);
+                          v_t_32709 = v_i_32708 < 1500 ? mathFloor(4 * v_i_32708) / .04 : mathFloor(2 * v_i_32708) / .02, v_r_32706.BP.CP.DP = mathMin(mathMax(v_t_32709, 100), 2e3);
                         }
                       } else if ("FIELDWALL" === v_n_32705[1]) v_r_32706.BP.CP.Hs = v_La_28062(v_n_32705[2]);else if ("SKILL" === v_n_32705[1]) switch (v_Ra_28061(v_n_32705[2])) {
                         case "hard1":
@@ -143,6 +143,6 @@
       return v_e_32714.join("\n");
     },
     Kc(v_t_32717, v_i_32718) {
-      return v_pe_27823(v_ke_27824(.2 * v_i_32718), 10) <= v_t_32717;
+      return mathMax(mathFloor(.2 * v_i_32718), 10) <= v_t_32717;
     }
   };

@@ -327,10 +327,10 @@
                       break;
                     default:
                       if (0 === v_h_32968[1].indexOf("ComboMod")) {
-                        v_d_32969.prm.tvar = v_U_32927, v_d_32969.prm.prm = v_pe_27823(v_Pe_28064(v_h_32968[1].substr(8)), 1);
+                        v_d_32969.prm.tvar = v_U_32927, v_d_32969.prm.prm = mathMax(v_Pe_28064(v_h_32968[1].substr(8)), 1);
                         for (let v_t_32995 = v_K_32945; v_t_32995 < v_h_32968.length; ++v_t_32995) v_d_32969.prm.vals.push(v_Pe_28064(v_h_32968[v_t_32995]));
                       } else if (0 === v_h_32968[1].indexOf("MaxComboMod")) {
-                        v_d_32969.prm.tvar = v_J_32929, v_d_32969.prm.prm = v_pe_27823(v_Pe_28064(v_h_32968[1].substr(11)), 1);
+                        v_d_32969.prm.tvar = v_J_32929, v_d_32969.prm.prm = mathMax(v_Pe_28064(v_h_32968[1].substr(11)), 1);
                         for (let v_t_32996 = v_K_32945; v_t_32996 < v_h_32968.length; ++v_t_32996) v_d_32969.prm.vals.push(v_Pe_28064(v_h_32968[v_t_32996]));
                       } else if (0 === v_h_32968[1].indexOf("Success")) {
                         var v_v_32970 = v_h_32968[1].substr(7),
@@ -366,7 +366,7 @@
           for (let v_t_33006 = 0; v_t_33006 < v_o_33005.length; ++v_t_33006) "" !== (v_r_33002 = v_o_33005[v_t_33006].trim()) && "#" !== v_r_33002[0] && (null === (v_s_33003 = "Meta:" === (v_s_33003 = v_r_33002) ? 10 : "OnStart:" === v_s_33003 ? v_w_32904 : "OnJudge:" === v_s_33003 ? v_g_32905 : "OnTimer:" === v_s_33003 ? v_m_32906 : "OnFinish:" === v_s_33003 ? v_p_32907 : null) ? v_l_32953(v_e_33000, v_n_33001, v_a_33004, v_r_33002) : v_n_33001 = v_s_33003);
           v_i_32999 = Object.keys(v_a_33004.sf);
           if (0 < v_i_32999.length) {
-            let v_t_33007 = v_a_33004.sf[v_lc_28208(v_Hi_27855)];
+            let v_t_33007 = v_a_33004.sf[v_lc_28208(currentLang)];
             v_t_33007 = v_t_33007 || v_a_33004.sf[v_i_32999[0]], v_e_33000.ct = v_t_33007.ct, v_e_33000.if = v_t_33007.if.join("\n");
           }
           return v_e_33000;
@@ -384,7 +384,7 @@
             v_c_33017 = [];
           let v_u_33018 = !1,
             v_f_33019 = !1;
-          var v___33020 = (v_i_33008._v < 2 ? v_i1_27825 : v_ke_27824)(100 * v_ge_27821());
+          var v___33020 = (v_i_33008._v < 2 ? mathRound : mathFloor)(100 * mathRandom());
           let v_h_33021, v_d_33022;
           for (let v_t_33023 = 0; v_t_33023 < v_s_33013.length; ++v_t_33023) if ((v_l_33016 = v_s_33013[v_t_33023]).cmd === v_x_32913) v_f_33019 = !1;else if (!v_f_33019) switch (v_l_33016.cmd) {
             case v_b_32909:
@@ -394,7 +394,7 @@
               v_u_33018 = !0;
               break;
             case v_S_32911:
-              v_i_33008.Km = v_pe_27823(v_i_33008.Km + v_l_33016.prm.val, 0);
+              v_i_33008.Km = mathMax(v_i_33008.Km + v_l_33016.prm.val, 0);
               break;
             case v_A_32912:
               switch (v_d_33022 = 0, v_l_33016.prm.tvar) {
@@ -414,7 +414,7 @@
                   v_d_33022 = v_r_33012.gauge;
                   break;
                 case v_Q_32937:
-                  v_d_33022 = v_i1_27825(v_r_33012.gauge_raw);
+                  v_d_33022 = mathRound(v_r_33012.gauge_raw);
                   break;
                 case v_M_32920:
                   v_d_33022 = v_r_33012.prog_note;
@@ -450,13 +450,13 @@
                   v_d_33022 = v_r_33012.result.score;
                   break;
                 case v_O_32931:
-                  v_d_33022 = v_ke_27824(v_r_33012.result.fore_score - 975e3);
+                  v_d_33022 = mathFloor(v_r_33012.result.fore_score - 975e3);
                   break;
                 case v_V_32932:
-                  v_d_33022 = v_ke_27824(v_r_33012.result.fore_score - 1e6);
+                  v_d_33022 = mathFloor(v_r_33012.result.fore_score - 1e6);
                   break;
                 case v_W_32933:
-                  v_d_33022 = v_ke_27824(v_r_33012.result.fore_score - 1007500);
+                  v_d_33022 = mathFloor(v_r_33012.result.fore_score - 1007500);
                   break;
                 case v_X_32934:
                   v_d_33022 = v_e_33009 === v_V0_27790 && v_r_33012.result.aj;

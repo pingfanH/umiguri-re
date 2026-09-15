@@ -38,25 +38,25 @@
       } else v_r_34391 = 8, v_s_34392 = v_po_28110, v_n_34393 = !0;
       v_n_34393 && (v_i_34389 = v_i_34389 >>> 2 << 2, v_e_34390 = v_e_34390 >>> 2 << 2);
       let v_a_34394 = 131072 & v_v_34375 && 1 < v_w_34376 && v___34372 ? v_w_34376 : 1,
-        v_o_34395 = (v_h_34373(v_xo_28116, v_e_34390, v_i_34389), v_se_27562.pixelStorei(v_se_27562.UNPACK_ALIGNMENT, 1), v_e_34390),
+        v_o_34395 = (v_h_34373(v_xo_28116, v_e_34390, v_i_34389), glContext.pixelStorei(glContext.UNPACK_ALIGNMENT, 1), v_e_34390),
         v_l_34396 = v_i_34389,
         v_c_34397 = 128 + 4 * v_t_34388,
         v_u_34398;
       for (let v_t_34399 = 0; v_t_34399 < v_a_34394 && 0 !== v_o_34395 && 0 !== v_l_34396; ++v_t_34399) {
-        if (v_n_34393) v_u_34398 = (v_pe_27823(4, v_o_34395) >>> 2) * (v_pe_27823(4, v_l_34396) >>> 2) * v_r_34391, v_se_27562.compressedTexImage2D(v_se_27562.TEXTURE_2D, v_t_34399, v_s_34392, v_o_34395, v_l_34396, 0, new Uint8Array(v_f_34371, v_c_34397, v_u_34398));else {
+        if (v_n_34393) v_u_34398 = (mathMax(4, v_o_34395) >>> 2) * (mathMax(4, v_l_34396) >>> 2) * v_r_34391, glContext.compressedTexImage2D(glContext.TEXTURE_2D, v_t_34399, v_s_34392, v_o_34395, v_l_34396, 0, new Uint8Array(v_f_34371, v_c_34397, v_u_34398));else {
           v_u_34398 = v_o_34395 * v_r_34391 * v_l_34396;
           let v_i_34400, v_e_34401, v_n_34402;
           if (v_s_34392 === v_So_28114) {
             v_i_34400 = new Uint8Array(v_u_34398), v_e_34401 = new Uint8Array(v_f_34371, v_c_34397, v_u_34398);
-            for (let v_t_34403 = 0; v_t_34403 < v_ke_27824(v_i_34400.byteLength / 4); ++v_t_34403) v_n_34402 = v_e_34401[4 * v_t_34403 + 3] << 24 | v_e_34401[4 * v_t_34403 + 2] << 16 | v_e_34401[4 * v_t_34403 + 1] << 8 | v_e_34401[4 * v_t_34403], v_i_34400[4 * v_t_34403] = (v_n_34402 & v_k_34380) >>> v_A_34384, v_i_34400[4 * v_t_34403 + 1] = (v_n_34402 & v_b_34381) >>> v_x_34385, v_i_34400[4 * v_t_34403 + 2] = (v_n_34402 & v_y_34382) >>> v_C_34386, v_i_34400[4 * v_t_34403 + 3] = (v_n_34402 & v_S_34383) >>> v_T_34387;
+            for (let v_t_34403 = 0; v_t_34403 < mathFloor(v_i_34400.byteLength / 4); ++v_t_34403) v_n_34402 = v_e_34401[4 * v_t_34403 + 3] << 24 | v_e_34401[4 * v_t_34403 + 2] << 16 | v_e_34401[4 * v_t_34403 + 1] << 8 | v_e_34401[4 * v_t_34403], v_i_34400[4 * v_t_34403] = (v_n_34402 & v_k_34380) >>> v_A_34384, v_i_34400[4 * v_t_34403 + 1] = (v_n_34402 & v_b_34381) >>> v_x_34385, v_i_34400[4 * v_t_34403 + 2] = (v_n_34402 & v_y_34382) >>> v_C_34386, v_i_34400[4 * v_t_34403 + 3] = (v_n_34402 & v_S_34383) >>> v_T_34387;
           } else if (v_s_34392 === v_yo_28113) {
             v_i_34400 = new Uint8Array(v_u_34398), v_e_34401 = new Uint8Array(v_f_34371, v_c_34397, v_u_34398);
-            for (let v_t_34404 = 0; v_t_34404 < v_ke_27824(v_i_34400.byteLength / 3); ++v_t_34404) v_n_34402 = v_e_34401[3 * v_t_34404 + 2] << 16 | v_e_34401[3 * v_t_34404 + 1] << 8 | v_e_34401[3 * v_t_34404], v_i_34400[3 * v_t_34404] = (v_n_34402 & v_k_34380) >> v_A_34384, v_i_34400[3 * v_t_34404 + 1] = (v_n_34402 & v_b_34381) >> v_x_34385, v_i_34400[3 * v_t_34404 + 2] = (v_n_34402 & v_y_34382) >> v_C_34386;
+            for (let v_t_34404 = 0; v_t_34404 < mathFloor(v_i_34400.byteLength / 3); ++v_t_34404) v_n_34402 = v_e_34401[3 * v_t_34404 + 2] << 16 | v_e_34401[3 * v_t_34404 + 1] << 8 | v_e_34401[3 * v_t_34404], v_i_34400[3 * v_t_34404] = (v_n_34402 & v_k_34380) >> v_A_34384, v_i_34400[3 * v_t_34404 + 1] = (v_n_34402 & v_b_34381) >> v_x_34385, v_i_34400[3 * v_t_34404 + 2] = (v_n_34402 & v_y_34382) >> v_C_34386;
           } else v_i_34400 = new Uint8Array(v_f_34371, v_c_34397, v_u_34398);
-          v_se_27562.texImage2D(v_se_27562.TEXTURE_2D, v_t_34399, v_s_34392, v_o_34395, v_l_34396, 0, v_s_34392, v_se_27562.UNSIGNED_BYTE, v_i_34400);
+          glContext.texImage2D(glContext.TEXTURE_2D, v_t_34399, v_s_34392, v_o_34395, v_l_34396, 0, v_s_34392, glContext.UNSIGNED_BYTE, v_i_34400);
         }
         v_c_34397 += v_u_34398, v_o_34395 >>>= 1, v_l_34396 >>>= 1;
       }
-      v_se_27562.texParameteri(v_se_27562.TEXTURE_2D, v_se_27562.TEXTURE_MAG_FILTER, v_se_27562.LINEAR), v_se_27562.texParameteri(v_se_27562.TEXTURE_2D, v_se_27562.TEXTURE_MIN_FILTER, 1 < v_a_34394 ? v_se_27562.LINEAR_MIPMAP_LINEAR : v_se_27562.LINEAR), v_h_34373(v_Co_28117, v_e_34390, v_i_34389);
+      glContext.texParameteri(glContext.TEXTURE_2D, glContext.TEXTURE_MAG_FILTER, glContext.LINEAR), glContext.texParameteri(glContext.TEXTURE_2D, glContext.TEXTURE_MIN_FILTER, 1 < v_a_34394 ? glContext.LINEAR_MIPMAP_LINEAR : glContext.LINEAR), v_h_34373(v_Co_28117, v_e_34390, v_i_34389);
     }
   }

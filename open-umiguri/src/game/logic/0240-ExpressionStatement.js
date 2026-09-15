@@ -31,10 +31,10 @@
     let v_r_34645 = v_ol_28154.m,
       v_s_34646 = 0,
       v_a_34647 = 0;
-    0 !== v_i_34642 && (v_xt_28153.ih(v_t_34641, v_ll_28155), v_s_34646 = v_n1_27827(v_i_34642), v_a_34647 = v_r1_27828(v_i_34642), v_r_34645[1] = v_r_34645[2] = v_r_34645[3] = v_r_34645[4] = v_r_34645[7] = v_r_34645[8] = v_r_34645[11] = v_r_34645[12] = v_r_34645[13] = v_r_34645[14] = 0, v_r_34645[0] = v_r_34645[15] = 1, v_r_34645[5] = v_a_34647, v_r_34645[6] = -v_s_34646, v_r_34645[9] = v_s_34646, v_r_34645[10] = v_a_34647, v_xt_28153.nh(v_ll_28155, v_ol_28154, v_t_34641)), 0 !== v_e_34643 && (v_xt_28153.ih(v_t_34641, v_ll_28155), v_s_34646 = v_n1_27827(v_e_34643), v_a_34647 = v_r1_27828(v_e_34643), v_r_34645[1] = v_r_34645[3] = v_r_34645[4] = v_r_34645[6] = v_r_34645[7] = v_r_34645[9] = v_r_34645[11] = v_r_34645[12] = v_r_34645[13] = v_r_34645[14] = 0, v_r_34645[5] = v_r_34645[15] = 1, v_r_34645[0] = v_a_34647, v_r_34645[2] = v_s_34646, v_r_34645[8] = -v_s_34646, v_r_34645[10] = v_a_34647, v_xt_28153.nh(v_ll_28155, v_ol_28154, v_t_34641)), 0 !== v_n_34644 && (v_xt_28153.ih(v_t_34641, v_ll_28155), v_s_34646 = v_n1_27827(v_n_34644), v_a_34647 = v_r1_27828(v_n_34644), v_r_34645[2] = v_r_34645[3] = v_r_34645[6] = v_r_34645[7] = v_r_34645[8] = v_r_34645[9] = v_r_34645[11] = v_r_34645[12] = v_r_34645[13] = v_r_34645[14] = 0, v_r_34645[10] = v_r_34645[15] = 1, v_r_34645[0] = v_a_34647, v_r_34645[1] = -v_s_34646, v_r_34645[4] = v_s_34646, v_r_34645[5] = v_a_34647, v_xt_28153.nh(v_ll_28155, v_ol_28154, v_t_34641));
+    0 !== v_i_34642 && (v_xt_28153.ih(v_t_34641, v_ll_28155), v_s_34646 = mathSin(v_i_34642), v_a_34647 = mathCos(v_i_34642), v_r_34645[1] = v_r_34645[2] = v_r_34645[3] = v_r_34645[4] = v_r_34645[7] = v_r_34645[8] = v_r_34645[11] = v_r_34645[12] = v_r_34645[13] = v_r_34645[14] = 0, v_r_34645[0] = v_r_34645[15] = 1, v_r_34645[5] = v_a_34647, v_r_34645[6] = -v_s_34646, v_r_34645[9] = v_s_34646, v_r_34645[10] = v_a_34647, v_xt_28153.nh(v_ll_28155, v_ol_28154, v_t_34641)), 0 !== v_e_34643 && (v_xt_28153.ih(v_t_34641, v_ll_28155), v_s_34646 = mathSin(v_e_34643), v_a_34647 = mathCos(v_e_34643), v_r_34645[1] = v_r_34645[3] = v_r_34645[4] = v_r_34645[6] = v_r_34645[7] = v_r_34645[9] = v_r_34645[11] = v_r_34645[12] = v_r_34645[13] = v_r_34645[14] = 0, v_r_34645[5] = v_r_34645[15] = 1, v_r_34645[0] = v_a_34647, v_r_34645[2] = v_s_34646, v_r_34645[8] = -v_s_34646, v_r_34645[10] = v_a_34647, v_xt_28153.nh(v_ll_28155, v_ol_28154, v_t_34641)), 0 !== v_n_34644 && (v_xt_28153.ih(v_t_34641, v_ll_28155), v_s_34646 = mathSin(v_n_34644), v_a_34647 = mathCos(v_n_34644), v_r_34645[2] = v_r_34645[3] = v_r_34645[6] = v_r_34645[7] = v_r_34645[8] = v_r_34645[9] = v_r_34645[11] = v_r_34645[12] = v_r_34645[13] = v_r_34645[14] = 0, v_r_34645[10] = v_r_34645[15] = 1, v_r_34645[0] = v_a_34647, v_r_34645[1] = -v_s_34646, v_r_34645[4] = v_s_34646, v_r_34645[5] = v_a_34647, v_xt_28153.nh(v_ll_28155, v_ol_28154, v_t_34641));
   }, v_xt_28153.ah = function (v_t_34648, v_i_34649, v_e_34650) {
     var v_n_34651;
-    0 === v_i_34649 && 0 === v_e_34650 || (v_n_34651 = v_ol_28154.m, v_xt_28153.ih(v_t_34648, v_ll_28155), v_n_34651[2] = v_n_34651[3] = v_n_34651[6] = v_n_34651[7] = v_n_34651[8] = v_n_34651[9] = v_n_34651[11] = v_n_34651[12] = v_n_34651[13] = v_n_34651[14] = 0, v_n_34651[0] = v_n_34651[5] = v_n_34651[10] = v_n_34651[15] = 1, v_n_34651[1] = v_yi_27829(v_i_34649), v_n_34651[4] = v_yi_27829(v_e_34650), v_xt_28153.nh(v_ll_28155, v_ol_28154, v_t_34648));
+    0 === v_i_34649 && 0 === v_e_34650 || (v_n_34651 = v_ol_28154.m, v_xt_28153.ih(v_t_34648, v_ll_28155), v_n_34651[2] = v_n_34651[3] = v_n_34651[6] = v_n_34651[7] = v_n_34651[8] = v_n_34651[9] = v_n_34651[11] = v_n_34651[12] = v_n_34651[13] = v_n_34651[14] = 0, v_n_34651[0] = v_n_34651[5] = v_n_34651[10] = v_n_34651[15] = 1, v_n_34651[1] = mathTan(v_i_34649), v_n_34651[4] = mathTan(v_e_34650), v_xt_28153.nh(v_ll_28155, v_ol_28154, v_t_34648));
   }, v_bl_28168.prototype.sh = function (v_t_34652) {
     v_t_34652.on[0] = this.on[0], v_t_34652.on[1] = this.on[1], v_t_34652.on[2] = this.on[2], v_t_34652.Oe[0] = this.Oe[0], v_t_34652.Oe[1] = this.Oe[1], v_t_34652.Oe[2] = this.Oe[2], v_t_34652.vd[0] = this.vd[0], v_t_34652.vd[1] = this.vd[1], v_t_34652.vd[2] = this.vd[2], v_t_34652.gd[0] = this.gd[0], v_t_34652.gd[1] = this.gd[1], v_t_34652.qe = this.qe, v_t_34652.wd = this.wd, v_t_34652.Nn = this.Nn, v_t_34652.Yk[0] = this.Yk[0], v_t_34652.Yk[1] = this.Yk[1], v_t_34652.Zk[0] = this.Zk[0], v_t_34652.Zk[1] = this.Zk[1], v_t_34652.$k = this.$k;
   }, v_bl_28168.prototype.oh = function (v_t_34653) {
@@ -153,7 +153,7 @@
       var v_e_34715,
         v_n_34716 = this.Rd.get(v_t_34713),
         v_r_34717 = this.Gd.Sd.get(v_t_34713);
-      if (v_n_34716 && v_r_34717) return v_e_34715 = v_pe_27823(v_r_34717.rr - .0166667 * v_n_34716.ud, 0), v_i_34714 = v_e_34715 > .0166667 * v_n_34716.K2 ? v_r_34717.md : v_Ee_28084(v_r_34717.bd, v_r_34717.md, v_il_28147(v_n_34716.z2, v_e_34715 / (.0166667 * v_n_34716.K2)));
+      if (v_n_34716 && v_r_34717) return v_e_34715 = mathMax(v_r_34717.rr - .0166667 * v_n_34716.ud, 0), v_i_34714 = v_e_34715 > .0166667 * v_n_34716.K2 ? v_r_34717.md : v_Ee_28084(v_r_34717.bd, v_r_34717.md, v_il_28147(v_n_34716.z2, v_e_34715 / (.0166667 * v_n_34716.K2)));
       switch (v_t_34713) {
         case v_Vo_28136:
           return this.on[0];
@@ -435,7 +435,7 @@
             v_s_34836 = -1;
             break;
           }
-          for (var v_l_34839 of v_o_34838.ld.values()) v_l_34839.length && (v_s_34836 = v_pe_27823(v_s_34836, v_a_34837.ud + v_l_34839[v_l_34839.length - 1].od));
+          for (var v_l_34839 of v_o_34838.ld.values()) v_l_34839.length && (v_s_34836 = mathMax(v_s_34836, v_a_34837.ud + v_l_34839[v_l_34839.length - 1].od));
         }
       }
       v_t_34831.Be = !0, v_t_34831.Te = v_e_34833 - v_t_34831.Fd[0] * v_t_34831.Le, v_t_34831.Qt = v_n_34834 - v_t_34831.Fd[1] * v_t_34831.G0;
@@ -450,7 +450,7 @@
       if (v_L_34845.Jt) {
         let v_f_34888 = this.lt.Le,
           v___34889 = this.lt.G0;
-        v_se_27562.enable(v_se_27562.BLEND), v_se_27562.disable(v_se_27562.DEPTH_TEST), v_se_27562.disable(v_se_27562.CULL_FACE), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), v_se_27562.matrixMode(v_se_27562.MODELVIEW), v_se_27562.clearStencil(0), v_se_27562.clear(v_se_27562.STENCIL_BUFFER_BIT), v_se_27562.loadIdentity(), v_se_27562.translate(-1, 1, 0), v_se_27562.scale(2 / v_f_34888, 2 / v___34889, 1), v_gt_34913.prototype = {
+        glContext.enable(glContext.BLEND), glContext.disable(glContext.DEPTH_TEST), glContext.disable(glContext.CULL_FACE), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), glContext.matrixMode(glContext.MODELVIEW), glContext.clearStencil(0), glContext.clear(glContext.STENCIL_BUFFER_BIT), glContext.loadIdentity(), glContext.translate(-1, 1, 0), glContext.scale(2 / v_f_34888, 2 / v___34889, 1), v_gt_34913.prototype = {
           yb: function (v_t_34922) {
             this.Th = 0, this.Ah = v_t_34922.Ah, this.Ab = v_t_34922.Ab, this.Ib = v_t_34922.Ib, this.Cb = v_t_34922.Cb, this.Tb = v_t_34922.Tb, this.Md = v_t_34922.Md, this.kh = v_t_34922.kh, this.bh = v_t_34922.bh, this.Sh = v_t_34922.Sh, this.Lb = 0;
           }
@@ -478,7 +478,7 @@
         let v_g_34898 = new v_xt_28153(),
           v_m_34899 = new v_al_28152(),
           v_p_34900 = new v_al_28152(),
-          v_k_34901 = v_a1_27833 / 180,
+          v_k_34901 = mathPI / 180,
           v_b_34902 = [0, 0, 0, 0, 0, 0, 0, 0, 0],
           v_r_34903,
           v_y_34904 = ((v_r_34903 = new v_wt_34912()).Ih = this.lt, v_r_34903.yh = v_f_34888, v_r_34903.Ch = v___34889, v_xt_28153.T_(v_r_34903.A_), v_l_34848.push(v_r_34903), v_R_34844.xf.Gl("vertices")),
@@ -504,7 +504,7 @@
               let v_i_34924,
                 v_e_34925 = 0;
               for ([v_U_34859, v_H_34860] of v_J_34861) if (!(v_H_34860.length < 2)) for (v_i_34924 = 1; v_i_34924 < v_H_34860.length; ++v_i_34924) if (.0166667 * v_H_34860[v_i_34924].od > v_t_34923 || v_i_34924 === v_H_34860.length - 1) {
-                switch (v_e_34925 = v_Ee_28084(v_H_34860[v_i_34924 - 1].Cr, v_H_34860[v_i_34924].Cr, v_il_28147(v_H_34860[v_i_34924].z2, v_me_27822(v_pe_27823(v_Ya_28085(.0166667 * v_H_34860[v_i_34924 - 1].od, .0166667 * v_H_34860[v_i_34924].od, v_t_34923), 0), 1))), v_U_34859) {
+                switch (v_e_34925 = v_Ee_28084(v_H_34860[v_i_34924 - 1].Cr, v_H_34860[v_i_34924].Cr, v_il_28147(v_H_34860[v_i_34924].z2, mathMin(mathMax(v_Ya_28085(.0166667 * v_H_34860[v_i_34924 - 1].od, .0166667 * v_H_34860[v_i_34924].od, v_t_34923), 0), 1))), v_U_34859) {
                   case v_Vo_28136:
                     v_G_34858.on[0] += v_e_34925;
                     break;
@@ -664,24 +664,24 @@
                   v_R_34844.Dh.M3(v_V_34864.R3, v_V_34864.I_), v_R_34844.Dh.P3(v_W_34865.Le), v_R_34844.Dh.D3(v_W_34865.G0), v_R_34844.Dh.N3(v_V_34864.w_), v_R_34844.Dh.H3(v_V_34864.F_), v_R_34844.Dh.U3(v_V_34864.B_, v_V_34864.M_), v_R_34844.Dh.V3(v_W_34865.A_), v_X_34866.X3(v_V_34864.Wt, v_V_34864.Vd, v_V_34864.Od, v_V_34864.Tn);
                   var v_z_34867 = [v_V_34864.Fe[8] * (1 - v_W_34865.xh.wd), v_V_34864.Fe[9] * (1 - v_W_34865.xh.wd), v_V_34864.Fe[10] * (1 - v_W_34865.xh.wd), v_V_34864.Fe[11] * v_W_34865.xh.qe, v_V_34864.Fe[12] * (1 - v_W_34865.xh.wd), v_V_34864.Fe[13] * (1 - v_W_34865.xh.wd), v_V_34864.Fe[14] * (1 - v_W_34865.xh.wd), v_V_34864.Fe[15] * v_W_34865.xh.qe, v_V_34864.Fe[0] * (1 - v_W_34865.xh.wd), v_V_34864.Fe[1] * (1 - v_W_34865.xh.wd), v_V_34864.Fe[2] * (1 - v_W_34865.xh.wd), v_V_34864.Fe[3] * v_W_34865.xh.qe, v_V_34864.Fe[4] * (1 - v_W_34865.xh.wd), v_V_34864.Fe[5] * (1 - v_W_34865.xh.wd), v_V_34864.Fe[6] * (1 - v_W_34865.xh.wd), v_V_34864.Fe[7] * v_W_34865.xh.qe],
                     v_K_34868 = [v_V_34864.Xd[0] * (1 - v_W_34865.xh.wd), v_V_34864.Xd[1] * (1 - v_W_34865.xh.wd), v_V_34864.Xd[2] * (1 - v_W_34865.xh.wd), v_V_34864.Xd[3] * v_W_34865.xh.qe];
-                  1 === v_V_34864.Md ? v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE) : 2 === v_V_34864.Md ? v_se_27562.blendFunc(v_se_27562.DST_COLOR, v_se_27562.ZERO) : v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), v_X_34866.Z3();
+                  1 === v_V_34864.Md ? glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE) : 2 === v_V_34864.Md ? glContext.blendFunc(glContext.DST_COLOR, glContext.ZERO) : glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), v_X_34866.Z3();
                   let v_t_34952 = v_X_34866.z_;
                   if (v_V_34864.Jd && (v_W_34865 = v_W_34865.Le / v_t_34952) < 1 && (v_X_34866.X3(v_V_34864.Wt, v_V_34864.Vd * v_W_34865, v_V_34864.Od, v_V_34864.Tn), v_X_34866.Z3(), v_t_34952 = v_X_34866.z_), v_R_34844.Dh.G3(0), v_R_34844.Dh.j3(0), v_V_34864.Nd && !v_V_34864.B_ && v_t_34952 > v_R_34844.Dh.y_) {
                     var v_ot_34869 = v_t_34952 + 60,
-                      v_lt_34870 = v_pe_27823(v_V_34864.q3.rr - v_V_34864.Ud, 0) * v_V_34864.Hd;
+                      v_lt_34870 = mathMax(v_V_34864.q3.rr - v_V_34864.Ud, 0) * v_V_34864.Hd;
                     for (let v_t_34953 = 0; v_t_34953 < 2; ++v_t_34953) v_R_34844.Dh.G3(-v_Za_28087(v_lt_34870, v_ot_34869) + v_ot_34869 * v_t_34953), v_V_34864.Wd && v_X_34866.Y3([v_V_34864.Kd, v_V_34864.zd, 0], v_K_34868), v_X_34866.Y3([0, 0, 0], v_z_34867);
                   } else if (v_V_34864.Nd && v_V_34864.B_ && v_X_34866.Z_ > v_R_34844.Dh.C_) {
                     var v_Y_34871,
-                      v_ct_34872 = v_pe_27823(v_V_34864.q3.rr - v_V_34864.Ud, 0),
-                      v_q_34873 = v_ke_27824(v_R_34844.Dh.C_ / v_X_34866.Y_) * v_X_34866.Y_,
-                      v_ut_34874 = v_e1_27826(v_X_34866.Z_ / v_q_34873),
+                      v_ct_34872 = mathMax(v_V_34864.q3.rr - v_V_34864.Ud, 0),
+                      v_q_34873 = mathFloor(v_R_34844.Dh.C_ / v_X_34866.Y_) * v_X_34866.Y_,
+                      v_ut_34874 = mathCeil(v_X_34866.Z_ / v_q_34873),
                       v_Z_34875 = v_V_34864.Hd,
                       v_$_34876 = 1 / v_q_34873 * v_R_34844.Dh.C_,
                       v_Q_34877 = v_ut_34874 * v_Z_34875;
                     for (let v_t_34954 = 0; v_t_34954 < 2; ++v_t_34954) {
                       if (v_Y_34871 = v_Za_28087(v_ct_34872 + v_Q_34877 * v_t_34954, 2 * v_Q_34877), v_ct_34872 < v_$_34876) {
                         if (0 === v_t_34954) v_R_34844.Dh.j3(0);else if (1 === v_t_34954) continue;
-                      } else v_Y_34871 < v_$_34876 ? v_R_34844.Dh.j3(v_R_34844.Dh.C_ * (v_$_34876 - v_Y_34871) / v_$_34876) : v_Q_34877 < v_Y_34871 ? v_R_34844.Dh.j3(-(v_Y_34871 - v_Q_34877) * v_q_34873 - v_q_34873 * (v_ut_34874 - 1)) : v_R_34844.Dh.j3(-(v_ke_27824(v_Y_34871 / v_Z_34875) * v_q_34873 + v_me_27822(v_Za_28087(v_Y_34871 + v_Z_34875, v_Z_34875) * v_q_34873, v_q_34873) - v_q_34873));
+                      } else v_Y_34871 < v_$_34876 ? v_R_34844.Dh.j3(v_R_34844.Dh.C_ * (v_$_34876 - v_Y_34871) / v_$_34876) : v_Q_34877 < v_Y_34871 ? v_R_34844.Dh.j3(-(v_Y_34871 - v_Q_34877) * v_q_34873 - v_q_34873 * (v_ut_34874 - 1)) : v_R_34844.Dh.j3(-(mathFloor(v_Y_34871 / v_Z_34875) * v_q_34873 + mathMin(v_Za_28087(v_Y_34871 + v_Z_34875, v_Z_34875) * v_q_34873, v_q_34873) - v_q_34873));
                       v_V_34864.Wd && v_X_34866.Y3([v_V_34864.Kd, v_V_34864.zd, 0], v_K_34868), v_X_34866.Y3([0, 0, 0], v_z_34867);
                     }
                   } else v_V_34864.Wd && v_X_34866.Y3([v_V_34864.Kd, v_V_34864.zd, 0], v_K_34868), v_X_34866.Y3([0, 0, 0], v_z_34867);
@@ -735,37 +735,37 @@
                   var v_c_34970 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                   v_al_28152.Q3(0, 0, 0, 1, v_m_34899), v_xt_28153.rh(v_i_34962.A_, v_m_34899, v_p_34900), v_c_34970[0] = v_p_34900.m[0], v_c_34970[1] = v_p_34900.m[1], v_c_34970[2] = v_p_34900.m[2], v_al_28152.Q3(v_i_34962.Le, 0, 0, 1, v_m_34899), v_xt_28153.rh(v_i_34962.A_, v_m_34899, v_p_34900), v_c_34970[3] = v_p_34900.m[0], v_c_34970[4] = v_p_34900.m[1], v_c_34970[5] = v_p_34900.m[2], v_al_28152.Q3(0, v_i_34962.G0, 0, 1, v_m_34899), v_xt_28153.rh(v_i_34962.A_, v_m_34899, v_p_34900), v_c_34970[6] = v_p_34900.m[0], v_c_34970[7] = v_p_34900.m[1], v_c_34970[8] = v_p_34900.m[2], v_al_28152.Q3(v_i_34962.Le, v_i_34962.G0, 0, 1, v_m_34899), v_xt_28153.rh(v_i_34962.A_, v_m_34899, v_p_34900), v_c_34970[9] = v_p_34900.m[0], v_c_34970[10] = v_p_34900.m[1], v_c_34970[11] = v_p_34900.m[2];
                   {
-                    var v_u_34971 = [v_me_27822(v_c_34970[0], v_me_27822(v_c_34970[3], v_me_27822(v_c_34970[6], v_c_34970[9]))), v_me_27822(v_c_34970[1], v_me_27822(v_c_34970[4], v_me_27822(v_c_34970[7], v_c_34970[10]))) - 10 * v_e_34964, v_pe_27823(v_c_34970[0], v_pe_27823(v_c_34970[3], v_pe_27823(v_c_34970[6], v_c_34970[9]))), v_pe_27823(v_c_34970[1], v_pe_27823(v_c_34970[4], v_pe_27823(v_c_34970[7], v_c_34970[10]))) + 10 * v_e_34964];
+                    var v_u_34971 = [mathMin(v_c_34970[0], mathMin(v_c_34970[3], mathMin(v_c_34970[6], v_c_34970[9]))), mathMin(v_c_34970[1], mathMin(v_c_34970[4], mathMin(v_c_34970[7], v_c_34970[10]))) - 10 * v_e_34964, mathMax(v_c_34970[0], mathMax(v_c_34970[3], mathMax(v_c_34970[6], v_c_34970[9]))), mathMax(v_c_34970[1], mathMax(v_c_34970[4], mathMax(v_c_34970[7], v_c_34970[10]))) + 10 * v_e_34964];
                     v_a_34967[0] = v_u_34971[0], v_a_34967[1] = -v_u_34971[1], v_a_34967[2] = 0, v_a_34967[3] = v_u_34971[2], v_a_34967[4] = -v_u_34971[1], v_a_34967[5] = 0, v_a_34967[6] = v_u_34971[0], v_a_34967[7] = -v_u_34971[3], v_a_34967[8] = 0, v_a_34967[9] = v_u_34971[2], v_a_34967[10] = -v_u_34971[3], v_a_34967[11] = 0, v_l_34969[0] = v_u_34971[0] / v_f_34888, v_l_34969[1] = 1 - v_u_34971[1] / v___34889, v_l_34969[2] = v_u_34971[2] / v_f_34888, v_l_34969[3] = 1 - v_u_34971[1] / v___34889, v_l_34969[4] = v_u_34971[0] / v_f_34888, v_l_34969[5] = 1 - v_u_34971[3] / v___34889, v_l_34969[6] = v_u_34971[2] / v_f_34888, v_l_34969[7] = 1 - v_u_34971[3] / v___34889, v_R_34844.jh.jl("vertices", 12), v_R_34844.jh.jl("coords", 8), v_R_34844.jh.jl("colors", 16);
                   }
-                  for (v_R_34844.Cc(2), v_R_34844.Nh(1), v_se_27562.clear(v_se_27562.COLOR_BUFFER_BIT), v_se_27562.disable(v_se_27562.STENCIL_TEST), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), v_Gt_27632.weight = v_b_34902, v_Gt_27632.offset = v_e_34964 / v_f_34888, v_Tt_27609.uniforms(v_Gt_27632).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), v_se_27562.TRIANGLES, 6), ++v_R_34844.Ph.Hh, v_r_34965 = 0; v_r_34965 < 12; ++v_r_34965) v_a_34967[v_r_34965] = v_c_34970[v_r_34965];
+                  for (v_R_34844.Cc(2), v_R_34844.Nh(1), glContext.clear(glContext.COLOR_BUFFER_BIT), glContext.disable(glContext.STENCIL_TEST), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), v_Gt_27632.weight = v_b_34902, v_Gt_27632.offset = v_e_34964 / v_f_34888, v_Tt_27609.uniforms(v_Gt_27632).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), glContext.TRIANGLES, 6), ++v_R_34844.Ph.Hh, v_r_34965 = 0; v_r_34965 < 12; ++v_r_34965) v_a_34967[v_r_34965] = v_c_34970[v_r_34965];
                   for (v_l_34969[0] = v_a_34967[0] / v_f_34888, v_l_34969[1] = 1 - v_a_34967[1] / v___34889, v_l_34969[2] = v_a_34967[3] / v_f_34888, v_l_34969[3] = 1 - v_a_34967[4] / v___34889, v_l_34969[4] = v_a_34967[6] / v_f_34888, v_l_34969[5] = 1 - v_a_34967[7] / v___34889, v_l_34969[6] = v_a_34967[9] / v_f_34888, v_l_34969[7] = 1 - v_a_34967[10] / v___34889, v_r_34965 = 0; v_r_34965 < 4; ++v_r_34965) v_a_34967[3 * v_r_34965 + 1] *= -1;
-                  v_R_34844.jh.jl("vertices", 12), v_R_34844.jh.jl("coords", 8), v_R_34844.Cc(1), v_R_34844.Nh(2), 1 === v_t_34961.Md ? v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE) : 2 === v_t_34961.Md ? v_se_27562.blendFunc(v_se_27562.DST_COLOR, v_se_27562.ZERO) : v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA);
-                  0 === v_I_34910.kh ? v_se_27562.disable(v_se_27562.STENCIL_TEST) : (v_se_27562.enable(v_se_27562.STENCIL_TEST), v_se_27562.stencilFunc(v_se_27562.EQUAL, v_I_34910.kh, 255), v_se_27562.stencilOp(v_se_27562.KEEP, v_se_27562.KEEP, v_se_27562.KEEP));
-                  v_Ut_27633.weight = v_b_34902, v_Ut_27633.offset = v_e_34964 / v___34889, v_It_27610.uniforms(v_Ut_27633).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), v_se_27562.TRIANGLES, 6), ++v_R_34844.Ph.Hh;
+                  v_R_34844.jh.jl("vertices", 12), v_R_34844.jh.jl("coords", 8), v_R_34844.Cc(1), v_R_34844.Nh(2), 1 === v_t_34961.Md ? glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE) : 2 === v_t_34961.Md ? glContext.blendFunc(glContext.DST_COLOR, glContext.ZERO) : glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA);
+                  0 === v_I_34910.kh ? glContext.disable(glContext.STENCIL_TEST) : (glContext.enable(glContext.STENCIL_TEST), glContext.stencilFunc(glContext.EQUAL, v_I_34910.kh, 255), glContext.stencilOp(glContext.KEEP, glContext.KEEP, glContext.KEEP));
+                  v_Ut_27633.weight = v_b_34902, v_Ut_27633.offset = v_e_34964 / v___34889, v_It_27610.uniforms(v_Ut_27633).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), glContext.TRIANGLES, 6), ++v_R_34844.Ph.Hh;
                 } : function (v_i_34975, v_e_34976) {
                   var v_t_34977 = v_R_34844.jh.Gl("vertices"),
                     v_n_34978 = v_R_34844.jh.Gl("colors"),
                     v_r_34979 = v_R_34844.jh.Gl("coords");
                   v_al_28152.Q3(0, 0, 0, 1, v_m_34899), v_xt_28153.rh(v_e_34976.A_, v_m_34899, v_p_34900), v_t_34977[0] = v_p_34900.m[0], v_t_34977[1] = -v_p_34900.m[1], v_t_34977[2] = v_p_34900.m[2], v_al_28152.Q3(v_e_34976.Le, 0, 0, 1, v_m_34899), v_xt_28153.rh(v_e_34976.A_, v_m_34899, v_p_34900), v_t_34977[3] = v_p_34900.m[0], v_t_34977[4] = -v_p_34900.m[1], v_t_34977[5] = v_p_34900.m[2], v_al_28152.Q3(0, v_e_34976.G0, 0, 1, v_m_34899), v_xt_28153.rh(v_e_34976.A_, v_m_34899, v_p_34900), v_t_34977[6] = v_p_34900.m[0], v_t_34977[7] = -v_p_34900.m[1], v_t_34977[8] = v_p_34900.m[2], v_al_28152.Q3(v_e_34976.Le, v_e_34976.G0, 0, 1, v_m_34899), v_xt_28153.rh(v_e_34976.A_, v_m_34899, v_p_34900), v_t_34977[9] = v_p_34900.m[0], v_t_34977[10] = -v_p_34900.m[1], v_t_34977[11] = v_p_34900.m[2], v_r_34979[0] = v_t_34977[0] / v_f_34888, v_r_34979[1] = 1 + v_t_34977[1] / v___34889, v_r_34979[2] = v_t_34977[3] / v_f_34888, v_r_34979[3] = 1 + v_t_34977[4] / v___34889, v_r_34979[4] = v_t_34977[6] / v_f_34888, v_r_34979[5] = 1 + v_t_34977[7] / v___34889, v_r_34979[6] = v_t_34977[9] / v_f_34888, v_r_34979[7] = 1 + v_t_34977[10] / v___34889;
                   for (let v_t_34984 = 0; v_t_34984 < 4; ++v_t_34984) v_n_34978[4 * v_t_34984 + 0] = v_i_34975.Fe[0 + 4 * v_t_34984], v_n_34978[4 * v_t_34984 + 1] = v_i_34975.Fe[1 + 4 * v_t_34984], v_n_34978[4 * v_t_34984 + 2] = v_i_34975.Fe[2 + 4 * v_t_34984], v_n_34978[4 * v_t_34984 + 3] = v_i_34975.Fe[3 + 4 * v_t_34984] * v_e_34976.xh.qe;
-                  v_R_34844.jh.jl("vertices", 12), v_R_34844.jh.jl("coords", 8), v_R_34844.jh.jl("colors", 16), v_R_34844.Cc(2), v_R_34844.Nh(1), v_se_27562.clear(v_se_27562.COLOR_BUFFER_BIT), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), v_se_27562.disable(v_se_27562.STENCIL_TEST), v_Et_27616.uniforms(v_Ht_27634).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), v_se_27562.TRIANGLES, 6), ++v_R_34844.Ph.Hh, v_R_34844.Cc(1), v_R_34844.Nh(2), 1 === v_i_34975.Md ? v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE) : 2 === v_i_34975.Md ? v_se_27562.blendFunc(v_se_27562.DST_COLOR, v_se_27562.ZERO) : v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA);
-                  0 === v_I_34910.kh ? v_se_27562.disable(v_se_27562.STENCIL_TEST) : (v_se_27562.enable(v_se_27562.STENCIL_TEST), v_se_27562.stencilFunc(v_se_27562.EQUAL, v_I_34910.kh, 255), v_se_27562.stencilOp(v_se_27562.KEEP, v_se_27562.KEEP, v_se_27562.KEEP));
+                  v_R_34844.jh.jl("vertices", 12), v_R_34844.jh.jl("coords", 8), v_R_34844.jh.jl("colors", 16), v_R_34844.Cc(2), v_R_34844.Nh(1), glContext.clear(glContext.COLOR_BUFFER_BIT), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), glContext.disable(glContext.STENCIL_TEST), v_Et_27616.uniforms(v_Ht_27634).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), glContext.TRIANGLES, 6), ++v_R_34844.Ph.Hh, v_R_34844.Cc(1), v_R_34844.Nh(2), 1 === v_i_34975.Md ? glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE) : 2 === v_i_34975.Md ? glContext.blendFunc(glContext.DST_COLOR, glContext.ZERO) : glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA);
+                  0 === v_I_34910.kh ? glContext.disable(glContext.STENCIL_TEST) : (glContext.enable(glContext.STENCIL_TEST), glContext.stencilFunc(glContext.EQUAL, v_I_34910.kh, 255), glContext.stencilOp(glContext.KEEP, glContext.KEEP, glContext.KEEP));
                   switch (v_i_34975.Qd) {
                     case 3:
-                      v_Jt_27635.amount = v_i_34975.eh[0], v_Rt_27613.uniforms(v_Jt_27635).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), v_se_27562.TRIANGLES, 6);
+                      v_Jt_27635.amount = v_i_34975.eh[0], v_Rt_27613.uniforms(v_Jt_27635).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), glContext.TRIANGLES, 6);
                       break;
                     case 4:
                       v_Lt_27614.uniforms({
                         texture: 0,
                         shiftHsl: [v_i_34975.eh[0], v_i_34975.eh[2] / 100, v_i_34975.eh[1] / 100]
-                      }).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), v_se_27562.TRIANGLES, 6);
+                      }).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), glContext.TRIANGLES, 6);
                       break;
                     case 5:
-                      v_Jt_27635.amount = v_i_34975.eh[0], v_Mt_27615.uniforms(v_Jt_27635).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), v_se_27562.TRIANGLES, 6);
+                      v_Jt_27635.amount = v_i_34975.eh[0], v_Mt_27615.uniforms(v_Jt_27635).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), glContext.TRIANGLES, 6);
                       break;
                     case 6:
-                      v_Jt_27635.amount = v_i_34975.eh[0], v_Bt_27619.uniforms(v_Jt_27635).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), v_se_27562.TRIANGLES, 6);
+                      v_Jt_27635.amount = v_i_34975.eh[0], v_Bt_27619.uniforms(v_Jt_27635).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), glContext.TRIANGLES, 6);
                       break;
                     case 7:
                       var v_s_34980,
@@ -775,7 +775,7 @@
                         texture1: 1,
                         centerCoord: v_s_34980,
                         height: v_i_34975.eh[0]
-                      }).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), v_se_27562.TRIANGLES, 6));
+                      }).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), glContext.TRIANGLES, 6));
                       break;
                     case 8:
                       v_Dt_27617.uniforms({
@@ -783,7 +783,7 @@
                         height: v_i_34975.eh[1],
                         time: v_i_34975.Dd.rr - .0166667 * v_i_34975.Dd.ud * v_i_34975.eh[2],
                         size: [1, 1]
-                      }).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), v_se_27562.TRIANGLES, 6);
+                      }).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), glContext.TRIANGLES, 6);
                       break;
                     case 9:
                       var v_o_34982,
@@ -792,14 +792,14 @@
                         texture: 0,
                         texture1: 1,
                         height: v_i_34975.eh[0]
-                      }).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), v_se_27562.TRIANGLES, 6));
+                      }).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), glContext.TRIANGLES, 6));
                       break;
                     case 10:
                       v_Pt_27611.uniforms({
                         texture: 0,
                         weight: v_i_34975.eh[0],
                         offset: v_i_34975.eh[1]
-                      }).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), v_se_27562.TRIANGLES, 6);
+                      }).drawBuffers(v_R_34844.jh.Nl(), v_R_34844.jh.Yl(), glContext.TRIANGLES, 6);
                   }
                 })(v_c_34849, v_u_34850));
             }
@@ -822,26 +822,26 @@
           return 0 < v_t_34986.xh.wd || 0 < v_t_34986.xh.Nn;
         }
         function v_st_34915() {
-          switch (0 === v_I_34910.kh ? v_se_27562.disable(v_se_27562.STENCIL_TEST) : (v_se_27562.enable(v_se_27562.STENCIL_TEST), v_I_34910.bh ? (v_se_27562.stencilFunc(v_se_27562.EQUAL, v_I_34910.kh - 1, 255), v_se_27562.stencilOp(v_se_27562.KEEP, v_se_27562.INCR, v_se_27562.INCR)) : (v_se_27562.stencilFunc(v_se_27562.EQUAL, v_I_34910.kh, 255), v_se_27562.stencilOp(v_se_27562.KEEP, v_se_27562.KEEP, v_se_27562.KEEP))), v_I_34910.Ah) {
+          switch (0 === v_I_34910.kh ? glContext.disable(glContext.STENCIL_TEST) : (glContext.enable(glContext.STENCIL_TEST), v_I_34910.bh ? (glContext.stencilFunc(glContext.EQUAL, v_I_34910.kh - 1, 255), glContext.stencilOp(glContext.KEEP, glContext.INCR, glContext.INCR)) : (glContext.stencilFunc(glContext.EQUAL, v_I_34910.kh, 255), glContext.stencilOp(glContext.KEEP, glContext.KEEP, glContext.KEEP))), v_I_34910.Ah) {
             case 1:
-              v_R_34844.xf.jl("vertices", 3 * v_I_34910.Th), v_R_34844.xf.jl("colors", 4 * v_I_34910.Th), 1 === v_I_34910.Md ? v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE) : 2 === v_I_34910.Md ? v_se_27562.blendFunc(v_se_27562.DST_COLOR, v_se_27562.ZERO) : v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), (v_I_34910.bh ? v_R_34844.Vh.Uh : v_R_34844.Vh.Fe).drawBuffers(v_R_34844.xf.Nl(), v_R_34844.xf.Yl(), v_se_27562.TRIANGLES, v_I_34910.Th / 2 * 3), ++v_R_34844.Ph.Hh;
+              v_R_34844.xf.jl("vertices", 3 * v_I_34910.Th), v_R_34844.xf.jl("colors", 4 * v_I_34910.Th), 1 === v_I_34910.Md ? glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE) : 2 === v_I_34910.Md ? glContext.blendFunc(glContext.DST_COLOR, glContext.ZERO) : glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), (v_I_34910.bh ? v_R_34844.Vh.Uh : v_R_34844.Vh.Fe).drawBuffers(v_R_34844.xf.Nl(), v_R_34844.xf.Yl(), glContext.TRIANGLES, v_I_34910.Th / 2 * 3), ++v_R_34844.Ph.Hh;
               break;
             case 2:
               {
-                v_R_34844.xf.jl("vertices", 3 * v_I_34910.Th), v_R_34844.xf.jl("colors", 4 * v_I_34910.Th), v_R_34844.xf.jl("coords", 2 * v_I_34910.Th), v_I_34910.Sh && (v_R_34844.xf.jl("attrTexBrightness", v_I_34910.Th), v_R_34844.xf.jl("attrTexGrayscale", v_I_34910.Th)), 1 === v_I_34910.Md ? v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE) : 2 === v_I_34910.Md ? v_se_27562.blendFunc(v_se_27562.DST_COLOR, v_se_27562.ZERO) : v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA);
+                v_R_34844.xf.jl("vertices", 3 * v_I_34910.Th), v_R_34844.xf.jl("colors", 4 * v_I_34910.Th), v_R_34844.xf.jl("coords", 2 * v_I_34910.Th), v_I_34910.Sh && (v_R_34844.xf.jl("attrTexBrightness", v_I_34910.Th), v_R_34844.xf.jl("attrTexGrayscale", v_I_34910.Th)), 1 === v_I_34910.Md ? glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE) : 2 === v_I_34910.Md ? glContext.blendFunc(glContext.DST_COLOR, glContext.ZERO) : glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA);
                 let v_t_34987;
                 if (v_t_34987 = (v_I_34910.Ib ? v_R_34844.Zt : v_R_34844.Mf)[v_I_34910.Ab]) if (v_t_34987.bind(0), "" === v_I_34910.Cb) {
                   let v_t_34988;
-                  (v_t_34988 = v_I_34910.bh ? v_R_34844.Vh.Oh : v_I_34910.Sh ? v_R_34844.Vh.Jh : v_R_34844.Vh.Yf).uniforms(v_vn_27625).drawBuffers(v_R_34844.xf.Nl(), v_R_34844.xf.Yl(), v_se_27562.TRIANGLES, v_I_34910.Th / 2 * 3);
+                  (v_t_34988 = v_I_34910.bh ? v_R_34844.Vh.Oh : v_I_34910.Sh ? v_R_34844.Vh.Jh : v_R_34844.Vh.Yf).uniforms(v_vn_27625).drawBuffers(v_R_34844.xf.Nl(), v_R_34844.xf.Yl(), glContext.TRIANGLES, v_I_34910.Th / 2 * 3);
                 } else {
                   v_R_34844.xf.jl("texCoord1", 2 * v_I_34910.Th);
                   let v_t_34989;
-                  (v_t_34989 = (v_I_34910.Tb ? v_R_34844.Zt : v_R_34844.Mf)[v_I_34910.Cb]) && (v_t_34989.bind(1), v_R_34844.Vh.Rb.uniforms(v_Nt_27626).drawBuffers(v_R_34844.xf.Nl(), v_R_34844.xf.Yl(), v_se_27562.TRIANGLES, v_I_34910.Th / 2 * 3));
+                  (v_t_34989 = (v_I_34910.Tb ? v_R_34844.Zt : v_R_34844.Mf)[v_I_34910.Cb]) && (v_t_34989.bind(1), v_R_34844.Vh.Rb.uniforms(v_Nt_27626).drawBuffers(v_R_34844.xf.Nl(), v_R_34844.xf.Yl(), glContext.TRIANGLES, v_I_34910.Th / 2 * 3));
                 }
                 ++v_R_34844.Ph.Hh;
               }
           }
-          v_I_34910.kh > v_P_34911.kh && (v_se_27562.enable(v_se_27562.STENCIL_TEST), v_se_27562.stencilFunc(v_se_27562.LESS, v_P_34911.stencilDepth - 1, 255), v_se_27562.stencilOp(v_se_27562.KEEP, v_se_27562.REPLACE, v_se_27562.REPLACE), v_y_34904[0] = 0, v_y_34904[1] = 0, v_y_34904[2] = 0, v_y_34904[3] = v_f_34888, v_y_34904[4] = 0, v_y_34904[5] = 0, v_y_34904[6] = 0, v_y_34904[7] = -v___34889, v_y_34904[8] = 0, v_y_34904[9] = v_f_34888, v_y_34904[10] = -v___34889, v_y_34904[11] = 0, v_R_34844.xf.jl("vertices", 12), v_R_34844.Vh.Uh.drawBuffers(v_R_34844.xf.Nl(), v_R_34844.xf.Yl(), v_se_27562.TRIANGLES, 6), ++v_R_34844.Ph.Hh), v_I_34910.yb(v_P_34911), v_P_34911.Lb = 0, v_P_34911.bh = !1, v_P_34911.Sh = !1, v_P_34911.Ab = "", v_P_34911.Ib = !1, v_P_34911.Cb = "", v_P_34911.Tb = !1;
+          v_I_34910.kh > v_P_34911.kh && (glContext.enable(glContext.STENCIL_TEST), glContext.stencilFunc(glContext.LESS, v_P_34911.stencilDepth - 1, 255), glContext.stencilOp(glContext.KEEP, glContext.REPLACE, glContext.REPLACE), v_y_34904[0] = 0, v_y_34904[1] = 0, v_y_34904[2] = 0, v_y_34904[3] = v_f_34888, v_y_34904[4] = 0, v_y_34904[5] = 0, v_y_34904[6] = 0, v_y_34904[7] = -v___34889, v_y_34904[8] = 0, v_y_34904[9] = v_f_34888, v_y_34904[10] = -v___34889, v_y_34904[11] = 0, v_R_34844.xf.jl("vertices", 12), v_R_34844.Vh.Uh.drawBuffers(v_R_34844.xf.Nl(), v_R_34844.xf.Yl(), glContext.TRIANGLES, 6), ++v_R_34844.Ph.Hh), v_I_34910.yb(v_P_34911), v_P_34911.Lb = 0, v_P_34911.bh = !1, v_P_34911.Sh = !1, v_P_34911.Ab = "", v_P_34911.Ib = !1, v_P_34911.Cb = "", v_P_34911.Tb = !1;
         }
         function v_pt_34916(v_t_34990) {
           v_P_34911.Ah = 4 === v_t_34990 ? 2 : v_t_34990;

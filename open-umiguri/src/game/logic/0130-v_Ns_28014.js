@@ -91,12 +91,12 @@
       },
       mA: function (v_t_33816, v_i_33817) {
         var v_e_33818 = new v_zr_27970();
-        return handshake.Mm.has(v_t_33816) && handshake.Mm.get(v_t_33816).has(v_i_33817) && (v_t_33816 = handshake.Mm.get(v_t_33816).get(v_i_33817), v_e_33818.Sr = v_me_27822(v_pe_27823(v_t_33816.Sr, 0), 101e4), v_e_33818.ni = !!v_t_33816.ni, v_e_33818.R4 = !!v_t_33816.R4, v_e_33818.B4 = !!v_t_33816.B4, v_e_33818.M4 = v_t_33816.M4, v_e_33818.D4 = v_t_33816.D4, v_e_33818.P4 = v_t_33816.P4, v_e_33818.G4 = v_t_33816.G4), v_e_33818;
+        return handshake.Mm.has(v_t_33816) && handshake.Mm.get(v_t_33816).has(v_i_33817) && (v_t_33816 = handshake.Mm.get(v_t_33816).get(v_i_33817), v_e_33818.Sr = mathMin(mathMax(v_t_33816.Sr, 0), 101e4), v_e_33818.ni = !!v_t_33816.ni, v_e_33818.R4 = !!v_t_33816.R4, v_e_33818.B4 = !!v_t_33816.B4, v_e_33818.M4 = v_t_33816.M4, v_e_33818.D4 = v_t_33816.D4, v_e_33818.P4 = v_t_33816.P4, v_e_33818.G4 = v_t_33816.G4), v_e_33818;
       },
       zy: async function (v_t_33819, v_i_33820, v_e_33821) {
         handshake.Mm.has(v_t_33819) || handshake.Mm.set(v_t_33819, new Map()), handshake.Mm.get(v_t_33819).has(v_i_33820) || handshake.Mm.get(v_t_33819).set(v_i_33820, new v_zr_27970());
         var v_n_33822 = handshake.Mm.get(v_t_33819).get(v_i_33820);
-        v_n_33822.Sr = v_me_27822(v_pe_27823(v_n_33822.Sr, v_e_33821.Sr, 0), 101e4), v_n_33822.ni = v_e_33821.ni || v_n_33822.ni, v_n_33822.R4 = v_e_33821.R4 || v_n_33822.R4, v_n_33822.B4 = v_e_33821.B4 || v_n_33822.B4, v_n_33822.M4 = v_e_33821.M4 || v_n_33822.M4, v_n_33822.D4 = v_e_33821.D4, v_n_33822.P4 = v_pe_27823(v_n_33822.P4, v_e_33821.P4), v_n_33822.G4 = !0, v_r_33807 || (v_Xt_27648 ? await v_Xt_27648.yA(v_t_33819, v_i_33820, v_n_33822.Sr, v_Bs_28013.PA(v_n_33822.ni, v_n_33822.R4, v_n_33822.B4, v_n_33822.M4), v_n_33822.P4, v_n_33822.D4) : (recordsStore.W0({
+        v_n_33822.Sr = mathMin(mathMax(v_n_33822.Sr, v_e_33821.Sr, 0), 101e4), v_n_33822.ni = v_e_33821.ni || v_n_33822.ni, v_n_33822.R4 = v_e_33821.R4 || v_n_33822.R4, v_n_33822.B4 = v_e_33821.B4 || v_n_33822.B4, v_n_33822.M4 = v_e_33821.M4 || v_n_33822.M4, v_n_33822.D4 = v_e_33821.D4, v_n_33822.P4 = mathMax(v_n_33822.P4, v_e_33821.P4), v_n_33822.G4 = !0, v_r_33807 || (v_Xt_27648 ? await v_Xt_27648.yA(v_t_33819, v_i_33820, v_n_33822.Sr, v_Bs_28013.PA(v_n_33822.ni, v_n_33822.R4, v_n_33822.B4, v_n_33822.M4), v_n_33822.P4, v_n_33822.D4) : (recordsStore.W0({
           K0: "music",
           ee: v_t_33819,
           te: v_i_33820
@@ -112,12 +112,12 @@
       },
       gA: function (v_t_33827) {
         var v_i_33828 = new v_zr_27970();
-        return handshake.Em.has(v_t_33827) && (v_t_33827 = handshake.Em.get(v_t_33827), v_i_33828.Sr = v_me_27822(v_pe_27823(v_t_33827.Sr, 0), 303e4), v_i_33828.ni = !!v_t_33827.ni, v_i_33828.R4 = !!v_t_33827.R4, v_i_33828.B4 = !!v_t_33827.B4, v_i_33828.D4 = v_t_33827.D4, v_i_33828.P4 = v_t_33827.P4, v_i_33828.G4 = v_t_33827.G4), v_i_33828;
+        return handshake.Em.has(v_t_33827) && (v_t_33827 = handshake.Em.get(v_t_33827), v_i_33828.Sr = mathMin(mathMax(v_t_33827.Sr, 0), 303e4), v_i_33828.ni = !!v_t_33827.ni, v_i_33828.R4 = !!v_t_33827.R4, v_i_33828.B4 = !!v_t_33827.B4, v_i_33828.D4 = v_t_33827.D4, v_i_33828.P4 = v_t_33827.P4, v_i_33828.G4 = v_t_33827.G4), v_i_33828;
       },
       jy: async function (v_t_33829, v_i_33830) {
         handshake.Em.has(v_t_33829) || handshake.Em.set(v_t_33829, new v_zr_27970());
         var v_e_33831 = handshake.Em.get(v_t_33829);
-        v_e_33831.Sr = v_me_27822(v_pe_27823(v_e_33831.Sr, v_i_33830.Sr, 0), 303e4), v_e_33831.ni = v_i_33830.ni || v_e_33831.ni, v_e_33831.R4 = v_i_33830.R4 || v_e_33831.R4, v_e_33831.B4 = v_i_33830.B4 || v_e_33831.B4, v_e_33831.D4 = v_i_33830.D4, v_e_33831.P4 = v_pe_27823(v_e_33831.P4, v_i_33830.P4), v_e_33831.G4 = !0, v_r_33807 || (v_Xt_27648 ? await v_Xt_27648.AA(musicId, musicDiff, v_e_33831.Sr, v_Bs_28013.PA(v_e_33831.ni, v_e_33831.R4, v_e_33831.B4, 0), v_e_33831.P4, v_e_33831.D4) : (recordsStore.W0({
+        v_e_33831.Sr = mathMin(mathMax(v_e_33831.Sr, v_i_33830.Sr, 0), 303e4), v_e_33831.ni = v_i_33830.ni || v_e_33831.ni, v_e_33831.R4 = v_i_33830.R4 || v_e_33831.R4, v_e_33831.B4 = v_i_33830.B4 || v_e_33831.B4, v_e_33831.D4 = v_i_33830.D4, v_e_33831.P4 = mathMax(v_e_33831.P4, v_i_33830.P4), v_e_33831.G4 = !0, v_r_33807 || (v_Xt_27648 ? await v_Xt_27648.AA(musicId, musicDiff, v_e_33831.Sr, v_Bs_28013.PA(v_e_33831.ni, v_e_33831.R4, v_e_33831.B4, 0), v_e_33831.P4, v_e_33831.D4) : (recordsStore.W0({
           K0: "course",
           lk: v_t_33829
         }, "records", v_e_33831, !0), await new Promise(v_t_33832 => recordsStore.mi("records", v_t_33832))));

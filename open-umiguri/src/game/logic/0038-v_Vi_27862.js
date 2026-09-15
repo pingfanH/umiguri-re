@@ -4,5 +4,5 @@
 // 说明: 本文件是 bundle 片段, 由 build/assemble-game.mjs 按 manifest 拼接;请勿手改拼接顺序。
 
   function v_Vi_27862() {
-    v_r_27566 = !1, v_o_27569 = performance.now(), v_Ci_27837(v_Oi_27861);
+    v_r_27566 = !1, v_o_27569 = performance.now(), raf(v_Oi_27861);
   }

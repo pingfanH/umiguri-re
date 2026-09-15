@@ -16,7 +16,7 @@
       let v_n_32675 = 0;
       for (const v_s_32677 of v_be_27857.Pp) if (null === v_s_32677.meta[4]) for (let v_i_32678 = 0; v_i_32678 < 5; ++v_i_32678) v_e_32674.kI && -1 !== v_e_32674.yP.findIndex(v_t_32679 => v_t_32679.Pp.w0 === v_s_32677.w0 && v_t_32679.p0 === v_i_32678) || null !== v_s_32677.meta[v_i_32678] && v_s_32677.meta[v_i_32678].k5 === this.p9 && ++v_n_32675;
       if (v_n_32675) {
-        var v_r_32676 = v_ke_27824(v_ge_27821() * v_n_32675);
+        var v_r_32676 = mathFloor(mathRandom() * v_n_32675);
         let v_t_32680 = 0;
         for (const v_a_32681 of v_be_27857.Pp) if (null === v_a_32681.meta[4]) for (let v_i_32682 = 0; v_i_32682 < 5; ++v_i_32682) if ((!v_e_32674.kI || -1 === v_e_32674.yP.findIndex(v_t_32683 => v_t_32683.Pp.w0 === v_a_32681.w0 && v_t_32683.p0 === v_i_32682)) && null !== v_a_32681.meta[v_i_32682] && v_a_32681.meta[v_i_32682].k5 === this.p9) {
           if (v_r_32676 === v_t_32680) return v_e_32674.yP.push({
@@ -33,7 +33,7 @@
       let v_e_32685 = 0;
       for (const v_r_32687 of this.V2) v_i_32684.kI && -1 !== v_i_32684.yP.findIndex(v_t_32688 => v_t_32688.Pp.w0 === v_r_32687.ee && v_t_32688.p0 === v_r_32687.te) || ++v_e_32685;
       if (v_e_32685) {
-        var v_n_32686 = v_ke_27824(v_ge_27821() * v_e_32685);
+        var v_n_32686 = mathFloor(mathRandom() * v_e_32685);
         let v_t_32689 = 0;
         for (const v_s_32690 of this.V2) if (!v_i_32684.kI || -1 === v_i_32684.yP.findIndex(v_t_32691 => v_t_32691.Pp.w0 === v_s_32690.ee && v_t_32691.p0 === v_s_32690.te)) {
           if (v_n_32686 === v_t_32689) return v_s_32690.yI(v_i_32684);

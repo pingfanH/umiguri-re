@@ -137,18 +137,18 @@
         var v_r_34242 = 3 * this.Lv,
           v_s_34243 = 2 * this.Rv,
           v_a_34244 = this.Ev;
-        if (!(v_s1_27830(v_r_34242) < 1e-7 && v_s1_27830(v_s_34243) < 1e-7)) {
+        if (!(mathAbs(v_r_34242) < 1e-7 && mathAbs(v_s_34243) < 1e-7)) {
           let v_t_34245 = 0,
             v_i_34246 = 0;
-          if (v_s1_27830(v_r_34242) < 1e-7) v_t_34245 = -v_a_34244 / v_s_34243;else {
+          if (mathAbs(v_r_34242) < 1e-7) v_t_34245 = -v_a_34244 / v_s_34243;else {
             v_a_34244 = v_s_34243 * v_s_34243 - 4 * v_r_34242 * v_a_34244;
             if (v_a_34244 < 0) return;
-            v_a_34244 = v_Si_27831(v_a_34244);
+            v_a_34244 = mathSqrt(v_a_34244);
             v_t_34245 = (-v_s_34243 + v_a_34244) / (2 * v_r_34242), v_i_34246 = (-v_s_34243 - v_a_34244) / (2 * v_r_34242);
           }
           let v_e_34247 = 0,
             v_n_34248 = 0;
-          0 < v_t_34245 && v_t_34245 < 1 && (v_e_34247 = this.Jv(v_t_34245)), 0 < v_i_34246 && v_i_34246 < 1 && (v_n_34248 = this.Jv(v_i_34246)), this.Fv = v_me_27822(this.Fv, v_e_34247, v_n_34248), this.Dv = v_pe_27823(this.Dv, v_e_34247, v_n_34248);
+          0 < v_t_34245 && v_t_34245 < 1 && (v_e_34247 = this.Jv(v_t_34245)), 0 < v_i_34246 && v_i_34246 < 1 && (v_n_34248 = this.Jv(v_i_34246)), this.Fv = mathMin(this.Fv, v_e_34247, v_n_34248), this.Dv = mathMax(this.Dv, v_e_34247, v_n_34248);
         }
       }
     },
@@ -168,14 +168,14 @@
         v_n_34254 = v_l_34259 * v_o_34258, v_e_34253 = v_n_34254 - v_l_34259, v_r_34255 = v_e_34253 + (v_n_34254 - v_e_34253) * (v_t_34251 - this.Pv[v_o_34258 - 1]) / (this.Pv[v_o_34258] - this.Pv[v_o_34258 - 1]);
         break;
       }
-      var v_c_34260 = v_me_27822(1e-7, v_i_34252);
+      var v_c_34260 = mathMin(1e-7, v_i_34252);
       for (v_o_34258 = 0; v_o_34258 < 4; ++v_o_34258) {
-        if (v_s_34256 = this.Vv(v_r_34255) - v_t_34251, v_s1_27830(v_s_34256) < v_c_34260) return v_r_34255;
-        if (v_a_34257 = this.Ov(v_r_34255), v_s1_27830(v_a_34257) < 1e-7) break;
+        if (v_s_34256 = this.Vv(v_r_34255) - v_t_34251, mathAbs(v_s_34256) < v_c_34260) return v_r_34255;
+        if (v_a_34257 = this.Ov(v_r_34255), mathAbs(v_a_34257) < 1e-7) break;
         v_r_34255 -= v_s_34256 / v_a_34257;
       }
-      if (!(v_s1_27830(v_s_34256) < v_i_34252)) for (; v_e_34253 < v_n_34254;) {
-        if (v_s_34256 = this.Vv(v_r_34255), v_s1_27830(v_s_34256 - v_t_34251) < v_i_34252) return v_r_34255;
+      if (!(mathAbs(v_s_34256) < v_i_34252)) for (; v_e_34253 < v_n_34254;) {
+        if (v_s_34256 = this.Vv(v_r_34255), mathAbs(v_s_34256 - v_t_34251) < v_i_34252) return v_r_34255;
         v_t_34251 > v_s_34256 ? v_e_34253 = v_r_34255 : v_n_34254 = v_r_34255, v_r_34255 = .5 * (v_n_34254 + v_e_34253);
       }
       return v_r_34255;
@@ -187,7 +187,7 @@
       return this.Xv(v_t_34263, 1e-7);
     },
     Yv: function (v_t_34264, v_i_34265) {
-      v_t_34264 = this.Kv(v_me_27822(v_pe_27823(v_t_34264, 0), 1), v_i_34265), v_i_34265 = this.Ov(v_t_34264), v_t_34264 = this.Wv(v_t_34264);
+      v_t_34264 = this.Kv(mathMin(mathMax(v_t_34264, 0), 1), v_i_34265), v_i_34265 = this.Ov(v_t_34264), v_t_34264 = this.Wv(v_t_34264);
       return v_i_34265 || v_t_34264 ? this.Uv(v_t_34264 / v_i_34265) : 0;
     },
     Zv: function (v_t_34266) {

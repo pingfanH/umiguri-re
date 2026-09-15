@@ -4,5 +4,5 @@
 // 说明: 本文件是 bundle 片段, 由 build/assemble-game.mjs 按 manifest 拼接;请勿手改拼接顺序。
 
   function v_ec_28201() {
-    return v_ke_27824(4294967295 * v_ge_27821());
+    return mathFloor(4294967295 * mathRandom());
   }

@@ -69,7 +69,7 @@
         let v_r_30354 = 1 / 0,
           v_s_30355 = 0;
         for (let v_i_30358 = 1; v_i_30358 < v_Et_30238.length; ++v_i_30358) {
-          let v_t_30359 = v_s1_27830(v_n_30353[0] - v_Et_30238[v_i_30358]);
+          let v_t_30359 = mathAbs(v_n_30353[0] - v_Et_30238[v_i_30358]);
           (v_t_30359 = 180 < v_t_30359 ? 360 - v_t_30359 : v_t_30359) < v_r_30354 && (v_r_30354 = v_t_30359, v_s_30355 = v_i_30358);
         }
         return v_s_30355;
@@ -245,11 +245,11 @@
         },
         za: function () {
           var v_t_30367 = this.q1.Zu.kr;
-          return v_ke_27824(101e4 * v_U_30262.Ta.Tr.Lr / v_t_30367 + 1e6 * v_U_30262.Ta.Tr.Er / v_t_30367 + 5e5 * v_U_30262.Ta.Tr.Fr / v_t_30367);
+          return mathFloor(101e4 * v_U_30262.Ta.Tr.Lr / v_t_30367 + 1e6 * v_U_30262.Ta.Tr.Er / v_t_30367 + 5e5 * v_U_30262.Ta.Tr.Fr / v_t_30367);
         },
         Xa: function () {
           var v_t_30368 = this.q1.Zu.kr;
-          return v_ke_27824(101e4 * (this.Ta.Tr.Lr + v_t_30368 - this.Ta.vr) / v_t_30368 + 1e6 * this.Ta.Tr.Er / v_t_30368 + 5e5 * this.Ta.Tr.Fr / v_t_30368);
+          return mathFloor(101e4 * (this.Ta.Tr.Lr + v_t_30368 - this.Ta.vr) / v_t_30368 + 1e6 * this.Ta.Tr.Er / v_t_30368 + 5e5 * this.Ta.Tr.Fr / v_t_30368);
         }
       };
       let v_x_30250 = void 0,
@@ -435,7 +435,7 @@
         v_Yt_30269 = 1024 * v_Kt_30268[16],
         v_qt_30270 = 512 * v_Kt_30268[8],
         v_Zt_30271 = .58778525229,
-        v_$t_30272 = v_Kt_30268.map((v_t_30369, v_i_30370) => 64 * v_i_30370 * v_me_27822(v_t_30369, .734375)),
+        v_$t_30272 = v_Kt_30268.map((v_t_30369, v_i_30370) => 64 * v_i_30370 * mathMin(v_t_30369, .734375)),
         v_M_30273 = v_Kt_30268.map((v_t_30371, v_i_30372) => 64 * v_i_30372 * .734375),
         v_j_30274 = v_t_30373 => v_D0_27740 / v_M0_27738 * v_t_30373,
         v_O_30275 = v_t_30374 => -100 / v_M0_27738 * v_t_30374;
@@ -622,38 +622,38 @@
         v_k_30287 = {
           Sl: async function (v_t_30379) {
             var v_i_30380 = {
-                wrapS: v_se_27562.CLAMP_TO_EDGE,
-                wrapT: v_se_27562.CLAMP_TO_EDGE,
-                format: v_se_27562.RGBA
+                wrapS: glContext.CLAMP_TO_EDGE,
+                wrapT: glContext.CLAMP_TO_EDGE,
+                format: glContext.RGBA
               },
               v_e_30381 = {
-                wrapS: v_se_27562.REPEAT,
-                wrapT: v_se_27562.REPEAT,
-                format: v_se_27562.RGBA
+                wrapS: glContext.REPEAT,
+                wrapT: glContext.REPEAT,
+                format: glContext.RGBA
               },
               v_n_30382 = {
-                wrapS: v_se_27562.REPEAT,
-                wrapT: v_se_27562.CLAMP_TO_EDGE,
-                format: v_se_27562.RGBA
+                wrapS: glContext.REPEAT,
+                wrapT: glContext.CLAMP_TO_EDGE,
+                format: glContext.RGBA
               },
               v_r_30383 = {
-                wrapS: v_se_27562.CLAMP_TO_EDGE,
-                wrapT: v_se_27562.REPEAT,
-                format: v_se_27562.RGBA
+                wrapS: glContext.CLAMP_TO_EDGE,
+                wrapT: glContext.REPEAT,
+                format: glContext.RGBA
               },
               v_s_30384 = {
-                wrapS: v_se_27562.MIRRORED_REPEAT,
-                wrapT: v_se_27562.REPEAT,
-                format: v_se_27562.RGBA
+                wrapS: glContext.MIRRORED_REPEAT,
+                wrapT: glContext.REPEAT,
+                format: glContext.RGBA
               },
-              v_a_30385 = (v_se_27562.MIRRORED_REPEAT, v_se_27562.MIRRORED_REPEAT, v_se_27562.RGBA, v_H_30265.Ps = new glRuntime.Texture(1920, 1080, {
-                format: v_se_27562.RGBA,
+              v_a_30385 = (glContext.MIRRORED_REPEAT, glContext.MIRRORED_REPEAT, glContext.RGBA, v_H_30265.Ps = new glRuntime.Texture(1920, 1080, {
+                format: glContext.RGBA,
                 noFlip: !0
               }), v_H_30265.Ds = new glRuntime.Texture(854, 480, {
-                format: v_se_27562.RGBA,
+                format: glContext.RGBA,
                 noFlip: !0
               }), v_H_30265.Gs = new glRuntime.Texture(1024, 1024, {
-                format: v_se_27562.RGBA
+                format: glContext.RGBA
               }), "field/textures/");
             v_H_30265.js = v_Be_28119(await languagePackages.ck(v_a_30385 + "txJudgeLine.dds"), !1, v_i_30380), v_H_30265.Uo.push(v_Be_28119(await languagePackages.ck(v_a_30385 + "txFieldLineWhite.dds"), !1, v_i_30380)), v_H_30265.Uo.push(v_Be_28119(await languagePackages.ck(v_a_30385 + "txFieldLineRed.dds"), !1, v_i_30380)), v_H_30265.Uo.push(v_Be_28119(await languagePackages.ck(v_a_30385 + "txFieldLineOrange.dds"), !1, v_i_30380)), v_H_30265.Uo.push(v_Be_28119(await languagePackages.ck(v_a_30385 + "txFieldLineYellow.dds"), !1, v_i_30380)), v_H_30265.Uo.push(v_Be_28119(await languagePackages.ck(v_a_30385 + "txFieldLineLime.dds"), !1, v_i_30380)), v_H_30265.Uo.push(v_Be_28119(await languagePackages.ck(v_a_30385 + "txFieldLineGreen.dds"), !1, v_i_30380)), v_H_30265.Uo.push(v_Be_28119(await languagePackages.ck(v_a_30385 + "txFieldLineSkyblue.dds"), !1, v_i_30380)), v_H_30265.Uo.push(v_Be_28119(await languagePackages.ck(v_a_30385 + "txFieldLineBlue.dds"), !1, v_i_30380)), v_H_30265.Uo.push(v_Be_28119(await languagePackages.ck(v_a_30385 + "txFieldLinePurple.dds"), !1, v_i_30380)), v_H_30265.Hs = v_Be_28119(await languagePackages.ck(v_a_30385 + "txFieldWall.dds"), !1, v_e_30381), v_H_30265.by = v_Be_28119(await languagePackages.ck(v_a_30385 + "txTap.dds"), !1, v_i_30380), v_H_30265.Os = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirUp.dds"), !1, v_s_30384), v_H_30265.Js = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirUpR.dds"), !1, v_s_30384), v_H_30265.Ws = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirDown.dds"), !1, v_s_30384), v_H_30265.Ks = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirDownR.dds"), !1, v_s_30384), v_H_30265.yy = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirUpFx.dds"), !1, v_s_30384), v_H_30265.Ay = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirUpFxR.dds"), !1, v_s_30384), v_H_30265.Sy = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirDownFx.dds"), !1, v_s_30384), v_H_30265.xy = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirDownFxR.dds"), !1, v_s_30384), v_H_30265.zs = v_Be_28119(await languagePackages.ck(v_a_30385 + "txSlideBg.dds"), !1, v_e_30381), v_H_30265.Xs = v_Be_28119(await languagePackages.ck(v_a_30385 + "txHoldBg.dds"), !1, v_e_30381), v_H_30265.Zs = v_Be_28119(await languagePackages.ck(v_a_30385 + "txSlideActive.dds"), !1, v_i_30380), v_H_30265.Ys = v_Be_28119(await languagePackages.ck(v_a_30385 + "txSlideCenter.dds"), !1, v_i_30380), v_H_30265.$s = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirHoldCenter.dds"), !1, v_i_30380), v_H_30265.qs = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirHoldCenterR.dds"), !1, v_i_30380), v_H_30265.Qs = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirHoldCover.dds"), !1, v_e_30381), v_H_30265.eo = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirHoldCoverR.dds"), !1, v_e_30381), v_H_30265._y = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirActionBox.dds"), !1, v_i_30380), v_H_30265.uy = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirActionEffectTop.dds"), !1, v_r_30383), v_H_30265.hy = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirActionEffectBottom.dds"), !1, v_r_30383), v_H_30265.vy = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirCrushBox.dds"), !1, v_i_30380), v_H_30265.py = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirCrushTop0.dds"), !1, v_i_30380), v_H_30265.ky = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirCrushTop1.dds"), !1, v_i_30380), v_H_30265.gy = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirCrushEffect.dds"), !1, v_i_30380), v_H_30265.ro = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirTrace.dds"), !1, v_i_30380), v_H_30265.Iy = v_Be_28119(await languagePackages.ck(v_a_30385 + "txExTapEffect.dds"), !1, v_r_30383), v_H_30265.ao = v_Be_28119(await languagePackages.ck(v_a_30385 + "txComboFont.dds"), !1, v_i_30380), v_H_30265.$x = v_Be_28119(await languagePackages.ck(v_a_30385 + "txComboChainFont.dds"), !1, v_i_30380), v_H_30265.oo = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxBall.dds"), !1, v_i_30380), v_H_30265.lo = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxAir.dds"), !1, v_i_30380), v_H_30265.co = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxAirAurora.dds"), !1, v_n_30382), v_H_30265.uo = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxAirAuroraColor.dds"), !1, v_i_30380), v_H_30265.fo = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxSlideThunder.dds"), !1, v_i_30380), v_H_30265._o = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxTapRing.dds"), !1, v_i_30380), v_H_30265.do = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxTapCore.dds"), !1, v_i_30380), v_H_30265.ho = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxTapWave.dds"), !1, v_i_30380), v_H_30265.vo = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxTapBg.dds"), !1, v_i_30380), v_H_30265.wo = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxTapGlowing.dds"), !1, v_i_30380), v_H_30265.po = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxExTapFront.dds"), !1, v_i_30380), v_H_30265.ko = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxDamage.dds"), !1, v_i_30380), v_H_30265.bo = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxDamageFront.dds"), !1, v_i_30380), v_H_30265.mo = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxAirActionRing.dds"), !1, v_i_30380), v_H_30265.So = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxAirActionEnd.dds"), !1, v_i_30380), v_H_30265.gL = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxAirActionEndBlur.dds"), !1, v_i_30380), v_H_30265.Io = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxAirActionFeedback.dds"), !1, v_i_30380), v_H_30265.yo = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxAirCrush.dds"), !1, v_i_30380), v_H_30265.Co = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxAirCrushBreak.dds"), !1, v_i_30380), v_H_30265.Ao = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxFlick.dds"), !1, v_i_30380), v_H_30265.To = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxStar.dds"), !1, v_i_30380), v_H_30265.Lo = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxDamageThunder.dds"), !1, v_i_30380), v_H_30265.Eo = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirHoldJudgeLine.dds"), !1, v_i_30380), v_H_30265.Va = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirHoldPositionLine.dds"), !1, v_i_30380), v_H_30265.wL = v_Be_28119(await languagePackages.ck(v_a_30385 + "txAirHoldGrid.dds"), !1, v_i_30380), v_H_30265.Po = v_Be_28119(await languagePackages.ck(v_a_30385 + "txJudgeAnswer.dds"), !1, v_i_30380), v_H_30265.Do = v_Be_28119(await languagePackages.ck(v_a_30385 + "fxExTapBgLine.dds"), !1, v_i_30380), v_t_30379();
           },
@@ -698,9 +698,9 @@
                 v_p_30432,
                 v_k_30433;
               for (let v_t_30434 = 0; v_t_30434 < 500; ++v_t_30434) {
-                0 < v_a_30419 ? (v_r_30417 = v_ge_27821(), v_s_30418 = v_r_30417 < .125 ? [.5, .875, 1] : v_r_30417 < .25 ? [1, .5, .875] : v_r_30417 < .5 ? [.25, 1, .25] : v_r_30417 < .75 ? [0, 0, 1] : [1, .25, 1], v_a_30419--) : v_s_30418 = [1, 1, 1], v_w_30429 = 360 * v_ge_27821() * 2 - 90, v_d_30427 = 400 - 1800 * v_ge_27821() - 8 * v_w_30429, v_v_30428 = 100 * v_ge_27821(), v_l_30421 = 10 + 30 * v_ge_27821(), v_g_30430 = 1200 + v_v_30428 - 70, v_m_30431 = 1200 + v_v_30428 + 70, v_o_30420 = v_ke_27824(.5 * v_l_30421);
-                for (let v_t_30435 = 0; v_t_30435 < v_o_30420 - 1; ++v_t_30435) v_c_30422 = v_t_30435 / (v_o_30420 - 1), v_u_30423 = (v_c_30422 * v_l_30421 + v_w_30429) / 360 * 2 * v_a1_27833, v___30425 = v_r1_27828(v_u_30423), v_h_30426 = v_n1_27827(v_u_30423), v_p_30432 = v_no_28093(v_g_30430, 0, v___30425, v_h_30426), v_k_30433 = v_no_28093(v_m_30431, 0, v___30425, v_h_30426), v_e_30415.vertices.push([v_p_30432[0], v_p_30432[1], v_d_30427], [v_k_30433[0], v_k_30433[1], v_d_30427]), v_e_30415.coords.push([0, v_c_30422], [1, v_c_30422]), v_f_30424 = .875 * (v_i_30414 === v_Dn_27670 ? 1 - v_c_30422 : v_c_30422) + .125, v_e_30415.colors.push([v_s_30418[0], v_s_30418[1], v_s_30418[2], v_f_30424], [v_s_30418[0], v_s_30418[1], v_s_30418[2], v_f_30424]), v_e_30415.triangles.push([2 * v_t_30435 + v_n_30416, 2 * v_t_30435 + 1 + v_n_30416, 2 * v_t_30435 + 2 + v_n_30416], [2 * v_t_30435 + 2 + v_n_30416, 2 * v_t_30435 + 1 + v_n_30416, 2 * v_t_30435 + 3 + v_n_30416]);
-                v_u_30423 = (v_l_30421 + v_w_30429) / 360 * 2 * v_a1_27833, v___30425 = v_r1_27828(v_u_30423), v_h_30426 = v_n1_27827(v_u_30423), v_p_30432 = v_no_28093(v_g_30430, 0, v___30425, v_h_30426), v_k_30433 = v_no_28093(v_m_30431, 0, v___30425, v_h_30426), v_e_30415.vertices.push([v_p_30432[0], v_p_30432[1], v_d_30427], [v_k_30433[0], v_k_30433[1], v_d_30427]), v_e_30415.coords.push([0, 1], [1, 1]), v_f_30424 = v_i_30414 === v_Dn_27670 ? .125 : .875, v_e_30415.colors.push([v_s_30418[0], v_s_30418[1], v_s_30418[2], v_f_30424], [v_s_30418[0], v_s_30418[1], v_s_30418[2], v_f_30424]), v_n_30416 += 2 * v_o_30420;
+                0 < v_a_30419 ? (v_r_30417 = mathRandom(), v_s_30418 = v_r_30417 < .125 ? [.5, .875, 1] : v_r_30417 < .25 ? [1, .5, .875] : v_r_30417 < .5 ? [.25, 1, .25] : v_r_30417 < .75 ? [0, 0, 1] : [1, .25, 1], v_a_30419--) : v_s_30418 = [1, 1, 1], v_w_30429 = 360 * mathRandom() * 2 - 90, v_d_30427 = 400 - 1800 * mathRandom() - 8 * v_w_30429, v_v_30428 = 100 * mathRandom(), v_l_30421 = 10 + 30 * mathRandom(), v_g_30430 = 1200 + v_v_30428 - 70, v_m_30431 = 1200 + v_v_30428 + 70, v_o_30420 = mathFloor(.5 * v_l_30421);
+                for (let v_t_30435 = 0; v_t_30435 < v_o_30420 - 1; ++v_t_30435) v_c_30422 = v_t_30435 / (v_o_30420 - 1), v_u_30423 = (v_c_30422 * v_l_30421 + v_w_30429) / 360 * 2 * mathPI, v___30425 = mathCos(v_u_30423), v_h_30426 = mathSin(v_u_30423), v_p_30432 = v_no_28093(v_g_30430, 0, v___30425, v_h_30426), v_k_30433 = v_no_28093(v_m_30431, 0, v___30425, v_h_30426), v_e_30415.vertices.push([v_p_30432[0], v_p_30432[1], v_d_30427], [v_k_30433[0], v_k_30433[1], v_d_30427]), v_e_30415.coords.push([0, v_c_30422], [1, v_c_30422]), v_f_30424 = .875 * (v_i_30414 === v_Dn_27670 ? 1 - v_c_30422 : v_c_30422) + .125, v_e_30415.colors.push([v_s_30418[0], v_s_30418[1], v_s_30418[2], v_f_30424], [v_s_30418[0], v_s_30418[1], v_s_30418[2], v_f_30424]), v_e_30415.triangles.push([2 * v_t_30435 + v_n_30416, 2 * v_t_30435 + 1 + v_n_30416, 2 * v_t_30435 + 2 + v_n_30416], [2 * v_t_30435 + 2 + v_n_30416, 2 * v_t_30435 + 1 + v_n_30416, 2 * v_t_30435 + 3 + v_n_30416]);
+                v_u_30423 = (v_l_30421 + v_w_30429) / 360 * 2 * mathPI, v___30425 = mathCos(v_u_30423), v_h_30426 = mathSin(v_u_30423), v_p_30432 = v_no_28093(v_g_30430, 0, v___30425, v_h_30426), v_k_30433 = v_no_28093(v_m_30431, 0, v___30425, v_h_30426), v_e_30415.vertices.push([v_p_30432[0], v_p_30432[1], v_d_30427], [v_k_30433[0], v_k_30433[1], v_d_30427]), v_e_30415.coords.push([0, 1], [1, 1]), v_f_30424 = v_i_30414 === v_Dn_27670 ? .125 : .875, v_e_30415.colors.push([v_s_30418[0], v_s_30418[1], v_s_30418[2], v_f_30424], [v_s_30418[0], v_s_30418[1], v_s_30418[2], v_f_30424]), v_n_30416 += 2 * v_o_30420;
               }
               return v_e_30415.compile(), v_e_30415;
             }
@@ -809,9 +809,9 @@
                 v_c_30459;
               let v_u_30460 = 0;
               for (let v_t_30461 = 0; v_t_30461 < 16; ++v_t_30461) {
-                v_u_30460 = v_ke_27824(v_t_30461 / 2) / 8 * 360, v_t_30461 % 2 == 0 && (v_u_30460 += 30), 0;
-                for (let v_t_30462 = 0; v_t_30462 < 49; ++v_t_30462) v_e_30452 = v_t_30462 / 49, v_n_30453 = (120 * v_e_30452 + v_u_30460) / 360 * 2 * v_a1_27833, v_a_30456 = 90 * (1 - .225 * v_e_30452) - 10, v_o_30457 = 90 * (1 - .225 * v_e_30452) + 10, v_r_30454 = v_r1_27828(v_n_30453), v_s_30455 = v_n1_27827(v_n_30453), v_l_30458 = v_ro_28094(v_a_30456, 0, 0, 0, -0, -0, v_r_30454, v_s_30455), v_c_30459 = v_ro_28094(v_o_30457, 0, 0, 0, -0, -0, v_r_30454, v_s_30455), v_J_30266._o.vertices.push([v_l_30458[0], 16 - 16 * v_e_30452, -v_l_30458[1]], [v_c_30459[0], 16 - 16 * v_e_30452, -v_c_30459[1]]), v_J_30266._o.coords.push([0, 1 - v_e_30452], [1, 1 - v_e_30452]), v_J_30266._o.triangles.push([2 * v_t_30462 + v_i_30451, 2 * v_t_30462 + 1 + v_i_30451, 2 * v_t_30462 + 2 + v_i_30451], [2 * v_t_30462 + 2 + v_i_30451, 2 * v_t_30462 + 1 + v_i_30451, 2 * v_t_30462 + 3 + v_i_30451]);
-                v_n_30453 = (120 + v_u_30460) / 360 * 2 * v_a1_27833, v_r_30454 = v_r1_27828(v_n_30453), v_s_30455 = v_n1_27827(v_n_30453), v_l_30458 = v_ro_28094(v_a_30456, 0, 0, 0, -0, -0, v_r_30454, v_s_30455), v_c_30459 = v_ro_28094(v_o_30457, 0, 0, 0, -0, -0, v_r_30454, v_s_30455), v_J_30266._o.vertices.push([v_l_30458[0], 0, -v_l_30458[1]], [v_c_30459[0], 0, -v_c_30459[1]]), v_J_30266._o.coords.push([0, 0], [1, 0]), v_i_30451 += 100;
+                v_u_30460 = mathFloor(v_t_30461 / 2) / 8 * 360, v_t_30461 % 2 == 0 && (v_u_30460 += 30), 0;
+                for (let v_t_30462 = 0; v_t_30462 < 49; ++v_t_30462) v_e_30452 = v_t_30462 / 49, v_n_30453 = (120 * v_e_30452 + v_u_30460) / 360 * 2 * mathPI, v_a_30456 = 90 * (1 - .225 * v_e_30452) - 10, v_o_30457 = 90 * (1 - .225 * v_e_30452) + 10, v_r_30454 = mathCos(v_n_30453), v_s_30455 = mathSin(v_n_30453), v_l_30458 = v_ro_28094(v_a_30456, 0, 0, 0, -0, -0, v_r_30454, v_s_30455), v_c_30459 = v_ro_28094(v_o_30457, 0, 0, 0, -0, -0, v_r_30454, v_s_30455), v_J_30266._o.vertices.push([v_l_30458[0], 16 - 16 * v_e_30452, -v_l_30458[1]], [v_c_30459[0], 16 - 16 * v_e_30452, -v_c_30459[1]]), v_J_30266._o.coords.push([0, 1 - v_e_30452], [1, 1 - v_e_30452]), v_J_30266._o.triangles.push([2 * v_t_30462 + v_i_30451, 2 * v_t_30462 + 1 + v_i_30451, 2 * v_t_30462 + 2 + v_i_30451], [2 * v_t_30462 + 2 + v_i_30451, 2 * v_t_30462 + 1 + v_i_30451, 2 * v_t_30462 + 3 + v_i_30451]);
+                v_n_30453 = (120 + v_u_30460) / 360 * 2 * mathPI, v_r_30454 = mathCos(v_n_30453), v_s_30455 = mathSin(v_n_30453), v_l_30458 = v_ro_28094(v_a_30456, 0, 0, 0, -0, -0, v_r_30454, v_s_30455), v_c_30459 = v_ro_28094(v_o_30457, 0, 0, 0, -0, -0, v_r_30454, v_s_30455), v_J_30266._o.vertices.push([v_l_30458[0], 0, -v_l_30458[1]], [v_c_30459[0], 0, -v_c_30459[1]]), v_J_30266._o.coords.push([0, 0], [1, 0]), v_i_30451 += 100;
               }
               v_J_30266._o.compile();
             }
@@ -868,7 +868,7 @@
             v_J_30266.hl = new glRuntime.Mesh({
               coords: !0,
               colors: !0
-            }), v_J_30266.hl.vertices = new Float32Array(3072).buffer, v_J_30266.hl.colors = new Float32Array(4096).buffer, v_J_30266.hl.coords = new Float32Array(2048).buffer, v_J_30266.hl.triangles = new Uint16Array(3072).buffer, v_J_30266.hl.compilef(v_se_27562.DYNAMIC_DRAW, {
+            }), v_J_30266.hl.vertices = new Float32Array(3072).buffer, v_J_30266.hl.colors = new Float32Array(4096).buffer, v_J_30266.hl.coords = new Float32Array(2048).buffer, v_J_30266.hl.triangles = new Uint16Array(3072).buffer, v_J_30266.hl.compilef(glContext.DYNAMIC_DRAW, {
               vertices: 3,
               colors: 4,
               coords: 2,
@@ -881,11 +881,11 @@
               coords: !0
             });
             for (let v_t_30473 = 0; v_t_30473 < v_L_30267; ++v_t_30473) v_J_30266.vl.vertices.push(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), v_J_30266.vl.coords.push(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), v_J_30266.vl.colors.push(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), v_J_30266.gl.vertices.push(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), v_J_30266.gl.coords.push(0, 0, 1, 0, 0, 1, 1, 1), v_J_30266.gl.triangles.push(4 * v_t_30473, 4 * v_t_30473 + 1, 4 * v_t_30473 + 2, 4 * v_t_30473 + 2, 4 * v_t_30473 + 1, 4 * v_t_30473 + 3);
-            v_J_30266.vl.compilef(v_se_27562.DYNAMIC_DRAW, {
+            v_J_30266.vl.compilef(glContext.DYNAMIC_DRAW, {
               vertices: 3,
               colors: 4,
               coords: 2
-            }), v_J_30266.gl.compilef(v_se_27562.DYNAMIC_DRAW, {
+            }), v_J_30266.gl.compilef(glContext.DYNAMIC_DRAW, {
               vertices: 3,
               coords: 2,
               triangles: 3
@@ -896,21 +896,21 @@
               coords: !0
             });
             for (let v_t_30474 = 0; v_t_30474 < 1024; ++v_t_30474) v_J_30266.wl.coords.push(0, 1, 1, 1, 0, 0, 1, 0), v_J_30266.wl.triangles.push(4 * v_t_30474, 4 * v_t_30474 + 1, 4 * v_t_30474 + 2, 4 * v_t_30474 + 2, 4 * v_t_30474 + 1, 4 * v_t_30474 + 3), v_J_30266.pl.triangles.push(4 * v_t_30474, 4 * v_t_30474 + 1, 4 * v_t_30474 + 2, 4 * v_t_30474 + 2, 4 * v_t_30474 + 1, 4 * v_t_30474 + 3), v_J_30266.kl.coords.push(0, 1, 1, 1, 0, 0, 1, 0), v_J_30266.kl.triangles.push(4 * v_t_30474, 4 * v_t_30474 + 1, 4 * v_t_30474 + 2, 4 * v_t_30474 + 2, 4 * v_t_30474 + 1, 4 * v_t_30474 + 3);
-            v_J_30266.wl.vertices = new Float32Array(12288).buffer, v_J_30266.wl.colors = new Float32Array(16384).buffer, v_J_30266.pl.vertices = new Float32Array(12288).buffer, v_J_30266.kl.vertices = new Float32Array(12288).buffer, v_J_30266.wl.compilef(v_se_27562.DYNAMIC_DRAW, {
+            v_J_30266.wl.vertices = new Float32Array(12288).buffer, v_J_30266.wl.colors = new Float32Array(16384).buffer, v_J_30266.pl.vertices = new Float32Array(12288).buffer, v_J_30266.kl.vertices = new Float32Array(12288).buffer, v_J_30266.wl.compilef(glContext.DYNAMIC_DRAW, {
               vertices: 3,
               coords: 2,
               colors: 4,
               triangles: 3
-            }), v_J_30266.pl.compilef(v_se_27562.DYNAMIC_DRAW, {
+            }), v_J_30266.pl.compilef(glContext.DYNAMIC_DRAW, {
               vertices: 3,
               triangles: 3
-            }), v_J_30266.kl.compilef(v_se_27562.DYNAMIC_DRAW, {
+            }), v_J_30266.kl.compilef(glContext.DYNAMIC_DRAW, {
               vertices: 3,
               coords: 2,
               triangles: 3
             }), v_J_30266.bl = new glRuntime.Mesh({
               coords: !0
-            }), v_J_30266.bl.vertices = new Float32Array(6144).buffer, v_J_30266.bl.coords = new Float32Array(4096).buffer, v_J_30266.bl.triangles = new Uint16Array(6144).buffer, v_J_30266.bl.compilef(v_se_27562.DYNAMIC_DRAW, {
+            }), v_J_30266.bl.vertices = new Float32Array(6144).buffer, v_J_30266.bl.coords = new Float32Array(4096).buffer, v_J_30266.bl.triangles = new Uint16Array(6144).buffer, v_J_30266.bl.compilef(glContext.DYNAMIC_DRAW, {
               vertices: 3,
               coords: 2,
               triangles: 3
@@ -931,34 +931,34 @@
             });
           },
           Cl: function (v_t_30476, v_i_30477) {
-            v_se_27562.activeTexture(v_se_27562.TEXTURE0), v_se_27562.bindTexture(v_se_27562.TEXTURE_2D, v_t_30476), (1 === v_i_30477 ? v_hn_27603 : v_dn_27604).uniforms(v_vn_27625).draw(v_J_30266.jo);
+            glContext.activeTexture(glContext.TEXTURE0), glContext.bindTexture(glContext.TEXTURE_2D, v_t_30476), (1 === v_i_30477 ? v_hn_27603 : v_dn_27604).uniforms(v_vn_27625).draw(v_J_30266.jo);
           },
           Al: function () {
             v_H_30265.Ps.bind(0), v_Ve_27579.uniforms(v_vn_27625).draw(v_J_30266.Go);
           },
           Tl: function (v_t_30478) {
             var v_i_30479 = v_H_30265.Ps;
-            v_se_27562.bindTexture(v_se_27562.TEXTURE_2D, v_i_30479.id), v_se_27562.pixelStorei(v_se_27562.UNPACK_FLIP_Y_WEBGL, !0), v_se_27562.texImage2D(v_se_27562.TEXTURE_2D, 0, v_i_30479.format, v_i_30479.format, v_i_30479.type, v_t_30478);
+            glContext.bindTexture(glContext.TEXTURE_2D, v_i_30479.id), glContext.pixelStorei(glContext.UNPACK_FLIP_Y_WEBGL, !0), glContext.texImage2D(glContext.TEXTURE_2D, 0, v_i_30479.format, v_i_30479.format, v_i_30479.type, v_t_30478);
           },
           Ll: function () {
             v_H_30265.Ds.bind(0), v_Ve_27579.uniforms(v_vn_27625).draw(v_J_30266.Go);
           },
           El: function (v_t_30480) {
             var v_i_30481 = v_H_30265.Ds;
-            v_se_27562.bindTexture(v_se_27562.TEXTURE_2D, v_i_30481.id), v_se_27562.texImage2D(v_se_27562.TEXTURE_2D, 0, v_i_30481.format, v_i_30481.format, v_i_30481.type, v_t_30480);
+            glContext.bindTexture(glContext.TEXTURE_2D, v_i_30481.id), glContext.texImage2D(glContext.TEXTURE_2D, 0, v_i_30481.format, v_i_30481.format, v_i_30481.type, v_t_30480);
           },
           Fl: function () {
             v_wn_27627.opacity = v_U_30262.P1, v_je_27575.uniforms(v_wn_27627).draw(v_J_30266.No);
           },
           Bl: function (v_t_30482) {
             var v_i_30483 = v_H_30265.Gs;
-            v_se_27562.bindTexture(v_se_27562.TEXTURE_2D, v_i_30483.id), v_se_27562.pixelStorei(v_se_27562.UNPACK_FLIP_Y_WEBGL, !0), v_se_27562.texImage2D(v_se_27562.TEXTURE_2D, 0, v_i_30483.format, v_i_30483.format, v_i_30483.type, v_t_30482);
+            glContext.bindTexture(glContext.TEXTURE_2D, v_i_30483.id), glContext.pixelStorei(glContext.UNPACK_FLIP_Y_WEBGL, !0), glContext.texImage2D(glContext.TEXTURE_2D, 0, v_i_30483.format, v_i_30483.format, v_i_30483.type, v_t_30482);
           },
           Ml: function (v_t_30484) {
             return v_H_30265.Gs.id;
           },
           Rl: function () {
-            v_se_27562.enable(v_se_27562.STENCIL_TEST), v_se_27562.stencilFunc(v_se_27562.ALWAYS, 1, 0), v_se_27562.stencilOp(v_se_27562.KEEP, v_se_27562.REPLACE, v_se_27562.REPLACE), v_H_30265.Gs.bind(0), v_Ve_27579.uniforms(v_vn_27625).draw(v_J_30266.Ho), v_se_27562.disable(v_se_27562.STENCIL_TEST);
+            glContext.enable(glContext.STENCIL_TEST), glContext.stencilFunc(glContext.ALWAYS, 1, 0), glContext.stencilOp(glContext.KEEP, glContext.REPLACE, glContext.REPLACE), v_H_30265.Gs.bind(0), v_Ve_27579.uniforms(v_vn_27625).draw(v_J_30266.Ho), glContext.disable(glContext.STENCIL_TEST);
           },
           Pl: function () {
             0 < v_U_30262.R1 && (v_H_30265.Uo[v_U_30262.ey].bind(0), v_Ve_27579.uniforms(v_vn_27625).draw(v_J_30266.Uo[v_U_30262.R1 - 1]));
@@ -969,10 +969,10 @@
               v_n_30487 = v_J_30266.ml.Gl("colors");
             let v_r_30488 = 0;
             for (let v_t_30489 = 0; v_t_30489 < v_U_30262.ta && !((v_i_30485 = v_U_30262.ea[v_t_30489]).Fi === v_u0_27704 && (v_e_30486[3 * v_r_30488 + 0] = -v_we_27734, v_e_30486[3 * v_r_30488 + 1] = 0, v_e_30486[3 * v_r_30488 + 2] = -v_i_30485.Pg * v_ve_27731, v_e_30486[3 * v_r_30488 + 3] = 0, v_e_30486[3 * v_r_30488 + 4] = 0, v_e_30486[3 * v_r_30488 + 5] = -v_i_30485.Pg * v_ve_27731, v_e_30486[3 * v_r_30488 + 6] = 0, v_e_30486[3 * v_r_30488 + 7] = 0, v_e_30486[3 * v_r_30488 + 8] = -v_i_30485.Pg * v_ve_27731, v_e_30486[3 * v_r_30488 + 9] = v_we_27734, v_e_30486[3 * v_r_30488 + 10] = 0, v_e_30486[3 * v_r_30488 + 11] = -v_i_30485.Pg * v_ve_27731, v_n_30487[4 * v_r_30488 + 0] = v_s_30237[v_U_30262.ey][0][0], v_n_30487[4 * v_r_30488 + 1] = v_s_30237[v_U_30262.ey][0][1], v_n_30487[4 * v_r_30488 + 2] = v_s_30237[v_U_30262.ey][0][2], v_n_30487[4 * v_r_30488 + 3] = v_s_30237[v_U_30262.ey][0][3], v_n_30487[4 * v_r_30488 + 4] = v_s_30237[v_U_30262.ey][1][0], v_n_30487[4 * v_r_30488 + 5] = v_s_30237[v_U_30262.ey][1][1], v_n_30487[4 * v_r_30488 + 6] = v_s_30237[v_U_30262.ey][1][2], v_n_30487[4 * v_r_30488 + 7] = v_s_30237[v_U_30262.ey][1][3], v_n_30487[4 * v_r_30488 + 8] = v_s_30237[v_U_30262.ey][1][0], v_n_30487[4 * v_r_30488 + 9] = v_s_30237[v_U_30262.ey][1][1], v_n_30487[4 * v_r_30488 + 10] = v_s_30237[v_U_30262.ey][1][2], v_n_30487[4 * v_r_30488 + 11] = v_s_30237[v_U_30262.ey][1][3], v_n_30487[4 * v_r_30488 + 12] = v_s_30237[v_U_30262.ey][0][0], v_n_30487[4 * v_r_30488 + 13] = v_s_30237[v_U_30262.ey][0][1], v_n_30487[4 * v_r_30488 + 14] = v_s_30237[v_U_30262.ey][0][2], v_n_30487[4 * v_r_30488 + 15] = v_s_30237[v_U_30262.ey][0][3], 5120 <= (v_r_30488 += 4))); ++v_t_30489);
-            0 < v_r_30488 && (v_J_30266.ml.jl("vertices", 3 * v_r_30488), v_J_30266.ml.jl("colors", 4 * v_r_30488), v_se_27562.lineWidth(1), v_Je_27574.drawBuffers(v_J_30266.ml.Nl(), void 0, v_se_27562.LINES, v_r_30488));
+            0 < v_r_30488 && (v_J_30266.ml.jl("vertices", 3 * v_r_30488), v_J_30266.ml.jl("colors", 4 * v_r_30488), glContext.lineWidth(1), v_Je_27574.drawBuffers(v_J_30266.ml.Nl(), void 0, glContext.LINES, v_r_30488));
           },
           Hl: function () {
-            v_se_27562.pushMatrix(), v_se_27562.translate(0, 0, -v_U_30262.M1 * v_ve_27731), v_H_30265.Hs.bind(0), v_Ve_27579.uniforms(v_vn_27625).draw(v_J_30266.Hs), v_se_27562.popMatrix();
+            glContext.pushMatrix(), glContext.translate(0, 0, -v_U_30262.M1 * v_ve_27731), v_H_30265.Hs.bind(0), v_Ve_27579.uniforms(v_vn_27625).draw(v_J_30266.Hs), glContext.popMatrix();
           },
           Ul: function () {
             v_H_30265.js.bind(0), v_Ve_27579.uniforms(v_vn_27625).draw(v_J_30266.js);
@@ -984,18 +984,18 @@
             if (0 !== v_U_30262.D1) {
               var v_r_30490 = 0 < v_U_30262.Y1.Rx,
                 v_u_30491 = v_r_30490 ? v_U_30262.Ta.br : v_U_30262.Ta.pr,
-                v_s_30492 = v_pe_27823(v_me_27822(v_u_30491, 99999), 0).toString();
+                v_s_30492 = mathMax(mathMin(v_u_30491, 99999), 0).toString();
               if ((v_r_30490 ? 20 : 5) <= v_u_30491) {
                 (v_r_30490 ? v_H_30265.$x : v_H_30265.ao).bind(0);
                 var v_a_30493 = v_r_30490 ? "chain" : "combo",
                   v_o_30494 = v_r_30490 ? v_J_30266.Qx : v_J_30266.dl;
-                for (let v_t_30500 = 0; v_t_30500 < 5; ++v_t_30500) v_se_27562.pushMatrix(), v_r_30490 ? v_se_27562.translate(v_ei_30280.br[v_t_30500] * v_we_27734, 0, -920) : v_se_27562.translate(v_ei_30280.pr[v_t_30500] * v_we_27734, 0, -920), v_se_27562.scale(1.45, 0, 2), v_Ve_27579.uniforms(v_vn_27625).draw(v_o_30494[v_a_30493[v_t_30500]]), v_se_27562.popMatrix();
+                for (let v_t_30500 = 0; v_t_30500 < 5; ++v_t_30500) glContext.pushMatrix(), v_r_30490 ? glContext.translate(v_ei_30280.br[v_t_30500] * v_we_27734, 0, -920) : glContext.translate(v_ei_30280.pr[v_t_30500] * v_we_27734, 0, -920), glContext.scale(1.45, 0, 2), v_Ve_27579.uniforms(v_vn_27625).draw(v_o_30494[v_a_30493[v_t_30500]]), glContext.popMatrix();
                 let v_i_30497 = 1,
                   v_e_30498 = 1,
                   v_n_30499 = 0;
                 var v_u_30491 = (v_ae_27643.xt() - v_U_30262.Na.Ha) / 1e3;
                 v_u_30491 <= .2 && (v_u_30491 = v_u_30491 < .1 ? v_Xl_28191(10 * v_u_30491) : 1 - v_Xl_28191(10 * v_u_30491 - 1), v_i_30497 = 1 + .1 * v_u_30491, v_e_30498 = 1 + .15 * v_u_30491, v_n_30499 = 18 * -v_u_30491);
-                for (let v_t_30501 = 0; v_t_30501 < v_s_30492.length; ++v_t_30501) v_se_27562.pushMatrix(), v_se_27562.translate(v_ii_30279[v_s_30492.length - 1][v_t_30501] * v_we_27734, 0, -640 + v_n_30499 + 40), v_se_27562.scale(1.98 * v_i_30497, 0, 1.3 * v_e_30498), v_Ve_27579.uniforms(v_vn_27625).draw(v_o_30494[v_s_30492[v_t_30501]]), v_se_27562.popMatrix();
+                for (let v_t_30501 = 0; v_t_30501 < v_s_30492.length; ++v_t_30501) glContext.pushMatrix(), glContext.translate(v_ii_30279[v_s_30492.length - 1][v_t_30501] * v_we_27734, 0, -640 + v_n_30499 + 40), glContext.scale(1.98 * v_i_30497, 0, 1.3 * v_e_30498), v_Ve_27579.uniforms(v_vn_27625).draw(v_o_30494[v_s_30492[v_t_30501]]), glContext.popMatrix();
               }
               if (v_U_30262.D1 > v_kt_30224 || v_U_30262.D1 === v_kt_30224 && v_r_30490) {
                 let v_o_30502 = "",
@@ -1038,7 +1038,7 @@
                     v_e_30507 = !1;
                   v_u_30491 = -v_we_27734 + 1.25 * v_c_30504;
                   v_i_30506 = v_u_30491;
-                  for (let v_t_30512 = 0; v_t_30512 < v_o_30502.length; ++v_t_30512) v_e_30507 = "," === v_o_30502[v_t_30512] || " " === v_o_30502[v_t_30512], v_J_30266.dl["s" + v_o_30502[v_t_30512]] && (v_se_27562.pushMatrix(), v_se_27562.translate(v_i_30506, 0, -1330), v_se_27562.scale(1.1, 0, 1.375), v_Ve_27579.uniforms(v_vn_27625).draw(v_J_30266.dl["s" + v_o_30502[v_t_30512]]), v_se_27562.popMatrix()), v_i_30506 += v_e_30507 ? v_c_30504 / 2 : v_c_30504;
+                  for (let v_t_30512 = 0; v_t_30512 < v_o_30502.length; ++v_t_30512) v_e_30507 = "," === v_o_30502[v_t_30512] || " " === v_o_30502[v_t_30512], v_J_30266.dl["s" + v_o_30502[v_t_30512]] && (glContext.pushMatrix(), glContext.translate(v_i_30506, 0, -1330), glContext.scale(1.1, 0, 1.375), v_Ve_27579.uniforms(v_vn_27625).draw(v_J_30266.dl["s" + v_o_30502[v_t_30512]]), glContext.popMatrix()), v_i_30506 += v_e_30507 ? v_c_30504 / 2 : v_c_30504;
                   var v_f_30495 = 64 * (v_t_30505 ? 2 : 1.125);
                   let v_n_30508 = 0;
                   for (let v_t_30513 = 0; v_t_30513 < v_l_30503.length; ++v_t_30513) "v" === v_l_30503[v_t_30513] || " " === v_l_30503[v_t_30513] ? v_n_30508 += v_f_30495 / 2 : v_n_30508 += v_f_30495;
@@ -1048,35 +1048,35 @@
                     v_s_30510 = v_t_30505 ? 1.25 : 1,
                     v_a_30511 = 0;
                   v___30496 <= .2 && (v___30496 = v___30496 < .1 ? v_Xl_28191(10 * v___30496) : 1 - v_Xl_28191(10 * v___30496 - 1), v_r_30509 += .066375 * v___30496, v_s_30510 += .109375 * v___30496, v_a_30511 = 24 * -v___30496), v_i_30506 = v_u_30491;
-                  for (let v_t_30514 = 0; v_t_30514 < v_l_30503.length; ++v_t_30514) v_e_30507 = "," === v_l_30503[v_t_30514] || " " === v_l_30503[v_t_30514], v_J_30266.dl["s" + v_l_30503[v_t_30514]] && (v_se_27562.pushMatrix(), v_se_27562.translate(v_i_30506 - (v_e_30507 ? v_f_30495 / 4 : 0), 0, -1330 + v_a_30511), v_se_27562.scale(1.4 * v_r_30509, 0, 1.575 * v_s_30510), v_Ve_27579.uniforms(v_vn_27625).draw(v_J_30266.dl["s" + v_l_30503[v_t_30514]]), v_se_27562.popMatrix()), v_i_30506 += v_e_30507 ? v_f_30495 / 2 : v_f_30495;
+                  for (let v_t_30514 = 0; v_t_30514 < v_l_30503.length; ++v_t_30514) v_e_30507 = "," === v_l_30503[v_t_30514] || " " === v_l_30503[v_t_30514], v_J_30266.dl["s" + v_l_30503[v_t_30514]] && (glContext.pushMatrix(), glContext.translate(v_i_30506 - (v_e_30507 ? v_f_30495 / 4 : 0), 0, -1330 + v_a_30511), glContext.scale(1.4 * v_r_30509, 0, 1.575 * v_s_30510), v_Ve_27579.uniforms(v_vn_27625).draw(v_J_30266.dl["s" + v_l_30503[v_t_30514]]), glContext.popMatrix()), v_i_30506 += v_e_30507 ? v_f_30495 / 2 : v_f_30495;
                 }
               }
             }
           },
           Jl: function (v_t_30515) {
-            v_t_30515 && (v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_H_30265.Eo.bind(0), v_gn_27628.opacity = .625, v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.al), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA));
+            v_t_30515 && (glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_H_30265.Eo.bind(0), v_gn_27628.opacity = .625, v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.al), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA));
           },
           Wl: function (v_t_30516, v_i_30517, v_e_30518) {
             v_U_30262.Na.Va.Oa.oe(v_ae_27643.xt() / 1e3), v_U_30262.Na.Va.qe.oe(v_ae_27643.xt() / 1e3), v_i_30517.hand && v_U_30262.Na.Va.Oa.Kl(v_i_30517.y), v_U_30262.Na.Va.qe.Kl(v_t_30516 ? 1 : 0);
             var v_n_30519 = v_U_30262.Na.Va.qe.pi();
-            v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_se_27562.enable(v_se_27562.DEPTH_TEST), v_se_27562.depthMask(!1);
+            glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), glContext.enable(glContext.DEPTH_TEST), glContext.depthMask(!1);
             let v_r_30520 = [!1, !1, !1, !1, !1],
               v_s_30521,
               v_a_30522 = v_i_30517.y;
-            if (v_e_30518 || (v_a_30522 = v_U_30262.Na.Va.Oa.pi()), 0 < v_n_30519 && (v_se_27562.pushMatrix(), v_s_30521 = v_a_30522, v_se_27562.translate(0, 100 * v_s_30521 + v_M0_27738, v_j_30274(100 * v_s_30521 + v_M0_27738)), v_s_30521 < 0 ? (v_pn_27630.col[0] = .75, v_pn_27630.col[1] = .16, v_pn_27630.col[2] = 0) : (v_pn_27630.col[0] = .16, v_pn_27630.col[1] = .75, v_pn_27630.col[2] = .35), v_pn_27630.col[3] = v_n_30519, v_H_30265.Va.bind(0), v_Ke_27583.uniforms(v_pn_27630).draw(v_J_30266.sl), v_se_27562.popMatrix(), -1 <= v_s_30521 && v_s_30521 < -0 && (v_r_30520[0] = !0), -1 <= v_s_30521 && v_s_30521 < 0 && (v_r_30520[1] = !0), -.25 <= v_s_30521 && v_s_30521 < .25 && (v_r_30520[2] = !0), 0 < v_s_30521 && v_s_30521 <= 1 && (v_r_30520[3] = !0), 0 < v_s_30521) && v_s_30521 <= 1 && (v_r_30520[4] = !0), v_se_27562.disable(v_se_27562.DEPTH_TEST), v_se_27562.depthMask(!0), v_t_30516) for (let v_t_30523 = 0; v_t_30523 < 5; ++v_t_30523) v_r_30520[v_t_30523] && (v_se_27562.pushMatrix(), v_s_30521 = v_t_30523 - 2, v_pn_27630.col[0] = 0, v_pn_27630.col[1] = 0, v_pn_27630.col[2] = .25, v_t_30523 < 2 ? v_pn_27630.col[0] = 1 : 2 === v_t_30523 ? v_pn_27630.col[1] = 1 : (v_pn_27630.col[0] = .12, v_pn_27630.col[1] = .5, v_pn_27630.col[2] = 1), v_pn_27630.col[3] = 1.25 * v_pe_27823(1 - v_s1_27830(v_a_30522 - v_s_30521 / 2) / .6, 0), v_se_27562.translate(0, 50 * v_s_30521 + v_M0_27738, v_j_30274(50 * v_s_30521 + v_M0_27738)), v_se_27562.scale(1.25, 1, 1.25), v_H_30265.wL.bind(0), v_Ke_27583.uniforms(v_pn_27630).draw(v_J_30266.sl), v_se_27562.popMatrix());
-            v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA);
+            if (v_e_30518 || (v_a_30522 = v_U_30262.Na.Va.Oa.pi()), 0 < v_n_30519 && (glContext.pushMatrix(), v_s_30521 = v_a_30522, glContext.translate(0, 100 * v_s_30521 + v_M0_27738, v_j_30274(100 * v_s_30521 + v_M0_27738)), v_s_30521 < 0 ? (v_pn_27630.col[0] = .75, v_pn_27630.col[1] = .16, v_pn_27630.col[2] = 0) : (v_pn_27630.col[0] = .16, v_pn_27630.col[1] = .75, v_pn_27630.col[2] = .35), v_pn_27630.col[3] = v_n_30519, v_H_30265.Va.bind(0), v_Ke_27583.uniforms(v_pn_27630).draw(v_J_30266.sl), glContext.popMatrix(), -1 <= v_s_30521 && v_s_30521 < -0 && (v_r_30520[0] = !0), -1 <= v_s_30521 && v_s_30521 < 0 && (v_r_30520[1] = !0), -.25 <= v_s_30521 && v_s_30521 < .25 && (v_r_30520[2] = !0), 0 < v_s_30521 && v_s_30521 <= 1 && (v_r_30520[3] = !0), 0 < v_s_30521) && v_s_30521 <= 1 && (v_r_30520[4] = !0), glContext.disable(glContext.DEPTH_TEST), glContext.depthMask(!0), v_t_30516) for (let v_t_30523 = 0; v_t_30523 < 5; ++v_t_30523) v_r_30520[v_t_30523] && (glContext.pushMatrix(), v_s_30521 = v_t_30523 - 2, v_pn_27630.col[0] = 0, v_pn_27630.col[1] = 0, v_pn_27630.col[2] = .25, v_t_30523 < 2 ? v_pn_27630.col[0] = 1 : 2 === v_t_30523 ? v_pn_27630.col[1] = 1 : (v_pn_27630.col[0] = .12, v_pn_27630.col[1] = .5, v_pn_27630.col[2] = 1), v_pn_27630.col[3] = 1.25 * mathMax(1 - mathAbs(v_a_30522 - v_s_30521 / 2) / .6, 0), glContext.translate(0, 50 * v_s_30521 + v_M0_27738, v_j_30274(50 * v_s_30521 + v_M0_27738)), glContext.scale(1.25, 1, 1.25), v_H_30265.wL.bind(0), v_Ke_27583.uniforms(v_pn_27630).draw(v_J_30266.sl), glContext.popMatrix());
+            glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA);
           },
           zl: function () {
             var v_i_30524 = v_U_30262.rr;
             for (let v_t_30527 = 0; v_t_30527 < 16; ++v_t_30527) {
               var v_e_30525 = v_U_30262.ua[v_t_30527].rr,
                 v_n_30526 = v_U_30262.ua[v_t_30527].Fe;
-              v_n_30526 !== v_y0_27725 && (v_se_27562.pushMatrix(), v_se_27562.translate(64 * v_t_30527, 0, 0), 1 === v_n_30526 ? (v_wn_27627.opacity = v_e_30525 === -1 / 0 ? 0 : v_me_27822((v_i_30524 - v_e_30525) / .05, 1), v_je_27575.uniforms(v_wn_27627).draw(v_J_30266.Oo)) : v_Ze_27586.uniforms({
+              v_n_30526 !== v_y0_27725 && (glContext.pushMatrix(), glContext.translate(64 * v_t_30527, 0, 0), 1 === v_n_30526 ? (v_wn_27627.opacity = v_e_30525 === -1 / 0 ? 0 : mathMin((v_i_30524 - v_e_30525) / .05, 1), v_je_27575.uniforms(v_wn_27627).draw(v_J_30266.Oo)) : v_Ze_27586.uniforms({
                 r: v_A0_27727[v_n_30526][0],
                 g: v_A0_27727[v_n_30526][1],
                 b: v_A0_27727[v_n_30526][2],
-                a: v_e_30525 === -1 / 0 ? 0 : v_me_27822((v_i_30524 - v_e_30525) / .05, 1)
-              }).draw(v_J_30266.Vo), v_se_27562.popMatrix());
+                a: v_e_30525 === -1 / 0 ? 0 : mathMin((v_i_30524 - v_e_30525) / .05, 1)
+              }).draw(v_J_30266.Vo), glContext.popMatrix());
             }
           },
           Xl: function () {
@@ -1103,7 +1103,7 @@
                 v_f_30538 += 4;
               }
             }
-            0 < v_f_30538 && (v_J_30266.ml.jl("vertices", 3 * v_f_30538), v_J_30266.ml.jl("colors", 4 * v_f_30538), v_J_30266.ml.jl("coords", 2 * v_f_30538), v_H_30265.Po.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), v_se_27562.TRIANGLES, v_f_30538 / 2 * 3));
+            0 < v_f_30538 && (v_J_30266.ml.jl("vertices", 3 * v_f_30538), v_J_30266.ml.jl("colors", 4 * v_f_30538), v_J_30266.ml.jl("coords", 2 * v_f_30538), v_H_30265.Po.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), glContext.TRIANGLES, v_f_30538 / 2 * 3));
           },
           z4: function () {
             var v_i_30543 = v_J_30266.ml.Gl("vertices"),
@@ -1118,12 +1118,12 @@
             for (let v_t_30552 = 0; v_t_30552 < v_U_30262.ta && !(5120 <= v_r_30546); ++v_t_30552) if ((v_n_30545 = v_U_30262.ea[v_t_30552]).Fi === v_Tn_27663 || v_n_30545.Fi === v_ce_27678 || v_n_30545.Fi === v_le_27675 || v__0_27710(v_n_30545.Fi) || v_n_30545.Fi === v_Pn_27665) {
               v_l_30550 = v_n_30545.Gg * -v_ve_27731, v_c_30551 = v_n_30545.Ng * -v_ve_27731;
               for (let v_t_30553 = v_n_30545.ou; v_t_30553 < v_n_30545.ou + v_n_30545.Le; ++v_t_30553) {
-                v_s_30547 = 64 * v_t_30553 - v_we_27734, v_a_30548 = v_me_27822(v_n_30545.jg[v_t_30553], v_U_30262.Eb.Ra.Mb), v_o_30549 = v_pe_27823(v_n_30545.Hg[v_t_30553], v_U_30262.Eb.Ra.Pb), v_i_30543[3 * v_r_30546 + 0] = v_s_30547, v_i_30543[3 * v_r_30546 + 1] = 0, v_i_30543[3 * v_r_30546 + 2] = v_l_30550, v_i_30543[3 * v_r_30546 + 3] = 64 + v_s_30547, v_i_30543[3 * v_r_30546 + 4] = 0, v_i_30543[3 * v_r_30546 + 5] = v_l_30550, v_i_30543[3 * v_r_30546 + 6] = v_s_30547, v_i_30543[3 * v_r_30546 + 7] = 0, v_i_30543[3 * v_r_30546 + 8] = v_c_30551, v_i_30543[3 * v_r_30546 + 9] = 64 + v_s_30547, v_i_30543[3 * v_r_30546 + 10] = 0, v_i_30543[3 * v_r_30546 + 11] = v_c_30551;
+                v_s_30547 = 64 * v_t_30553 - v_we_27734, v_a_30548 = mathMin(v_n_30545.jg[v_t_30553], v_U_30262.Eb.Ra.Mb), v_o_30549 = mathMax(v_n_30545.Hg[v_t_30553], v_U_30262.Eb.Ra.Pb), v_i_30543[3 * v_r_30546 + 0] = v_s_30547, v_i_30543[3 * v_r_30546 + 1] = 0, v_i_30543[3 * v_r_30546 + 2] = v_l_30550, v_i_30543[3 * v_r_30546 + 3] = 64 + v_s_30547, v_i_30543[3 * v_r_30546 + 4] = 0, v_i_30543[3 * v_r_30546 + 5] = v_l_30550, v_i_30543[3 * v_r_30546 + 6] = v_s_30547, v_i_30543[3 * v_r_30546 + 7] = 0, v_i_30543[3 * v_r_30546 + 8] = v_c_30551, v_i_30543[3 * v_r_30546 + 9] = 64 + v_s_30547, v_i_30543[3 * v_r_30546 + 10] = 0, v_i_30543[3 * v_r_30546 + 11] = v_c_30551;
                 for (let v_t_30554 = 0; v_t_30554 < 4; ++v_t_30554) v_e_30544[4 * (v_r_30546 + v_t_30554) + 0] = v_t_30554 < 2 ? 0 : 1, v_e_30544[4 * (v_r_30546 + v_t_30554) + 1] = v_a_30548 / .1, v_e_30544[4 * (v_r_30546 + v_t_30554) + 2] = -v_o_30549 / .1, v_e_30544[4 * (v_r_30546 + v_t_30554) + 3] = .5;
                 v_r_30546 += 4;
               }
             }
-            0 < v_r_30546 && (v_J_30266.ml.jl("vertices", 3 * v_r_30546), v_J_30266.ml.jl("colors", 4 * v_r_30546), v_fn_27601.drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), v_se_27562.TRIANGLES, v_r_30546 / 2 * 3));
+            0 < v_r_30546 && (v_J_30266.ml.jl("vertices", 3 * v_r_30546), v_J_30266.ml.jl("colors", 4 * v_r_30546), v_fn_27601.drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), glContext.TRIANGLES, v_r_30546 / 2 * 3));
           },
           $l: function () {
             let v_s_30555,
@@ -1154,7 +1154,7 @@
               v_i_30580 <= -.0625 || .84 <= v_i_30580 || (v_a_30556 = 64 * v_t_30579 - v_we_27734, v_l_30558 = v_r_30583 ? (v_o_30557 = -v_ve_27731 * v_i_30580 - v_L0_27737 / 2, -v_ve_27731 * v_i_30580 + v_L0_27737 / 2) : (v_o_30557 = -v_ve_27731 * v_i_30580 - v_R0_27736 / 2, -v_ve_27731 * v_i_30580 + v_R0_27736 / 2), v_s_30555 = 64 * v_e_30581, 1024 <= v_u_30560 + 4 && v_w_30570(), v_c_30559 = v_ni_30282[v_e_30581], v___30562[3 * v_u_30560 + 0] = v_a_30556, v___30562[3 * v_u_30560 + 2] = v_o_30557, v___30562[3 * v_u_30560 + 3] = v_a_30556 + v_s_30555, v___30562[3 * v_u_30560 + 5] = v_o_30557, v___30562[3 * v_u_30560 + 6] = v_a_30556, v___30562[3 * v_u_30560 + 8] = v_l_30558, v___30562[3 * v_u_30560 + 9] = v_a_30556 + v_s_30555, v___30562[3 * v_u_30560 + 11] = v_l_30558, v_h_30563[2 * v_u_30560 + 0] = v_g_30281[v_n_30582][v_c_30559][0], v_h_30563[2 * v_u_30560 + 1] = v_g_30281[v_n_30582][v_c_30559][1], v_h_30563[2 * v_u_30560 + 2] = v_g_30281[v_n_30582][v_c_30559][2], v_h_30563[2 * v_u_30560 + 3] = v_g_30281[v_n_30582][v_c_30559][1], v_h_30563[2 * v_u_30560 + 4] = v_g_30281[v_n_30582][v_c_30559][0], v_h_30563[2 * v_u_30560 + 5] = v_g_30281[v_n_30582][v_c_30559][3], v_h_30563[2 * v_u_30560 + 6] = v_g_30281[v_n_30582][v_c_30559][2], v_h_30563[2 * v_u_30560 + 7] = v_g_30281[v_n_30582][v_c_30559][3], v_d_30564[3 * v_f_30561 + 0] = v_u_30560 + 0, v_d_30564[3 * v_f_30561 + 1] = v_u_30560 + 1, v_d_30564[3 * v_f_30561 + 2] = v_u_30560 + 2, v_d_30564[3 * v_f_30561 + 3] = v_u_30560 + 2, v_d_30564[3 * v_f_30561 + 4] = v_u_30560 + 1, v_d_30564[3 * v_f_30561 + 5] = v_u_30560 + 3, v_u_30560 += 4, v_f_30561 += 2);
             }
             function v_w_30570() {
-              0 !== v_u_30560 && (v_J_30266.hl.subdata("gl_Vertex", new Float32Array(v___30562, 0, 3 * v_u_30560)), v_J_30266.hl.subdata("gl_TexCoord", new Float32Array(v_h_30563, 0, 2 * v_u_30560)), v_J_30266.hl.subdata_i("triangles", new Uint16Array(v_d_30564, 0, 3 * v_f_30561)), v_Ve_27579.uniforms(v_vn_27625).drawBuffers(v_J_30266.hl.vertexBuffers, v_J_30266.hl.indexBuffers.triangles, v_se_27562.TRIANGLES, 3 * v_f_30561), v_u_30560 = 0, v_f_30561 = 0);
+              0 !== v_u_30560 && (v_J_30266.hl.subdata("gl_Vertex", new Float32Array(v___30562, 0, 3 * v_u_30560)), v_J_30266.hl.subdata("gl_TexCoord", new Float32Array(v_h_30563, 0, 2 * v_u_30560)), v_J_30266.hl.subdata_i("triangles", new Uint16Array(v_d_30564, 0, 3 * v_f_30561)), v_Ve_27579.uniforms(v_vn_27625).drawBuffers(v_J_30266.hl.vertexBuffers, v_J_30266.hl.indexBuffers.triangles, glContext.TRIANGLES, 3 * v_f_30561), v_u_30560 = 0, v_f_30561 = 0);
             }
             v_w_30570();
           },
@@ -1162,21 +1162,21 @@
             var v_i_30584,
               v_e_30585,
               v_n_30586 = -1.25 * v_U_30262.wa[v_U_30262.q1.Zu.Wg];
-            v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_H_30265.Iy.bind(0);
+            glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_H_30265.Iy.bind(0);
             for (let v_t_30587 = 0; v_t_30587 < v_U_30262.ta; ++v_t_30587) v_i_30584 = v_U_30262.ea[v_t_30587], !v__0_27710(v_i_30584.Fi) && (v_i_30584.Fi !== v_ce_27678 && v_i_30584.Fi !== v_le_27675 || 1 !== v_i_30584.Jg || v_i_30584.Ug !== v_v0_27715) || (v_e_30585 = v_ni_30282[v_i_30584.Le], v_i_30584.Le === v_e_30585 ? v_nn_27592.uniforms({
               texture: 0,
               transX: 64 * v_i_30584.ou,
               transY: 0,
               transZ: -(v_i_30584.od >= v_U_30262.C1 ? v_i_30584.Pg : v_i_30584.Og) * v_ve_27731,
               roll: v_n_30586
-            }).uniforms().draw((v_bn_27637 ? v_J_30266.ll : v_J_30266.ol).get(v_e_30585)) : (v_se_27562.pushMatrix(), v_se_27562.scale(v_i_30584.Le / v_e_30585, 1, 1), v_nn_27592.uniforms({
+            }).uniforms().draw((v_bn_27637 ? v_J_30266.ll : v_J_30266.ol).get(v_e_30585)) : (glContext.pushMatrix(), glContext.scale(v_i_30584.Le / v_e_30585, 1, 1), v_nn_27592.uniforms({
               texture: 0,
               transX: v_we_27734 - 64 * v_e_30585 / 2 + 64 * (v_i_30584.ou + v_i_30584.Le / 2 - 8) * (v_e_30585 / v_i_30584.Le),
               transY: 0,
               transZ: -(v_i_30584.od >= v_U_30262.C1 ? v_i_30584.Pg : v_i_30584.Og) * v_ve_27731,
               roll: v_n_30586
-            }).draw((v_bn_27637 ? v_J_30266.ll : v_J_30266.ol).get(v_e_30585)), v_se_27562.popMatrix()));
-            v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA);
+            }).draw((v_bn_27637 ? v_J_30266.ll : v_J_30266.ol).get(v_e_30585)), glContext.popMatrix()));
+            glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA);
           },
           Ql: function () {
             var v_i_30588,
@@ -1191,10 +1191,10 @@
               v_u_30597,
               v_f_30598;
             for (let v_t_30599 = v_U_30262.ta - 1; 0 <= v_t_30599; --v_t_30599) if ((v_i_30588 = v_U_30262.ea[v_t_30599]).Fi === v_Rn_27666) {
-              v_a_30593 = (v_s_30592 = 64 * v_i_30588.ou - v_we_27734 + 10) + 64 * v_i_30588.Le - 20, v_o_30594 = -v_i_30588.Pg * v_ve_27731, v_l_30595 = (v_u_30597 = v_ke_27824(30 * (v_ae_27643.xt() / 1e3 + v_i_30588.od)) % 8) / 8, v_c_30596 = (1 + v_u_30597) / 8, v_e_30589[3 * v_r_30591 + 0] = v_s_30592, v_e_30589[3 * v_r_30591 + 1] = 60, v_e_30589[3 * v_r_30591 + 2] = v_o_30594 - 20, v_e_30589[3 * v_r_30591 + 3] = v_a_30593, v_e_30589[3 * v_r_30591 + 4] = 60, v_e_30589[3 * v_r_30591 + 5] = v_o_30594 - 20, v_e_30589[3 * v_r_30591 + 6] = v_s_30592, v_e_30589[3 * v_r_30591 + 7] = 2, v_e_30589[3 * v_r_30591 + 8] = v_o_30594 + 92 / 3, v_e_30589[3 * v_r_30591 + 9] = v_a_30593, v_e_30589[3 * v_r_30591 + 10] = 2, v_e_30589[3 * v_r_30591 + 11] = v_o_30594 + 92 / 3, v_n_30590[2 * v_r_30591 + 0] = v_l_30595, v_n_30590[2 * v_r_30591 + 1] = .5, v_n_30590[2 * v_r_30591 + 2] = v_c_30596, v_n_30590[2 * v_r_30591 + 3] = .5, v_n_30590[2 * v_r_30591 + 4] = v_l_30595, v_n_30590[2 * v_r_30591 + 5] = 0, v_n_30590[2 * v_r_30591 + 6] = v_c_30596, v_n_30590[2 * v_r_30591 + 7] = 0, v_r_30591 += 4, v_u_30597 = v_ke_27824(30 * (v_ae_27643.xt() / 1e3 + v_i_30588.od));
+              v_a_30593 = (v_s_30592 = 64 * v_i_30588.ou - v_we_27734 + 10) + 64 * v_i_30588.Le - 20, v_o_30594 = -v_i_30588.Pg * v_ve_27731, v_l_30595 = (v_u_30597 = mathFloor(30 * (v_ae_27643.xt() / 1e3 + v_i_30588.od)) % 8) / 8, v_c_30596 = (1 + v_u_30597) / 8, v_e_30589[3 * v_r_30591 + 0] = v_s_30592, v_e_30589[3 * v_r_30591 + 1] = 60, v_e_30589[3 * v_r_30591 + 2] = v_o_30594 - 20, v_e_30589[3 * v_r_30591 + 3] = v_a_30593, v_e_30589[3 * v_r_30591 + 4] = 60, v_e_30589[3 * v_r_30591 + 5] = v_o_30594 - 20, v_e_30589[3 * v_r_30591 + 6] = v_s_30592, v_e_30589[3 * v_r_30591 + 7] = 2, v_e_30589[3 * v_r_30591 + 8] = v_o_30594 + 92 / 3, v_e_30589[3 * v_r_30591 + 9] = v_a_30593, v_e_30589[3 * v_r_30591 + 10] = 2, v_e_30589[3 * v_r_30591 + 11] = v_o_30594 + 92 / 3, v_n_30590[2 * v_r_30591 + 0] = v_l_30595, v_n_30590[2 * v_r_30591 + 1] = .5, v_n_30590[2 * v_r_30591 + 2] = v_c_30596, v_n_30590[2 * v_r_30591 + 3] = .5, v_n_30590[2 * v_r_30591 + 4] = v_l_30595, v_n_30590[2 * v_r_30591 + 5] = 0, v_n_30590[2 * v_r_30591 + 6] = v_c_30596, v_n_30590[2 * v_r_30591 + 7] = 0, v_r_30591 += 4, v_u_30597 = mathFloor(30 * (v_ae_27643.xt() / 1e3 + v_i_30588.od));
               for (let v_t_30600 = 0; v_t_30600 < v_i_30588.Le; ++v_t_30600) 7 < (v_f_30598 = (v_u_30597 + v_ai_30286[v_t_30600]) % 16) || (v_l_30595 = v_f_30598 / 16, v_c_30596 = (1 + v_f_30598) / 16, v_a_30593 = 64 + (v_s_30592 = 64 * (v_i_30588.ou + v_t_30600) - v_we_27734), v_e_30589[3 * v_r_30591 + 0] = v_s_30592, v_e_30589[3 * v_r_30591 + 1] = 60, v_e_30589[3 * v_r_30591 + 2] = v_o_30594 - 20, v_e_30589[3 * v_r_30591 + 3] = v_a_30593, v_e_30589[3 * v_r_30591 + 4] = 60, v_e_30589[3 * v_r_30591 + 5] = v_o_30594 - 20, v_e_30589[3 * v_r_30591 + 6] = v_s_30592, v_e_30589[3 * v_r_30591 + 7] = 20, v_e_30589[3 * v_r_30591 + 8] = v_o_30594 + 92 / 3, v_e_30589[3 * v_r_30591 + 9] = v_a_30593, v_e_30589[3 * v_r_30591 + 10] = 20, v_e_30589[3 * v_r_30591 + 11] = v_o_30594 + 92 / 3, v_n_30590[2 * v_r_30591 + 0] = v_l_30595, v_n_30590[2 * v_r_30591 + 1] = 1, v_n_30590[2 * v_r_30591 + 2] = v_c_30596, v_n_30590[2 * v_r_30591 + 3] = 1, v_n_30590[2 * v_r_30591 + 4] = v_l_30595, v_n_30590[2 * v_r_30591 + 5] = .75, v_n_30590[2 * v_r_30591 + 6] = v_c_30596, v_n_30590[2 * v_r_30591 + 7] = .75, v_r_30591 += 4);
             }
-            0 < v_r_30591 && (v_J_30266.ml.jl("vertices", 3 * v_r_30591), v_J_30266.ml.jl("coords", 2 * v_r_30591), v_H_30265.Lo.bind(0), v_Ve_27579.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), v_se_27562.TRIANGLES, v_r_30591 / 2 * 3));
+            0 < v_r_30591 && (v_J_30266.ml.jl("vertices", 3 * v_r_30591), v_J_30266.ml.jl("coords", 2 * v_r_30591), v_H_30265.Lo.bind(0), v_Ve_27579.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), glContext.TRIANGLES, v_r_30591 / 2 * 3));
           },
           ec: function (v_o_30601) {
             var v_n_30602 = v_o_30601.Ug !== v_v0_27715 && (1 === v_o_30601.Ug || null !== v_o_30601.Sw && v_U_30262.rr + v_U_30262.S1 + v_U_30262.I1 + v_U_30262.dI - v_o_30601.Sw <= v_U_30262.Eb.Fb.Db),
@@ -1213,7 +1213,7 @@
               v___30609 = [],
               v_h_30610 = [];
             for (let v_t_30627 = 0; v_t_30627 < v_s_30605; v_t_30627 += v_L_30267) {
-              var v_i_30611 = v_me_27822(v_L_30267, v_s_30605 - v_t_30627);
+              var v_i_30611 = mathMin(v_L_30267, v_s_30605 - v_t_30627);
               v_u_30607.push(new Float32Array(6 * v_i_30611 * 3)), v_f_30608.push(new Float32Array(6 * v_i_30611 * 2)), v___30609.push(new Float32Array(6 * v_i_30611 * 4)), v_c_30606 && v_h_30610.push(new Float32Array(4 * v_i_30611 * 3));
             }
             let v_d_30612 = v_u_30607[0],
@@ -1248,19 +1248,19 @@
             if (0 < v_s_30605) {
               let v_i_30642,
                 v_e_30643 = (v_i_30642 = v_n_30602 ? 1 : 3 === v_o_30601.Ug || 2 === v_o_30601.Ug ? .375 : v_o_30601.Ug === v_v0_27715 ? 1 : 0, 0);
-              v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), (v_o_30601.Fi === v_ce_27678 ? v_H_30265.zs : v_H_30265.Xs).bind(0);
-              for (let v_t_30644 = 0; v_t_30644 < v_u_30607.length; ++v_t_30644) v_e_30643 = v_me_27822(v_L_30267, v_s_30605 - v_t_30644 * v_L_30267), v_J_30266.vl.subdata("gl_Vertex", v_u_30607[v_t_30644]), v_J_30266.vl.subdata("gl_Color", v___30609[v_t_30644]), v_J_30266.vl.subdata("gl_TexCoord", v_f_30608[v_t_30644]), v_cn_27599.uniforms({
+              glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), (v_o_30601.Fi === v_ce_27678 ? v_H_30265.zs : v_H_30265.Xs).bind(0);
+              for (let v_t_30644 = 0; v_t_30644 < v_u_30607.length; ++v_t_30644) v_e_30643 = mathMin(v_L_30267, v_s_30605 - v_t_30644 * v_L_30267), v_J_30266.vl.subdata("gl_Vertex", v_u_30607[v_t_30644]), v_J_30266.vl.subdata("gl_Color", v___30609[v_t_30644]), v_J_30266.vl.subdata("gl_TexCoord", v_f_30608[v_t_30644]), v_cn_27599.uniforms({
                 texture: 0,
-                add_level: v_n_30602 ? .25 * v_n1_27827(v_r_30604 * v_a1_27833 * 5 - v_a1_27833 / 2) + 1.5 : 1,
+                add_level: v_n_30602 ? .25 * mathSin(v_r_30604 * mathPI * 5 - mathPI / 2) + 1.5 : 1,
                 opacity: v_i_30642
-              }).drawBuffers(v_J_30266.vl.vertexBuffers, void 0, v_se_27562.TRIANGLES, 6 * v_e_30643);
-              if (v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), v_o_30601.Fi === v_ce_27678 && v_n_30602) {
+              }).drawBuffers(v_J_30266.vl.vertexBuffers, void 0, glContext.TRIANGLES, 6 * v_e_30643);
+              if (glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), v_o_30601.Fi === v_ce_27678 && v_n_30602) {
                 v_H_30265.Zs.bind(0);
-                for (let v_t_30645 = 0; v_t_30645 < v_u_30607.length; ++v_t_30645) v_e_30643 = v_me_27822(v_L_30267, v_s_30605 - v_t_30645 * v_L_30267), v_J_30266.vl.subdata("gl_Vertex", v_u_30607[v_t_30645]), v_J_30266.vl.subdata("gl_Color", v___30609[v_t_30645]), v_J_30266.vl.subdata("gl_TexCoord", v_f_30608[v_t_30645]), v_Ve_27579.uniforms(v_vn_27625).drawBuffers(v_J_30266.vl.vertexBuffers, void 0, v_se_27562.TRIANGLES, 6 * v_e_30643);
+                for (let v_t_30645 = 0; v_t_30645 < v_u_30607.length; ++v_t_30645) v_e_30643 = mathMin(v_L_30267, v_s_30605 - v_t_30645 * v_L_30267), v_J_30266.vl.subdata("gl_Vertex", v_u_30607[v_t_30645]), v_J_30266.vl.subdata("gl_Color", v___30609[v_t_30645]), v_J_30266.vl.subdata("gl_TexCoord", v_f_30608[v_t_30645]), v_Ve_27579.uniforms(v_vn_27625).drawBuffers(v_J_30266.vl.vertexBuffers, void 0, glContext.TRIANGLES, 6 * v_e_30643);
               }
               if (v_c_30606) {
                 v_H_30265.Ys.bind(0);
-                for (let v_t_30646 = 0; v_t_30646 < v_u_30607.length; ++v_t_30646) v_e_30643 = v_me_27822(v_L_30267, v_s_30605 - v_t_30646 * v_L_30267), v_J_30266.gl.subdata("gl_Vertex", v_h_30610[v_t_30646]), v_Ve_27579.uniforms(v_vn_27625).drawBuffers(v_J_30266.gl.vertexBuffers, v_J_30266.gl.indexBuffers.triangles, v_se_27562.TRIANGLES, 6 * v_e_30643);
+                for (let v_t_30646 = 0; v_t_30646 < v_u_30607.length; ++v_t_30646) v_e_30643 = mathMin(v_L_30267, v_s_30605 - v_t_30646 * v_L_30267), v_J_30266.gl.subdata("gl_Vertex", v_h_30610[v_t_30646]), v_Ve_27579.uniforms(v_vn_27625).drawBuffers(v_J_30266.gl.vertexBuffers, v_J_30266.gl.indexBuffers.triangles, glContext.TRIANGLES, 6 * v_e_30643);
               }
             }
           },
@@ -1285,7 +1285,7 @@
               v_s_30658 = v_U_30262.C1;
             let v_a_30659 = 0,
               v_o_30660;
-            v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_H_30265.uy.bind(0);
+            glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_H_30265.uy.bind(0);
             for (let v_t_30661 = 0; v_t_30661 < v_i_30654.length; ++v_t_30661) if ((v_e_30655 = v_i_30654[v_t_30661]).Fi === v_ue_27682 || v_e_30655.Fi === v_t0_27693) for (v_a_30659 = v_e_30655.We.length - 1; 0 <= v_a_30659; --v_a_30659) (v_n_30656 = v_e_30655.We[v_a_30659]).Fi !== v_Wn_27684 && v_n_30656.Fi !== v_Vn_27683 && v_n_30656.Fi !== v_e0_27695 && v_n_30656.Fi !== v_i0_27694 || 5 === v_n_30656.Ug || (v_o_30660 = v_n_30656.od >= v_s_30658 ? v_n_30656.Pg : v_n_30656.Og) < -.0625 || .84 < v_o_30660 || v_nn_27592.uniforms({
               texture: 0,
               transX: 64 * v_n_30656.ou,
@@ -1293,7 +1293,7 @@
               transZ: v_o_30660 * -v_ve_27731,
               roll: 2.5 * v_r_30657
             }).draw(v_J_30266.cl.get(v_n_30656.Le));
-            v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA);
+            glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA);
           },
           nc: function (v_i_30662) {
             var v_e_30663,
@@ -1302,7 +1302,7 @@
               v_s_30666 = v_U_30262.C1;
             let v_a_30667 = 0,
               v_o_30668;
-            v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_H_30265.hy.bind(0);
+            glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_H_30265.hy.bind(0);
             for (let v_t_30669 = 0; v_t_30669 < v_i_30662.length; ++v_t_30669) if ((v_e_30663 = v_i_30662[v_t_30669]).Fi === v_ue_27682 || v_e_30663.Fi === v_t0_27693) for (v_a_30667 = v_e_30663.We.length - 1; 0 <= v_a_30667; --v_a_30667) (v_n_30664 = v_e_30663.We[v_a_30667]).Fi !== v_Wn_27684 && v_n_30664.Fi !== v_Vn_27683 && v_n_30664.Fi !== v_e0_27695 && v_n_30664.Fi !== v_i0_27694 || 5 === v_n_30664.Ug || (v_o_30668 = v_n_30664.od >= v_s_30666 ? v_n_30664.Pg : v_n_30664.Og) < -.0625 || .84 < v_o_30668 || v_ln_27597.uniforms({
               texture: 0,
               transX: 64 * v_n_30664.ou,
@@ -1310,7 +1310,7 @@
               h: v_n_30664.G0 / 16 * 2,
               roll: -v_r_30665 / 2
             }).draw(v_J_30266.ul.get(v_n_30664.Le));
-            v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA);
+            glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA);
           },
           rc: function (v_i_30670) {
             var v_e_30671,
@@ -1318,7 +1318,7 @@
               v_r_30673 = v_U_30262.C1;
             let v_s_30674 = 0,
               v_a_30675;
-            for (let v_t_30676 = 0; v_t_30676 < v_i_30670.length; ++v_t_30676) if ((v_e_30671 = v_i_30670[v_t_30676]).Fi === v_ue_27682 || v_e_30671.Fi === v_t0_27693) for (v_s_30674 = v_e_30671.We.length - 1; 0 <= v_s_30674; --v_s_30674) (v_n_30672 = v_e_30671.We[v_s_30674]).Fi !== v_Wn_27684 && v_n_30672.Fi !== v_Vn_27683 && v_n_30672.Fi !== v_e0_27695 && v_n_30672.Fi !== v_i0_27694 || 5 === v_n_30672.Ug || (v_a_30675 = v_n_30672.od >= v_r_30673 ? v_n_30672.Pg : v_n_30672.Og) < -.0625 || .84 < v_a_30675 || (v_se_27562.pushMatrix(), v_se_27562.translate(64 * v_n_30672.ou, 0, -v_a_30675 * v_ve_27731), v_Je_27574.draw(v_J_30266.Yo.get(v_n_30672.Le)), v_se_27562.popMatrix());
+            for (let v_t_30676 = 0; v_t_30676 < v_i_30670.length; ++v_t_30676) if ((v_e_30671 = v_i_30670[v_t_30676]).Fi === v_ue_27682 || v_e_30671.Fi === v_t0_27693) for (v_s_30674 = v_e_30671.We.length - 1; 0 <= v_s_30674; --v_s_30674) (v_n_30672 = v_e_30671.We[v_s_30674]).Fi !== v_Wn_27684 && v_n_30672.Fi !== v_Vn_27683 && v_n_30672.Fi !== v_e0_27695 && v_n_30672.Fi !== v_i0_27694 || 5 === v_n_30672.Ug || (v_a_30675 = v_n_30672.od >= v_r_30673 ? v_n_30672.Pg : v_n_30672.Og) < -.0625 || .84 < v_a_30675 || (glContext.pushMatrix(), glContext.translate(64 * v_n_30672.ou, 0, -v_a_30675 * v_ve_27731), v_Je_27574.draw(v_J_30266.Yo.get(v_n_30672.Le)), glContext.popMatrix());
           },
           ac: function (v_t_30677) {
             var v_i_30678 = v_U_30262.C1;
@@ -1336,7 +1336,7 @@
               v_h_30690,
               v_d_30691,
               v_v_30692;
-            if (v_se_27562.enable(v_se_27562.CULL_FACE), v_se_27562.cullFace(v_se_27562.FRONT), 1 === v_t_30677) {
+            if (glContext.enable(glContext.CULL_FACE), glContext.cullFace(glContext.FRONT), 1 === v_t_30677) {
               v_H_30265.vy.bind(0);
               for (let v_t_30694 = 0; v_t_30694 < v_U_30262.ta; ++v_t_30694) if (v_U_30262.ea[v_t_30694].Fi === v_s0_27698 && v_U_30262.ea[v_t_30694].Jg === v_h0_27711) {
                 v_s_30682 = v_U_30262.ea[v_t_30694];
@@ -1357,9 +1357,9 @@
               0 !== v_l_30685 && (v_J_30266.bl.subdata("gl_Vertex", new Float32Array(v_e_30679, 0, 3 * v_l_30685)), v_J_30266.bl.subdata("gl_TexCoord", new Float32Array(v_n_30680, 0, 2 * v_l_30685)), v_J_30266.bl.subdata_i("triangles", new Uint16Array(v_r_30681, 0, 3 * v_c_30686)), v_Qe_27589.uniforms({
                 texture: 0,
                 opacity: v_o_30684
-              }).drawBuffers(v_J_30266.bl.vertexBuffers, v_J_30266.bl.indexBuffers.triangles, v_se_27562.TRIANGLES, 3 * v_c_30686), v_c_30686 = 0, v_l_30685 = 0);
+              }).drawBuffers(v_J_30266.bl.vertexBuffers, v_J_30266.bl.indexBuffers.triangles, glContext.TRIANGLES, 3 * v_c_30686), v_c_30686 = 0, v_l_30685 = 0);
             }
-            v_w_30693(), v_se_27562.disable(v_se_27562.CULL_FACE);
+            v_w_30693(), glContext.disable(glContext.CULL_FACE);
           },
           oc: function () {
             var v_i_30699,
@@ -1370,20 +1370,20 @@
             let v_a_30704 = new Float32Array(v_J_30266.bl.vertices),
               v_o_30705 = new Float32Array(v_J_30266.bl.coords),
               v_l_30706 = new Uint16Array(v_J_30266.bl.triangles),
-              v_t_30707 = .125 * v_n1_27827(v_U_30262.wa[v_U_30262.q1.Zu.Wg] * v_a1_27833 * 5 - v_a1_27833 / 2) + 1;
+              v_t_30707 = .125 * mathSin(v_U_30262.wa[v_U_30262.q1.Zu.Wg] * mathPI * 5 - mathPI / 2) + 1;
             let v_c_30708 = 0,
               v_u_30709 = 0,
               v_f_30710;
-            v_H_30265.gy.bind(0), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE);
+            v_H_30265.gy.bind(0), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE);
             for (let v_t_30712 = 0; v_t_30712 < v_U_30262.ta; ++v_t_30712) v_U_30262.ea[v_t_30712].Fi !== v_s0_27698 || v_U_30262.ea[v_t_30712].Jg !== v_h0_27711 || v_U_30262.ea[v_t_30712].Ug > v_v0_27715 || (v_r_30702 = v_U_30262.ea[v_t_30712], 2048 <= v_c_30708 + 4 && v___30711(), v_i_30699 = 64 * v_r_30702.Le - 8, v_e_30700 = -v_we_27734 + 64 * v_r_30702.ou + 4, v_n_30701 = v_E0_27739 * v_r_30702.G0 / 16 + 6.6667, v_r_30702 = -(v_r_30702.od >= v_s_30703 ? v_r_30702.Pg : v_r_30702.Og) * v_ve_27731, v_f_30710 = 3 * v_c_30708, v_f_30710 = v_to_28090(v_a_30704, v_f_30710, v_e_30700 - 10, 10 + v_n_30701, v_j_30274(10 + v_n_30701) - 40 - 225 + v_r_30702), v_f_30710 = v_to_28090(v_a_30704, v_f_30710, v_e_30700 + v_i_30699 + 10, 10 + v_n_30701, v_j_30274(10 + v_n_30701) - 40 - 225 + v_r_30702), v_f_30710 = v_to_28090(v_a_30704, v_f_30710, v_e_30700 + v_i_30699 + 10, 10 + v_n_30701, v_j_30274(10 + v_n_30701) + 40 + 20 + v_r_30702), v_f_30710 = v_to_28090(v_a_30704, v_f_30710, v_e_30700 - 10, 10 + v_n_30701, v_j_30274(10 + v_n_30701) + 40 + 20 + v_r_30702), v_f_30710 = v_to_28090(v_a_30704, v_f_30710, 5 + v_e_30700, v_n_30701, v_j_30274(v_n_30701) - 40 + 5 + v_r_30702), v_f_30710 = v_to_28090(v_a_30704, v_f_30710, v_e_30700 + v_i_30699 - 5, v_n_30701, v_j_30274(v_n_30701) - 40 + 5 + v_r_30702), v_f_30710 = v_to_28090(v_a_30704, v_f_30710, v_e_30700 + v_i_30699 - 5, v_n_30701, v_j_30274(v_n_30701) + 40 - 5 + v_r_30702), v_to_28090(v_a_30704, v_f_30710, 5 + v_e_30700, v_n_30701, v_j_30274(v_n_30701) + 40 - 5 + v_r_30702), v_f_30710 = 2 * v_c_30708, v_f_30710 = v_io_28091(v_o_30705, v_f_30710, .25, 0), v_f_30710 = v_io_28091(v_o_30705, v_f_30710, .75, 0), v_f_30710 = v_io_28091(v_o_30705, v_f_30710, .25, 0), v_f_30710 = v_io_28091(v_o_30705, v_f_30710, .75, 0), v_f_30710 = v_io_28091(v_o_30705, v_f_30710, .25, .75), v_f_30710 = v_io_28091(v_o_30705, v_f_30710, .75, .75), v_f_30710 = v_io_28091(v_o_30705, v_f_30710, .25, .75), v_io_28091(v_o_30705, v_f_30710, .75, .75), v_f_30710 = 3 * v_u_30709, v_f_30710 = v_eo_28092(v_l_30706, v_f_30710, v_c_30708, 0, 1, 5, 4), v_f_30710 = v_eo_28092(v_l_30706, v_f_30710, v_c_30708, 1, 2, 6, 5), v_f_30710 = v_eo_28092(v_l_30706, v_f_30710, v_c_30708, 2, 3, 7, 6), v_eo_28092(v_l_30706, v_f_30710, v_c_30708, 3, 0, 4, 7), v_c_30708 += 8, v_u_30709 += 8);
             function v___30711() {
               0 !== v_c_30708 && (v_J_30266.bl.subdata("gl_Vertex", new Float32Array(v_a_30704, 0, 3 * v_c_30708)), v_J_30266.bl.subdata("gl_TexCoord", new Float32Array(v_o_30705, 0, 2 * v_c_30708)), v_J_30266.bl.subdata_i("triangles", new Uint16Array(v_l_30706, 0, 3 * v_u_30709)), v__n_27602.uniforms({
                 texture: 0,
                 add_level: v_t_30707,
                 opacity: 1
-              }).drawBuffers(v_J_30266.bl.vertexBuffers, v_J_30266.bl.indexBuffers.triangles, v_se_27562.TRIANGLES, 3 * v_u_30709), v_c_30708 = 0);
+              }).drawBuffers(v_J_30266.bl.vertexBuffers, v_J_30266.bl.indexBuffers.triangles, glContext.TRIANGLES, 3 * v_u_30709), v_c_30708 = 0);
             }
-            v___30711(), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA);
+            v___30711(), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA);
           },
           lc: function (v_i_30713) {
             let v_e_30714, v_n_30715, v_r_30716, v_s_30717;
@@ -1397,8 +1397,8 @@
                 transX: 0,
                 transZ: 0
               };
-            for (let v_t_30721 = 0; v_t_30721 < v_i_30713.length; ++v_t_30721) (v_i_30713[v_t_30721].Fi & v_xn_27661) !== v_zn_27686 || v_i_30713[v_t_30721].G0 <= 0 || v_U_30262.M1 < v_i_30713[v_t_30721].Pg || (v_n_30715 = (v_a_30718 = v_i_30713[v_t_30721]).Fi, v_e_30714 = (v_n_30715 === v_Kn_27687 ? v_J_30266.Jo : v_a_30718.Fi === v_Yn_27688 ? v_J_30266.zo : v_a_30718.Fi === v_qn_27689 ? v_J_30266.Wo : v_a_30718.Fi === v_Zn_27690 ? v_J_30266.Ko : v_a_30718.Fi === v_Qn_27692 ? v_J_30266.Xo : v_a_30718.Fi === v_$n_27691 ? v_J_30266.Zo : v_J_30266.Jo).get(v_a_30718.Le), v_r_30716 = v_n_30715 === v_Yn_27688 || v_n_30715 === v_Qn_27692 || v_n_30715 === v_$n_27691, v_s_30717 = v_n_30715 === v_qn_27689 || v_n_30715 === v_Zn_27690 || v_n_30715 === v_Qn_27692 || v_n_30715 === v_$n_27691, v_l_30720.roll = 1024 * v_o_30719 % 16777216 / 1024 / (v_r_30716 ? 1.9 : -.8), v_l_30720.bottom_opacity = v_s_30717 ? 0 : 1, v_l_30720.h = v_a_30718.G0 / 16 * 2, v_l_30720.transX = 64 * (v_a_30718.ou + v_a_30718.Le / 2) - v_we_27734, v_l_30720.transZ = -v_a_30718.Pg * v_ve_27731, v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), (1 === v_a_30718.Jg ? v_r_30716 ? v_H_30265.Js : v_H_30265.Ks : v_r_30716 ? v_H_30265.Ws : v_H_30265.Os).bind(0), v_$e_27588.uniforms(v_l_30720).draw(v_e_30714), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), (1 === v_a_30718.Jg ? v_r_30716 ? v_H_30265.Ay : v_H_30265.xy : v_r_30716 ? v_H_30265.Sy : v_H_30265.yy).bind(0), v_$e_27588.uniforms(v_l_30720).draw(v_e_30714));
-            v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA);
+            for (let v_t_30721 = 0; v_t_30721 < v_i_30713.length; ++v_t_30721) (v_i_30713[v_t_30721].Fi & v_xn_27661) !== v_zn_27686 || v_i_30713[v_t_30721].G0 <= 0 || v_U_30262.M1 < v_i_30713[v_t_30721].Pg || (v_n_30715 = (v_a_30718 = v_i_30713[v_t_30721]).Fi, v_e_30714 = (v_n_30715 === v_Kn_27687 ? v_J_30266.Jo : v_a_30718.Fi === v_Yn_27688 ? v_J_30266.zo : v_a_30718.Fi === v_qn_27689 ? v_J_30266.Wo : v_a_30718.Fi === v_Zn_27690 ? v_J_30266.Ko : v_a_30718.Fi === v_Qn_27692 ? v_J_30266.Xo : v_a_30718.Fi === v_$n_27691 ? v_J_30266.Zo : v_J_30266.Jo).get(v_a_30718.Le), v_r_30716 = v_n_30715 === v_Yn_27688 || v_n_30715 === v_Qn_27692 || v_n_30715 === v_$n_27691, v_s_30717 = v_n_30715 === v_qn_27689 || v_n_30715 === v_Zn_27690 || v_n_30715 === v_Qn_27692 || v_n_30715 === v_$n_27691, v_l_30720.roll = 1024 * v_o_30719 % 16777216 / 1024 / (v_r_30716 ? 1.9 : -.8), v_l_30720.bottom_opacity = v_s_30717 ? 0 : 1, v_l_30720.h = v_a_30718.G0 / 16 * 2, v_l_30720.transX = 64 * (v_a_30718.ou + v_a_30718.Le / 2) - v_we_27734, v_l_30720.transZ = -v_a_30718.Pg * v_ve_27731, glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), (1 === v_a_30718.Jg ? v_r_30716 ? v_H_30265.Js : v_H_30265.Ks : v_r_30716 ? v_H_30265.Ws : v_H_30265.Os).bind(0), v_$e_27588.uniforms(v_l_30720).draw(v_e_30714), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), (1 === v_a_30718.Jg ? v_r_30716 ? v_H_30265.Ay : v_H_30265.xy : v_r_30716 ? v_H_30265.Sy : v_H_30265.yy).bind(0), v_$e_27588.uniforms(v_l_30720).draw(v_e_30714));
+            glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA);
           },
           uc: function (v_i_30722) {
             var v_e_30723;
@@ -1437,7 +1437,7 @@
               for (let v_t_30751 = 0; v_t_30751 < v_d_30725.We.length; ++v_t_30751) if ((v_b_30735 = v_d_30725.We[v_t_30751]).Fi !== v_c0_27703) if (!(v_b_30735.od > v_v_30726 && v_i_30738.od <= v_v_30726) && (v_b_30735.od >= v_v_30726 && (v_b_30735.Pg < -.25 && v_i_30738.Pg < -.25 || .84 < v_b_30735.Pg && .84 < v_i_30738.Pg) || v_b_30735.od < v_v_30726 && (v_b_30735.Pg < 0 && v_i_30738.Og < 0 || .84 < v_b_30735.Pg && .84 < v_i_30738.Og)) || v_b_30735.od < v_v_30726 && v_i_30738.od < v_v_30726 || v_b_30735.Xg === v_i_30738.Xg) v_i_30738 = v_b_30735;else {
                 if (v_i_30738.od < v_v_30726) {
                   if (v_e_30739 = (v_v_30726 - v_i_30738.od) / (v_b_30735.od - v_i_30738.od), v_n_30740 = v_d_30725.Fi === v_t0_27693 ? 64 * v_Ee_28084(v_i_30738.ou, v_b_30735.ou, v_e_30739) : 64 * v_i_30738.ou, v_l_30745 = v_E0_27739 * v_b_30735.G0 / 16, v_c_30746 = v_E0_27739 * v_Ee_28084(v_i_30738.G0, v_b_30735.G0, v_e_30739) / 16, v_u_30747 = v_b_30735.Le, v_f_30748 = v_Ee_28084(v_i_30738.Le, v_b_30735.Le, v_e_30739), v_a_30743 = v_w_30730[v_b_30735.Le], v_o_30744 = v_Ee_28084(v_w_30730[v_i_30738.Le], v_w_30730[v_b_30735.Le], v_e_30739), v_r_30741 = (64 * v_u_30747 - v_a_30743) / 2, v_s_30742 = (64 * v_f_30748 - v_o_30744) / 2, v_y_30736 = 3 * v_k_30734, v_g_30731[v_y_30736 + 0] = 64 * v_b_30735.ou - v_we_27734 + v_r_30741, v_g_30731[v_y_30736 + 1] = v_l_30745, v_g_30731[v_y_30736 + 2] = -v_b_30735.Pg * v_ve_27731, v_g_30731[v_y_30736 + 3] = 64 * v_b_30735.ou - v_we_27734 + v_r_30741 + v_a_30743, v_g_30731[v_y_30736 + 4] = v_l_30745, v_g_30731[v_y_30736 + 5] = -v_b_30735.Pg * v_ve_27731, v_g_30731[v_y_30736 + 6] = v_n_30740 - v_we_27734 + v_s_30742, v_g_30731[v_y_30736 + 7] = v_c_30746, v_g_30731[v_y_30736 + 8] = 0, v_g_30731[v_y_30736 + 9] = v_n_30740 - v_we_27734 + v_s_30742 + v_o_30744, v_g_30731[v_y_30736 + 10] = v_c_30746, v_g_30731[v_y_30736 + 11] = 0, v_a_30743 = 64 * v_b_30735.ou + 64 * v_u_30747 / 2 - v_we_27734, v_o_30744 = v_n_30740 + 64 * v_f_30748 / 2 - v_we_27734, v_p_30733[v_y_30736 + 0] = v_a_30743 - 34, v_p_30733[v_y_30736 + 1] = v_l_30745, v_p_30733[v_y_30736 + 2] = -v_b_30735.Pg * v_ve_27731, v_p_30733[v_y_30736 + 3] = v_a_30743 + 34, v_p_30733[v_y_30736 + 4] = v_l_30745, v_p_30733[v_y_30736 + 5] = -v_b_30735.Pg * v_ve_27731, v_p_30733[v_y_30736 + 6] = v_o_30744 - 34, v_p_30733[v_y_30736 + 7] = v_c_30746, v_p_30733[v_y_30736 + 8] = 0, v_p_30733[v_y_30736 + 9] = v_o_30744 + 34, v_p_30733[v_y_30736 + 10] = v_c_30746, v_p_30733[v_y_30736 + 11] = 0, v_i_30738.Fi === v_ue_27682) {
-                    v___30749 = v_pe_27823(.25 - v_e_30739, 1e-5), v_h_30750 = v_me_27822(v_e_30739 / .25, 1), v_y_30736 = 4 * v_k_30734;
+                    v___30749 = mathMax(.25 - v_e_30739, 1e-5), v_h_30750 = mathMin(v_e_30739 / .25, 1), v_y_30736 = 4 * v_k_30734;
                     for (let v_t_30752 = 0; v_t_30752 < 4; ++v_t_30752) v_m_30732[v_y_30736 + 4 * v_t_30752 + 0] = v___30749, v_m_30732[v_y_30736 + 4 * v_t_30752 + 1] = v_h_30750, v_m_30732[v_y_30736 + 4 * v_t_30752 + 2] = 1, v_m_30732[v_y_30736 + 4 * v_t_30752 + 3] = 1;
                   }
                 } else if (v_l_30745 = v_E0_27739 * v_b_30735.G0 / 16, v_c_30746 = v_E0_27739 * v_i_30738.G0 / 16, v_u_30747 = v_b_30735.Le, v_f_30748 = v_i_30738.Le, v_a_30743 = v_w_30730[v_b_30735.Le], v_o_30744 = v_w_30730[v_i_30738.Le], v_r_30741 = (64 * v_u_30747 - v_a_30743) / 2, v_s_30742 = (64 * v_f_30748 - v_o_30744) / 2, v_y_30736 = 3 * v_k_30734, v_g_30731[v_y_30736 + 0] = 64 * v_b_30735.ou - v_we_27734 + v_r_30741, v_g_30731[v_y_30736 + 1] = v_l_30745, v_g_30731[v_y_30736 + 2] = -v_b_30735.Pg * v_ve_27731, v_g_30731[v_y_30736 + 3] = 64 * v_b_30735.ou - v_we_27734 + v_r_30741 + v_a_30743, v_g_30731[v_y_30736 + 4] = v_l_30745, v_g_30731[v_y_30736 + 5] = -v_b_30735.Pg * v_ve_27731, v_g_30731[v_y_30736 + 6] = 64 * v_i_30738.ou - v_we_27734 + v_s_30742, v_g_30731[v_y_30736 + 7] = v_c_30746, v_g_30731[v_y_30736 + 8] = -v_i_30738.Pg * v_ve_27731, v_g_30731[v_y_30736 + 9] = 64 * v_i_30738.ou - v_we_27734 + v_s_30742 + v_o_30744, v_g_30731[v_y_30736 + 10] = v_c_30746, v_g_30731[v_y_30736 + 11] = -v_i_30738.Pg * v_ve_27731, v_a_30743 = 64 * v_b_30735.ou + 64 * v_u_30747 / 2 - v_we_27734, v_o_30744 = 64 * v_i_30738.ou + 64 * v_f_30748 / 2 - v_we_27734, v_p_30733[3 * v_k_30734 + 0] = v_a_30743 - 34, v_p_30733[3 * v_k_30734 + 1] = v_l_30745, v_p_30733[3 * v_k_30734 + 2] = -v_b_30735.Pg * v_ve_27731, v_p_30733[3 * v_k_30734 + 3] = v_a_30743 + 34, v_p_30733[3 * v_k_30734 + 4] = v_l_30745, v_p_30733[3 * v_k_30734 + 5] = -v_b_30735.Pg * v_ve_27731, v_p_30733[3 * v_k_30734 + 6] = v_o_30744 - 34, v_p_30733[3 * v_k_30734 + 7] = v_c_30746, v_p_30733[3 * v_k_30734 + 8] = -v_i_30738.Pg * v_ve_27731, v_p_30733[3 * v_k_30734 + 9] = v_o_30744 + 34, v_p_30733[3 * v_k_30734 + 10] = v_c_30746, v_p_30733[3 * v_k_30734 + 11] = -v_i_30738.Pg * v_ve_27731, v_i_30738.Fi === v_ue_27682) {
@@ -1468,7 +1468,7 @@
               for (let v_t_30768 = 0; v_t_30768 < v_d_30725.We.length; ++v_t_30768) if ((v_b_30735 = v_d_30725.We[v_t_30768]).Fi !== v_c0_27703) if (v_b_30735.Og < -.25 && v_i_30755.Og < -.25 || 0 < v_b_30735.Og && 0 < v_i_30755.Og || v_b_30735.od >= v_v_30726 && v_i_30755.od >= v_v_30726 || v_b_30735.Xg === v_i_30755.Xg) v_i_30755 = v_b_30735;else {
                 if (v_b_30735.od >= v_v_30726) {
                   if (v_e_30756 = (v_v_30726 - v_i_30755.od) / (v_b_30735.od - v_i_30755.od), v_n_30757 = v_d_30725.Fi === v_t0_27693 ? 64 * v_Ee_28084(v_i_30755.ou, v_b_30735.ou, v_e_30756) : 64 * v_i_30755.ou, v_l_30762 = v_E0_27739 * v_Ee_28084(v_i_30755.G0, v_b_30735.G0, v_e_30756) / 16, v_c_30763 = v_E0_27739 * v_i_30755.G0 / 16, v_u_30764 = v_Ee_28084(v_i_30755.Le, v_b_30735.Le, v_e_30756), v_f_30765 = v_i_30755.Le, v_a_30760 = v_Ee_28084(v_w_30730[v_i_30755.Le], v_w_30730[v_b_30735.Le], v_e_30756), v_o_30761 = v_w_30730[v_i_30755.Le], v_r_30758 = (64 * v_u_30764 - v_a_30760) / 2, v_s_30759 = (64 * v_f_30765 - v_o_30761) / 2, v_y_30736 = 3 * v_k_30734, v_g_30731[v_y_30736 + 0] = v_n_30757 - v_we_27734 + v_r_30758, v_g_30731[v_y_30736 + 1] = v_l_30762, v_g_30731[v_y_30736 + 2] = 0, v_g_30731[v_y_30736 + 3] = v_n_30757 - v_we_27734 + v_r_30758 + v_a_30760, v_g_30731[v_y_30736 + 4] = v_l_30762, v_g_30731[v_y_30736 + 5] = 0, v_g_30731[v_y_30736 + 6] = 64 * v_i_30755.ou - v_we_27734 + v_s_30759, v_g_30731[v_y_30736 + 7] = v_c_30763, v_g_30731[v_y_30736 + 8] = -v_i_30755.Og * v_ve_27731, v_g_30731[v_y_30736 + 9] = 64 * v_i_30755.ou - v_we_27734 + v_s_30759 + v_o_30761, v_g_30731[v_y_30736 + 10] = v_c_30763, v_g_30731[v_y_30736 + 11] = -v_i_30755.Og * v_ve_27731, v_a_30760 = v_n_30757 - v_we_27734 + 64 * v_Ee_28084(v_i_30755.Le, v_b_30735.Le, v_e_30756) / 2, v_o_30761 = 64 * (v_i_30755.ou + v_i_30755.Le / 2) - v_we_27734, v_p_30733[v_y_30736 + 0] = v_a_30760 - 34, v_p_30733[v_y_30736 + 1] = v_l_30762, v_p_30733[v_y_30736 + 2] = 0, v_p_30733[v_y_30736 + 3] = v_a_30760 + 34, v_p_30733[v_y_30736 + 4] = v_l_30762, v_p_30733[v_y_30736 + 5] = 0, v_p_30733[v_y_30736 + 6] = v_o_30761 - 34, v_p_30733[v_y_30736 + 7] = v_c_30763, v_p_30733[v_y_30736 + 8] = -v_i_30755.Og * v_ve_27731, v_p_30733[v_y_30736 + 9] = v_o_30761 + 34, v_p_30733[v_y_30736 + 10] = v_c_30763, v_p_30733[v_y_30736 + 11] = -v_i_30755.Og * v_ve_27731, v_i_30755.Fi === v_ue_27682) {
-                    v___30766 = v_me_27822(.25 / v_e_30756, .99999), v_h_30767 = v_me_27822(v_e_30756 / .25, 1), v_y_30736 = 4 * v_k_30734;
+                    v___30766 = mathMin(.25 / v_e_30756, .99999), v_h_30767 = mathMin(v_e_30756 / .25, 1), v_y_30736 = 4 * v_k_30734;
                     for (let v_t_30769 = 0; v_t_30769 < 4; ++v_t_30769) v_m_30732[v_y_30736 + 4 * v_t_30769 + 0] = v___30766, v_m_30732[v_y_30736 + 4 * v_t_30769 + 1] = 0, v_m_30732[v_y_30736 + 4 * v_t_30769 + 2] = v_h_30767, v_m_30732[v_y_30736 + 4 * v_t_30769 + 3] = 1;
                   }
                 } else if (v_l_30762 = v_E0_27739 * v_b_30735.G0 / 16, v_c_30763 = v_E0_27739 * v_i_30755.G0 / 16, v_u_30764 = v_b_30735.Le, v_f_30765 = v_i_30755.Le, v_a_30760 = v_w_30730[v_b_30735.Le], v_o_30761 = v_w_30730[v_i_30755.Le], v_r_30758 = (64 * v_u_30764 - v_a_30760) / 2, v_s_30759 = (64 * v_f_30765 - v_o_30761) / 2, v_y_30736 = 3 * v_k_30734, v_g_30731[v_y_30736 + 0] = 64 * v_b_30735.ou - v_we_27734 + v_r_30758, v_g_30731[v_y_30736 + 1] = v_l_30762, v_g_30731[v_y_30736 + 2] = -v_b_30735.Og * v_ve_27731, v_g_30731[v_y_30736 + 3] = 64 * v_b_30735.ou - v_we_27734 + v_r_30758 + v_a_30760, v_g_30731[v_y_30736 + 4] = v_l_30762, v_g_30731[v_y_30736 + 5] = -v_b_30735.Og * v_ve_27731, v_g_30731[v_y_30736 + 6] = 64 * v_i_30755.ou - v_we_27734 + v_s_30759, v_g_30731[v_y_30736 + 7] = v_c_30763, v_g_30731[v_y_30736 + 8] = -v_i_30755.Og * v_ve_27731, v_g_30731[v_y_30736 + 9] = 64 * v_i_30755.ou - v_we_27734 + v_s_30759 + v_o_30761, v_g_30731[v_y_30736 + 10] = v_c_30763, v_g_30731[v_y_30736 + 11] = -v_i_30755.Og * v_ve_27731, v_a_30760 = 64 * v_b_30735.ou + 64 * v_u_30764 / 2 - v_we_27734, v_o_30761 = 64 * v_i_30755.ou + 64 * v_f_30765 / 2 - v_we_27734, v_p_30733[v_y_30736 + 0] = v_a_30760 - 34, v_p_30733[v_y_30736 + 1] = v_l_30762, v_p_30733[v_y_30736 + 2] = -v_b_30735.Og * v_ve_27731, v_p_30733[v_y_30736 + 3] = v_a_30760 + 34, v_p_30733[v_y_30736 + 4] = v_l_30762, v_p_30733[v_y_30736 + 5] = -v_b_30735.Og * v_ve_27731, v_p_30733[v_y_30736 + 6] = v_o_30761 - 34, v_p_30733[v_y_30736 + 7] = v_c_30763, v_p_30733[v_y_30736 + 8] = -v_i_30755.Og * v_ve_27731, v_p_30733[v_y_30736 + 9] = v_o_30761 + 34, v_p_30733[v_y_30736 + 10] = v_c_30763, v_p_30733[v_y_30736 + 11] = -v_i_30755.Og * v_ve_27731, v_i_30755.Fi === v_ue_27682) {
@@ -1483,19 +1483,19 @@
               }
             }
             function v_S_30737() {
-              0 !== v_k_30734 && (v_J_30266.wl.subdata("gl_Vertex", v_g_30731), v_J_30266.wl.subdata("gl_Color", v_m_30732), v_J_30266.kl.subdata("gl_Vertex", v_p_30733), v_d_30725.Fi === v_t0_27693 ? (v_se_27562.enable(v_se_27562.CULL_FACE), v_se_27562.cullFace(v_se_27562.FRONT), v_on_27596.uniforms({
+              0 !== v_k_30734 && (v_J_30266.wl.subdata("gl_Vertex", v_g_30731), v_J_30266.wl.subdata("gl_Color", v_m_30732), v_J_30266.kl.subdata("gl_Vertex", v_p_30733), v_d_30725.Fi === v_t0_27693 ? (glContext.enable(glContext.CULL_FACE), glContext.cullFace(glContext.FRONT), v_on_27596.uniforms({
                 texture: 0,
                 opacity: v_t_30727
-              }).drawBuffers(v_J_30266.wl.vertexBuffers, v_J_30266.wl.indexBuffers.triangles, v_se_27562.TRIANGLES, v_k_30734 / 2 * 3), v_se_27562.disable(v_se_27562.CULL_FACE), v_an_27595.uniforms({
+              }).drawBuffers(v_J_30266.wl.vertexBuffers, v_J_30266.wl.indexBuffers.triangles, glContext.TRIANGLES, v_k_30734 / 2 * 3), glContext.disable(glContext.CULL_FACE), v_an_27595.uniforms({
                 texture: 1,
                 opacity: v_i_30728
-              }).drawBuffers(v_J_30266.kl.vertexBuffers, v_J_30266.kl.indexBuffers.triangles, v_se_27562.TRIANGLES, v_k_30734 / 2 * 3)) : (v_an_27595.uniforms({
+              }).drawBuffers(v_J_30266.kl.vertexBuffers, v_J_30266.kl.indexBuffers.triangles, glContext.TRIANGLES, v_k_30734 / 2 * 3)) : (v_an_27595.uniforms({
                 texture: 1,
                 opacity: v_i_30728
-              }).drawBuffers(v_J_30266.kl.vertexBuffers, v_J_30266.kl.indexBuffers.triangles, v_se_27562.TRIANGLES, v_k_30734 / 2 * 3), v_on_27596.uniforms({
+              }).drawBuffers(v_J_30266.kl.vertexBuffers, v_J_30266.kl.indexBuffers.triangles, glContext.TRIANGLES, v_k_30734 / 2 * 3), v_on_27596.uniforms({
                 texture: 0,
                 opacity: v_t_30727
-              }).drawBuffers(v_J_30266.wl.vertexBuffers, v_J_30266.wl.indexBuffers.triangles, v_se_27562.TRIANGLES, v_k_30734 / 2 * 3)), v_k_30734 = 0);
+              }).drawBuffers(v_J_30266.wl.vertexBuffers, v_J_30266.wl.indexBuffers.triangles, glContext.TRIANGLES, v_k_30734 / 2 * 3)), v_k_30734 = 0);
             }
             v_S_30737();
           },
@@ -1524,7 +1524,7 @@
               for (let v_t_30792 = 0; v_t_30792 < v_o_30772.We.length; ++v_t_30792) (v___30777 = v_o_30772.We[v_t_30792]).Fi !== v_c0_27703 && (v___30777.Og < -.0625 && v_i_30786.Og < -.0625 || 0 < v___30777.Og && 0 < v_i_30786.Og || v___30777.od >= v_l_30773 && v_i_30786.od >= v_l_30773 || v___30777.Xg === v_i_30786.Xg ? v_i_30786 = v___30777 : (v___30777.od >= v_l_30773 ? (v_e_30787 = (v_l_30773 - v_i_30786.od) / (v___30777.od - v_i_30786.od), v_a_30791 = v_o_30772.Fi === v_t0_27693 ? (v_s_30790 = 64 * v_Ee_28084(v_i_30786.ou + v_i_30786.Le / 2, v___30777.ou + v___30777.Le / 2, v_e_30787), v_Ee_28084(v_M_30273[v_i_30786.Le], v_M_30273[v___30777.Le], v_e_30787) * v_d_30284(v_Ee_28084(v_i_30786.G0, v___30777.G0, v_e_30787) / 16) * .5) : (v_s_30790 = 64 * (v_i_30786.ou + v_i_30786.Le / 2), v_M_30273[v_i_30786.Le] * v_d_30284(v_i_30786.G0 / 16) * .5), v_n_30788 = 64 * (v_i_30786.ou + v_i_30786.Le / 2), v_r_30789 = v_M_30273[v_i_30786.Le] * v_d_30284(v_i_30786.G0 / 16) * .5, v_f_30776 = 3 * v_u_30775, v_c_30774[v_f_30776 + 0] = v_s_30790 - v_a_30791 - v_we_27734, v_c_30774[v_f_30776 + 2] = 0, v_c_30774[v_f_30776 + 3] = v_s_30790 + v_a_30791 - v_we_27734, v_c_30774[v_f_30776 + 5] = 0) : (v_n_30788 = 64 * (v_i_30786.ou + v_i_30786.Le / 2), v_r_30789 = v_M_30273[v_i_30786.Le] * v_d_30284(v_i_30786.G0 / 16) * .5, v_s_30790 = 64 * (v___30777.ou + v___30777.Le / 2), v_a_30791 = v_M_30273[v___30777.Le] * v_d_30284(v___30777.G0 / 16) * .5, v_f_30776 = 3 * v_u_30775, v_c_30774[v_f_30776 + 0] = v_s_30790 - v_a_30791 - v_we_27734, v_c_30774[v_f_30776 + 2] = -v___30777.Og * v_ve_27731, v_c_30774[v_f_30776 + 3] = v_s_30790 + v_a_30791 - v_we_27734, v_c_30774[v_f_30776 + 5] = -v___30777.Og * v_ve_27731), v_c_30774[v_f_30776 + 6] = v_n_30788 - v_r_30789 - v_we_27734, v_c_30774[v_f_30776 + 8] = -v_i_30786.Og * v_ve_27731, v_c_30774[v_f_30776 + 9] = v_n_30788 + v_r_30789 - v_we_27734, v_c_30774[v_f_30776 + 11] = -v_i_30786.Og * v_ve_27731, v_u_30775 += 4, v_i_30786 = v___30777, 4096 <= v_u_30775 && v_h_30778()));
             }
             function v_h_30778() {
-              0 < v_u_30775 && (v_J_30266.pl.subdata("gl_Vertex", new Float32Array(v_c_30774, 0, 3 * v_u_30775)), v_rn_27593.drawBuffers(v_J_30266.pl.vertexBuffers, v_J_30266.pl.indexBuffers.triangles, v_se_27562.TRIANGLES, v_u_30775 / 2 * 3)), v_u_30775 = 0;
+              0 < v_u_30775 && (v_J_30266.pl.subdata("gl_Vertex", new Float32Array(v_c_30774, 0, 3 * v_u_30775)), v_rn_27593.drawBuffers(v_J_30266.pl.vertexBuffers, v_J_30266.pl.indexBuffers.triangles, glContext.TRIANGLES, v_u_30775 / 2 * 3)), v_u_30775 = 0;
             }
             v_h_30778();
           },
@@ -1561,7 +1561,7 @@
                 0 !== v_l_30799 && (v_J_30266.ml.jl("vertices", 3 * v_l_30799), v_J_30266.ml.jl("coords", 2 * v_l_30799), v_an_27595.uniforms({
                   texture: 0,
                   opacity: 1
-                }).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), v_se_27562.TRIANGLES, v_l_30799 / 2 * 3), v_l_30799 = 0);
+                }).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), glContext.TRIANGLES, v_l_30799 / 2 * 3), v_l_30799 = 0);
               }
               v_w_30801();
             }
@@ -1575,8 +1575,8 @@
                     particles: function () {
                       var v_i_30857 = [];
                       for (let v_t_30858 = 0; v_t_30858 < 8; ++v_t_30858) v_i_30857.push({
-                        x: 80 * v_ge_27821() - 40,
-                        y: 480 * v_ge_27821() + 30,
+                        x: 80 * mathRandom() - 40,
+                        y: 480 * mathRandom() + 30,
                         size: 0,
                         mx: 0,
                         ease: 0
@@ -1586,14 +1586,14 @@
                     lines: []
                   };
                   for (let v_t_30859 = 0; v_t_30859 < 45; ++v_t_30859) v_m_30823.lines.push({
-                    t: 15 * v_ge_27821() / 30,
-                    x: 140 * v_ge_27821() - 70,
-                    sy: 60 * v_ge_27821()
+                    t: 15 * mathRandom() / 30,
+                    x: 140 * mathRandom() - 70,
+                    sy: 60 * mathRandom()
                   });
                 }
-                if (v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_g_30822 < 15) {
+                if (glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_g_30822 < 15) {
                   let v_t_30860 = 0;
-                  v_t_30860 = v_g_30822 < 3 ? v_g_30822 / 3 : 1 - (v_g_30822 - 3) / 12, v_se_27562.pushMatrix(), v_H_30265.oo.bind(0), v_se_27562.translate(v_d_30819, 0, 0), v_mn_27629.opacity = v_t_30860, v_Xe_27581.uniforms(v_mn_27629).draw(v_J_30266.Qo), v_se_27562.popMatrix();
+                  v_t_30860 = v_g_30822 < 3 ? v_g_30822 / 3 : 1 - (v_g_30822 - 3) / 12, glContext.pushMatrix(), v_H_30265.oo.bind(0), glContext.translate(v_d_30819, 0, 0), v_mn_27629.opacity = v_t_30860, v_Xe_27581.uniforms(v_mn_27629).draw(v_J_30266.Qo), glContext.popMatrix();
                 }
                 {
                   let v_i_30861 = v_g_30822 / 30,
@@ -1615,9 +1615,9 @@
                     for (let v_t_30869 = 0; v_t_30869 < 4; ++v_t_30869) v_o_30826[4 * v_s_30866 + 0 + 4 * v_t_30869] = 1, v_o_30826[4 * v_s_30866 + 1 + 4 * v_t_30869] = 1, v_o_30826[4 * v_s_30866 + 2 + 4 * v_t_30869] = 1, v_o_30826[4 * v_s_30866 + 3 + 4 * v_t_30869] = v_e_30863;
                     v_l_30827[2 * v_s_30866 + 0] = .9375, v_l_30827[2 * v_s_30866 + 1] = 1, v_l_30827[2 * v_s_30866 + 2] = 1, v_l_30827[2 * v_s_30866 + 3] = 1, v_l_30827[2 * v_s_30866 + 4] = .9375, v_l_30827[2 * v_s_30866 + 5] = 0, v_l_30827[2 * v_s_30866 + 6] = 1, v_l_30827[2 * v_s_30866 + 7] = 0, v_s_30866 += 4;
                   }
-                  0 < v_s_30866 && (v_J_30266.ml.jl("vertices", 3 * v_s_30866), v_J_30266.ml.jl("colors", 4 * v_s_30866), v_J_30266.ml.jl("coords", 2 * v_s_30866), v_H_30265.po.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), v_se_27562.TRIANGLES, v_s_30866 / 2 * 3));
+                  0 < v_s_30866 && (v_J_30266.ml.jl("vertices", 3 * v_s_30866), v_J_30266.ml.jl("colors", 4 * v_s_30866), v_J_30266.ml.jl("coords", 2 * v_s_30866), v_H_30265.po.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), glContext.TRIANGLES, v_s_30866 / 2 * 3));
                 }
-                v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), v_G_30856(v_g_30822, v_d_30819);
+                glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), v_G_30856(v_g_30822, v_d_30819);
                 {
                   var v_c_30828 = v_m_30823.particles,
                     v_B_30829 = v_d_30819,
@@ -1635,7 +1635,7 @@
                     for (let v_t_30879 = 0; v_t_30879 < 4; ++v_t_30879) v_a_30875[4 * v_l_30877 + 0 + 4 * v_t_30879] = 1, v_a_30875[4 * v_l_30877 + 1 + 4 * v_t_30879] = 1, v_a_30875[4 * v_l_30877 + 2 + 4 * v_t_30879] = 1, v_a_30875[4 * v_l_30877 + 3 + 4 * v_t_30879] = v_n_30872;
                     v_o_30876[2 * v_l_30877 + 0] = .625, v_o_30876[2 * v_l_30877 + 1] = 1, v_o_30876[2 * v_l_30877 + 2] = .75, v_o_30876[2 * v_l_30877 + 3] = 1, v_o_30876[2 * v_l_30877 + 4] = .625, v_o_30876[2 * v_l_30877 + 5] = .875, v_o_30876[2 * v_l_30877 + 6] = .75, v_o_30876[2 * v_l_30877 + 7] = .875, v_l_30877 += 4;
                   }
-                  0 < v_l_30877 && (v_J_30266.ml.jl("vertices", 3 * v_l_30877), v_J_30266.ml.jl("colors", 4 * v_l_30877), v_J_30266.ml.jl("coords", 2 * v_l_30877), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_H_30265.po.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), v_se_27562.TRIANGLES, v_l_30877 / 2 * 3), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA));
+                  0 < v_l_30877 && (v_J_30266.ml.jl("vertices", 3 * v_l_30877), v_J_30266.ml.jl("colors", 4 * v_l_30877), v_J_30266.ml.jl("coords", 2 * v_l_30877), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_H_30265.po.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), glContext.TRIANGLES, v_l_30877 / 2 * 3), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA));
                 }
                 break;
               case 1:
@@ -1674,17 +1674,17 @@
                     for (let v_i_30889 = 0; v_i_30889 < 4; ++v_i_30889) {
                       v_n_30881 = 2 * (3 * (3 - v_i_30889) + 9);
                       for (let v_t_30890 = 0; v_t_30890 < 12; ++v_t_30890) v_m_30823.YI.push({
-                        begin_t: v_n_30881 + v_ke_27824(12 * v_ge_27821()),
-                        x: v_u_30831[v_i_30889] + v_ge_27821() * v_r_30882 - v_r_30882 / 2,
-                        y: 12 * v_ge_27821(),
-                        speed: .5 * v_ge_27821() + .5
+                        begin_t: v_n_30881 + mathFloor(12 * mathRandom()),
+                        x: v_u_30831[v_i_30889] + mathRandom() * v_r_30882 - v_r_30882 / 2,
+                        y: 12 * mathRandom(),
+                        speed: .5 * mathRandom() + .5
                       });
                     }
                     for (let v_t_30891 = 0; v_t_30891 < 12; ++v_t_30891) v_m_30823.YI.push({
-                      begin_t: 18 + v_ke_27824(12 * v_ge_27821()),
-                      x: v_u_30831[0] + v_ge_27821() * v_r_30882 / 2 - v_r_30882 / 4,
-                      y: 12 * v_ge_27821(),
-                      speed: .5 * v_ge_27821() + 1
+                      begin_t: 18 + mathFloor(12 * mathRandom()),
+                      x: v_u_30831[0] + mathRandom() * v_r_30882 / 2 - v_r_30882 / 4,
+                      y: 12 * mathRandom(),
+                      speed: .5 * mathRandom() + 1
                     });
                   }
                   for (let v_t_30892 = 0; v_t_30892 < 4; ++v_t_30892) if (v_n_30881 = 3 * v_t_30892, v_g_30822 >= v_n_30881 && v_g_30822 < v_n_30881 + 30) {
@@ -1695,20 +1695,20 @@
                   if (v_g_30822 < 30) {
                     v_i_30883 = 50, v_a_30885 = v_O_30275(v_i_30883), v_l_30887 = 1 - v_$l_28197(v_g_30822 / 25);
                     for (let v_t_30894 = 0; v_t_30894 < 2; ++v_t_30894) {
-                      4 === v_h_30818 ? (v_s_30884 = v_Ee_28084(v_u_30831[0] + 10, v_u_30831[3] + v_r_30882 / 2, v_me_27822(v_g_30822 / 15, 1)), v_f_30832[3 * v_c_30888 + 0] = v_u_30831[0] - 30, v_f_30832[3 * v_c_30888 + 3] = v_s_30884 - 30, v_f_30832[3 * v_c_30888 + 6] = v_u_30831[0], v_f_30832[3 * v_c_30888 + 9] = v_s_30884) : (v_s_30884 = v_Ee_28084(v_u_30831[0] - 10, v_u_30831[3] - v_r_30882 / 2, v_me_27822(v_g_30822 / 15, 1)), v_f_30832[3 * v_c_30888 + 0] = v_s_30884 + 30, v_f_30832[3 * v_c_30888 + 3] = v_u_30831[0] + 30, v_f_30832[3 * v_c_30888 + 6] = v_s_30884, v_f_30832[3 * v_c_30888 + 9] = v_u_30831[0]), 0 === v_t_30894 ? (v_f_30832[3 * v_c_30888 + 1] = v_i_30883, v_f_30832[3 * v_c_30888 + 2] = v_a_30885, v_f_30832[3 * v_c_30888 + 4] = v_i_30883, v_f_30832[3 * v_c_30888 + 5] = v_a_30885) : (v_f_30832[3 * v_c_30888 + 1] = .5 * -v_i_30883, v_f_30832[3 * v_c_30888 + 2] = .5 * -v_a_30885, v_f_30832[3 * v_c_30888 + 4] = .5 * -v_i_30883, v_f_30832[3 * v_c_30888 + 5] = .5 * -v_a_30885), v_f_30832[3 * v_c_30888 + 7] = 0, v_f_30832[3 * v_c_30888 + 8] = 0, v_f_30832[3 * v_c_30888 + 10] = 0;
+                      4 === v_h_30818 ? (v_s_30884 = v_Ee_28084(v_u_30831[0] + 10, v_u_30831[3] + v_r_30882 / 2, mathMin(v_g_30822 / 15, 1)), v_f_30832[3 * v_c_30888 + 0] = v_u_30831[0] - 30, v_f_30832[3 * v_c_30888 + 3] = v_s_30884 - 30, v_f_30832[3 * v_c_30888 + 6] = v_u_30831[0], v_f_30832[3 * v_c_30888 + 9] = v_s_30884) : (v_s_30884 = v_Ee_28084(v_u_30831[0] - 10, v_u_30831[3] - v_r_30882 / 2, mathMin(v_g_30822 / 15, 1)), v_f_30832[3 * v_c_30888 + 0] = v_s_30884 + 30, v_f_30832[3 * v_c_30888 + 3] = v_u_30831[0] + 30, v_f_30832[3 * v_c_30888 + 6] = v_s_30884, v_f_30832[3 * v_c_30888 + 9] = v_u_30831[0]), 0 === v_t_30894 ? (v_f_30832[3 * v_c_30888 + 1] = v_i_30883, v_f_30832[3 * v_c_30888 + 2] = v_a_30885, v_f_30832[3 * v_c_30888 + 4] = v_i_30883, v_f_30832[3 * v_c_30888 + 5] = v_a_30885) : (v_f_30832[3 * v_c_30888 + 1] = .5 * -v_i_30883, v_f_30832[3 * v_c_30888 + 2] = .5 * -v_a_30885, v_f_30832[3 * v_c_30888 + 4] = .5 * -v_i_30883, v_f_30832[3 * v_c_30888 + 5] = .5 * -v_a_30885), v_f_30832[3 * v_c_30888 + 7] = 0, v_f_30832[3 * v_c_30888 + 8] = 0, v_f_30832[3 * v_c_30888 + 10] = 0;
                       for (let v_t_30895 = v_f_30832[3 * v_c_30888 + 11] = 0; v_t_30895 < 4; ++v_t_30895) v___30833[4 * v_c_30888 + 0 + 4 * v_t_30895] = 1, v___30833[4 * v_c_30888 + 1 + 4 * v_t_30895] = 1, v___30833[4 * v_c_30888 + 2 + 4 * v_t_30895] = 1, v___30833[4 * v_c_30888 + 3 + 4 * v_t_30895] = v_t_30895 < 2 ? 0 : v_l_30887;
                       4 === v_h_30818 ? (v_p_30834[2 * v_c_30888 + 0] = 1, v_p_30834[2 * v_c_30888 + 1] = .7421875, v_p_30834[2 * v_c_30888 + 2] = 0, v_p_30834[2 * v_c_30888 + 3] = .7421875, v_p_30834[2 * v_c_30888 + 4] = 1, v_p_30834[2 * v_c_30888 + 5] = 1, v_p_30834[2 * v_c_30888 + 6] = 0) : (v_p_30834[2 * v_c_30888 + 0] = 0, v_p_30834[2 * v_c_30888 + 1] = .7421875, v_p_30834[2 * v_c_30888 + 2] = 1, v_p_30834[2 * v_c_30888 + 3] = .7421875, v_p_30834[2 * v_c_30888 + 4] = 0, v_p_30834[2 * v_c_30888 + 5] = 1, v_p_30834[2 * v_c_30888 + 6] = 1), v_p_30834[2 * v_c_30888 + 7] = 1, v_c_30888 += 4;
                       for (let v_t_30896 = 0; v_t_30896 < 2; ++v_t_30896) {
-                        v_i_30883 = 40 + 40 * v_t_30896, v_a_30885 = v_O_30275(v_i_30883), v_s_30884 = v_Ee_28084(v_u_30831[0], v_u_30831[3], v_me_27822(v_e_30880, 1)), v_o_30886 = .125 * v_s1_27830(v_s_30884 - v_u_30831[0]), 4 === v_h_30818 ? (v_f_30832[3 * v_c_30888 + 0] = v_u_30831[0] - 90 - v_o_30886, v_f_30832[3 * v_c_30888 + 1] = v_i_30883, v_f_30832[3 * v_c_30888 + 2] = v_a_30885, v_f_30832[3 * v_c_30888 + 3] = v_s_30884 + 90, v_f_30832[3 * v_c_30888 + 4] = v_i_30883, v_f_30832[3 * v_c_30888 + 5] = v_a_30885, v_f_30832[3 * v_c_30888 + 6] = v_u_30831[0] - 90 - v_o_30886, v_f_30832[3 * v_c_30888 + 7] = -v_i_30883, v_f_30832[3 * v_c_30888 + 8] = -v_a_30885, v_f_30832[3 * v_c_30888 + 9] = v_s_30884 + 90) : (v_f_30832[3 * v_c_30888 + 0] = v_s_30884 - 90, v_f_30832[3 * v_c_30888 + 1] = v_i_30883, v_f_30832[3 * v_c_30888 + 2] = v_a_30885, v_f_30832[3 * v_c_30888 + 3] = v_u_30831[0] + 90 + v_o_30886, v_f_30832[3 * v_c_30888 + 4] = v_i_30883, v_f_30832[3 * v_c_30888 + 5] = v_a_30885, v_f_30832[3 * v_c_30888 + 6] = v_s_30884 - 90, v_f_30832[3 * v_c_30888 + 7] = -v_i_30883, v_f_30832[3 * v_c_30888 + 8] = -v_a_30885, v_f_30832[3 * v_c_30888 + 9] = v_u_30831[0] + 90 + v_o_30886), v_f_30832[3 * v_c_30888 + 10] = -v_i_30883, v_f_30832[3 * v_c_30888 + 11] = -v_a_30885;
+                        v_i_30883 = 40 + 40 * v_t_30896, v_a_30885 = v_O_30275(v_i_30883), v_s_30884 = v_Ee_28084(v_u_30831[0], v_u_30831[3], mathMin(v_e_30880, 1)), v_o_30886 = .125 * mathAbs(v_s_30884 - v_u_30831[0]), 4 === v_h_30818 ? (v_f_30832[3 * v_c_30888 + 0] = v_u_30831[0] - 90 - v_o_30886, v_f_30832[3 * v_c_30888 + 1] = v_i_30883, v_f_30832[3 * v_c_30888 + 2] = v_a_30885, v_f_30832[3 * v_c_30888 + 3] = v_s_30884 + 90, v_f_30832[3 * v_c_30888 + 4] = v_i_30883, v_f_30832[3 * v_c_30888 + 5] = v_a_30885, v_f_30832[3 * v_c_30888 + 6] = v_u_30831[0] - 90 - v_o_30886, v_f_30832[3 * v_c_30888 + 7] = -v_i_30883, v_f_30832[3 * v_c_30888 + 8] = -v_a_30885, v_f_30832[3 * v_c_30888 + 9] = v_s_30884 + 90) : (v_f_30832[3 * v_c_30888 + 0] = v_s_30884 - 90, v_f_30832[3 * v_c_30888 + 1] = v_i_30883, v_f_30832[3 * v_c_30888 + 2] = v_a_30885, v_f_30832[3 * v_c_30888 + 3] = v_u_30831[0] + 90 + v_o_30886, v_f_30832[3 * v_c_30888 + 4] = v_i_30883, v_f_30832[3 * v_c_30888 + 5] = v_a_30885, v_f_30832[3 * v_c_30888 + 6] = v_s_30884 - 90, v_f_30832[3 * v_c_30888 + 7] = -v_i_30883, v_f_30832[3 * v_c_30888 + 8] = -v_a_30885, v_f_30832[3 * v_c_30888 + 9] = v_u_30831[0] + 90 + v_o_30886), v_f_30832[3 * v_c_30888 + 10] = -v_i_30883, v_f_30832[3 * v_c_30888 + 11] = -v_a_30885;
                         for (let v_t_30897 = 0; v_t_30897 < 4; ++v_t_30897) v___30833[4 * v_c_30888 + 0 + 4 * v_t_30897] = 1, v___30833[4 * v_c_30888 + 1 + 4 * v_t_30897] = 1, v___30833[4 * v_c_30888 + 2 + 4 * v_t_30897] = 1, v___30833[4 * v_c_30888 + 3 + 4 * v_t_30897] = .5 * v_l_30887;
                         v_p_30834[2 * v_c_30888 + 0] = 0, v_p_30834[2 * v_c_30888 + 1] = .4921875, v_p_30834[2 * v_c_30888 + 2] = 1, v_p_30834[2 * v_c_30888 + 3] = .4921875, v_p_30834[2 * v_c_30888 + 4] = 0, v_p_30834[2 * v_c_30888 + 5] = .25, v_p_30834[2 * v_c_30888 + 6] = 1, v_p_30834[2 * v_c_30888 + 7] = .25, v_c_30888 += 4;
                       }
                     }
-                    v_i_30883 = 110, v_a_30885 = v_O_30275(v_i_30883), v_o_30886 = .125 * v_s1_27830(v_s_30884 - v_u_30831[0]), 4 === v_h_30818 ? (v_f_30832[3 * v_c_30888 + 0] = v_u_30831[0] - 110 - v_o_30886, v_f_30832[3 * v_c_30888 + 1] = v_i_30883, v_f_30832[3 * v_c_30888 + 2] = v_a_30885, v_f_30832[3 * v_c_30888 + 3] = v_s_30884 + 110, v_f_30832[3 * v_c_30888 + 4] = v_i_30883, v_f_30832[3 * v_c_30888 + 5] = v_a_30885, v_f_30832[3 * v_c_30888 + 6] = v_u_30831[0] - 110 - v_o_30886, v_f_30832[3 * v_c_30888 + 7] = -v_i_30883, v_f_30832[3 * v_c_30888 + 8] = -v_a_30885, v_f_30832[3 * v_c_30888 + 9] = v_s_30884 + 110) : (v_f_30832[3 * v_c_30888 + 0] = v_s_30884 - 110, v_f_30832[3 * v_c_30888 + 1] = v_i_30883, v_f_30832[3 * v_c_30888 + 2] = v_a_30885, v_f_30832[3 * v_c_30888 + 3] = v_u_30831[0] + 110 + v_o_30886, v_f_30832[3 * v_c_30888 + 4] = v_i_30883, v_f_30832[3 * v_c_30888 + 5] = v_a_30885, v_f_30832[3 * v_c_30888 + 6] = v_s_30884 - 110, v_f_30832[3 * v_c_30888 + 7] = -v_i_30883, v_f_30832[3 * v_c_30888 + 8] = -v_a_30885, v_f_30832[3 * v_c_30888 + 9] = v_u_30831[0] + 110 + v_o_30886), v_f_30832[3 * v_c_30888 + 10] = -v_i_30883, v_f_30832[3 * v_c_30888 + 11] = -v_a_30885, v_l_30887 = .75 < v_e_30880 ? .75 * (1 - (v_e_30880 - .75) / .25) : .75;
+                    v_i_30883 = 110, v_a_30885 = v_O_30275(v_i_30883), v_o_30886 = .125 * mathAbs(v_s_30884 - v_u_30831[0]), 4 === v_h_30818 ? (v_f_30832[3 * v_c_30888 + 0] = v_u_30831[0] - 110 - v_o_30886, v_f_30832[3 * v_c_30888 + 1] = v_i_30883, v_f_30832[3 * v_c_30888 + 2] = v_a_30885, v_f_30832[3 * v_c_30888 + 3] = v_s_30884 + 110, v_f_30832[3 * v_c_30888 + 4] = v_i_30883, v_f_30832[3 * v_c_30888 + 5] = v_a_30885, v_f_30832[3 * v_c_30888 + 6] = v_u_30831[0] - 110 - v_o_30886, v_f_30832[3 * v_c_30888 + 7] = -v_i_30883, v_f_30832[3 * v_c_30888 + 8] = -v_a_30885, v_f_30832[3 * v_c_30888 + 9] = v_s_30884 + 110) : (v_f_30832[3 * v_c_30888 + 0] = v_s_30884 - 110, v_f_30832[3 * v_c_30888 + 1] = v_i_30883, v_f_30832[3 * v_c_30888 + 2] = v_a_30885, v_f_30832[3 * v_c_30888 + 3] = v_u_30831[0] + 110 + v_o_30886, v_f_30832[3 * v_c_30888 + 4] = v_i_30883, v_f_30832[3 * v_c_30888 + 5] = v_a_30885, v_f_30832[3 * v_c_30888 + 6] = v_s_30884 - 110, v_f_30832[3 * v_c_30888 + 7] = -v_i_30883, v_f_30832[3 * v_c_30888 + 8] = -v_a_30885, v_f_30832[3 * v_c_30888 + 9] = v_u_30831[0] + 110 + v_o_30886), v_f_30832[3 * v_c_30888 + 10] = -v_i_30883, v_f_30832[3 * v_c_30888 + 11] = -v_a_30885, v_l_30887 = .75 < v_e_30880 ? .75 * (1 - (v_e_30880 - .75) / .25) : .75;
                     for (let v_t_30898 = 0; v_t_30898 < 4; ++v_t_30898) v___30833[4 * v_c_30888 + 0 + 4 * v_t_30898] = 0, v___30833[4 * v_c_30888 + 1 + 4 * v_t_30898] = 0, v___30833[4 * v_c_30888 + 2 + 4 * v_t_30898] = 1, v___30833[4 * v_c_30888 + 3 + 4 * v_t_30898] = v_l_30887;
                     v_p_30834[2 * v_c_30888 + 0] = 0, v_p_30834[2 * v_c_30888 + 1] = .4921875, v_p_30834[2 * v_c_30888 + 2] = 1, v_p_30834[2 * v_c_30888 + 3] = .4921875, v_p_30834[2 * v_c_30888 + 4] = 0, v_p_30834[2 * v_c_30888 + 5] = .25, v_p_30834[2 * v_c_30888 + 6] = 1, v_p_30834[2 * v_c_30888 + 7] = .25, v_c_30888 += 4;
                   }
-                  0 < v_c_30888 && (v_J_30266.ml.jl("vertices", 3 * v_c_30888), v_J_30266.ml.jl("colors", 4 * v_c_30888), v_J_30266.ml.jl("coords", 2 * v_c_30888), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_H_30265.Ao.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), v_se_27562.TRIANGLES, v_c_30888 / 2 * 3), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), v_c_30888 = 0), v_r_30882 = 90;
+                  0 < v_c_30888 && (v_J_30266.ml.jl("vertices", 3 * v_c_30888), v_J_30266.ml.jl("colors", 4 * v_c_30888), v_J_30266.ml.jl("coords", 2 * v_c_30888), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_H_30265.Ao.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), glContext.TRIANGLES, v_c_30888 / 2 * 3), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), v_c_30888 = 0), v_r_30882 = 90;
                   for (let v_i_30899 = 0; v_i_30899 < 4; ++v_i_30899) {
                     v_n_30881 = 3 * v_i_30899, v_a_30885 = v_Wl_28190(v_e_30880);
                     for (let v_t_30900 = 0; v_t_30900 < 4; ++v_t_30900) {
@@ -1717,9 +1717,9 @@
                       v_p_30834[2 * v_c_30888 + 0] = 0, v_p_30834[2 * v_c_30888 + 1] = 0, v_p_30834[2 * v_c_30888 + 2] = 1, v_p_30834[2 * v_c_30888 + 3] = 0, v_p_30834[2 * v_c_30888 + 4] = 0, v_p_30834[2 * v_c_30888 + 5] = 1, v_p_30834[2 * v_c_30888 + 6] = 1, v_p_30834[2 * v_c_30888 + 7] = 1, v_c_30888 += 4;
                     }
                   }
-                  0 < v_c_30888 && (v_J_30266.ml.jl("vertices", 3 * v_c_30888), v_J_30266.ml.jl("colors", 4 * v_c_30888), v_J_30266.ml.jl("coords", 2 * v_c_30888), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_H_30265.ho.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), v_se_27562.TRIANGLES, v_c_30888 / 2 * 3), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), v_c_30888 = 0);
+                  0 < v_c_30888 && (v_J_30266.ml.jl("vertices", 3 * v_c_30888), v_J_30266.ml.jl("colors", 4 * v_c_30888), v_J_30266.ml.jl("coords", 2 * v_c_30888), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_H_30265.ho.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), glContext.TRIANGLES, v_c_30888 / 2 * 3), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), v_c_30888 = 0);
                   var v_k_30835 = v_ql_28195(v_g_30822 / 30);
-                  if (v_gn_27628.opacity = v_g_30822 < 4 ? v_g_30822 / 4 : 1 - (v_g_30822 - 4) / 26, v_se_27562.pushMatrix(), v_H_30265.vo.bind(0), v_se_27562.translate(v_d_30819, 0, 0), v_se_27562.scale(1.25 * v_k_30835, 1, .875 * v_k_30835), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.vo), v_se_27562.popMatrix(), v_g_30822 < 15 && (v_se_27562.pushMatrix(), v_H_30265.wo.bind(0), v_se_27562.translate(v_d_30819, 0, 0), v_se_27562.scale(1, 1, 1), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_gn_27628.opacity = 1 - v_Vl_28189(v_g_30822 / 15), v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.el), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), v_se_27562.popMatrix()), v_m_30823.YI) {
+                  if (v_gn_27628.opacity = v_g_30822 < 4 ? v_g_30822 / 4 : 1 - (v_g_30822 - 4) / 26, glContext.pushMatrix(), v_H_30265.vo.bind(0), glContext.translate(v_d_30819, 0, 0), glContext.scale(1.25 * v_k_30835, 1, .875 * v_k_30835), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.vo), glContext.popMatrix(), v_g_30822 < 15 && (glContext.pushMatrix(), v_H_30265.wo.bind(0), glContext.translate(v_d_30819, 0, 0), glContext.scale(1, 1, 1), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_gn_27628.opacity = 1 - v_Vl_28189(v_g_30822 / 15), v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.el), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), glContext.popMatrix()), v_m_30823.YI) {
                     var v_b_30836,
                       v_y_30837,
                       v_S_30838,
@@ -1732,7 +1732,7 @@
                       for (let v_t_30904 = 0; v_t_30904 < 4; ++v_t_30904) v_x_30840[4 * v_i_30902 + 0 + 4 * v_t_30904] = .25, v_x_30840[4 * v_i_30902 + 1 + 4 * v_t_30904] = .75, v_x_30840[4 * v_i_30902 + 2 + 4 * v_t_30904] = 1, v_x_30840[4 * v_i_30902 + 3 + 4 * v_t_30904] = v_y_30837;
                       v_C_30841[2 * v_i_30902 + 0] = 0, v_C_30841[2 * v_i_30902 + 1] = 1, v_C_30841[2 * v_i_30902 + 2] = 1, v_C_30841[2 * v_i_30902 + 3] = 1, v_C_30841[2 * v_i_30902 + 4] = 0, v_C_30841[2 * v_i_30902 + 5] = 0, v_C_30841[2 * v_i_30902 + 6] = 1, v_C_30841[2 * v_i_30902 + 7] = 0, v_i_30902 += 4;
                     }
-                    0 < v_i_30902 && (v_J_30266.ml.jl("vertices", 3 * v_i_30902), v_J_30266.ml.jl("colors", 4 * v_i_30902), v_J_30266.ml.jl("coords", 2 * v_i_30902), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_H_30265.To.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), v_se_27562.TRIANGLES, v_i_30902 / 2 * 3), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA));
+                    0 < v_i_30902 && (v_J_30266.ml.jl("vertices", 3 * v_i_30902), v_J_30266.ml.jl("colors", 4 * v_i_30902), v_J_30266.ml.jl("coords", 2 * v_i_30902), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_H_30265.To.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), glContext.TRIANGLES, v_i_30902 / 2 * 3), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA));
                   }
                 }
                 break;
@@ -1761,55 +1761,55 @@
                     v___30917 = [1, 1, 0];
                   v_w_30821 === v_w0_27717 ? v_f_30916 = v_A0_27727[3] : v_w_30821 === v__e_27718 && (v_f_30916 = [.1098, .6, 1]), v_w_30821 === v_w0_27717 ? v___30917 = v_A0_27727[3] : v_w_30821 === v__e_27718 && (v___30917 = v_A0_27727[4]);
                   var v_E_30848 = 1 - v_Wl_28190(v_I_30843),
-                    v_D_30849 = 1 - v_Wl_28190(v_me_27822(v_pe_27823(v_I_30843 / .6 - .375, 0), 1));
+                    v_D_30849 = 1 - v_Wl_28190(mathMin(mathMax(v_I_30843 / .6 - .375, 0), 1));
                   if (null === v_m_30823) {
                     v_m_30823 = {
                       lines: [],
                       orbs: [],
                       stars: []
                     };
-                    let v_i_30918 = 8 * v_me_27822(v_pe_27823(v_v_30820, 3), 14);
-                    for (let v_t_30919 = 0; v_t_30919 < v_i_30918; ++v_t_30919) v_e_30907 = v_ge_27821() * v_T_30842, 7 === v_h_30818 ? v_m_30823.lines.push({
-                      t: 10 * v_ge_27821() / 30 + 4 / 30,
+                    let v_i_30918 = 8 * mathMin(mathMax(v_v_30820, 3), 14);
+                    for (let v_t_30919 = 0; v_t_30919 < v_i_30918; ++v_t_30919) v_e_30907 = mathRandom() * v_T_30842, 7 === v_h_30818 ? v_m_30823.lines.push({
+                      t: 10 * mathRandom() / 30 + 4 / 30,
                       x: v_e_30907,
-                      sy: -.25 * v_ge_27821() * 466,
-                      my: .5 * v_ge_27821() * 466,
-                      mh: .375 * v_ge_27821() * 466,
-                      w: 1.5 * v_ge_27821() + 1
+                      sy: -.25 * mathRandom() * 466,
+                      my: .5 * mathRandom() * 466,
+                      mh: .375 * mathRandom() * 466,
+                      w: 1.5 * mathRandom() + 1
                     }) : v_m_30823.lines.push({
-                      t: 10 * v_ge_27821() / 30 + 8 / 30,
+                      t: 10 * mathRandom() / 30 + 8 / 30,
                       x: v_e_30907,
-                      sy: -.375 * v_ge_27821() * 466,
-                      my: 466 * (.25 * v_ge_27821() + .125),
-                      mh: 466 * (.25 * v_ge_27821() + .25),
-                      w: 1.5 * v_ge_27821() + 1
+                      sy: -.375 * mathRandom() * 466,
+                      my: 466 * (.25 * mathRandom() + .125),
+                      mh: 466 * (.25 * mathRandom() + .25),
+                      w: 1.5 * mathRandom() + 1
                     }), v_m_30823.orbs.push({
                       x: v_e_30907,
-                      y: 466 * v_ge_27821() * .46875
+                      y: 466 * mathRandom() * .46875
                     });
                     v_i_30918 = 3 * v_v_30820;
                     for (let v_t_30920 = 0; v_t_30920 < v_i_30918; ++v_t_30920) v_m_30823.stars.push({
-                      t: .125 * v_ge_27821(),
-                      x: v_ge_27821() * v_T_30842,
-                      y: 466 * v_ge_27821() * .125,
-                      mx: 12 * v_ge_27821(),
-                      my: 466 * (.5 * v_ge_27821() + .0625)
+                      t: .125 * mathRandom(),
+                      x: mathRandom() * v_T_30842,
+                      y: 466 * mathRandom() * .125,
+                      mx: 12 * mathRandom(),
+                      my: 466 * (.5 * mathRandom() + .0625)
                     });
                   }
-                  v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_c_30914 = v_v_30820 / 4, v_n_30908 = 7 === v_h_30818 ? v_ql_28195(v_I_30843) * v_M0_27738 * 1.6 : 466 * v_P_30844, v_R_30845[3 * v_u_30915 + 0] = v_i_30905, v_R_30845[3 * v_u_30915 + 1] = v_n_30908, v_R_30845[3 * v_u_30915 + 2] = v_O_30275(v_n_30908), v_R_30845[3 * v_u_30915 + 3] = v_t_30906, v_R_30845[3 * v_u_30915 + 4] = v_n_30908, v_R_30845[3 * v_u_30915 + 5] = v_O_30275(v_n_30908), v_R_30845[3 * v_u_30915 + 6] = v_i_30905, v_R_30845[3 * v_u_30915 + 7] = .375 * -v_n_30908, v_R_30845[3 * v_u_30915 + 8] = v_O_30275(.375 * -v_n_30908), v_R_30845[3 * v_u_30915 + 9] = v_t_30906, v_R_30845[3 * v_u_30915 + 10] = .375 * -v_n_30908, v_R_30845[3 * v_u_30915 + 11] = v_O_30275(.375 * -v_n_30908);
+                  glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_c_30914 = v_v_30820 / 4, v_n_30908 = 7 === v_h_30818 ? v_ql_28195(v_I_30843) * v_M0_27738 * 1.6 : 466 * v_P_30844, v_R_30845[3 * v_u_30915 + 0] = v_i_30905, v_R_30845[3 * v_u_30915 + 1] = v_n_30908, v_R_30845[3 * v_u_30915 + 2] = v_O_30275(v_n_30908), v_R_30845[3 * v_u_30915 + 3] = v_t_30906, v_R_30845[3 * v_u_30915 + 4] = v_n_30908, v_R_30845[3 * v_u_30915 + 5] = v_O_30275(v_n_30908), v_R_30845[3 * v_u_30915 + 6] = v_i_30905, v_R_30845[3 * v_u_30915 + 7] = .375 * -v_n_30908, v_R_30845[3 * v_u_30915 + 8] = v_O_30275(.375 * -v_n_30908), v_R_30845[3 * v_u_30915 + 9] = v_t_30906, v_R_30845[3 * v_u_30915 + 10] = .375 * -v_n_30908, v_R_30845[3 * v_u_30915 + 11] = v_O_30275(.375 * -v_n_30908);
                   for (let v_t_30921 = 0; v_t_30921 < 4; ++v_t_30921) v_L_30846[4 * v_u_30915 + 0 + 4 * v_t_30921] = v_f_30916[0] * v_D_30849, v_L_30846[4 * v_u_30915 + 1 + 4 * v_t_30921] = v_f_30916[1] * v_D_30849, v_L_30846[4 * v_u_30915 + 2 + 4 * v_t_30921] = v_f_30916[2] * v_D_30849, v_L_30846[4 * v_u_30915 + 3 + 4 * v_t_30921] = .45;
                   if (v_M_30847[2 * v_u_30915 + 0] = 0, v_M_30847[2 * v_u_30915 + 1] = 1, v_M_30847[2 * v_u_30915 + 2] = v_c_30914, v_M_30847[2 * v_u_30915 + 3] = 1, v_M_30847[2 * v_u_30915 + 4] = 0, v_M_30847[2 * v_u_30915 + 5] = 0, v_M_30847[2 * v_u_30915 + 6] = v_c_30914, (v_M_30847[2 * v_u_30915 + 7] = 0) < (v_u_30915 += 4) && (v_J_30266.ml.jl("vertices", 3 * v_u_30915), v_J_30266.ml.jl("coords", 2 * v_u_30915), v_J_30266.ml.jl("colors", 4 * v_u_30915), v_H_30265.co.bind(0), v_H_30265.uo.bind(1), v_tn_27590.uniforms({
                     tex0: 0,
                     tex1: 1,
                     w: v_c_30914,
                     xo: .25 * v_I_30843
-                  }).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), v_se_27562.TRIANGLES, v_u_30915 / 2 * 3), v_u_30915 = 0), 8 === v_h_30818 && .125 <= v_I_30843) {
-                    v_r_30909 = 291.25, v_k_30835 = (v_I_30843 - .125) / .875, v_n_30908 = (1 - v_Zl_28196(v_me_27822(4 * v_I_30843, 1))) * v_r_30909 - .1875 * v_r_30909, v_l_30913 = v_k_30835 < .125 ? .625 * v_Vl_28189(v_k_30835 / .125) : .625 * (1 - v_Vl_28189(v_me_27822((v_k_30835 - .125) / .25, 1))), v_R_30845[3 * v_u_30915 + 0] = v_i_30905, v_R_30845[3 * v_u_30915 + 1] = v_r_30909, v_R_30845[3 * v_u_30915 + 2] = v_O_30275(v_r_30909), v_R_30845[3 * v_u_30915 + 3] = v_t_30906, v_R_30845[3 * v_u_30915 + 4] = v_r_30909, v_R_30845[3 * v_u_30915 + 5] = v_O_30275(v_r_30909), v_R_30845[3 * v_u_30915 + 6] = v_i_30905, v_R_30845[3 * v_u_30915 + 7] = v_n_30908, v_R_30845[3 * v_u_30915 + 8] = v_O_30275(v_n_30908), v_R_30845[3 * v_u_30915 + 9] = v_t_30906, v_R_30845[3 * v_u_30915 + 10] = v_n_30908, v_R_30845[3 * v_u_30915 + 11] = v_O_30275(v_n_30908);
+                  }).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), glContext.TRIANGLES, v_u_30915 / 2 * 3), v_u_30915 = 0), 8 === v_h_30818 && .125 <= v_I_30843) {
+                    v_r_30909 = 291.25, v_k_30835 = (v_I_30843 - .125) / .875, v_n_30908 = (1 - v_Zl_28196(mathMin(4 * v_I_30843, 1))) * v_r_30909 - .1875 * v_r_30909, v_l_30913 = v_k_30835 < .125 ? .625 * v_Vl_28189(v_k_30835 / .125) : .625 * (1 - v_Vl_28189(mathMin((v_k_30835 - .125) / .25, 1))), v_R_30845[3 * v_u_30915 + 0] = v_i_30905, v_R_30845[3 * v_u_30915 + 1] = v_r_30909, v_R_30845[3 * v_u_30915 + 2] = v_O_30275(v_r_30909), v_R_30845[3 * v_u_30915 + 3] = v_t_30906, v_R_30845[3 * v_u_30915 + 4] = v_r_30909, v_R_30845[3 * v_u_30915 + 5] = v_O_30275(v_r_30909), v_R_30845[3 * v_u_30915 + 6] = v_i_30905, v_R_30845[3 * v_u_30915 + 7] = v_n_30908, v_R_30845[3 * v_u_30915 + 8] = v_O_30275(v_n_30908), v_R_30845[3 * v_u_30915 + 9] = v_t_30906, v_R_30845[3 * v_u_30915 + 10] = v_n_30908, v_R_30845[3 * v_u_30915 + 11] = v_O_30275(v_n_30908);
                     for (let v_t_30922 = 0; v_t_30922 < 4; ++v_t_30922) v_L_30846[4 * v_u_30915 + 0 + 4 * v_t_30922] = v_f_30916[0], v_L_30846[4 * v_u_30915 + 1 + 4 * v_t_30922] = v_f_30916[1], v_L_30846[4 * v_u_30915 + 2 + 4 * v_t_30922] = v_f_30916[2], v_L_30846[4 * v_u_30915 + 3 + 4 * v_t_30922] = v_l_30913;
                     v_M_30847[2 * v_u_30915 + 0] = 0, v_M_30847[2 * v_u_30915 + 1] = 1, v_M_30847[2 * v_u_30915 + 2] = .248046875, v_M_30847[2 * v_u_30915 + 3] = 1, v_M_30847[2 * v_u_30915 + 4] = 0, v_M_30847[2 * v_u_30915 + 5] = 0, v_M_30847[2 * v_u_30915 + 6] = .248046875, v_M_30847[2 * v_u_30915 + 7] = 0, v_u_30915 += 4;
                   }
                   for (let v_t_30923 = 0; v_t_30923 < v_m_30823.lines.length; ++v_t_30923) if (!(v_m_30823.lines[v_t_30923].t > v_I_30843)) {
-                    if (v_e_30907 = v_m_30823.lines[v_t_30923].x + v_i_30905, v_o_30912 = v_m_30823.lines[v_t_30923].sy + v_m_30823.lines[v_t_30923].my * v_Kl_28193(v_I_30843), v_a_30911 = v_o_30912 + v_m_30823.lines[v_t_30923].mh * v_Kl_28193(v_I_30843) + 90, v_a_30911 = v_pe_27823(v_a_30911, 0), v_o_30912 = v_pe_27823(v_o_30912, 0), v_s_30910 = 7 === v_h_30818 ? (v_r_30909 = v_a_30911, v_o_30912) : (v_l_30913 *= v_me_27822(v_I_30843 / .25, 1), v_r_30909 = 145.625 - v_m_30823.lines[v_t_30923].sy - v_m_30823.lines[v_t_30923].my * v_P_30844, v_s_30910 = v_r_30909 - v_m_30823.lines[v_t_30923].mh * v_P_30844, v_r_30909 = v_pe_27823(v_r_30909, 0), v_pe_27823(v_s_30910, 0)), v_a_30911 += 10, v_R_30845[3 * v_u_30915 + 0] = v_e_30907 - 3 * v_m_30823.lines[v_t_30923].w, v_R_30845[3 * v_u_30915 + 1] = v_r_30909, v_R_30845[3 * v_u_30915 + 2] = v_O_30275(v_r_30909), v_R_30845[3 * v_u_30915 + 3] = v_e_30907 + 3 * v_m_30823.lines[v_t_30923].w, v_R_30845[3 * v_u_30915 + 4] = v_r_30909, v_R_30845[3 * v_u_30915 + 5] = v_O_30275(v_r_30909), v_R_30845[3 * v_u_30915 + 6] = v_e_30907 - 3 * v_m_30823.lines[v_t_30923].w, v_R_30845[3 * v_u_30915 + 7] = v_s_30910, v_R_30845[3 * v_u_30915 + 8] = v_O_30275(v_s_30910), v_R_30845[3 * v_u_30915 + 9] = v_e_30907 + 3 * v_m_30823.lines[v_t_30923].w, v_R_30845[3 * v_u_30915 + 10] = v_s_30910, v_R_30845[3 * v_u_30915 + 11] = v_O_30275(v_s_30910), 7 === v_h_30818) for (let v_t_30924 = 0; v_t_30924 < 4; ++v_t_30924) v_L_30846[4 * v_u_30915 + 0 + 4 * v_t_30924] = v___30917[0], v_L_30846[4 * v_u_30915 + 1 + 4 * v_t_30924] = v___30917[1], v_L_30846[4 * v_u_30915 + 2 + 4 * v_t_30924] = v___30917[2], v_L_30846[4 * v_u_30915 + 3 + 4 * v_t_30924] = 1.25 * v_E_30848;else for (let v_t_30925 = 0; v_t_30925 < 4; ++v_t_30925) v_L_30846[4 * v_u_30915 + 0 + 4 * v_t_30925] = v___30917[0], v_L_30846[4 * v_u_30915 + 1 + 4 * v_t_30925] = v___30917[1], v_L_30846[4 * v_u_30915 + 2 + 4 * v_t_30925] = v___30917[2], v_L_30846[4 * v_u_30915 + 3 + 4 * v_t_30925] = v_t_30925 < 2 ? .25 * v_E_30848 : 1.5 * v_E_30848;
+                    if (v_e_30907 = v_m_30823.lines[v_t_30923].x + v_i_30905, v_o_30912 = v_m_30823.lines[v_t_30923].sy + v_m_30823.lines[v_t_30923].my * v_Kl_28193(v_I_30843), v_a_30911 = v_o_30912 + v_m_30823.lines[v_t_30923].mh * v_Kl_28193(v_I_30843) + 90, v_a_30911 = mathMax(v_a_30911, 0), v_o_30912 = mathMax(v_o_30912, 0), v_s_30910 = 7 === v_h_30818 ? (v_r_30909 = v_a_30911, v_o_30912) : (v_l_30913 *= mathMin(v_I_30843 / .25, 1), v_r_30909 = 145.625 - v_m_30823.lines[v_t_30923].sy - v_m_30823.lines[v_t_30923].my * v_P_30844, v_s_30910 = v_r_30909 - v_m_30823.lines[v_t_30923].mh * v_P_30844, v_r_30909 = mathMax(v_r_30909, 0), mathMax(v_s_30910, 0)), v_a_30911 += 10, v_R_30845[3 * v_u_30915 + 0] = v_e_30907 - 3 * v_m_30823.lines[v_t_30923].w, v_R_30845[3 * v_u_30915 + 1] = v_r_30909, v_R_30845[3 * v_u_30915 + 2] = v_O_30275(v_r_30909), v_R_30845[3 * v_u_30915 + 3] = v_e_30907 + 3 * v_m_30823.lines[v_t_30923].w, v_R_30845[3 * v_u_30915 + 4] = v_r_30909, v_R_30845[3 * v_u_30915 + 5] = v_O_30275(v_r_30909), v_R_30845[3 * v_u_30915 + 6] = v_e_30907 - 3 * v_m_30823.lines[v_t_30923].w, v_R_30845[3 * v_u_30915 + 7] = v_s_30910, v_R_30845[3 * v_u_30915 + 8] = v_O_30275(v_s_30910), v_R_30845[3 * v_u_30915 + 9] = v_e_30907 + 3 * v_m_30823.lines[v_t_30923].w, v_R_30845[3 * v_u_30915 + 10] = v_s_30910, v_R_30845[3 * v_u_30915 + 11] = v_O_30275(v_s_30910), 7 === v_h_30818) for (let v_t_30924 = 0; v_t_30924 < 4; ++v_t_30924) v_L_30846[4 * v_u_30915 + 0 + 4 * v_t_30924] = v___30917[0], v_L_30846[4 * v_u_30915 + 1 + 4 * v_t_30924] = v___30917[1], v_L_30846[4 * v_u_30915 + 2 + 4 * v_t_30924] = v___30917[2], v_L_30846[4 * v_u_30915 + 3 + 4 * v_t_30924] = 1.25 * v_E_30848;else for (let v_t_30925 = 0; v_t_30925 < 4; ++v_t_30925) v_L_30846[4 * v_u_30915 + 0 + 4 * v_t_30925] = v___30917[0], v_L_30846[4 * v_u_30915 + 1 + 4 * v_t_30925] = v___30917[1], v_L_30846[4 * v_u_30915 + 2 + 4 * v_t_30925] = v___30917[2], v_L_30846[4 * v_u_30915 + 3 + 4 * v_t_30925] = v_t_30925 < 2 ? .25 * v_E_30848 : 1.5 * v_E_30848;
                     v_M_30847[2 * v_u_30915 + 0] = .501953125, v_M_30847[2 * v_u_30915 + 1] = 1, v_M_30847[2 * v_u_30915 + 2] = .748046875, v_M_30847[2 * v_u_30915 + 3] = 1, v_M_30847[2 * v_u_30915 + 4] = .501953125, v_M_30847[2 * v_u_30915 + 5] = 0, v_M_30847[2 * v_u_30915 + 6] = .748046875, v_M_30847[2 * v_u_30915 + 7] = 0, v_u_30915 += 4;
                   }
                   v_a_30911 = 466 * v_P_30844 * .46875;
@@ -1826,7 +1826,7 @@
                       v_M_30847[2 * v_u_30915 + 0] = .751953125, v_M_30847[2 * v_u_30915 + 1] = 1, v_M_30847[2 * v_u_30915 + 2] = 1, v_M_30847[2 * v_u_30915 + 3] = 1, v_M_30847[2 * v_u_30915 + 4] = .751953125, v_M_30847[2 * v_u_30915 + 5] = 0, v_M_30847[2 * v_u_30915 + 6] = 1, v_M_30847[2 * v_u_30915 + 7] = 0, v_u_30915 += 4;
                     }
                   }
-                  0 < v_u_30915 && (v_J_30266.ml.jl("vertices", 3 * v_u_30915), v_J_30266.ml.jl("colors", 4 * v_u_30915), v_J_30266.ml.jl("coords", 2 * v_u_30915), v_H_30265.lo.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), v_se_27562.TRIANGLES, v_u_30915 / 2 * 3)), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA);
+                  0 < v_u_30915 && (v_J_30266.ml.jl("vertices", 3 * v_u_30915), v_J_30266.ml.jl("colors", 4 * v_u_30915), v_J_30266.ml.jl("coords", 2 * v_u_30915), v_H_30265.lo.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), glContext.TRIANGLES, v_u_30915 / 2 * 3)), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA);
                 }
                 break;
               case 10:
@@ -1839,18 +1839,18 @@
                       v_e_30943 = 0;
                     for (let v_t_30944 = 0; v_t_30944 < 50; ++v_t_30944) {
                       var v_F_30850;
-                      v_e_30943 += v_ge_27821() * v_a1_27833 * .25 + (v_ge_27821() * v_a1_27833 * .125 + .125), v_i_30942 <= 0 ? v_m_30823.objs.push({
-                        start: v_ke_27824(15 * v_ge_27821()),
+                      v_e_30943 += mathRandom() * mathPI * .25 + (mathRandom() * mathPI * .125 + .125), v_i_30942 <= 0 ? v_m_30823.objs.push({
+                        start: mathFloor(15 * mathRandom()),
                         rad: v_e_30943,
-                        length_coef: .75 * v_ge_27821() + .25,
+                        length_coef: .75 * mathRandom() + .25,
                         pos_coef: 0,
-                        col: v_ge_27821() < .75 ? [0, 1, 0] : [.75, 1, .5]
-                      }) : (v_F_30850 = .5 * (.75 * v_ge_27821() + .25), v_m_30823.objs.push({
-                        start: v_ke_27824(15 * v_ge_27821()),
+                        col: mathRandom() < .75 ? [0, 1, 0] : [.75, 1, .5]
+                      }) : (v_F_30850 = .5 * (.75 * mathRandom() + .25), v_m_30823.objs.push({
+                        start: mathFloor(15 * mathRandom()),
                         rad: v_e_30943,
                         length_coef: v_F_30850,
                         pos_coef: -60,
-                        col: v_ge_27821() < .75 ? [0, 1, 0] : [.75, 1, .5]
+                        col: mathRandom() < .75 ? [0, 1, 0] : [.75, 1, .5]
                       }), --v_i_30942);
                     }
                   }
@@ -1867,24 +1867,24 @@
                     v_f_30940 = v_g_30822 / 30,
                     v___30941 = 1 - v_f_30940;
                   v_De_28096(v_m_30823.objs, function (v_i_30945) {
-                    v_c_30938 = v_r1_27828(v_i_30945.rad), v_u_30939 = v_n1_27827(v_i_30945.rad), v_o_30936 = 140 * v_Vl_28189(v_f_30940) * v_i_30945.length_coef + v_i_30945.pos_coef, v_l_30937 = v_pe_27823(260 * v_Wl_28190(v_me_27822(1.75 * v_f_30940 + .25, 1)) * v_i_30945.length_coef, v_o_30936), v_a_30935 = [v_no_28093(v_o_30936, 20, v_c_30938, v_u_30939), v_no_28093(v_l_30937, 20, v_c_30938, v_u_30939), v_no_28093(v_o_30936, -20, v_c_30938, v_u_30939), v_no_28093(v_l_30937, -20, v_c_30938, v_u_30939)];
+                    v_c_30938 = mathCos(v_i_30945.rad), v_u_30939 = mathSin(v_i_30945.rad), v_o_30936 = 140 * v_Vl_28189(v_f_30940) * v_i_30945.length_coef + v_i_30945.pos_coef, v_l_30937 = mathMax(260 * v_Wl_28190(mathMin(1.75 * v_f_30940 + .25, 1)) * v_i_30945.length_coef, v_o_30936), v_a_30935 = [v_no_28093(v_o_30936, 20, v_c_30938, v_u_30939), v_no_28093(v_l_30937, 20, v_c_30938, v_u_30939), v_no_28093(v_o_30936, -20, v_c_30938, v_u_30939), v_no_28093(v_l_30937, -20, v_c_30938, v_u_30939)];
                     for (let v_t_30946 = 0; v_t_30946 < 4; ++v_t_30946) v_e_30930[3 * (v_s_30934 + v_t_30946) + 0] = v_a_30935[v_t_30946][0] + v_d_30819, v_e_30930[3 * (v_s_30934 + v_t_30946) + 1] = v_a_30935[v_t_30946][1] + v_r_30933, v_e_30930[3 * (v_s_30934 + v_t_30946) + 2] = v_j_30274(v_e_30930[3 * (v_s_30934 + v_t_30946) + 1]) + 2;
                     for (let v_t_30947 = 0; v_t_30947 < 4; ++v_t_30947) v_n_30931[4 * v_s_30934 + 0 + 4 * v_t_30947] = v_i_30945.col[0], v_n_30931[4 * v_s_30934 + 1 + 4 * v_t_30947] = v_i_30945.col[1], v_n_30931[4 * v_s_30934 + 2 + 4 * v_t_30947] = v_i_30945.col[2], v_n_30931[4 * v_s_30934 + 3 + 4 * v_t_30947] = v___30941;
                     v_t_30932[2 * v_s_30934 + 0] = 1, v_t_30932[2 * v_s_30934 + 1] = 1, v_t_30932[2 * v_s_30934 + 2] = 1, v_t_30932[2 * v_s_30934 + 3] = 0, v_t_30932[2 * v_s_30934 + 4] = 0, v_t_30932[2 * v_s_30934 + 5] = 1, v_t_30932[2 * v_s_30934 + 6] = 0, v_t_30932[2 * v_s_30934 + 7] = 0, v_s_30934 += 4;
-                  }), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), 0 < v_s_30934 && (v_J_30266.ml.jl("vertices", 3 * v_s_30934), v_J_30266.ml.jl("colors", 4 * v_s_30934), v_J_30266.ml.jl("coords", 2 * v_s_30934), v_H_30265.So.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), v_se_27562.TRIANGLES, v_s_30934 / 2 * 3)), v_se_27562.pushMatrix(), v_H_30265.gL.bind(0), v_se_27562.translate(v_d_30819, v_r_30933 - v_M0_27738, v_j_30274(v_r_30933 - v_M0_27738)), v_pn_27630.col[0] = .5, v_pn_27630.col[1] = .87, v_pn_27630.col[2] = .4, v_pn_27630.col[3] = 1 - v_Wl_28190(v_g_30822 / 30), v_Ke_27583.uniforms(v_pn_27630).draw(v_J_30266.So), v_se_27562.popMatrix(), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA);
+                  }), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), 0 < v_s_30934 && (v_J_30266.ml.jl("vertices", 3 * v_s_30934), v_J_30266.ml.jl("colors", 4 * v_s_30934), v_J_30266.ml.jl("coords", 2 * v_s_30934), v_H_30265.So.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), glContext.TRIANGLES, v_s_30934 / 2 * 3)), glContext.pushMatrix(), v_H_30265.gL.bind(0), glContext.translate(v_d_30819, v_r_30933 - v_M0_27738, v_j_30274(v_r_30933 - v_M0_27738)), v_pn_27630.col[0] = .5, v_pn_27630.col[1] = .87, v_pn_27630.col[2] = .4, v_pn_27630.col[3] = 1 - v_Wl_28190(v_g_30822 / 30), v_Ke_27583.uniforms(v_pn_27630).draw(v_J_30266.So), glContext.popMatrix(), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA);
                 }
               case 9:
                 if (v_g_30822 < 30) {
                   var v_k_30835 = v_E0_27739 * v_i_30824 / 16 - v_M0_27738,
                     v_e_30851 = v_ql_28195(v_g_30822 / 30);
                   let v_t_30948;
-                  if (v_t_30948 = v_g_30822 < 6 ? .75 * v_Wl_28190(v_g_30822 / 5) : .75 * v_Yl_28194((30 - v_g_30822) / 25), v_se_27562.pushMatrix(), v_H_30265.mo.bind(0), v_se_27562.translate(v_d_30819, v_M0_27738 + v_k_30835, v_D0_27740 + v_j_30274(v_k_30835)), v_se_27562.scale(v_v_30820 / 4 * (8 < v_v_30820 ? .75 : .875) * v_e_30851, 1, .625 * v_e_30851), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_gn_27628.opacity = v_t_30948, v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.qo), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), v_se_27562.popMatrix(), v_g_30822 < 11) {
+                  if (v_t_30948 = v_g_30822 < 6 ? .75 * v_Wl_28190(v_g_30822 / 5) : .75 * v_Yl_28194((30 - v_g_30822) / 25), glContext.pushMatrix(), v_H_30265.mo.bind(0), glContext.translate(v_d_30819, v_M0_27738 + v_k_30835, v_D0_27740 + v_j_30274(v_k_30835)), glContext.scale(v_v_30820 / 4 * (8 < v_v_30820 ? .75 : .875) * v_e_30851, 1, .625 * v_e_30851), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_gn_27628.opacity = v_t_30948, v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.qo), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), glContext.popMatrix(), v_g_30822 < 11) {
                     let v_t_30949 = 1;
-                    v_t_30949 = v_g_30822 < 6 ? .25 * v_Wl_28190(v_g_30822 / 5) : .25 * v_Yl_28194((10 - v_g_30822) / 5), v_se_27562.pushMatrix(), v_H_30265.oo.bind(0), v_se_27562.translate(v_d_30819, v_k_30835, v_j_30274(v_k_30835)), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_mn_27629.opacity = v_t_30949, v_Xe_27581.uniforms(v_mn_27629).draw(v_J_30266.il), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), v_se_27562.popMatrix();
+                    v_t_30949 = v_g_30822 < 6 ? .25 * v_Wl_28190(v_g_30822 / 5) : .25 * v_Yl_28194((10 - v_g_30822) / 5), glContext.pushMatrix(), v_H_30265.oo.bind(0), glContext.translate(v_d_30819, v_k_30835, v_j_30274(v_k_30835)), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_mn_27629.opacity = v_t_30949, v_Xe_27581.uniforms(v_mn_27629).draw(v_J_30266.il), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), glContext.popMatrix();
                   }
                 }
                 if (!(v_g_30822 < 60)) return !0;
-                v_se_27562.pushMatrix(), v_H_30265.Io.bind(0), v_se_27562.translate(v_d_30819, 0, -v_g_30822 / 45 * v_ve_27731), v_Ve_27579.uniforms(v_vn_27625).draw(v_J_30266.Io), v_se_27562.popMatrix();
+                glContext.pushMatrix(), v_H_30265.Io.bind(0), glContext.translate(v_d_30819, 0, -v_g_30822 / 45 * v_ve_27731), v_Ve_27579.uniforms(v_vn_27625).draw(v_J_30266.Io), glContext.popMatrix();
                 break;
               case 11:
                 if (!(v_g_30822 < 30)) return !0;
@@ -1898,39 +1898,39 @@
                   v_n_30853,
                   v_e_30851 = v_E0_27739 * v_i_30824 / 16 * .75,
                   v_k_30835 = (null === v_m_30823 && (v_m_30823 = {
-                    crush_rotate_offset: 40 * v_ge_27821(),
-                    crush_offset_x: 80 * v_ge_27821() - 40,
-                    crush_offset_y: 80 * v_ge_27821() + 40
-                  }), v_ke_27824(2.66667 * v_g_30822)),
-                  v_k_30835 = (v_se_27562.pushMatrix(), v_H_30265.yo.bind(0), v_se_27562.translate(v_d_30819, v_e_30851 - 200, v_j_30274(v_e_30851 - 200) - 500), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_Oe_27576.uniforms({
+                    crush_rotate_offset: 40 * mathRandom(),
+                    crush_offset_x: 80 * mathRandom() - 40,
+                    crush_offset_y: 80 * mathRandom() + 40
+                  }), mathFloor(2.66667 * v_g_30822)),
+                  v_k_30835 = (glContext.pushMatrix(), v_H_30265.yo.bind(0), glContext.translate(v_d_30819, v_e_30851 - 200, v_j_30274(v_e_30851 - 200) - 500), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_Oe_27576.uniforms({
                     texture: 0,
                     u1: v_k_30835 % 8 / 8 + .001,
-                    v1: 1 - v_ke_27824(v_k_30835 / 8) / 5 - .001,
+                    v1: 1 - mathFloor(v_k_30835 / 8) / 5 - .001,
                     u2: (v_k_30835 % 8 + 1) / 8 - .001,
-                    v2: 1 - v_ke_27824(v_k_30835 / 8 + 1) / 5 + .001
-                  }).draw(v_J_30266.So), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), v_se_27562.popMatrix(), v_H_30265.Co.bind(0), v_g_30822 / 15);
-                v_gn_27628.opacity = .75 * (1 - v_Vl_28189(v_k_30835)), v_se_27562.pushMatrix(), v_t_30852 = v_d_30819 - 150 * v_Wl_28190(v_k_30835) - v_m_30823.crush_offset_x, v_n_30853 = v_e_30851 + 500 * v_Wl_28190(v_k_30835) + v_m_30823.crush_offset_y, v_se_27562.translate(v_t_30852, v_n_30853, v_j_30274(v_n_30853)), v_se_27562.rotate(10 * -v_g_30822 - 40 - v_m_30823.crush_rotate_offset, 0, 0, 1), v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.nl), v_se_27562.popMatrix(), v_se_27562.pushMatrix(), v_t_30852 = v_d_30819 + 150 * v_Wl_28190(v_k_30835) + v_m_30823.crush_offset_x, v_n_30853 = v_e_30851 + 500 * v_Wl_28190(v_k_30835) + v_m_30823.crush_offset_y, v_se_27562.translate(v_t_30852, v_n_30853, v_j_30274(v_n_30853)), v_se_27562.rotate(40 + 10 * v_g_30822 + v_m_30823.crush_rotate_offset, 0, 0, 1), v_se_27562.scale(-1, 1, 1), v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.nl), v_se_27562.popMatrix(), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_se_27562.pushMatrix(), v_t_30852 = v_d_30819 + v_m_30823.crush_offset_x + 60, v_n_30853 = v_e_30851 + 500 * v_k_30835 + v_m_30823.crush_offset_y, v_se_27562.translate(v_t_30852, v_n_30853, v_j_30274(v_n_30853)), v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.rl), v_se_27562.popMatrix(), v_se_27562.pushMatrix(), v_t_30852 = v_d_30819 - v_m_30823.crush_offset_x - 60, v_n_30853 = v_e_30851 + 500 * v_k_30835 + v_m_30823.crush_offset_y, v_se_27562.translate(v_t_30852, v_n_30853, v_j_30274(v_n_30853)), v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.rl), v_se_27562.popMatrix(), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA);
+                    v2: 1 - mathFloor(v_k_30835 / 8 + 1) / 5 + .001
+                  }).draw(v_J_30266.So), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), glContext.popMatrix(), v_H_30265.Co.bind(0), v_g_30822 / 15);
+                v_gn_27628.opacity = .75 * (1 - v_Vl_28189(v_k_30835)), glContext.pushMatrix(), v_t_30852 = v_d_30819 - 150 * v_Wl_28190(v_k_30835) - v_m_30823.crush_offset_x, v_n_30853 = v_e_30851 + 500 * v_Wl_28190(v_k_30835) + v_m_30823.crush_offset_y, glContext.translate(v_t_30852, v_n_30853, v_j_30274(v_n_30853)), glContext.rotate(10 * -v_g_30822 - 40 - v_m_30823.crush_rotate_offset, 0, 0, 1), v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.nl), glContext.popMatrix(), glContext.pushMatrix(), v_t_30852 = v_d_30819 + 150 * v_Wl_28190(v_k_30835) + v_m_30823.crush_offset_x, v_n_30853 = v_e_30851 + 500 * v_Wl_28190(v_k_30835) + v_m_30823.crush_offset_y, glContext.translate(v_t_30852, v_n_30853, v_j_30274(v_n_30853)), glContext.rotate(40 + 10 * v_g_30822 + v_m_30823.crush_rotate_offset, 0, 0, 1), glContext.scale(-1, 1, 1), v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.nl), glContext.popMatrix(), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), glContext.pushMatrix(), v_t_30852 = v_d_30819 + v_m_30823.crush_offset_x + 60, v_n_30853 = v_e_30851 + 500 * v_k_30835 + v_m_30823.crush_offset_y, glContext.translate(v_t_30852, v_n_30853, v_j_30274(v_n_30853)), v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.rl), glContext.popMatrix(), glContext.pushMatrix(), v_t_30852 = v_d_30819 - v_m_30823.crush_offset_x - 60, v_n_30853 = v_e_30851 + 500 * v_k_30835 + v_m_30823.crush_offset_y, glContext.translate(v_t_30852, v_n_30853, v_j_30274(v_n_30853)), v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.rl), glContext.popMatrix(), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA);
                 break;
               case 5:
                 if (!(v_g_30822 < 60)) return !0;
-                v_e_30851 = v_ke_27824(v_g_30822 % 30);
-                if (v_se_27562.pushMatrix(), v_se_27562.translate(v_d_30819, 0, 0), v_se_27562.scale(1.25, 1, .85), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_H_30265.fo.bind(0), v_Oe_27576.uniforms({
+                v_e_30851 = mathFloor(v_g_30822 % 30);
+                if (glContext.pushMatrix(), glContext.translate(v_d_30819, 0, 0), glContext.scale(1.25, 1, .85), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_H_30265.fo.bind(0), v_Oe_27576.uniforms({
                   texture: 0,
                   u1: v_e_30851 % 6 / 6 + .001,
-                  v1: 1 - v_ke_27824(v_e_30851 / 6) / 5 - .001,
+                  v1: 1 - mathFloor(v_e_30851 / 6) / 5 - .001,
                   u2: (v_e_30851 % 6 + 1) / 6 - .001,
-                  v2: 1 - v_ke_27824(v_e_30851 / 6 + 1) / 5 + .001
-                }).draw(v_J_30266.qo), v_se_27562.popMatrix(), v_mn_27629.opacity = v_g_30822 < 6 ? v_Yl_28194(v_g_30822 / 6) : 1 - v_Wl_28190((v_g_30822 - 6) / 54), v_se_27562.pushMatrix(), v_se_27562.translate(v_d_30819, 0, 0), v_H_30265.oo.bind(0), v_Xe_27581.uniforms(v_mn_27629).draw(v_J_30266.tl), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), v_se_27562.popMatrix(), 59 === v_g_30822) return !0;
+                  v2: 1 - mathFloor(v_e_30851 / 6 + 1) / 5 + .001
+                }).draw(v_J_30266.qo), glContext.popMatrix(), v_mn_27629.opacity = v_g_30822 < 6 ? v_Yl_28194(v_g_30822 / 6) : 1 - v_Wl_28190((v_g_30822 - 6) / 54), glContext.pushMatrix(), glContext.translate(v_d_30819, 0, 0), v_H_30265.oo.bind(0), v_Xe_27581.uniforms(v_mn_27629).draw(v_J_30266.tl), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), glContext.popMatrix(), 59 === v_g_30822) return !0;
                 break;
               case 12:
                 if (!(v_g_30822 < 30)) return !0;
-                v_se_27562.pushMatrix(), v_H_30265.bo.bind(0), v_se_27562.translate(v_d_30819, -20, 0), v_se_27562.scale(1.625, 1, 1), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_Oe_27576.uniforms({
+                glContext.pushMatrix(), v_H_30265.bo.bind(0), glContext.translate(v_d_30819, -20, 0), glContext.scale(1.625, 1, 1), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_Oe_27576.uniforms({
                   texture: 0,
-                  u1: v_ke_27824(v_g_30822) % 15 / 15 + .00048828125,
-                  v1: 1 - v_ke_27824(v_g_30822 / 15) / 2 + .00048828125,
-                  u2: (v_ke_27824(v_g_30822) % 15 + 1) / 15 - .00048828125,
-                  v2: 1 - v_ke_27824(v_g_30822 / 15 + 1) / 2 - .00048828125
-                }).draw(v_J_30266.po), v_se_27562.popMatrix(), v_g_30822 < 15 && (v_mn_27629.opacity = v_g_30822 < 3 ? v_g_30822 / 3 * .5 : .5 * (1 - (v_g_30822 - 3) / 12), v_se_27562.pushMatrix(), v_H_30265.oo.bind(0), v_se_27562.translate(v_d_30819, 0, 0), v_Xe_27581.uniforms(v_mn_27629).draw(v_J_30266.Qo), v_se_27562.popMatrix()), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA);
+                  u1: mathFloor(v_g_30822) % 15 / 15 + .00048828125,
+                  v1: 1 - mathFloor(v_g_30822 / 15) / 2 + .00048828125,
+                  u2: (mathFloor(v_g_30822) % 15 + 1) / 15 - .00048828125,
+                  v2: 1 - mathFloor(v_g_30822 / 15 + 1) / 2 - .00048828125
+                }).draw(v_J_30266.po), glContext.popMatrix(), v_g_30822 < 15 && (v_mn_27629.opacity = v_g_30822 < 3 ? v_g_30822 / 3 * .5 : .5 * (1 - (v_g_30822 - 3) / 12), glContext.pushMatrix(), v_H_30265.oo.bind(0), glContext.translate(v_d_30819, 0, 0), v_Xe_27581.uniforms(v_mn_27629).draw(v_J_30266.Qo), glContext.popMatrix()), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA);
                 break;
               default:
                 return !0;
@@ -1938,12 +1938,12 @@
             function v_r_30854() {
               var v_i_30950 = [];
               for (let v_t_30951 = 0; v_t_30951 < 40; ++v_t_30951) v_i_30950.push({
-                x: 130 * v_ge_27821() - 65,
-                y: 210 * v_ge_27821() + 90,
+                x: 130 * mathRandom() - 65,
+                y: 210 * mathRandom() + 90,
                 size: v_t_30951 < 15 ? 0 : v_t_30951 < 25 ? 1 : 2,
-                mx: 20 * v_ge_27821() - 10,
-                ease: v_ke_27824(3 * v_ge_27821()),
-                qI: (.25 * v_ge_27821() + .25) * v_a1_27833
+                mx: 20 * mathRandom() - 10,
+                ease: mathFloor(3 * mathRandom()),
+                qI: (.25 * mathRandom() + .25) * mathPI
               });
               return v_i_30950;
             }
@@ -1958,40 +1958,40 @@
               v_t_30954 === v_w0_27717 ? v_v_30967 = v_A0_27727[3] : v_t_30954 === v__e_27718 && (v_v_30967 = v_A0_27727[4]);
               var v_w_30968, v_g_30969, v_m_30970;
               for (let v_t_30971 = 0; v_t_30971 < v_i_30952.length; ++v_t_30971) {
-                v_s_30957 = v_e_30953 + v_i_30952[v_t_30971].x + v_Yl_28194(v_u_30962) * v_i_30952[v_t_30971].mx, v_a_30958 = v_l1_27835[v_i_30952[v_t_30971].ease](v_u_30962) * v_i_30952[v_t_30971].y + v_r_30956, v_g_30969 = v_r1_27828(v_i_30952[v_t_30971].qI), v_m_30970 = v_n1_27827(v_i_30952[v_t_30971].qI), v_l_30960 = v_o_30959 = 0 === v_i_30952[v_t_30971].size ? 4 : 1 === v_i_30952[v_t_30971].size ? 7 : 12, v_c_30961 = 1.25 * (1 - v_Yl_28194(v_u_30962)), v_w_30968 = [v_no_28093(-v_o_30959, -v_l_30960, v_g_30969, v_m_30970), v_no_28093(v_o_30959, -v_l_30960, v_g_30969, v_m_30970), v_no_28093(-v_o_30959, v_l_30960, v_g_30969, v_m_30970), v_no_28093(v_o_30959, v_l_30960, v_g_30969, v_m_30970)];
+                v_s_30957 = v_e_30953 + v_i_30952[v_t_30971].x + v_Yl_28194(v_u_30962) * v_i_30952[v_t_30971].mx, v_a_30958 = v_l1_27835[v_i_30952[v_t_30971].ease](v_u_30962) * v_i_30952[v_t_30971].y + v_r_30956, v_g_30969 = mathCos(v_i_30952[v_t_30971].qI), v_m_30970 = mathSin(v_i_30952[v_t_30971].qI), v_l_30960 = v_o_30959 = 0 === v_i_30952[v_t_30971].size ? 4 : 1 === v_i_30952[v_t_30971].size ? 7 : 12, v_c_30961 = 1.25 * (1 - v_Yl_28194(v_u_30962)), v_w_30968 = [v_no_28093(-v_o_30959, -v_l_30960, v_g_30969, v_m_30970), v_no_28093(v_o_30959, -v_l_30960, v_g_30969, v_m_30970), v_no_28093(-v_o_30959, v_l_30960, v_g_30969, v_m_30970), v_no_28093(v_o_30959, v_l_30960, v_g_30969, v_m_30970)];
                 for (let v_t_30972 = 0; v_t_30972 < 4; ++v_t_30972) v_f_30963[3 * (v_d_30966 + v_t_30972) + 0] = v_w_30968[v_t_30972][0] + v_s_30957, v_f_30963[3 * (v_d_30966 + v_t_30972) + 1] = v_w_30968[v_t_30972][1] + v_a_30958, v_f_30963[3 * (v_d_30966 + v_t_30972) + 2] = v_j_30274(v_f_30963[3 * (v_d_30966 + v_t_30972) + 1]) + 8;
                 for (let v_t_30973 = 0; v_t_30973 < 4; ++v_t_30973) v___30964[4 * v_d_30966 + 0 + 4 * v_t_30973] = v_v_30967[0], v___30964[4 * v_d_30966 + 1 + 4 * v_t_30973] = v_v_30967[1], v___30964[4 * v_d_30966 + 2 + 4 * v_t_30973] = v_v_30967[2], v___30964[4 * v_d_30966 + 3 + 4 * v_t_30973] = v_c_30961;
                 v_h_30965[2 * v_d_30966 + 0] = 0, v_h_30965[2 * v_d_30966 + 1] = 1, v_h_30965[2 * v_d_30966 + 2] = 1, v_h_30965[2 * v_d_30966 + 3] = 1, v_h_30965[2 * v_d_30966 + 4] = 0, v_h_30965[2 * v_d_30966 + 5] = 0, v_h_30965[2 * v_d_30966 + 6] = 1, v_h_30965[2 * v_d_30966 + 7] = 0, v_d_30966 += 4;
               }
-              0 < v_d_30966 && (v_J_30266.ml.jl("vertices", 3 * v_d_30966), v_J_30266.ml.jl("colors", 4 * v_d_30966), v_J_30266.ml.jl("coords", 2 * v_d_30966), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_H_30265.To.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), v_se_27562.TRIANGLES, v_d_30966 / 2 * 3), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA));
+              0 < v_d_30966 && (v_J_30266.ml.jl("vertices", 3 * v_d_30966), v_J_30266.ml.jl("colors", 4 * v_d_30966), v_J_30266.ml.jl("coords", 2 * v_d_30966), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_H_30265.To.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), glContext.TRIANGLES, v_d_30966 / 2 * 3), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA));
             }
             function v_G_30856(v_r_30974, v_s_30975) {
-              v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE);
+              glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE);
               var v_t_30976 = v_ql_28195(v_r_30974 / 30);
-              v_gn_27628.opacity = v_r_30974 < 4 ? v_r_30974 / 4 : 1 - (v_r_30974 - 4) / 26, v_se_27562.pushMatrix(), v_H_30265.vo.bind(0), v_se_27562.translate(v_s_30975, 0, 0), v_se_27562.scale(1.25 * v_t_30976, 1, .875 * v_t_30976), v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.vo), v_se_27562.popMatrix();
+              v_gn_27628.opacity = v_r_30974 < 4 ? v_r_30974 / 4 : 1 - (v_r_30974 - 4) / 26, glContext.pushMatrix(), v_H_30265.vo.bind(0), glContext.translate(v_s_30975, 0, 0), glContext.scale(1.25 * v_t_30976, 1, .875 * v_t_30976), v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.vo), glContext.popMatrix();
               {
                 let v_t_30977,
                   v_i_30978,
                   v_e_30979,
                   v_n_30980 = [1, 1, 1];
-                v_w_30821 === v_w0_27717 ? v_n_30980 = v_A0_27727[3] : v_w_30821 === v__e_27718 && (v_n_30980 = v_A0_27727[4]), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_H_30265._o.bind(0), v_se_27562.pushMatrix(), v_i_30978 = .6 * v_zl_28192(v_t_30977 = v_me_27822(v_r_30974 / 26, 1)) + .5, v_e_30979 = v_r_30974 < .4 ? 1 : 1 - v_zl_28192((v_t_30977 - .4) / .6), v_se_27562.translate(v_s_30975, 0, 0), v_se_27562.scale(v_i_30978, v_i_30978, .65 * v_i_30978), v_se_27562.rotate(120 * v_t_30977, 0, 1, 0), v_un_27600.uniforms({
+                v_w_30821 === v_w0_27717 ? v_n_30980 = v_A0_27727[3] : v_w_30821 === v__e_27718 && (v_n_30980 = v_A0_27727[4]), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_H_30265._o.bind(0), glContext.pushMatrix(), v_i_30978 = .6 * v_zl_28192(v_t_30977 = mathMin(v_r_30974 / 26, 1)) + .5, v_e_30979 = v_r_30974 < .4 ? 1 : 1 - v_zl_28192((v_t_30977 - .4) / .6), glContext.translate(v_s_30975, 0, 0), glContext.scale(v_i_30978, v_i_30978, .65 * v_i_30978), glContext.rotate(120 * v_t_30977, 0, 1, 0), v_un_27600.uniforms({
                   texture: 0,
                   r: v_n_30980[0],
                   g: v_n_30980[1],
                   b: v_n_30980[2],
                   a: v_e_30979,
                   t: v_Wl_28190(v_t_30977)
-                }).draw(v_J_30266._o), v_se_27562.popMatrix(), v_se_27562.pushMatrix(), v_H_30265.ho.bind(0), v_se_27562.translate(v_s_30975, 4, 0), v_i_30978 = .6 * v_zl_28192(v_t_30977) + .5, v_se_27562.scale(.5 * v_i_30978, 1, .75 * v_i_30978), v_ze_27582.uniforms({
+                }).draw(v_J_30266._o), glContext.popMatrix(), glContext.pushMatrix(), v_H_30265.ho.bind(0), glContext.translate(v_s_30975, 4, 0), v_i_30978 = .6 * v_zl_28192(v_t_30977) + .5, glContext.scale(.5 * v_i_30978, 1, .75 * v_i_30978), v_ze_27582.uniforms({
                   texture: 0,
                   r: v_n_30980[0],
                   g: v_n_30980[1],
                   b: v_n_30980[2],
                   a: 1.5 * v_e_30979
-                }).draw(v_J_30266.vo), v_se_27562.popMatrix(), v_e_30979 = v_r_30974 < .4 ? 1 : 1 - v_zl_28192((v_r_30974 / 30 - .4) / .6), v_se_27562.pushMatrix(), v_H_30265.do.bind(0), v_se_27562.translate(v_s_30975, 0, 0), v_se_27562.scale(.875, 1, 1.25), v_gn_27628.opacity = 2 * v_e_30979, v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.vo), v_se_27562.popMatrix(), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA);
+                }).draw(v_J_30266.vo), glContext.popMatrix(), v_e_30979 = v_r_30974 < .4 ? 1 : 1 - v_zl_28192((v_r_30974 / 30 - .4) / .6), glContext.pushMatrix(), v_H_30265.do.bind(0), glContext.translate(v_s_30975, 0, 0), glContext.scale(.875, 1, 1.25), v_gn_27628.opacity = 2 * v_e_30979, v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.vo), glContext.popMatrix(), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA);
               }
-              v_r_30974 < 12 && (v_se_27562.pushMatrix(), v_H_30265.wo.bind(0), v_se_27562.translate(v_s_30975, 0, 0), v_t_30976 = v_ql_28195(v_me_27822(v_r_30974 / 4, 1)), v_se_27562.scale(v_t_30976, v_t_30976, v_t_30976), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_gn_27628.opacity = 1 - v_Yl_28194(v_r_30974 / 12), v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.el), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), v_se_27562.popMatrix()), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA);
+              v_r_30974 < 12 && (glContext.pushMatrix(), v_H_30265.wo.bind(0), glContext.translate(v_s_30975, 0, 0), v_t_30976 = v_ql_28195(mathMin(v_r_30974 / 4, 1)), glContext.scale(v_t_30976, v_t_30976, v_t_30976), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_gn_27628.opacity = 1 - v_Yl_28194(v_r_30974 / 12), v_Ye_27584.uniforms(v_gn_27628).draw(v_J_30266.el), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), glContext.popMatrix()), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA);
             }
-            return v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), v_m_30823;
+            return glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), v_m_30823;
           },
           gc: function (v___30981, v_h_30982, v_d_30983) {
             switch (v___30981) {
@@ -2008,15 +2008,15 @@
                       v_n_30999,
                       v_r_31000 = [20, 20];
                     for (let v_t_31001 = 0; v_t_31001 < 220; ++v_t_31001) {
-                      v_n_30999 = v_t_31001 < 110, 0 < v_r_31000[v_n_30999 ? 0 : 1] ? (v_i_30997 = v_ge_27821(), v_e_30998 = v_i_30997 < .125 ? [.5, .875, 1] : v_i_30997 < .25 ? [1, .5, .875] : v_i_30997 < .5 ? [.25, 1, .25] : v_i_30997 < .75 ? [0, 0, 1] : [1, .25, 1], v_r_31000[v_n_30999 ? 0 : 1]--) : v_e_30998 = [1, 1, 1];
-                      var v_v_30984 = v_ke_27824(200 * v_ge_27821());
+                      v_n_30999 = v_t_31001 < 110, 0 < v_r_31000[v_n_30999 ? 0 : 1] ? (v_i_30997 = mathRandom(), v_e_30998 = v_i_30997 < .125 ? [.5, .875, 1] : v_i_30997 < .25 ? [1, .5, .875] : v_i_30997 < .5 ? [.25, 1, .25] : v_i_30997 < .75 ? [0, 0, 1] : [1, .25, 1], v_r_31000[v_n_30999 ? 0 : 1]--) : v_e_30998 = [1, 1, 1];
+                      var v_v_30984 = mathFloor(200 * mathRandom());
                       v_h_30982.objs.push({
-                        start: v_ke_27824(18 * v_ge_27821()),
-                        y_coef: v_ke_27824(100 * v_ge_27821()),
-                        h_coef: v_ke_27824(200 * v_ge_27821()) + 700,
+                        start: mathFloor(18 * mathRandom()),
+                        y_coef: mathFloor(100 * mathRandom()),
+                        h_coef: mathFloor(200 * mathRandom()) + 700,
                         x: v_n_30999 ? -532 - v_v_30984 : 532 + v_v_30984,
-                        y: v_ke_27824(200 * v_ge_27821()) + (v___30981 === v_Mn_27668 ? -v_v_30984 / 2 : v_v_30984 / 2),
-                        z: 150 - v_ke_27824(1920 * v_ge_27821()),
+                        y: mathFloor(200 * mathRandom()) + (v___30981 === v_Mn_27668 ? -v_v_30984 / 2 : v_v_30984 / 2),
+                        z: 150 - mathFloor(1920 * mathRandom()),
                         left_side: v_n_30999,
                         color: v_e_30998
                       });
@@ -2039,7 +2039,7 @@
                       for (let v_t_31003 = 0; v_t_31003 < 4; ++v_t_31003) v_e_30987[4 * v_r_30989 + 0 + 4 * v_t_31003] = v_i_31002.color[0], v_e_30987[4 * v_r_30989 + 1 + 4 * v_t_31003] = v_i_31002.color[1], v_e_30987[4 * v_r_30989 + 2 + 4 * v_t_31003] = v_i_31002.color[2], v_e_30987[4 * v_r_30989 + 3 + 4 * v_t_31003] = v_t_31003 < 2 ? v_c_30994 : v_u_30995;
                       v_n_30988[2 * v_r_30989 + 0] = 0, v_n_30988[2 * v_r_30989 + 1] = 0, v_n_30988[2 * v_r_30989 + 2] = 1, v_n_30988[2 * v_r_30989 + 3] = 0, v_n_30988[2 * v_r_30989 + 4] = 0, v_n_30988[2 * v_r_30989 + 5] = 1, v_n_30988[2 * v_r_30989 + 6] = 1, v_n_30988[2 * v_r_30989 + 7] = 1, v_r_30989 += 4;
                     }
-                  }), 0 < v_r_30989 && (v_J_30266.ml.jl("vertices", 3 * v_r_30989), v_J_30266.ml.jl("colors", 4 * v_r_30989), v_J_30266.ml.jl("coords", 2 * v_r_30989), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_H_30265.Do.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), v_se_27562.TRIANGLES, v_r_30989 / 2 * 3), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA));
+                  }), 0 < v_r_30989 && (v_J_30266.ml.jl("vertices", 3 * v_r_30989), v_J_30266.ml.jl("colors", 4 * v_r_30989), v_J_30266.ml.jl("coords", 2 * v_r_30989), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_H_30265.Do.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), glContext.TRIANGLES, v_r_30989 / 2 * 3), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA));
                 }
                 break;
               case v_Ln_27667:
@@ -2053,12 +2053,12 @@
                       v_e_31016,
                       v_n_31017 = [],
                       v_r_31018 = 150;
-                    for (let v_t_31019 = 0; v_t_31019 < 400; ++v_t_31019) 0 < v_r_31018 ? (v_i_31015 = v_ge_27821(), v_n_31017 = v_i_31015 < .125 ? [.5, .875, 1] : v_i_31015 < .25 ? [1, .5, .875] : v_i_31015 < .5 ? [.25, 1, .25] : v_i_31015 < .75 ? [0, 0, 1] : [1, .25, 1], v_r_31018--) : v_n_31017 = [1, 1, 1], v_i_31015 = v_ge_27821(), v_e_31016 = v_i_31015 < .5 ? 2 * v_i_31015 * v_a1_27833 * .5833333 - .25 * v_a1_27833 : 2 * (v_i_31015 - .5) * v_a1_27833 * .5833333 + .6666667 * v_a1_27833, v_h_30982.objs.push({
-                      start: v_ke_27824(15 * v_ge_27821()),
+                    for (let v_t_31019 = 0; v_t_31019 < 400; ++v_t_31019) 0 < v_r_31018 ? (v_i_31015 = mathRandom(), v_n_31017 = v_i_31015 < .125 ? [.5, .875, 1] : v_i_31015 < .25 ? [1, .5, .875] : v_i_31015 < .5 ? [.25, 1, .25] : v_i_31015 < .75 ? [0, 0, 1] : [1, .25, 1], v_r_31018--) : v_n_31017 = [1, 1, 1], v_i_31015 = mathRandom(), v_e_31016 = v_i_31015 < .5 ? 2 * v_i_31015 * mathPI * .5833333 - .25 * mathPI : 2 * (v_i_31015 - .5) * mathPI * .5833333 + .6666667 * mathPI, v_h_30982.objs.push({
+                      start: mathFloor(15 * mathRandom()),
                       rad: v_e_31016,
-                      pos: 1 - .5 * v_ge_27821(),
-                      length_coef: 1e3 * v_ge_27821() + 250,
-                      pos_coef: .25 * v_ge_27821(),
+                      pos: 1 - .5 * mathRandom(),
+                      length_coef: 1e3 * mathRandom() + 250,
+                      pos_coef: .25 * mathRandom(),
                       color: v_n_31017
                     });
                   }
@@ -2075,12 +2075,12 @@
                     v_f_31014;
                   v_De_28096(v_h_30982.objs, function (v_i_31020) {
                     if (!(v_d_30983 < v_i_31020.start || v_d_30983 >= v_i_31020.start + 15)) {
-                      v_f_31014 = (v_d_30983 - v_i_31020.start) / 15, v_a_31009 = v_me_27822(v_Ee_28084(2, .25, v_f_31014), 1), v_c_31012 = v_r1_27828(v_i_31020.rad), v_u_31013 = v_n1_27827(v_i_31020.rad), v_l_31011 = 2200 * (v_i_31020.pos - v_zl_28192(v_f_31014) * v_i_31020.pos_coef), v_o_31010 = v_l_31011 - v_zl_28192(v_f_31014) * v_i_31020.length_coef, v_s_31008 = [v_no_28093(v_o_31010, 40, v_c_31012, v_u_31013), v_no_28093(v_l_31011, 40, v_c_31012, v_u_31013), v_no_28093(v_o_31010, -40, v_c_31012, v_u_31013), v_no_28093(v_l_31011, -40, v_c_31012, v_u_31013)];
+                      v_f_31014 = (v_d_30983 - v_i_31020.start) / 15, v_a_31009 = mathMin(v_Ee_28084(2, .25, v_f_31014), 1), v_c_31012 = mathCos(v_i_31020.rad), v_u_31013 = mathSin(v_i_31020.rad), v_l_31011 = 2200 * (v_i_31020.pos - v_zl_28192(v_f_31014) * v_i_31020.pos_coef), v_o_31010 = v_l_31011 - v_zl_28192(v_f_31014) * v_i_31020.length_coef, v_s_31008 = [v_no_28093(v_o_31010, 40, v_c_31012, v_u_31013), v_no_28093(v_l_31011, 40, v_c_31012, v_u_31013), v_no_28093(v_o_31010, -40, v_c_31012, v_u_31013), v_no_28093(v_l_31011, -40, v_c_31012, v_u_31013)];
                       for (let v_t_31021 = 0; v_t_31021 < 4; ++v_t_31021) v_e_31004[3 * (v_r_31007 + v_t_31021) + 0] = v_s_31008[v_t_31021][0], v_e_31004[3 * (v_r_31007 + v_t_31021) + 1] = v_s_31008[v_t_31021][1], v_e_31004[3 * (v_r_31007 + v_t_31021) + 2] = v_j_30274(v_s_31008[v_t_31021][1]) - 1280;
                       for (let v_t_31022 = 0; v_t_31022 < 4; ++v_t_31022) v_n_31005[4 * v_r_31007 + 0 + 4 * v_t_31022] = v_i_31020.color[0], v_n_31005[4 * v_r_31007 + 1 + 4 * v_t_31022] = v_i_31020.color[1], v_n_31005[4 * v_r_31007 + 2 + 4 * v_t_31022] = v_i_31020.color[2], v_n_31005[4 * v_r_31007 + 3 + 4 * v_t_31022] = v_a_31009;
                       v_t_31006[2 * v_r_31007 + 0] = 1, v_t_31006[2 * v_r_31007 + 1] = 1, v_t_31006[2 * v_r_31007 + 2] = 1, v_t_31006[2 * v_r_31007 + 3] = 0, v_t_31006[2 * v_r_31007 + 4] = 0, v_t_31006[2 * v_r_31007 + 5] = 1, v_t_31006[2 * v_r_31007 + 6] = 0, v_t_31006[2 * v_r_31007 + 7] = 0, v_r_31007 += 4;
                     }
-                  }), 0 < v_r_31007 && (v_J_30266.ml.jl("vertices", 3 * v_r_31007), v_J_30266.ml.jl("colors", 4 * v_r_31007), v_J_30266.ml.jl("coords", 2 * v_r_31007), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_H_30265.Do.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), v_se_27562.TRIANGLES, v_r_31007 / 2 * 3), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA));
+                  }), 0 < v_r_31007 && (v_J_30266.ml.jl("vertices", 3 * v_r_31007), v_J_30266.ml.jl("colors", 4 * v_r_31007), v_J_30266.ml.jl("coords", 2 * v_r_31007), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_H_30265.Do.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), glContext.TRIANGLES, v_r_31007 / 2 * 3), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA));
                 }
                 break;
               case v_En_27669:
@@ -2088,15 +2088,15 @@
                 if (!(v_d_30983 < 30)) return !0;
                 var v_u_30985 = v_d_30983 / 30;
                 null === v_h_30982 && (v_h_30982 = {
-                  num: v_ke_27824(6 * v_ge_27821()),
-                  z: -300 * v_ge_27821()
-                }), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_H_30265.Do.bind(0), v_qe_27585.uniforms({
+                  num: mathFloor(6 * mathRandom()),
+                  z: -300 * mathRandom()
+                }), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_H_30265.Do.bind(0), v_qe_27585.uniforms({
                   texture: 0,
                   opacity: 1 - v_Yl_28194(v_u_30985),
                   rotate2: (v___30981 === v_Dn_27670 ? -3.14159 : 3.14159) * v_u_30985,
                   transY: 190,
                   transZ: 1400 * -v_o1_27834(v_u_30985) + v_h_30982.z
-                }).draw((v___30981 === v_Dn_27670 ? v_J_30266._l : v_J_30266.fl)[v_h_30982.num]), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA);
+                }).draw((v___30981 === v_Dn_27670 ? v_J_30266._l : v_J_30266.fl)[v_h_30982.num]), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA);
                 break;
               case v_Fn_27671:
               case v_Bn_27672:
@@ -2111,13 +2111,13 @@
                       v_e_31034 = [],
                       v_n_31035,
                       v_r_31036 = [20, 20];
-                    for (let v_t_31037 = 0; v_t_31037 < 170; ++v_t_31037) v_n_31035 = v_t_31037 < 85, 0 < v_r_31036[v_n_31035 ? 0 : 1] ? (v_i_31033 = v_ge_27821(), v_e_31034 = v_i_31033 < .125 ? [.5, .875, 1] : v_i_31033 < .25 ? [1, .5, .875] : v_i_31033 < .5 ? [.25, 1, .25] : v_i_31033 < .75 ? [0, 0, 1] : [1, .25, 1], v_r_31036[v_n_31035 ? 0 : 1]--) : v_e_31034 = [1, 1, 1], v_h_30982.objs.push({
-                      start: v_ke_27824(10 * v_ge_27821()),
-                      y_coef: v_ke_27824(100 * v_ge_27821()),
-                      h_coef: v_ke_27824(600 * v_ge_27821()) + 1800,
-                      x: v_n_31035 ? -1712 - v_ke_27824(400 * v_ge_27821()) : v_we_27734 + v_ke_27824(400 * v_ge_27821()) - 350,
-                      y: v_ke_27824(300 * v_ge_27821()) + 100,
-                      z: -v_ke_27824(3840 * v_ge_27821()),
+                    for (let v_t_31037 = 0; v_t_31037 < 170; ++v_t_31037) v_n_31035 = v_t_31037 < 85, 0 < v_r_31036[v_n_31035 ? 0 : 1] ? (v_i_31033 = mathRandom(), v_e_31034 = v_i_31033 < .125 ? [.5, .875, 1] : v_i_31033 < .25 ? [1, .5, .875] : v_i_31033 < .5 ? [.25, 1, .25] : v_i_31033 < .75 ? [0, 0, 1] : [1, .25, 1], v_r_31036[v_n_31035 ? 0 : 1]--) : v_e_31034 = [1, 1, 1], v_h_30982.objs.push({
+                      start: mathFloor(10 * mathRandom()),
+                      y_coef: mathFloor(100 * mathRandom()),
+                      h_coef: mathFloor(600 * mathRandom()) + 1800,
+                      x: v_n_31035 ? -1712 - mathFloor(400 * mathRandom()) : v_we_27734 + mathFloor(400 * mathRandom()) - 350,
+                      y: mathFloor(300 * mathRandom()) + 100,
+                      z: -mathFloor(3840 * mathRandom()),
                       left_side: v_n_31035,
                       color: v_e_31034
                     });
@@ -2134,7 +2134,7 @@
                     v_u_31032;
                   v_De_28096(v_h_30982.objs, function (v_i_31038) {
                     if (!(v_d_30983 < v_i_31038.start || v_d_30983 >= v_i_31038.start + 20)) {
-                      if (v_u_31032 = (v_d_30983 - v_i_31038.start) / 20, v_o_31029 = v_me_27822(v_Ee_28084(2, .25, v_u_31032), 1), v___30981 === v_Fn_27671 || v___30981 === v_Nn_27673 && v_i_31038.left_side) v_s_31027 = -v_i_31038.y_coef * v_u_31032 + v_i_31038.y + 1200, v_a_31028 = v_s_31027 + -v_i_31038.h_coef * v_u_31032;else {
+                      if (v_u_31032 = (v_d_30983 - v_i_31038.start) / 20, v_o_31029 = mathMin(v_Ee_28084(2, .25, v_u_31032), 1), v___30981 === v_Fn_27671 || v___30981 === v_Nn_27673 && v_i_31038.left_side) v_s_31027 = -v_i_31038.y_coef * v_u_31032 + v_i_31038.y + 1200, v_a_31028 = v_s_31027 + -v_i_31038.h_coef * v_u_31032;else {
                         if (v___30981 !== v_Bn_27672 && (v___30981 !== v_Nn_27673 || v_i_31038.left_side)) return;
                         v_s_31027 = v_i_31038.y_coef * v_u_31032 + v_i_31038.y - 200, v_a_31028 = v_s_31027 + v_i_31038.h_coef * v_u_31032;
                       }
@@ -2142,7 +2142,7 @@
                       for (let v_t_31039 = 0; v_t_31039 < 4; ++v_t_31039) v_e_31024[4 * v_r_31026 + 0 + 4 * v_t_31039] = v_i_31038.color[0], v_e_31024[4 * v_r_31026 + 1 + 4 * v_t_31039] = v_i_31038.color[1], v_e_31024[4 * v_r_31026 + 2 + 4 * v_t_31039] = v_i_31038.color[2], v_e_31024[4 * v_r_31026 + 3 + 4 * v_t_31039] = v_t_31039 < 2 ? v_l_31030 : v_c_31031;
                       v_n_31025[2 * v_r_31026 + 0] = 1, v_n_31025[2 * v_r_31026 + 1] = 1, v_n_31025[2 * v_r_31026 + 2] = 1, v_n_31025[2 * v_r_31026 + 3] = 0, v_n_31025[2 * v_r_31026 + 4] = 0, v_n_31025[2 * v_r_31026 + 5] = 1, v_n_31025[2 * v_r_31026 + 6] = 0, v_n_31025[2 * v_r_31026 + 7] = 0, v_r_31026 += 4;
                     }
-                  }), 0 < v_r_31026 && (v_J_30266.ml.jl("vertices", 3 * v_r_31026), v_J_30266.ml.jl("colors", 4 * v_r_31026), v_J_30266.ml.jl("coords", 2 * v_r_31026), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), v_H_30265.Do.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), v_se_27562.TRIANGLES, v_r_31026 / 2 * 3), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA));
+                  }), 0 < v_r_31026 && (v_J_30266.ml.jl("vertices", 3 * v_r_31026), v_J_30266.ml.jl("colors", 4 * v_r_31026), v_J_30266.ml.jl("coords", 2 * v_r_31026), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), v_H_30265.Do.bind(0), v_We_27580.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), glContext.TRIANGLES, v_r_31026 / 2 * 3), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA));
                 }
                 break;
               case v_Rn_27666:
@@ -2155,10 +2155,10 @@
                     let v_e_31050, v_n_31051;
                     for (let v_i_31052 = 0; v_i_31052 < 15; ++v_i_31052) {
                       v_h_30982.frames.push([]);
-                      for (let v_t_31053 = 0; v_t_31053 < 2; ++v_t_31053) v_e_31050 = v_ge_27821(), v_n_31051 = v_e_31050 < .5 ? 2 * v_e_31050 * v_a1_27833 * .5833333 - .25 * v_a1_27833 : 2 * (v_e_31050 - .5) * v_a1_27833 * .5833333 + .6666667 * v_a1_27833, v_h_30982.frames[v_i_31052].push({
+                      for (let v_t_31053 = 0; v_t_31053 < 2; ++v_t_31053) v_e_31050 = mathRandom(), v_n_31051 = v_e_31050 < .5 ? 2 * v_e_31050 * mathPI * .5833333 - .25 * mathPI : 2 * (v_e_31050 - .5) * mathPI * .5833333 + .6666667 * mathPI, v_h_30982.frames[v_i_31052].push({
                         rad: v_n_31051,
-                        i: v_i1_27825(4 * v_ge_27821()),
-                        long: .375 < v_ge_27821()
+                        i: mathRound(4 * mathRandom()),
+                        long: .375 < mathRandom()
                       });
                     }
                   }
@@ -2171,16 +2171,16 @@
                     v_o_31046,
                     v_l_31047,
                     v_c_31048;
-                  v_u_30985 = v_ke_27824(v_d_30983);
+                  v_u_30985 = mathFloor(v_d_30983);
                   v_De_28096(v_h_30982.frames[v_u_30985], function (v_t_31054) {
-                    v_s_31044 = v_me_27822(NaN, 1), v_l_31047 = v_r1_27828(v_t_31054.rad), v_c_31048 = v_n1_27827(v_t_31054.rad), v_a_31045 = v_t_31054.long ? (v_o_31046 = 2200, 260) : (v_o_31046 = 1800, 500), v_r_31043 = [v_no_28093(v_a_31045, 300, v_l_31047, v_c_31048), v_no_28093(v_o_31046, 300, v_l_31047, v_c_31048), v_no_28093(v_a_31045, -300, v_l_31047, v_c_31048), v_no_28093(v_o_31046, -300, v_l_31047, v_c_31048)];
+                    v_s_31044 = mathMin(NaN, 1), v_l_31047 = mathCos(v_t_31054.rad), v_c_31048 = mathSin(v_t_31054.rad), v_a_31045 = v_t_31054.long ? (v_o_31046 = 2200, 260) : (v_o_31046 = 1800, 500), v_r_31043 = [v_no_28093(v_a_31045, 300, v_l_31047, v_c_31048), v_no_28093(v_o_31046, 300, v_l_31047, v_c_31048), v_no_28093(v_a_31045, -300, v_l_31047, v_c_31048), v_no_28093(v_o_31046, -300, v_l_31047, v_c_31048)];
                     for (let v_t_31055 = 0; v_t_31055 < 4; ++v_t_31055) v_i_31040[3 * (v_n_31042 + v_t_31055) + 0] = v_r_31043[v_t_31055][0], v_i_31040[3 * (v_n_31042 + v_t_31055) + 1] = v_r_31043[v_t_31055][1], v_i_31040[3 * (v_n_31042 + v_t_31055) + 2] = v_j_30274(v_r_31043[v_t_31055][1]) - 1280;
                     v_e_31041[2 * v_n_31042 + 0] = v_t_31054.i / 5, v_e_31041[2 * v_n_31042 + 1] = 0, v_e_31041[2 * v_n_31042 + 2] = v_t_31054.i / 5, v_e_31041[2 * v_n_31042 + 3] = 1, v_e_31041[2 * v_n_31042 + 4] = (v_t_31054.i + 1) / 5, v_e_31041[2 * v_n_31042 + 5] = 0, v_e_31041[2 * v_n_31042 + 6] = (v_t_31054.i + 1) / 5, v_e_31041[2 * v_n_31042 + 7] = 1, v_n_31042 += 4;
-                  }), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE), 0 < v_n_31042 && (v_J_30266.ml.jl("vertices", 3 * v_n_31042), v_J_30266.ml.jl("coords", 2 * v_n_31042), v_H_30265.ko.bind(0), v_Ve_27579.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), v_se_27562.TRIANGLES, v_n_31042 / 2 * 3)), v_r_31043 = [[-1800, 1300], [1800, 1300], [-1800, -1900], [1800, -1900]];
+                  }), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE), 0 < v_n_31042 && (v_J_30266.ml.jl("vertices", 3 * v_n_31042), v_J_30266.ml.jl("coords", 2 * v_n_31042), v_H_30265.ko.bind(0), v_Ve_27579.uniforms(v_vn_27625).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), glContext.TRIANGLES, v_n_31042 / 2 * 3)), v_r_31043 = [[-1800, 1300], [1800, 1300], [-1800, -1900], [1800, -1900]];
                   for (let v_t_31056 = 0; v_t_31056 < 4; ++v_t_31056) v_i_31040[3 * v_t_31056 + 0] = v_r_31043[v_t_31056][0], v_i_31040[3 * v_t_31056 + 1] = v_r_31043[v_t_31056][1], v_i_31040[3 * v_t_31056 + 2] = v_j_30274(v_r_31043[v_t_31056][1]) - 1280;
                   v_e_31041[0] = 0, v_e_31041[1] = 0, v_e_31041[2] = 0, v_e_31041[3] = 1, v_e_31041[4] = 1, v_e_31041[5] = 0, v_e_31041[6] = 1, v_e_31041[7] = 1, v_J_30266.ml.jl("vertices", 12), v_J_30266.ml.jl("coords", 8), v_H_30265.oo.bind(0);
                   let v_t_31049 = 0;
-                  v_t_31049 = v_d_30983 < 3 ? v_d_30983 / 3 : 1 - (v_d_30983 - 3) / 12, v_pn_27630.col[0] = .71765, v_pn_27630.col[1] = .10588, v_pn_27630.col[2] = .56078, v_pn_27630.col[3] = .375 * v_t_31049, v_Ke_27583.uniforms(v_pn_27630).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), v_se_27562.TRIANGLES, 6), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA);
+                  v_t_31049 = v_d_30983 < 3 ? v_d_30983 / 3 : 1 - (v_d_30983 - 3) / 12, v_pn_27630.col[0] = .71765, v_pn_27630.col[1] = .10588, v_pn_27630.col[2] = .56078, v_pn_27630.col[3] = .375 * v_t_31049, v_Ke_27583.uniforms(v_pn_27630).drawBuffers(v_J_30266.ml.Nl(), v_J_30266.ml.Yl(), glContext.TRIANGLES, 6), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA);
                 }
                 break;
               default:
@@ -2214,8 +2214,8 @@
             ue: function () {
               var v_t_31072, v_i_31073;
               v_B_31057 = new THREE.WebGL1Renderer({
-                canvas: v_se_27562.canvas,
-                context: v_se_27562,
+                canvas: glContext.canvas,
+                context: glContext,
                 alpha: !0
               }), v_v_31058 = new THREE.WebGLRenderTarget(v_yn_27656, v_Sn_27657, {
                 depthBuffer: !0,
@@ -2252,11 +2252,11 @@
                   v_a_31080 = [],
                   v_o_31081 = v_O_31068.PLANE_WIDTH,
                   v_l_31082 = v_O_31068.PLANE_HEIGHT;
-                for (let v_t_31110 = 0; v_t_31110 < v_O_31068.PLANES_COLS * v_O_31068.PLANES_ROWS; ++v_t_31110) v_n_31076 = v_t_31110 % v_O_31068.PLANES_COLS * v_O_31068.PLANE_OUTER_WIDTH - v_O_31068.PLANE_AREA_X / 2 + v_o_31081 / 2, v_r_31078.push(v_n_31076 - v_o_31081 / 2, 0, v_l_31082 / 2, v_n_31076 + v_o_31081 / 2, 0, v_l_31082 / 2, v_n_31076 - v_o_31081 / 2, 0, -v_l_31082 / 2, v_n_31076 + v_o_31081 / 2, 0, -v_l_31082 / 2), v_n_31076 = .75 - .75 * v_s1_27830(v_t_31110 % v_O_31068.PLANES_COLS / (v_O_31068.PLANES_COLS / 2) - 1), v_s_31079.push(1, 1, 1, v_n_31076, 1, 1, 1, v_n_31076, 1, 1, 1, v_n_31076, 1, 1, 1, v_n_31076), v_a_31080.push(4 * v_t_31110, 1 + 4 * v_t_31110, 2 + 4 * v_t_31110, 2 + 4 * v_t_31110, 1 + 4 * v_t_31110, 3 + 4 * v_t_31110), v_O_31068.planes_anim_data.push({
-                  offset_t: 5e3 * v_ge_27821(),
-                  offset_y: 4 * v_ge_27821() - 2,
-                  speed: v_ge_27821() + 1,
-                  move: v_ge_27821() < .75
+                for (let v_t_31110 = 0; v_t_31110 < v_O_31068.PLANES_COLS * v_O_31068.PLANES_ROWS; ++v_t_31110) v_n_31076 = v_t_31110 % v_O_31068.PLANES_COLS * v_O_31068.PLANE_OUTER_WIDTH - v_O_31068.PLANE_AREA_X / 2 + v_o_31081 / 2, v_r_31078.push(v_n_31076 - v_o_31081 / 2, 0, v_l_31082 / 2, v_n_31076 + v_o_31081 / 2, 0, v_l_31082 / 2, v_n_31076 - v_o_31081 / 2, 0, -v_l_31082 / 2, v_n_31076 + v_o_31081 / 2, 0, -v_l_31082 / 2), v_n_31076 = .75 - .75 * mathAbs(v_t_31110 % v_O_31068.PLANES_COLS / (v_O_31068.PLANES_COLS / 2) - 1), v_s_31079.push(1, 1, 1, v_n_31076, 1, 1, 1, v_n_31076, 1, 1, 1, v_n_31076, 1, 1, 1, v_n_31076), v_a_31080.push(4 * v_t_31110, 1 + 4 * v_t_31110, 2 + 4 * v_t_31110, 2 + 4 * v_t_31110, 1 + 4 * v_t_31110, 3 + 4 * v_t_31110), v_O_31068.planes_anim_data.push({
+                  offset_t: 5e3 * mathRandom(),
+                  offset_y: 4 * mathRandom() - 2,
+                  speed: mathRandom() + 1,
+                  move: mathRandom() < .75
                 });
                 v_O_31068.planes.setIndex(new THREE.BufferAttribute(new Uint32Array(v_a_31080), 1)), v_O_31068.planes.setAttribute("position", new THREE.BufferAttribute(new Float32Array(v_r_31078), 3)), v_O_31068.planes.setAttribute("color", new THREE.BufferAttribute(new Float32Array(v_s_31079), 4)), v_O_31068.planes.setDrawRange(0, v_a_31080.length);
                 v_t_31077 = new THREE.Mesh(v_O_31068.planes, v_t_31077), v_t_31077 = (v_N_31060[0].add(v_t_31077), new THREE.DirectionalLight(16777215, 1)), v_t_31077 = (v_t_31077.position.set(0, 300, -800), v_N_31060[0].add(v_t_31077), new THREE.AmbientLight(16777215, 1));
@@ -2319,11 +2319,11 @@
                   v_b_31095 = [],
                   v_y_31096 = v_O_31068.PLANE_WIDTH,
                   v_S_31097 = v_O_31068.PLANE_HEIGHT;
-                for (let v_t_31112 = 0; v_t_31112 < v_O_31068.PLANES_COLS * v_O_31068.PLANES_ROWS; ++v_t_31112) v_m_31092 = v_t_31112 % v_O_31068.PLANES_COLS * v_O_31068.PLANE_OUTER_WIDTH - v_O_31068.PLANE_AREA_X / 2 + v_y_31096 / 2, v_p_31093.push(v_m_31092 - v_y_31096 / 2, 0, v_S_31097 / 2, v_m_31092 + v_y_31096 / 2, 0, v_S_31097 / 2, v_m_31092 - v_y_31096 / 2, 0, -v_S_31097 / 2, v_m_31092 + v_y_31096 / 2, 0, -v_S_31097 / 2), v_m_31092 = .125 - .125 * v_s1_27830(v_t_31112 % v_O_31068.PLANES_COLS / (v_O_31068.PLANES_COLS / 2) - 1), v_k_31094.push(1, 1, 1, v_m_31092, 1, 1, 1, v_m_31092, 1, 1, 1, v_m_31092, 1, 1, 1, v_m_31092), v_b_31095.push(4 * v_t_31112, 1 + 4 * v_t_31112, 2 + 4 * v_t_31112, 2 + 4 * v_t_31112, 1 + 4 * v_t_31112, 3 + 4 * v_t_31112), v_O_31068.planes_anim_data.push({
-                  offset_t: 5e3 * v_ge_27821(),
-                  offset_y: 4 * v_ge_27821() - 2,
-                  speed: v_ge_27821() + 1,
-                  move: v_ge_27821() < .75
+                for (let v_t_31112 = 0; v_t_31112 < v_O_31068.PLANES_COLS * v_O_31068.PLANES_ROWS; ++v_t_31112) v_m_31092 = v_t_31112 % v_O_31068.PLANES_COLS * v_O_31068.PLANE_OUTER_WIDTH - v_O_31068.PLANE_AREA_X / 2 + v_y_31096 / 2, v_p_31093.push(v_m_31092 - v_y_31096 / 2, 0, v_S_31097 / 2, v_m_31092 + v_y_31096 / 2, 0, v_S_31097 / 2, v_m_31092 - v_y_31096 / 2, 0, -v_S_31097 / 2, v_m_31092 + v_y_31096 / 2, 0, -v_S_31097 / 2), v_m_31092 = .125 - .125 * mathAbs(v_t_31112 % v_O_31068.PLANES_COLS / (v_O_31068.PLANES_COLS / 2) - 1), v_k_31094.push(1, 1, 1, v_m_31092, 1, 1, 1, v_m_31092, 1, 1, 1, v_m_31092, 1, 1, 1, v_m_31092), v_b_31095.push(4 * v_t_31112, 1 + 4 * v_t_31112, 2 + 4 * v_t_31112, 2 + 4 * v_t_31112, 1 + 4 * v_t_31112, 3 + 4 * v_t_31112), v_O_31068.planes_anim_data.push({
+                  offset_t: 5e3 * mathRandom(),
+                  offset_y: 4 * mathRandom() - 2,
+                  speed: mathRandom() + 1,
+                  move: mathRandom() < .75
                 });
                 v_O_31068.planes.setIndex(new THREE.BufferAttribute(new Uint32Array(v_b_31095), 1)), v_O_31068.planes.setAttribute("position", new THREE.BufferAttribute(new Float32Array(v_p_31093), 3)), v_O_31068.planes.setAttribute("color", new THREE.BufferAttribute(new Float32Array(v_k_31094), 4)), v_O_31068.planes.setDrawRange(0, v_b_31095.length);
                 v___31086 = new THREE.Mesh(v_O_31068.planes, v_f_31085), v_t_31077 = (v_N_31060[1].add(v___31086), new THREE.DirectionalLight(16777215, 1)), v_c_31083 = (v_t_31077.position.set(0, 300, -800), v_N_31060[1].add(v_t_31077), new THREE.AmbientLight(16777215, 1));
@@ -2383,21 +2383,21 @@
                 for (let v_t_31114 = 0; v_t_31114 < v_O_31068.PLANES_COLS * v_O_31068.PLANES_ROWS; ++v_t_31114) {
                   var v_D_31108,
                     v_F_31109 = v_t_31114 % v_O_31068.PLANES_COLS * v_O_31068.PLANE_OUTER_WIDTH - v_O_31068.PLANE_AREA_X / 2 + v_M_31106 / 2;
-                  v_ge_27821() < .75 ? v_P_31103.push(v_F_31109 - v_M_31106 / 2 + 20 * v_ge_27821() - 10, 0, v_E_31107 / 2 + 20 * v_ge_27821() - 10, v_F_31109 + v_M_31106 / 2 + 40 * v_ge_27821() - 20, 0, v_E_31107 / 2 + 20 * v_ge_27821() - 10, v_F_31109 - v_M_31106 / 2 + 36 * v_ge_27821() - 18, 0, -v_E_31107 / 2 + 20 * v_ge_27821() - 10, v_F_31109 + v_M_31106 / 2 + 20 * v_ge_27821() - 10, 0, -v_E_31107 / 2 + 20 * v_ge_27821() - 10) : v_P_31103.push(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), v_F_31109 = .25 - .25 * v_s1_27830(v_t_31114 % v_O_31068.PLANES_COLS / (v_O_31068.PLANES_COLS / 2) - 1) + .25 * v_ge_27821(), v_ge_27821() < .75 ? v_R_31104.push(1, 1, 1, v_F_31109, 1, 1, 1, v_F_31109, 1, 1, 1, v_F_31109, 1, 1, 1, v_F_31109) : (v_D_31108 = function (v_t_31115) {
+                  mathRandom() < .75 ? v_P_31103.push(v_F_31109 - v_M_31106 / 2 + 20 * mathRandom() - 10, 0, v_E_31107 / 2 + 20 * mathRandom() - 10, v_F_31109 + v_M_31106 / 2 + 40 * mathRandom() - 20, 0, v_E_31107 / 2 + 20 * mathRandom() - 10, v_F_31109 - v_M_31106 / 2 + 36 * mathRandom() - 18, 0, -v_E_31107 / 2 + 20 * mathRandom() - 10, v_F_31109 + v_M_31106 / 2 + 20 * mathRandom() - 10, 0, -v_E_31107 / 2 + 20 * mathRandom() - 10) : v_P_31103.push(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), v_F_31109 = .25 - .25 * mathAbs(v_t_31114 % v_O_31068.PLANES_COLS / (v_O_31068.PLANES_COLS / 2) - 1) + .25 * mathRandom(), mathRandom() < .75 ? v_R_31104.push(1, 1, 1, v_F_31109, 1, 1, 1, v_F_31109, 1, 1, 1, v_F_31109, 1, 1, 1, v_F_31109) : (v_D_31108 = function (v_t_31115) {
                     let v_i_31116 = v_t_31115[0] / 60,
                       v_e_31117 = v_t_31115[1],
                       v_n_31118 = v_t_31115[2],
-                      v_r_31119 = v_n_31118 + v_e_31117 * (1 - v_s1_27830(2 * v_n_31118 - 1)) / 2,
-                      v_s_31120 = v_n_31118 - v_e_31117 * (1 - v_s1_27830(2 * v_n_31118 - 1)) / 2,
+                      v_r_31119 = v_n_31118 + v_e_31117 * (1 - mathAbs(2 * v_n_31118 - 1)) / 2,
+                      v_s_31120 = v_n_31118 - v_e_31117 * (1 - mathAbs(2 * v_n_31118 - 1)) / 2,
                       v_a_31121,
-                      v_o_31122 = v_ke_27824(v_i_31116);
+                      v_o_31122 = mathFloor(v_i_31116);
                     0 === v_o_31122 || 6 === v_o_31122 ? v_a_31121 = [v_r_31119, v_s_31120 + (v_r_31119 - v_s_31120) * v_i_31116, v_s_31120] : 1 === v_o_31122 ? v_a_31121 = [v_s_31120 + (v_r_31119 - v_s_31120) * (120 - v_i_31116), v_r_31119, v_s_31120] : 2 === v_o_31122 ? v_a_31121 = [v_s_31120, v_r_31119, v_s_31120 + (v_r_31119 - v_s_31120) * (v_i_31116 - 2)] : 3 === v_o_31122 ? v_a_31121 = [v_s_31120, v_s_31120 + (v_r_31119 - v_s_31120) * (240 - v_i_31116), v_r_31119] : 4 === v_o_31122 ? v_a_31121 = [v_s_31120 + (v_r_31119 - v_s_31120) * (v_i_31116 - 4), v_s_31120, v_r_31119] : 5 === v_o_31122 && (v_a_31121 = [v_r_31119, v_s_31120, v_s_31120 + (v_r_31119 - v_s_31120) * (360 - v_i_31116)]);
-                    return [v_e1_27826(255 * v_a_31121[0]), v_e1_27826(255 * v_a_31121[1]), v_e1_27826(255 * v_a_31121[2])];
-                  }([360 * v_ge_27821(), .6, .5]), v_R_31104.push(v_D_31108[0] / 255, v_D_31108[1] / 255, v_D_31108[2] / 255, v_F_31109, v_D_31108[0] / 255, v_D_31108[1] / 255, v_D_31108[2] / 255, v_F_31109, v_D_31108[0] / 255, v_D_31108[1] / 255, v_D_31108[2] / 255, v_F_31109, v_D_31108[0] / 255, v_D_31108[1] / 255, v_D_31108[2] / 255, v_F_31109)), v_L_31105.push(4 * v_t_31114, 1 + 4 * v_t_31114, 2 + 4 * v_t_31114, 2 + 4 * v_t_31114, 1 + 4 * v_t_31114, 3 + 4 * v_t_31114), v_O_31068.planes_anim_data.push({
-                    offset_t: 5e3 * v_ge_27821(),
-                    offset_y: 4 * v_ge_27821() - 2,
-                    speed: v_ge_27821() + 1,
-                    move: v_ge_27821() < .75
+                    return [mathCeil(255 * v_a_31121[0]), mathCeil(255 * v_a_31121[1]), mathCeil(255 * v_a_31121[2])];
+                  }([360 * mathRandom(), .6, .5]), v_R_31104.push(v_D_31108[0] / 255, v_D_31108[1] / 255, v_D_31108[2] / 255, v_F_31109, v_D_31108[0] / 255, v_D_31108[1] / 255, v_D_31108[2] / 255, v_F_31109, v_D_31108[0] / 255, v_D_31108[1] / 255, v_D_31108[2] / 255, v_F_31109, v_D_31108[0] / 255, v_D_31108[1] / 255, v_D_31108[2] / 255, v_F_31109)), v_L_31105.push(4 * v_t_31114, 1 + 4 * v_t_31114, 2 + 4 * v_t_31114, 2 + 4 * v_t_31114, 1 + 4 * v_t_31114, 3 + 4 * v_t_31114), v_O_31068.planes_anim_data.push({
+                    offset_t: 5e3 * mathRandom(),
+                    offset_y: 4 * mathRandom() - 2,
+                    speed: mathRandom() + 1,
+                    move: mathRandom() < .75
                   });
                 }
                 v_O_31068.planes.setIndex(new THREE.BufferAttribute(new Uint32Array(v_L_31105), 1)), v_O_31068.planes.setAttribute("position", new THREE.BufferAttribute(new Float32Array(v_P_31103), 3)), v_O_31068.planes.setAttribute("color", new THREE.BufferAttribute(new Float32Array(v_R_31104), 4)), v_O_31068.planes.setDrawRange(0, v_L_31105.length);
@@ -2451,7 +2451,7 @@
                       }
                       v_O_31068.mixer = v_e_31134;
                     }
-                    v_N_31060[0].add(v_t_31133), v_N_31060[0].add(new THREE.AmbientLight(v_s_31124.NR, v_s_31124.UR)), v_N_31060[0].matrixWorldNeedsUpdate = !0, v_se_27562.pixelStorei(v_se_27562.UNPACK_FLIP_Y_WEBGL, !0), v_Me_28078(v_r_31131);
+                    v_N_31060[0].add(v_t_31133), v_N_31060[0].add(new THREE.AmbientLight(v_s_31124.NR, v_s_31124.UR)), v_N_31060[0].matrixWorldNeedsUpdate = !0, glContext.pixelStorei(glContext.UNPACK_FLIP_Y_WEBGL, !0), v_Me_28078(v_r_31131);
                   }, function () {}, function () {
                     v_Me_28078(v_r_31131);
                   });
@@ -2475,7 +2475,7 @@
                 }]);
               } else v_kn_27636 = [0, 0, 0], v_H_31065 = !0, v_Fe_28101(v_e_31075);
               for (let v_t_31144 = 0; v_t_31144 < v_N_31060.length; ++v_t_31144) v_N_31060[v_t_31144].matrixWorldNeedsUpdate = !0;
-              v_se_27562.pixelStorei(v_se_27562.UNPACK_FLIP_Y_WEBGL, !0);
+              glContext.pixelStorei(glContext.UNPACK_FLIP_Y_WEBGL, !0);
             },
             le: function (v_e_31145) {
               if (v_H_31065) {
@@ -2486,16 +2486,16 @@
                     v_r_31147,
                     v_s_31148,
                     v_a_31149 = v_O_31068.planes.attributes.position.array;
-                  for (let v_i_31159 = 0; v_i_31159 < v_O_31068.PLANES_ROWS; ++v_i_31159) for (let v_t_31160 = 0; v_t_31160 < v_O_31068.PLANES_COLS; ++v_t_31160) v_n_31146 = 3 * (v_r_31147 = v_i_31159 * v_O_31068.PLANES_COLS + v_t_31160) * 4, v_r_31147 = (v_r_31147 = v_O_31068.planes_anim_data[v_r_31147]).move ? 4 * v_n1_27827((v_e_31145 / 1e3 + v_r_31147.offset_t) / v_r_31147.speed * v_a1_27833 / 2) + v_r_31147.offset_y : 0, v_s_31148 = v_Za_28087(v_e_31145 / 40 + v_i_31159 * v_O_31068.PLANE_OUTER_HEIGHT, v_O_31068.PLANES_ROWS * v_O_31068.PLANE_OUTER_HEIGHT) - 600, v_a_31149[0 + v_n_31146 + 1] = v_a_31149[3 + v_n_31146 + 1] = v_a_31149[6 + v_n_31146 + 1] = v_a_31149[9 + v_n_31146 + 1] = v_r_31147, v_a_31149[0 + v_n_31146 + 2] = v_a_31149[3 + v_n_31146 + 2] = v_s_31148 + v_O_31068.PLANE_WIDTH / 2, v_a_31149[6 + v_n_31146 + 2] = v_a_31149[9 + v_n_31146 + 2] = v_s_31148 - v_O_31068.PLANE_WIDTH / 2;
+                  for (let v_i_31159 = 0; v_i_31159 < v_O_31068.PLANES_ROWS; ++v_i_31159) for (let v_t_31160 = 0; v_t_31160 < v_O_31068.PLANES_COLS; ++v_t_31160) v_n_31146 = 3 * (v_r_31147 = v_i_31159 * v_O_31068.PLANES_COLS + v_t_31160) * 4, v_r_31147 = (v_r_31147 = v_O_31068.planes_anim_data[v_r_31147]).move ? 4 * mathSin((v_e_31145 / 1e3 + v_r_31147.offset_t) / v_r_31147.speed * mathPI / 2) + v_r_31147.offset_y : 0, v_s_31148 = v_Za_28087(v_e_31145 / 40 + v_i_31159 * v_O_31068.PLANE_OUTER_HEIGHT, v_O_31068.PLANES_ROWS * v_O_31068.PLANE_OUTER_HEIGHT) - 600, v_a_31149[0 + v_n_31146 + 1] = v_a_31149[3 + v_n_31146 + 1] = v_a_31149[6 + v_n_31146 + 1] = v_a_31149[9 + v_n_31146 + 1] = v_r_31147, v_a_31149[0 + v_n_31146 + 2] = v_a_31149[3 + v_n_31146 + 2] = v_s_31148 + v_O_31068.PLANE_WIDTH / 2, v_a_31149[6 + v_n_31146 + 2] = v_a_31149[9 + v_n_31146 + 2] = v_s_31148 - v_O_31068.PLANE_WIDTH / 2;
                   v_O_31068.planes.attributes.position.needsUpdate = !0, v_O_31068.planes.computeVertexNormals();
                 } else if ("_default_umiguri_new" === v_J_31066) {
-                  for (let v_t_31161 = 0; v_t_31161 < v_O_31068.bg_plates.length; ++v_t_31161) v_O_31068.bg_plates[v_t_31161].material.opacity = v_pe_27823(1 - v_Za_28087(v_e_31145 / 1e3 - .5 * v_t_31161, 4) / 2, 0) * (1 - v_t_31161 / 8) * .75;
+                  for (let v_t_31161 = 0; v_t_31161 < v_O_31068.bg_plates.length; ++v_t_31161) v_O_31068.bg_plates[v_t_31161].material.opacity = mathMax(1 - v_Za_28087(v_e_31145 / 1e3 - .5 * v_t_31161, 4) / 2, 0) * (1 - v_t_31161 / 8) * .75;
                   v_G_31061[1].position.set(0, 200, 700), v_G_31061[1].lookAt(new THREE.Vector3(0, 0, 470));
                   var v_o_31150,
                     v_l_31151,
                     v_c_31152,
                     v_u_31153 = v_O_31068.planes.attributes.position.array;
-                  for (let v_i_31162 = 0; v_i_31162 < v_O_31068.PLANES_ROWS; ++v_i_31162) for (let v_t_31163 = 0; v_t_31163 < v_O_31068.PLANES_COLS; ++v_t_31163) v_o_31150 = 3 * (v_l_31151 = v_i_31162 * v_O_31068.PLANES_COLS + v_t_31163) * 4, v_l_31151 = (v_l_31151 = v_O_31068.planes_anim_data[v_l_31151]).move ? 4 * v_n1_27827((v_e_31145 / 1e3 + v_l_31151.offset_t) / v_l_31151.speed * v_a1_27833 / 2) + v_l_31151.offset_y : 0, v_c_31152 = v_Za_28087(v_e_31145 / 40 + v_i_31162 * v_O_31068.PLANE_OUTER_HEIGHT, v_O_31068.PLANES_ROWS * v_O_31068.PLANE_OUTER_HEIGHT) - 600, v_u_31153[0 + v_o_31150 + 1] = v_u_31153[3 + v_o_31150 + 1] = v_u_31153[6 + v_o_31150 + 1] = v_u_31153[9 + v_o_31150 + 1] = v_l_31151, v_u_31153[0 + v_o_31150 + 2] = v_u_31153[3 + v_o_31150 + 2] = v_c_31152 + v_O_31068.PLANE_WIDTH / 2, v_u_31153[6 + v_o_31150 + 2] = v_u_31153[9 + v_o_31150 + 2] = v_c_31152 - v_O_31068.PLANE_WIDTH / 2;
+                  for (let v_i_31162 = 0; v_i_31162 < v_O_31068.PLANES_ROWS; ++v_i_31162) for (let v_t_31163 = 0; v_t_31163 < v_O_31068.PLANES_COLS; ++v_t_31163) v_o_31150 = 3 * (v_l_31151 = v_i_31162 * v_O_31068.PLANES_COLS + v_t_31163) * 4, v_l_31151 = (v_l_31151 = v_O_31068.planes_anim_data[v_l_31151]).move ? 4 * mathSin((v_e_31145 / 1e3 + v_l_31151.offset_t) / v_l_31151.speed * mathPI / 2) + v_l_31151.offset_y : 0, v_c_31152 = v_Za_28087(v_e_31145 / 40 + v_i_31162 * v_O_31068.PLANE_OUTER_HEIGHT, v_O_31068.PLANES_ROWS * v_O_31068.PLANE_OUTER_HEIGHT) - 600, v_u_31153[0 + v_o_31150 + 1] = v_u_31153[3 + v_o_31150 + 1] = v_u_31153[6 + v_o_31150 + 1] = v_u_31153[9 + v_o_31150 + 1] = v_l_31151, v_u_31153[0 + v_o_31150 + 2] = v_u_31153[3 + v_o_31150 + 2] = v_c_31152 + v_O_31068.PLANE_WIDTH / 2, v_u_31153[6 + v_o_31150 + 2] = v_u_31153[9 + v_o_31150 + 2] = v_c_31152 - v_O_31068.PLANE_WIDTH / 2;
                   v_O_31068.planes.attributes.position.needsUpdate = !0, v_O_31068.planes.computeVertexNormals();
                 } else if ("_default_we" === v_J_31066) {
                   v_G_31061[1].position.set(0, 200, 700), v_G_31061[1].lookAt(new THREE.Vector3(0, 0, 470));
@@ -2503,7 +2503,7 @@
                     v___31155,
                     v_h_31156,
                     v_d_31157 = v_O_31068.planes.attributes.position.array;
-                  for (let v_i_31164 = 0; v_i_31164 < v_O_31068.PLANES_ROWS; ++v_i_31164) for (let v_t_31165 = 0; v_t_31165 < v_O_31068.PLANES_COLS; ++v_t_31165) v_f_31154 = 3 * (v___31155 = v_i_31164 * v_O_31068.PLANES_COLS + v_t_31165) * 4, v___31155 = (v___31155 = v_O_31068.planes_anim_data[v___31155]).move ? 4 * v_n1_27827((v_e_31145 / 1e3 + v___31155.offset_t) / v___31155.speed * v_a1_27833 / 2) + v___31155.offset_y : 0, v_h_31156 = v_Za_28087(v_e_31145 / 40 + v_i_31164 * v_O_31068.PLANE_OUTER_HEIGHT, v_O_31068.PLANES_ROWS * v_O_31068.PLANE_OUTER_HEIGHT) - 600, v_d_31157[0 + v_f_31154 + 1] = v_d_31157[3 + v_f_31154 + 1] = v_d_31157[6 + v_f_31154 + 1] = v_d_31157[9 + v_f_31154 + 1] = v___31155, v_d_31157[0 + v_f_31154 + 2] = v_d_31157[3 + v_f_31154 + 2] = v_h_31156 + v_O_31068.PLANE_WIDTH / 2, v_d_31157[6 + v_f_31154 + 2] = v_d_31157[9 + v_f_31154 + 2] = v_h_31156 - v_O_31068.PLANE_WIDTH / 2;
+                  for (let v_i_31164 = 0; v_i_31164 < v_O_31068.PLANES_ROWS; ++v_i_31164) for (let v_t_31165 = 0; v_t_31165 < v_O_31068.PLANES_COLS; ++v_t_31165) v_f_31154 = 3 * (v___31155 = v_i_31164 * v_O_31068.PLANES_COLS + v_t_31165) * 4, v___31155 = (v___31155 = v_O_31068.planes_anim_data[v___31155]).move ? 4 * mathSin((v_e_31145 / 1e3 + v___31155.offset_t) / v___31155.speed * mathPI / 2) + v___31155.offset_y : 0, v_h_31156 = v_Za_28087(v_e_31145 / 40 + v_i_31164 * v_O_31068.PLANE_OUTER_HEIGHT, v_O_31068.PLANES_ROWS * v_O_31068.PLANE_OUTER_HEIGHT) - 600, v_d_31157[0 + v_f_31154 + 1] = v_d_31157[3 + v_f_31154 + 1] = v_d_31157[6 + v_f_31154 + 1] = v_d_31157[9 + v_f_31154 + 1] = v___31155, v_d_31157[0 + v_f_31154 + 2] = v_d_31157[3 + v_f_31154 + 2] = v_h_31156 + v_O_31068.PLANE_WIDTH / 2, v_d_31157[6 + v_f_31154 + 2] = v_d_31157[9 + v_f_31154 + 2] = v_h_31156 - v_O_31068.PLANE_WIDTH / 2;
                   v_O_31068.planes.attributes.position.needsUpdate = !0, v_O_31068.planes.computeVertexNormals();
                 } else "user" === v_J_31066 && v_O_31068.init && v_O_31068.mixer && v_O_31068.mixer.update(v_t_31158);
                 if ("user" === v_J_31066) {
@@ -2554,7 +2554,7 @@
               });
             },
             le: function (v_t_31177) {
-              v_s_31170[v_t_31177] && 0 !== v_t_31177 && v_t_31177 === v_oi_30289 && (v_se_27562.enable(v_se_27562.STENCIL_TEST), v_se_27562.stencilFunc(v_se_27562.ALWAYS, 1, 0), v_se_27562.stencilOp(v_se_27562.KEEP, v_se_27562.REPLACE, v_se_27562.REPLACE), v_s_31170[v_t_31177].draw(), v_se_27562.disable(v_se_27562.STENCIL_TEST));
+              v_s_31170[v_t_31177] && 0 !== v_t_31177 && v_t_31177 === v_oi_30289 && (glContext.enable(glContext.STENCIL_TEST), glContext.stencilFunc(glContext.ALWAYS, 1, 0), glContext.stencilOp(glContext.KEEP, glContext.REPLACE, glContext.REPLACE), v_s_31170[v_t_31177].draw(), glContext.disable(glContext.STENCIL_TEST));
             },
             Fc: function () {
               v_s_31170[0] && (v_s_31170[0].free(), v_s_31170[0] = null), v_s_31170[v_oi_30289] && (v_s_31170[v_oi_30289].free(), v_s_31170[v_oi_30289] = null);
@@ -2778,7 +2778,7 @@
       function v_Ai_30310(v_t_31233) {
         let v_i_31234 = 0,
           v_e_31235 = 0,
-          v_n_31236 = v_i1_27825(v_t_31233),
+          v_n_31236 = mathRound(v_t_31233),
           v_r_31237;
         for (v_r_31237 of v_F0_27741) {
           if (v_n_31236 < v_i_31234 + v_r_31237) break;
@@ -2786,7 +2786,7 @@
         }
         return {
           Hc: v_e_31235,
-          Uc: v_pe_27823(v_i1_27825(v_t_31233 - v_i_31234), 0)
+          Uc: mathMax(mathRound(v_t_31233 - v_i_31234), 0)
         };
       }
       function v_xi_30311(v_t_31238) {
@@ -2950,7 +2950,7 @@
           let v_r_31302 = !1;
           if (v_k_31260.Ug === v_v0_27715) {
             v_c_31247 = !1, v_a_31243 = v_k_31260.od - v_s_31242;
-            for (let v_t_31303 = 0; v_t_31303 < 32; v_t_31303++) v_k_31260.ou <= v_ke_27824(v_t_31303 / 2) && v_k_31260.ou + v_k_31260.Le > v_ke_27824(v_t_31303 / 2) && v_h_31252[v_t_31303] && v_a_31243 <= v_k_31260.jg[v_ke_27824(v_t_31303 / 2)] && v_a_31243 >= v_pe_27823(v_k_31260.Hg[v_ke_27824(v_t_31303 / 2)], v_U_30262.Eb.Ra.Pb) && (v_c_31247 = !0, v_U_30262.m7[v_t_31303] = !0);
+            for (let v_t_31303 = 0; v_t_31303 < 32; v_t_31303++) v_k_31260.ou <= mathFloor(v_t_31303 / 2) && v_k_31260.ou + v_k_31260.Le > mathFloor(v_t_31303 / 2) && v_h_31252[v_t_31303] && v_a_31243 <= v_k_31260.jg[mathFloor(v_t_31303 / 2)] && v_a_31243 >= mathMax(v_k_31260.Hg[mathFloor(v_t_31303 / 2)], v_U_30262.Eb.Ra.Pb) && (v_c_31247 = !0, v_U_30262.m7[v_t_31303] = !0);
             v_e_31246 = 64 * (v_k_31260.ou + v_k_31260.Le / 2) - v_we_27734, v_o_31244 = 0, v_l_31245 = 0, v_k_31260.Fi !== v_ce_27678 && v_k_31260.Fi !== v_le_27675 || 1 !== v_k_31260.Jg ? (v_a_31243 < v_U_30262.Eb.Ra.Pb || v_a_31243 < v_k_31260.yw ? (v_o_31244 = v_he_27719, v_l_31245 = 0) : v_c_31247 && v_a_31243 > v_U_30262.Eb.Ra.Xb ? (v_o_31244 = v__e_27718, v_l_31245 = v_g0_27720) : v_c_31247 && v_a_31243 > v_U_30262.Eb.Ra.Kb ? (v_o_31244 = v_w0_27717, v_l_31245 = v_g0_27720) : v_c_31247 && v_a_31243 > v_U_30262.Eb.Ra.qb ? (v_o_31244 = v_fe_27716, v_l_31245 = v_g0_27720) : v_c_31247 && v_a_31243 >= v_U_30262.Eb.Ra.Yb ? (v_o_31244 = v_fe_27716, v_l_31245 = 0) : v_c_31247 && v_a_31243 >= v_U_30262.Eb.Ra.Zb ? (v_o_31244 = v_fe_27716, v_l_31245 = v_m0_27721) : v_c_31247 && v_a_31243 >= v_U_30262.Eb.Ra.$b ? (v_o_31244 = v_w0_27717, v_l_31245 = v_m0_27721) : v_c_31247 && v_a_31243 >= v_U_30262.Eb.Ra.Pb && (v_o_31244 = v__e_27718, v_l_31245 = v_m0_27721), 0 < v_o_31244 && (v_K_30316(v_k_31260.nr = v_o_31244, v_l_31245, !1, !1, v_e_31246), v_Y_30317(v_k_31260.Fi, v_An_27660, v_o_31244, v_l_31245), v_o_31244 === v_he_27719 ? (v_k_31260.Ug = 3, judgeSound.dn(v_gi_30300)) : (v_k_31260.Ug = 1, v_k_31260.Sw = v_s_31242, skillTrigger.Nc(v_k_31260, !1), v_z_30314(1, v_e_31246, v_k_31260.Le, v_o_31244), v_Ri_30319(v_k_31260, v_s_31242), v_o_31244 === v__e_27718 ? judgeSound.dn(v_wi_30299) : v_r_31302 = !0))) : (v_a_31243 < v_U_30262.Eb.Ra.Pb || v_a_31243 < v_k_31260.yw ? v_o_31244 = v_he_27719 : v_c_31247 && v_a_31243 >= v_U_30262.Eb.Ra.Pb && (v_o_31244 = v_fe_27716), 0 < v_o_31244 && (v_K_30316(v_k_31260.nr = v_o_31244, v_l_31245, !1, !1, v_e_31246), v_Y_30317(v_k_31260.Fi, v_k_31260.Yg, v_o_31244, v_l_31245), v_o_31244 === v_he_27719 ? (v_k_31260.Ug = 3, judgeSound.dn(v_gi_30300)) : (v_k_31260.Ug = 1, v_k_31260.Sw = v_s_31242, skillTrigger.Nc(v_k_31260, !1), v_Ii_30315(v_k_31260.Yg, v_k_31260.od), v_z_30314(v_d0_27714, v_e_31246, v_k_31260.Le, v_fe_27716), v_Ri_30319(v_k_31260, v_s_31242), v_r_31302 = !0, judgeSound.dn(v_hi_30296))));
           }
           if (v_k_31260.Ug !== v_v0_27715) {
@@ -2959,13 +2959,13 @@
               rw: v_k_31260.ou,
               aw: v_k_31260.ou + v_k_31260.Le,
               cr: v_k_31260
-            } : v_t_31304).rw = v_ke_27824(v_t_31304.rw), v_t_31304.aw = v_e1_27826(v_t_31304.aw), v_c_31247 = !1, v_u_31248 = !1, v_k_31260.i7(v_s_31242 - v_U_30262.Eb.Da.d7, v_s_31242 - v_U_30262.Eb.Da.v7), v_D_31274 = v_M_31272 = v_E_31273 = v_R_31270 = v_L_31271 = v_P_31269 = v_I_31268 = v_T_31267 = v_C_31266 = v_x_31265 = v_A_31264 = void 0;
+            } : v_t_31304).rw = mathFloor(v_t_31304.rw), v_t_31304.aw = mathCeil(v_t_31304.aw), v_c_31247 = !1, v_u_31248 = !1, v_k_31260.i7(v_s_31242 - v_U_30262.Eb.Da.d7, v_s_31242 - v_U_30262.Eb.Da.v7), v_D_31274 = v_M_31272 = v_E_31273 = v_R_31270 = v_L_31271 = v_P_31269 = v_I_31268 = v_T_31267 = v_C_31266 = v_x_31265 = v_A_31264 = void 0;
             var v_A_31264 = v_k_31260,
               v_x_31265 = v_s_31242,
               v_C_31266 = v_f_31249,
               v_T_31267 = v___31250;
-            if (v_A_31264.Fi === v_le_27675) for (let v_t_31307 = 0; v_t_31307 < 32; v_t_31307++) v_A_31264.ou <= v_ke_27824(v_t_31307 / 2) && v_A_31264.ou + v_A_31264.Le > v_ke_27824(v_t_31307 / 2) && (v_C_31266[v_t_31307] || v_T_31267[v_t_31307] && v_A_31264.Iw + v_U_30262.Eb.Ra.Mb >= v_x_31265) && (v_U_30262.m7[v_t_31307] = !0);else {
-              var v_I_31268 = v_pe_27823(v_x_31265 - v_U_30262.Eb.Da.g7, v_A_31264.od),
+            if (v_A_31264.Fi === v_le_27675) for (let v_t_31307 = 0; v_t_31307 < 32; v_t_31307++) v_A_31264.ou <= mathFloor(v_t_31307 / 2) && v_A_31264.ou + v_A_31264.Le > mathFloor(v_t_31307 / 2) && (v_C_31266[v_t_31307] || v_T_31267[v_t_31307] && v_A_31264.Iw + v_U_30262.Eb.Ra.Mb >= v_x_31265) && (v_U_30262.m7[v_t_31307] = !0);else {
+              var v_I_31268 = mathMax(v_x_31265 - v_U_30262.Eb.Da.g7, v_A_31264.od),
                 v_P_31269 = v_x_31265 - v_U_30262.Eb.Da.w7;
               let v_i_31308 = 16,
                 v_e_31309 = 0,
@@ -2974,22 +2974,22 @@
                 v_L_31271 = v_A_31264.We;
               let v_r_31311 = !1;
               for (let v_t_31312 = 0; v_t_31312 < v_L_31271.length; ++v_t_31312) if ((v_R_31270 = v_L_31271[v_t_31312]).Fi !== v_c0_27703) {
-                if (!v_r_31311 && v_R_31270.od >= v_I_31268 && (v_E_31273 = v_me_27822(v_pe_27823((v_I_31268 - v_n_31310.od) / (v_R_31270.od - v_n_31310.od), 0), 1), v_M_31272 = v_Ee_28084(v_n_31310.ou + v_n_31310.Le / 2, v_R_31270.ou + v_R_31270.Le / 2, v_E_31273), v_E_31273 = v_Ee_28084(v_n_31310.Le, v_R_31270.Le, v_E_31273), v_E_31273 = v_Ee_28084(v_U_30262.Eb.Da.Le[v_ke_27824(v_E_31273) - 1], v_U_30262.Eb.Da.Le[v_e1_27826(v_E_31273) - 1], v_E_31273 - v_ke_27824(v_E_31273)), v_i_31308 = v_M_31272 - v_E_31273 / 2, v_e_31309 = v_M_31272 + v_E_31273 / 2, v_r_31311 = !0), v_r_31311) {
+                if (!v_r_31311 && v_R_31270.od >= v_I_31268 && (v_E_31273 = mathMin(mathMax((v_I_31268 - v_n_31310.od) / (v_R_31270.od - v_n_31310.od), 0), 1), v_M_31272 = v_Ee_28084(v_n_31310.ou + v_n_31310.Le / 2, v_R_31270.ou + v_R_31270.Le / 2, v_E_31273), v_E_31273 = v_Ee_28084(v_n_31310.Le, v_R_31270.Le, v_E_31273), v_E_31273 = v_Ee_28084(v_U_30262.Eb.Da.Le[mathFloor(v_E_31273) - 1], v_U_30262.Eb.Da.Le[mathCeil(v_E_31273) - 1], v_E_31273 - mathFloor(v_E_31273)), v_i_31308 = v_M_31272 - v_E_31273 / 2, v_e_31309 = v_M_31272 + v_E_31273 / 2, v_r_31311 = !0), v_r_31311) {
                   if (v_R_31270.od >= v_P_31269) {
-                    var v_M_31272 = v_me_27822(v_pe_27823((v_P_31269 - v_n_31310.od) / (v_R_31270.od - v_n_31310.od), 0), 1),
+                    var v_M_31272 = mathMin(mathMax((v_P_31269 - v_n_31310.od) / (v_R_31270.od - v_n_31310.od), 0), 1),
                       v_E_31273 = v_Ee_28084(v_n_31310.ou + v_n_31310.Le / 2, v_R_31270.ou + v_R_31270.Le / 2, v_M_31272),
                       v_D_31274 = v_Ee_28084(v_n_31310.Le, v_R_31270.Le, v_M_31272),
-                      v_D_31274 = v_Ee_28084(v_U_30262.Eb.Da.Le[v_ke_27824(v_D_31274) - 1], v_U_30262.Eb.Da.Le[v_e1_27826(v_D_31274) - 1], v_D_31274 - v_ke_27824(v_D_31274));
-                    v_i_31308 = v_me_27822(v_i_31308, v_E_31273 - v_D_31274 / 2), v_e_31309 = v_pe_27823(v_e_31309, v_E_31273 + v_D_31274 / 2);
+                      v_D_31274 = v_Ee_28084(v_U_30262.Eb.Da.Le[mathFloor(v_D_31274) - 1], v_U_30262.Eb.Da.Le[mathCeil(v_D_31274) - 1], v_D_31274 - mathFloor(v_D_31274));
+                    v_i_31308 = mathMin(v_i_31308, v_E_31273 - v_D_31274 / 2), v_e_31309 = mathMax(v_e_31309, v_E_31273 + v_D_31274 / 2);
                     break;
                   }
-                  v_D_31274 = v_Ee_28084(v_U_30262.Eb.Da.Le[v_ke_27824(v_R_31270.Le) - 1], v_U_30262.Eb.Da.Le[v_e1_27826(v_R_31270.Le) - 1], v_R_31270.Le - v_ke_27824(v_R_31270.Le));
-                  v_i_31308 = v_me_27822(v_i_31308, v_R_31270.ou + v_R_31270.Le / 2 - v_D_31274 / 2), v_e_31309 = v_pe_27823(v_e_31309, v_R_31270.ou + v_R_31270.Le / 2 + v_D_31274 / 2);
+                  v_D_31274 = v_Ee_28084(v_U_30262.Eb.Da.Le[mathFloor(v_R_31270.Le) - 1], v_U_30262.Eb.Da.Le[mathCeil(v_R_31270.Le) - 1], v_R_31270.Le - mathFloor(v_R_31270.Le));
+                  v_i_31308 = mathMin(v_i_31308, v_R_31270.ou + v_R_31270.Le / 2 - v_D_31274 / 2), v_e_31309 = mathMax(v_e_31309, v_R_31270.ou + v_R_31270.Le / 2 + v_D_31274 / 2);
                 }
                 v_n_31310 = v_R_31270;
               }
-              v_i_31308 = v_i1_27825(v_i_31308), v_e_31309 = v_i1_27825(v_e_31309);
-              for (let v_t_31313 = 0; v_t_31313 < 32; v_t_31313++) v_i_31308 <= v_ke_27824(v_t_31313 / 2) && v_e_31309 > v_ke_27824(v_t_31313 / 2) && (v_C_31266[v_t_31313] || v_T_31267[v_t_31313] && v_A_31264.Iw + v_U_30262.Eb.Ra.Mb >= v_x_31265) && (v_U_30262.m7[v_t_31313] = !0);
+              v_i_31308 = mathRound(v_i_31308), v_e_31309 = mathRound(v_e_31309);
+              for (let v_t_31313 = 0; v_t_31313 < 32; v_t_31313++) v_i_31308 <= mathFloor(v_t_31313 / 2) && v_e_31309 > mathFloor(v_t_31313 / 2) && (v_C_31266[v_t_31313] || v_T_31267[v_t_31313] && v_A_31264.Iw + v_U_30262.Eb.Ra.Mb >= v_x_31265) && (v_U_30262.m7[v_t_31313] = !0);
             }
             for (let v_t_31314 = 0; v_t_31314 < 16; v_t_31314++) v_k_31260.n7[v_t_31314] && (v_U_30262.m7[2 * v_t_31314] || v_U_30262.m7[2 * v_t_31314 + 1] || v_s_31242 - v_U_30262.la[2 * v_t_31314] < v_U_30262.Eb.Ra.Mb || v_s_31242 - v_U_30262.la[2 * v_t_31314 + 1] < v_U_30262.Eb.Ra.Mb) && ((v___31250[2 * v_t_31314] || v___31250[2 * v_t_31314 + 1]) && (v_u_31248 = !0), v_f_31249[2 * v_t_31314] || v_f_31249[2 * v_t_31314 + 1]) && (v_c_31247 = !0);
             3 === v_k_31260.Ug || 2 === v_k_31260.Ug ? v_k_31260.Ug = v_c_31247 ? 1 : 3 : v_k_31260.Ug = v_u_31248 ? 1 : 2, skillTrigger.Nc(v_k_31260, !(v_k_31260.Ug !== v_v0_27715 && (1 === v_k_31260.Ug || null !== v_k_31260.Sw && v_s_31242 - v_k_31260.Sw <= v_U_30262.Eb.Fb.Db))), 1 === v_k_31260.Ug ? (v_k_31260.Sw = v_s_31242, v_k_31260._k = !0) : v_k_31260.xw += v_i_31241;
@@ -3011,7 +3011,7 @@
         }
         for (let v_i_31317 = 1; v_i_31317 < 17; v_i_31317++) for (let v_t_31318 = v_U_30262.na - 1; 0 <= v_t_31318; --v_t_31318) if (v_k_31260 = v_U_30262.ia[v_t_31318], v__0_27710(v_k_31260.Fi) && v_k_31260.Le === v_i_31317) {
           v_c_31247 = !1, v_a_31243 = v_k_31260.od - v_s_31242;
-          for (let v_t_31319 = 0; v_t_31319 < 32; v_t_31319++) if (v_k_31260.ou <= v_ke_27824(v_t_31319 / 2) && v_k_31260.ou + v_k_31260.Le > v_ke_27824(v_t_31319 / 2) && v_h_31252[v_t_31319] && v_a_31243 <= v_k_31260.jg[v_ke_27824(v_t_31319 / 2)] && v_a_31243 >= v_pe_27823(v_k_31260.Hg[v_ke_27824(v_t_31319 / 2)], v_U_30262.Eb.Ra.Pb)) {
+          for (let v_t_31319 = 0; v_t_31319 < 32; v_t_31319++) if (v_k_31260.ou <= mathFloor(v_t_31319 / 2) && v_k_31260.ou + v_k_31260.Le > mathFloor(v_t_31319 / 2) && v_h_31252[v_t_31319] && v_a_31243 <= v_k_31260.jg[mathFloor(v_t_31319 / 2)] && v_a_31243 >= mathMax(v_k_31260.Hg[mathFloor(v_t_31319 / 2)], v_U_30262.Eb.Ra.Pb)) {
             v_c_31247 = !0;
             break;
           }
@@ -3020,7 +3020,7 @@
         }
         for (let v_t_31321 = v_U_30262.na - 1; 0 <= v_t_31321; --v_t_31321) if (v_k_31260 = v_U_30262.ia[v_t_31321], v_e_31246 = 64 * (v_k_31260.ou + v_k_31260.Le / 2) - v_we_27734, v_a_31243 = v_k_31260.od - v_s_31242, v_o_31244 = 0, v_l_31245 = 0, v_k_31260.Fi === v_Tn_27663) {
           v_c_31247 = !1;
-          for (let v_t_31322 = 0; v_t_31322 < 32; v_t_31322++) if (v_k_31260.ou <= v_ke_27824(v_t_31322 / 2) && v_k_31260.ou + v_k_31260.Le > v_ke_27824(v_t_31322 / 2) && v_h_31252[v_t_31322] && v_a_31243 <= v_k_31260.jg[v_ke_27824(v_t_31322 / 2)] && v_a_31243 >= v_pe_27823(v_k_31260.Hg[v_ke_27824(v_t_31322 / 2)], v_U_30262.Eb.Ra.Pb)) {
+          for (let v_t_31322 = 0; v_t_31322 < 32; v_t_31322++) if (v_k_31260.ou <= mathFloor(v_t_31322 / 2) && v_k_31260.ou + v_k_31260.Le > mathFloor(v_t_31322 / 2) && v_h_31252[v_t_31322] && v_a_31243 <= v_k_31260.jg[mathFloor(v_t_31322 / 2)] && v_a_31243 >= mathMax(v_k_31260.Hg[mathFloor(v_t_31322 / 2)], v_U_30262.Eb.Ra.Pb)) {
             v_c_31247 = !0;
             break;
           }
@@ -3037,7 +3037,7 @@
             JI: !1
           }), !v_k_31260.mw.HI) {
             v_c_31247 = !1;
-            for (let v_t_31324 = 0; v_t_31324 < 32; v_t_31324++) if (v_k_31260.ou <= v_ke_27824(v_t_31324 / 2) && v_k_31260.ou + v_k_31260.Le > v_ke_27824(v_t_31324 / 2) && v_h_31252[v_t_31324] && v_a_31243 <= v_k_31260.jg[v_ke_27824(v_t_31324 / 2)] && v_a_31243 >= v_pe_27823(v_k_31260.Hg[v_ke_27824(v_t_31324 / 2)], v_U_30262.Eb.Ra.Pb)) {
+            for (let v_t_31324 = 0; v_t_31324 < 32; v_t_31324++) if (v_k_31260.ou <= mathFloor(v_t_31324 / 2) && v_k_31260.ou + v_k_31260.Le > mathFloor(v_t_31324 / 2) && v_h_31252[v_t_31324] && v_a_31243 <= v_k_31260.jg[mathFloor(v_t_31324 / 2)] && v_a_31243 >= mathMax(v_k_31260.Hg[mathFloor(v_t_31324 / 2)], v_U_30262.Eb.Ra.Pb)) {
               v_c_31247 = !0;
               break;
             }
@@ -3052,16 +3052,16 @@
             let v_i_31326 = 0,
               v_e_31327 = 0;
             v_c_31247 = !1;
-            for (let v_t_31328 = 0; v_t_31328 < 32; v_t_31328++) v_N_31277 <= v_ke_27824(v_t_31328 / 2) && v_G_31278 > v_ke_27824(v_t_31328 / 2) && v___31250[v_t_31328] && (v_i_31326 += v_ke_27824(v_t_31328 / 2), v_e_31327++);
-            0 < v_e_31327 ? (v_B_31276 = v_i_31326 / v_e_31327, v_k_31260.mw.JI ? v_k_31260.mw.UI += v_s1_27830(v_B_31276 - v_k_31260.mw.Aw) : (v_k_31260.mw.Aw = v_B_31276, v_k_31260.mw.JI = !0), v_k_31260.mw.UI >= v_U_30262.Eb.ja.jI[v_k_31260.Le - 1] && v_B_31276 !== v_k_31260.mw.Aw && (v_c_31247 = !0, v_k_31260.mw.GI = v_B_31276 < v_k_31260.mw.Aw, v_k_31260.mw.Aw = v_B_31276)) : (0 === v_k_31260.ou && (v_n_31251[0] || v_n_31251[1]) || v_k_31260.ou + v_k_31260.Le === 16 && (v_n_31251[30] || v_n_31251[31])) && (v_c_31247 = !0), 0 === v_k_31260.mw.bw && v_a_31243 < v_U_30262.Eb.ja.$b ? (v_k_31260.mw.bw = v__e_27718, v_k_31260.mw.od = v_m0_27721) : v_c_31247 && v_a_31243 > v_U_30262.Eb.ja.Xb ? (v_k_31260.mw.bw = v__e_27718, v_k_31260.mw.od = v_g0_27720) : v_c_31247 && v_a_31243 > v_U_30262.Eb.ja.Kb ? (v_k_31260.mw.bw = v_w0_27717, v_k_31260.mw.od = v_g0_27720) : v_c_31247 && v_a_31243 > v_U_30262.Eb.ja.qb ? (v_k_31260.mw.bw = v_fe_27716, v_k_31260.mw.od = v_g0_27720) : v_c_31247 && v_a_31243 >= v_U_30262.Eb.ja.Yb ? (v_k_31260.mw.bw = v_fe_27716, v_k_31260.mw.od = 0) : v_c_31247 && v_a_31243 >= v_U_30262.Eb.ja.Zb ? (v_k_31260.mw.bw = v_fe_27716, v_k_31260.mw.od = v_m0_27721) : v_c_31247 && v_a_31243 >= v_U_30262.Eb.ja.$b && (v_k_31260.mw.bw = v_w0_27717, v_k_31260.mw.od = v_m0_27721);
+            for (let v_t_31328 = 0; v_t_31328 < 32; v_t_31328++) v_N_31277 <= mathFloor(v_t_31328 / 2) && v_G_31278 > mathFloor(v_t_31328 / 2) && v___31250[v_t_31328] && (v_i_31326 += mathFloor(v_t_31328 / 2), v_e_31327++);
+            0 < v_e_31327 ? (v_B_31276 = v_i_31326 / v_e_31327, v_k_31260.mw.JI ? v_k_31260.mw.UI += mathAbs(v_B_31276 - v_k_31260.mw.Aw) : (v_k_31260.mw.Aw = v_B_31276, v_k_31260.mw.JI = !0), v_k_31260.mw.UI >= v_U_30262.Eb.ja.jI[v_k_31260.Le - 1] && v_B_31276 !== v_k_31260.mw.Aw && (v_c_31247 = !0, v_k_31260.mw.GI = v_B_31276 < v_k_31260.mw.Aw, v_k_31260.mw.Aw = v_B_31276)) : (0 === v_k_31260.ou && (v_n_31251[0] || v_n_31251[1]) || v_k_31260.ou + v_k_31260.Le === 16 && (v_n_31251[30] || v_n_31251[31])) && (v_c_31247 = !0), 0 === v_k_31260.mw.bw && v_a_31243 < v_U_30262.Eb.ja.$b ? (v_k_31260.mw.bw = v__e_27718, v_k_31260.mw.od = v_m0_27721) : v_c_31247 && v_a_31243 > v_U_30262.Eb.ja.Xb ? (v_k_31260.mw.bw = v__e_27718, v_k_31260.mw.od = v_g0_27720) : v_c_31247 && v_a_31243 > v_U_30262.Eb.ja.Kb ? (v_k_31260.mw.bw = v_w0_27717, v_k_31260.mw.od = v_g0_27720) : v_c_31247 && v_a_31243 > v_U_30262.Eb.ja.qb ? (v_k_31260.mw.bw = v_fe_27716, v_k_31260.mw.od = v_g0_27720) : v_c_31247 && v_a_31243 >= v_U_30262.Eb.ja.Yb ? (v_k_31260.mw.bw = v_fe_27716, v_k_31260.mw.od = 0) : v_c_31247 && v_a_31243 >= v_U_30262.Eb.ja.Zb ? (v_k_31260.mw.bw = v_fe_27716, v_k_31260.mw.od = v_m0_27721) : v_c_31247 && v_a_31243 >= v_U_30262.Eb.ja.$b && (v_k_31260.mw.bw = v_w0_27717, v_k_31260.mw.od = v_m0_27721);
           }
           (0 === v_k_31260.mw.od || v_k_31260.mw.od === v_m0_27721 || v_a_31243 < v_U_30262.Eb.ja.$b) && v_k_31260.mw.HI && 0 < v_k_31260.mw.bw && (v_o_31244 = v_k_31260.mw.bw, v_l_31245 = v_k_31260.mw.od), 0 < v_o_31244 && (v_k_31260.Ug = 5, v_K_30316(v_k_31260.nr = v_o_31244, v_l_31245, !1, !1, v_e_31246), v_Y_30317(v_k_31260.Fi, v_An_27660, v_o_31244, v_l_31245), v_Ri_30319(v_k_31260, v_s_31242), v_o_31244 < v__e_27718) && (v_k_31260.mw.GI ? v_z_30314(3, v_e_31246, v_k_31260.Le, v_o_31244) : v_z_30314(4, v_e_31246, v_k_31260.Le, v_o_31244), judgeSound.dn(v_di_30297));
         }
         for (let v_t_31329 = v_U_30262.na - 1; 0 <= v_t_31329; --v_t_31329) if ((v_k_31260 = v_U_30262.ia[v_t_31329]).Fi === v_Rn_27666) {
           v_c_31247 = !1;
           let v_i_31330 = 0;
-          for (let v_t_31331 = 0; v_t_31331 < 32; v_t_31331++) if (v_k_31260.ou <= v_ke_27824(v_t_31331 / 2) && v_k_31260.ou + v_k_31260.Le > v_ke_27824(v_t_31331 / 2) && v_r_31253[v_t_31331]) {
-            v_c_31247 = !0, v_i_31330 = v_ke_27824(v_t_31331 / 2);
+          for (let v_t_31331 = 0; v_t_31331 < 32; v_t_31331++) if (v_k_31260.ou <= mathFloor(v_t_31331 / 2) && v_k_31260.ou + v_k_31260.Le > mathFloor(v_t_31331 / 2) && v_r_31253[v_t_31331]) {
+            v_c_31247 = !0, v_i_31330 = mathFloor(v_t_31331 / 2);
             break;
           }
           v_e_31246 = 64 * (v_k_31260.ou + v_k_31260.Le / 2) - v_we_27734, v_a_31243 = v_k_31260.od - v_s_31242, v_o_31244 = 0, v_a_31243 < v_U_30262.Eb.zb.Wb ? v_o_31244 = v_fe_27716 : v_c_31247 && v_a_31243 <= v_U_30262.Eb.zb.o7 && (v_o_31244 = v_he_27719), 0 < v_o_31244 && (v_k_31260.Ug = 5, v_K_30316(v_k_31260.nr = v_o_31244, 0, !1, !1, v_e_31246), v_Y_30317(v_k_31260.Fi, v_An_27660, v_o_31244, 0), v_o_31244 !== v_he_27719 ? (v_z_30314(1, v_e_31246, v_k_31260.Le, v_o_31244), judgeSound.dn(v_V_30295)) : (v_z_30314(12, 64 * (v_i_31330 + .5) - v_we_27734, 1, v_o_31244), v_Ii_30315(v_k_31260.Fi, v_k_31260.od), v_Ri_30319(v_k_31260, v_s_31242), judgeSound.dn(v_mi_30301)));
@@ -3087,7 +3087,7 @@
       }
       function v_z_30314(v_t_31343, v_i_31344, v_e_31345, v_n_31346, v_r_31347) {
         var v_s_31348;
-        v_t_31343 === v_d0_27714 && -1 !== v_U_30262._a.Zl().findIndex(v_t_31349 => v_t_31349.Fi === v_d0_27714 && v_ae_27643.xt() == v_t_31349.rr && v_s1_27830(v_t_31349.ir - v_i_31344) < .0625) || ((v_s_31348 = v_U_30262._a.Vc()).Fi = v_t_31343, v_s_31348.ir = v_i_31344, v_s_31348.Le = v_e_31345, v_s_31348.nr = v_n_31346, v_s_31348.G0 = v_r_31347, v_s_31348.ue());
+        v_t_31343 === v_d0_27714 && -1 !== v_U_30262._a.Zl().findIndex(v_t_31349 => v_t_31349.Fi === v_d0_27714 && v_ae_27643.xt() == v_t_31349.rr && mathAbs(v_t_31349.ir - v_i_31344) < .0625) || ((v_s_31348 = v_U_30262._a.Vc()).Fi = v_t_31343, v_s_31348.ir = v_i_31344, v_s_31348.Le = v_e_31345, v_s_31348.nr = v_n_31346, v_s_31348.G0 = v_r_31347, v_s_31348.ue());
       }
       function v_Ii_30315(v_i_31350, v_e_31351) {
         var v_t_31352;
@@ -3102,12 +3102,12 @@
           v_n_31362 !== v_ce_27678 && v_le_27675;
           var v_a_31365 = v_Ai_30310(v_U_30262.Ta.yr.Cr);
           let v_t_31366 = 0,
-            v_i_31367 = (v_U_30262.Ta.vr++, (v_e_31361 & v_xn_27661) !== v_Cn_27662 && (v_e_31361 & v_xn_27661) !== v_Hn_27677 && (v_e_31361 & v_xn_27661) !== v_Gn_27674 && v_n_31362 !== v_ce_27678 && v_n_31362 !== v_le_27675 || v_U_30262.Ta.gr++, v_r_31363 === v__e_27718 ? (++v_U_30262.Ta.Tr.Fr, ++v_U_30262.Ta.pr, v_t_31366 = 50) : v_r_31363 === v_w0_27717 ? (++v_U_30262.Ta.Tr.Er, ++v_U_30262.Ta.pr, v_t_31366 = 100) : v_r_31363 === v_fe_27716 ? (++v_U_30262.Ta.Tr.Lr, ++v_U_30262.Ta.pr, v_t_31366 = 101) : v_r_31363 === v_he_27719 && (++v_U_30262.Ta.Tr.Br, v_U_30262.Ta.pr = 0, v_t_31366 = 0), v_e_31361 === v_Tn_27663 || v__0_27710(v_e_31361) || v_e_31361 === v_Rn_27666 || v_e_31361 === v_ce_27678 || v_e_31361 === v_le_27675 ? (v_U_30262.Ta.Mr.Rr += 0 < v_t_31366 ? 1 : 0, v_U_30262.Ta.Mr.Pr += v_t_31366, v_r_31363 === v__e_27718 ? ++v_U_30262.Ta.R5.P5 : v_r_31363 === v_w0_27717 ? ++v_U_30262.Ta.R5.D5 : v_r_31363 === v_fe_27716 ? ++v_U_30262.Ta.R5.M5 : v_r_31363 === v_he_27719 && ++v_U_30262.Ta.R5.G5, v_s_31364 === v_g0_27720 ? (v_U_30262.Ta.Jr.Wr++, v_r_31363 === v__e_27718 ? v_U_30262.Ta.Jr.zr++ : v_r_31363 === v_w0_27717 ? v_U_30262.Ta.Jr.Xr++ : v_r_31363 === v_fe_27716 && v_U_30262.Ta.Jr.Zr++) : v_s_31364 === v_m0_27721 ? (v_U_30262.Ta.Jr.Kr++, v_r_31363 === v__e_27718 ? v_U_30262.Ta.Jr.Qr++ : v_r_31363 === v_w0_27717 ? v_U_30262.Ta.Jr.qr++ : v_r_31363 === v_fe_27716 && v_U_30262.Ta.Jr.$r++) : v_r_31363 === v_fe_27716 && v_U_30262.Ta.Jr.Yr++) : v_n_31362 === v_ce_27678 ? (v_U_30262.Ta.Mr.Dr += 0 < v_t_31366 ? 1 : 0, v_U_30262.Ta.Mr.Gr += v_t_31366, v_r_31363 === v__e_27718 ? ++v_U_30262.Ta.R5.H5 : v_r_31363 === v_w0_27717 ? ++v_U_30262.Ta.R5.j5 : v_r_31363 === v_fe_27716 ? ++v_U_30262.Ta.R5.N5 : v_r_31363 === v_he_27719 && ++v_U_30262.Ta.R5.U5) : v_n_31362 === v_le_27675 ? (v_U_30262.Ta.Mr.jr += 0 < v_t_31366 ? 1 : 0, v_U_30262.Ta.Mr.Nr += v_t_31366, v_r_31363 === v__e_27718 ? ++v_U_30262.Ta.R5.O5 : v_r_31363 === v_w0_27717 ? ++v_U_30262.Ta.R5.J5 : v_r_31363 === v_fe_27716 ? ++v_U_30262.Ta.R5.V5 : v_r_31363 === v_he_27719 && ++v_U_30262.Ta.R5.W5) : (v_e_31361 & v_xn_27661) === v_zn_27686 || v_n_31362 === v_ue_27682 || v_n_31362 === v_t0_27693 || v_e_31361 === v_l0_27701 || v_e_31361 === v_s0_27698 ? (v_U_30262.Ta.Mr.Hr += 0 < v_t_31366 ? 1 : 0, v_U_30262.Ta.Mr.Ur += v_t_31366, v_r_31363 === v__e_27718 ? ++v_U_30262.Ta.R5.X5 : v_r_31363 === v_w0_27717 ? ++v_U_30262.Ta.R5.z5 : v_r_31363 === v_fe_27716 ? ++v_U_30262.Ta.R5.K5 : v_r_31363 === v_he_27719 && ++v_U_30262.Ta.R5.Z5) : v_e_31361 === v_Pn_27665 && (v_U_30262.Ta.Mr.Vr += 0 < v_t_31366 ? 1 : 0, v_U_30262.Ta.Mr.Or += v_t_31366, v_r_31363 === v__e_27718 ? ++v_U_30262.Ta.R5.Q5 : v_r_31363 === v_w0_27717 ? ++v_U_30262.Ta.R5.q5 : v_r_31363 === v_fe_27716 ? ++v_U_30262.Ta.R5.Y5 : v_r_31363 === v_he_27719 && ++v_U_30262.Ta.R5.e4), v_U_30262.Ta.kr = v_pe_27823(v_U_30262.Ta.kr, v_U_30262.Ta.pr), 0 < v_U_30262.q1.Zu.kr && (v_U_30262.Ta.Sr = v_U_30262.za(), v_U_30262.Ta.Ir = v_U_30262.Xa()), v_r_31363 !== v_w0_27717 && v_r_31363 !== v_fe_27716 || (v_s_31364 = v_U_30262.Ta.e1, v_e_31361 === v_Tn_27663 && v_s_31364.tap++, v_e_31361 === v_In_27664 && v_s_31364.extapu++, v_e_31361 === v_Ln_27667 && v_s_31364.extapc++, v_e_31361 === v_Mn_27668 && v_s_31364.extapd++, v_e_31361 === v_En_27669 && v_s_31364.extaprl++, v_e_31361 === v_Dn_27670 && v_s_31364.extaprr++, v_e_31361 === v_Fn_27671 && v_s_31364.extapsl++, v_e_31361 === v_Bn_27672 && v_s_31364.extapsr++, v_e_31361 === v_Nn_27673 && v_s_31364.extapio++, v_e_31361 === v_Rn_27666 && v_s_31364.damage++, v_e_31361 === v_Pn_27665 && v_s_31364.flick++, v_e_31361 === v_ce_27678 && v_s_31364.slideb++, v_e_31361 === v_jn_27680 && v_s_31364.slides++, v_e_31361 === v_Jn_27679 && v_s_31364.slidee++, v_n_31362 === v_ce_27678 && v_e_31361 === v_c0_27703 && v_s_31364.slidei++, v_e_31361 === v_le_27675 && v_s_31364.holdb++, v_e_31361 === v_Un_27676 && v_s_31364.holde++, v_n_31362 === v_le_27675 && v_e_31361 === v_c0_27703 && v_s_31364.holdi++, v_e_31361 === v_Kn_27687 && v_s_31364.airuc++, v_e_31361 === v_qn_27689 && v_s_31364.airul++, v_e_31361 === v_Zn_27690 && v_s_31364.airur++, v_e_31361 === v_Yn_27688 && v_s_31364.airdc++, v_e_31361 === v_Qn_27692 && v_s_31364.airdl++, v_e_31361 === v_$n_27691 && v_s_31364.airdr++, v_e_31361 === v_Wn_27684 && v_s_31364.airhs++, v_e_31361 === v_Vn_27683 && v_s_31364.airhe++, v_e_31361 === v_e0_27695 && v_s_31364.airss++, v_e_31361 === v_i0_27694 && v_s_31364.airse++, v_e_31361 !== v_l0_27701 && v_e_31361 !== v_s0_27698 || v_s_31364.airca++, v_n_31362 === v_ue_27682 && v_e_31361 === v_c0_27703 && v_s_31364.airhi++, v_n_31362 === v_t0_27693 && v_e_31361 === v_c0_27703 && v_s_31364.airhi++), 0);
+            v_i_31367 = (v_U_30262.Ta.vr++, (v_e_31361 & v_xn_27661) !== v_Cn_27662 && (v_e_31361 & v_xn_27661) !== v_Hn_27677 && (v_e_31361 & v_xn_27661) !== v_Gn_27674 && v_n_31362 !== v_ce_27678 && v_n_31362 !== v_le_27675 || v_U_30262.Ta.gr++, v_r_31363 === v__e_27718 ? (++v_U_30262.Ta.Tr.Fr, ++v_U_30262.Ta.pr, v_t_31366 = 50) : v_r_31363 === v_w0_27717 ? (++v_U_30262.Ta.Tr.Er, ++v_U_30262.Ta.pr, v_t_31366 = 100) : v_r_31363 === v_fe_27716 ? (++v_U_30262.Ta.Tr.Lr, ++v_U_30262.Ta.pr, v_t_31366 = 101) : v_r_31363 === v_he_27719 && (++v_U_30262.Ta.Tr.Br, v_U_30262.Ta.pr = 0, v_t_31366 = 0), v_e_31361 === v_Tn_27663 || v__0_27710(v_e_31361) || v_e_31361 === v_Rn_27666 || v_e_31361 === v_ce_27678 || v_e_31361 === v_le_27675 ? (v_U_30262.Ta.Mr.Rr += 0 < v_t_31366 ? 1 : 0, v_U_30262.Ta.Mr.Pr += v_t_31366, v_r_31363 === v__e_27718 ? ++v_U_30262.Ta.R5.P5 : v_r_31363 === v_w0_27717 ? ++v_U_30262.Ta.R5.D5 : v_r_31363 === v_fe_27716 ? ++v_U_30262.Ta.R5.M5 : v_r_31363 === v_he_27719 && ++v_U_30262.Ta.R5.G5, v_s_31364 === v_g0_27720 ? (v_U_30262.Ta.Jr.Wr++, v_r_31363 === v__e_27718 ? v_U_30262.Ta.Jr.zr++ : v_r_31363 === v_w0_27717 ? v_U_30262.Ta.Jr.Xr++ : v_r_31363 === v_fe_27716 && v_U_30262.Ta.Jr.Zr++) : v_s_31364 === v_m0_27721 ? (v_U_30262.Ta.Jr.Kr++, v_r_31363 === v__e_27718 ? v_U_30262.Ta.Jr.Qr++ : v_r_31363 === v_w0_27717 ? v_U_30262.Ta.Jr.qr++ : v_r_31363 === v_fe_27716 && v_U_30262.Ta.Jr.$r++) : v_r_31363 === v_fe_27716 && v_U_30262.Ta.Jr.Yr++) : v_n_31362 === v_ce_27678 ? (v_U_30262.Ta.Mr.Dr += 0 < v_t_31366 ? 1 : 0, v_U_30262.Ta.Mr.Gr += v_t_31366, v_r_31363 === v__e_27718 ? ++v_U_30262.Ta.R5.H5 : v_r_31363 === v_w0_27717 ? ++v_U_30262.Ta.R5.j5 : v_r_31363 === v_fe_27716 ? ++v_U_30262.Ta.R5.N5 : v_r_31363 === v_he_27719 && ++v_U_30262.Ta.R5.U5) : v_n_31362 === v_le_27675 ? (v_U_30262.Ta.Mr.jr += 0 < v_t_31366 ? 1 : 0, v_U_30262.Ta.Mr.Nr += v_t_31366, v_r_31363 === v__e_27718 ? ++v_U_30262.Ta.R5.O5 : v_r_31363 === v_w0_27717 ? ++v_U_30262.Ta.R5.J5 : v_r_31363 === v_fe_27716 ? ++v_U_30262.Ta.R5.V5 : v_r_31363 === v_he_27719 && ++v_U_30262.Ta.R5.W5) : (v_e_31361 & v_xn_27661) === v_zn_27686 || v_n_31362 === v_ue_27682 || v_n_31362 === v_t0_27693 || v_e_31361 === v_l0_27701 || v_e_31361 === v_s0_27698 ? (v_U_30262.Ta.Mr.Hr += 0 < v_t_31366 ? 1 : 0, v_U_30262.Ta.Mr.Ur += v_t_31366, v_r_31363 === v__e_27718 ? ++v_U_30262.Ta.R5.X5 : v_r_31363 === v_w0_27717 ? ++v_U_30262.Ta.R5.z5 : v_r_31363 === v_fe_27716 ? ++v_U_30262.Ta.R5.K5 : v_r_31363 === v_he_27719 && ++v_U_30262.Ta.R5.Z5) : v_e_31361 === v_Pn_27665 && (v_U_30262.Ta.Mr.Vr += 0 < v_t_31366 ? 1 : 0, v_U_30262.Ta.Mr.Or += v_t_31366, v_r_31363 === v__e_27718 ? ++v_U_30262.Ta.R5.Q5 : v_r_31363 === v_w0_27717 ? ++v_U_30262.Ta.R5.q5 : v_r_31363 === v_fe_27716 ? ++v_U_30262.Ta.R5.Y5 : v_r_31363 === v_he_27719 && ++v_U_30262.Ta.R5.e4), v_U_30262.Ta.kr = mathMax(v_U_30262.Ta.kr, v_U_30262.Ta.pr), 0 < v_U_30262.q1.Zu.kr && (v_U_30262.Ta.Sr = v_U_30262.za(), v_U_30262.Ta.Ir = v_U_30262.Xa()), v_r_31363 !== v_w0_27717 && v_r_31363 !== v_fe_27716 || (v_s_31364 = v_U_30262.Ta.e1, v_e_31361 === v_Tn_27663 && v_s_31364.tap++, v_e_31361 === v_In_27664 && v_s_31364.extapu++, v_e_31361 === v_Ln_27667 && v_s_31364.extapc++, v_e_31361 === v_Mn_27668 && v_s_31364.extapd++, v_e_31361 === v_En_27669 && v_s_31364.extaprl++, v_e_31361 === v_Dn_27670 && v_s_31364.extaprr++, v_e_31361 === v_Fn_27671 && v_s_31364.extapsl++, v_e_31361 === v_Bn_27672 && v_s_31364.extapsr++, v_e_31361 === v_Nn_27673 && v_s_31364.extapio++, v_e_31361 === v_Rn_27666 && v_s_31364.damage++, v_e_31361 === v_Pn_27665 && v_s_31364.flick++, v_e_31361 === v_ce_27678 && v_s_31364.slideb++, v_e_31361 === v_jn_27680 && v_s_31364.slides++, v_e_31361 === v_Jn_27679 && v_s_31364.slidee++, v_n_31362 === v_ce_27678 && v_e_31361 === v_c0_27703 && v_s_31364.slidei++, v_e_31361 === v_le_27675 && v_s_31364.holdb++, v_e_31361 === v_Un_27676 && v_s_31364.holde++, v_n_31362 === v_le_27675 && v_e_31361 === v_c0_27703 && v_s_31364.holdi++, v_e_31361 === v_Kn_27687 && v_s_31364.airuc++, v_e_31361 === v_qn_27689 && v_s_31364.airul++, v_e_31361 === v_Zn_27690 && v_s_31364.airur++, v_e_31361 === v_Yn_27688 && v_s_31364.airdc++, v_e_31361 === v_Qn_27692 && v_s_31364.airdl++, v_e_31361 === v_$n_27691 && v_s_31364.airdr++, v_e_31361 === v_Wn_27684 && v_s_31364.airhs++, v_e_31361 === v_Vn_27683 && v_s_31364.airhe++, v_e_31361 === v_e0_27695 && v_s_31364.airss++, v_e_31361 === v_i0_27694 && v_s_31364.airse++, v_e_31361 !== v_l0_27701 && v_e_31361 !== v_s0_27698 || v_s_31364.airca++, v_n_31362 === v_ue_27682 && v_e_31361 === v_c0_27703 && v_s_31364.airhi++, v_n_31362 === v_t0_27693 && v_e_31361 === v_c0_27703 && v_s_31364.airhi++), 0);
           v_s_31364 = 0 < v_U_30262.q1.Zu.kr ? 6e4 / (v_U_30262.q1.Zu.ew.Ra + v_U_30262.q1.Zu.ew.Da / 2 + v_U_30262.q1.Zu.ew.iw / 2 + v_U_30262.q1.Zu.ew.Ga + v_U_30262.q1.Zu.ew.ja) : 0;
           if (v_r_31363 === v__e_27718 ? v_i_31367 = .1 * v_s_31364 : v_r_31363 === v_w0_27717 ? v_i_31367 = .8 * v_s_31364 : v_r_31363 === v_fe_27716 ? v_i_31367 = v_s_31364 : v_r_31363 === v_he_27719 && (v_i_31367 = .03 * -v_F0_27741[v_a_31365.Hc]), v_n_31362 !== v_ce_27678 && v_n_31362 !== v_le_27675 || (v_i_31367 *= .5), v_U_30262.J1) {
             let v_t_31368 = !1;
             v_s_31364 = v_U_30262.Y1._0, v_a_31365 = v_U_30262.Y1._0.vn.CP;
-            !v_t_31368 && v_r_31363 >= v_s_31364.vn.zb && (v_s_31364.V0 = v_pe_27823(v_s_31364.V0 - v_s_31364.vn.TP, 0), v_a_31365.Hs && (v_U_30262.xP = v_Qa_28089(v_U_30262.xP + v_a_31365.RP.PP, v_a_31365.RP.IP, v_a_31365.RP.MP), v_U_30262.M1 = v_si_30285(v_U_30262.xP)), v_s_31364.V0 <= 0) && (v_y_30322(), v_t_31368 = !0), !v_t_31368 && 0 < v_s_31364.vn.LP && v_r_31363 <= v_s_31364.vn.LP && (0 < v_s_31364.vn.EP && (v_s_31364.V0 = v_me_27822(v_s_31364.V0 + v_s_31364.vn.EP, v_s_31364.vn.bP)), v_a_31365.Hs) && (v_U_30262.xP = v_Qa_28089(v_U_30262.xP + v_a_31365.RP.FP, v_a_31365.RP.IP, v_a_31365.RP.MP), v_U_30262.M1 = v_si_30285(v_U_30262.xP));
+            !v_t_31368 && v_r_31363 >= v_s_31364.vn.zb && (v_s_31364.V0 = mathMax(v_s_31364.V0 - v_s_31364.vn.TP, 0), v_a_31365.Hs && (v_U_30262.xP = v_Qa_28089(v_U_30262.xP + v_a_31365.RP.PP, v_a_31365.RP.IP, v_a_31365.RP.MP), v_U_30262.M1 = v_si_30285(v_U_30262.xP)), v_s_31364.V0 <= 0) && (v_y_30322(), v_t_31368 = !0), !v_t_31368 && 0 < v_s_31364.vn.LP && v_r_31363 <= v_s_31364.vn.LP && (0 < v_s_31364.vn.EP && (v_s_31364.V0 = mathMin(v_s_31364.V0 + v_s_31364.vn.EP, v_s_31364.vn.bP)), v_a_31365.Hs) && (v_U_30262.xP = v_Qa_28089(v_U_30262.xP + v_a_31365.RP.FP, v_a_31365.RP.IP, v_a_31365.RP.MP), v_U_30262.M1 = v_si_30285(v_U_30262.xP));
           } else {
             if (v_U_30262.B1 > v_yt_30226) switch (v_U_30262.B1) {
               case v_St_30227:
@@ -3195,7 +3195,7 @@
               default:
                 v_i_31383 = v_Y0_27801;
             }
-            10 !== v_e_31384.Fi ? (v_r_31372 = 48 * v_n1_27827(1.25 * (v_s_31373 - v_e_31384.rr) * v_a1_27833 * 2 + v_a1_27833) + 48, ledOutput.Qe(v_z0_27799, v_t_31400, [v_i_31383[0] + v_r_31372, v_i_31383[1] + v_r_31372, v_i_31383[2] + v_r_31372])) : ledOutput.Qe(v_z0_27799, v_t_31400, v_i_31383);
+            10 !== v_e_31384.Fi ? (v_r_31372 = 48 * mathSin(1.25 * (v_s_31373 - v_e_31384.rr) * mathPI * 2 + mathPI) + 48, ledOutput.Qe(v_z0_27799, v_t_31400, [v_i_31383[0] + v_r_31372, v_i_31383[1] + v_r_31372, v_i_31383[2] + v_r_31372])) : ledOutput.Qe(v_z0_27799, v_t_31400, v_i_31383);
           }
         }
       }
@@ -3212,10 +3212,10 @@
         if (v_t_31406 < 10) {
           var v_n_31409 = v_m_30256.lt.yk(0);
           if (0 === v_t_31406) return void (v_i_31407 >= v_n_31409.Te && v_i_31407 < v_n_31409.Te + v_n_31409.Le && v_e_31408 >= v_n_31409.Qt && v_e_31408 < v_n_31409.Qt + v_n_31409.G0 && (v_U_30262.nb = !0, v_U_30262.rb = v_i_31407 - v_n_31409.Te, v_U_30262.ab = v_e_31408 - v_n_31409.Qt));
-          v_U_30262.nb && (v_n_31409.Te = v_ke_27824(v_Qa_28089(v_i_31407 - v_U_30262.rb, 0, v_m_30256.lt.Le - v_n_31409.Le)), v_n_31409.Qt = v_ke_27824(v_Qa_28089(v_e_31408 - v_U_30262.ab, 0, v_m_30256.lt.G0 - v_n_31409.G0)), 2 === v_t_31406) && (v_U_30262.nb = !1);
+          v_U_30262.nb && (v_n_31409.Te = mathFloor(v_Qa_28089(v_i_31407 - v_U_30262.rb, 0, v_m_30256.lt.Le - v_n_31409.Le)), v_n_31409.Qt = mathFloor(v_Qa_28089(v_e_31408 - v_U_30262.ab, 0, v_m_30256.lt.G0 - v_n_31409.G0)), 2 === v_t_31406) && (v_U_30262.nb = !1);
         }
         v_n_31409 = v_m_30256.lt.yk(30);
-        v_t_31406 < 10 ? (v_n_31409.Te = v_ke_27824(v_i_31407), v_n_31409.Qt = v_ke_27824(v_e_31408)) : 10 === v_t_31406 ? v_n_31409.Be = !0 : 11 === v_t_31406 && (v_n_31409.Be = !1);
+        v_t_31406 < 10 ? (v_n_31409.Te = mathFloor(v_i_31407), v_n_31409.Qt = mathFloor(v_e_31408)) : 10 === v_t_31406 ? v_n_31409.Be = !0 : 11 === v_t_31406 && (v_n_31409.Be = !1);
       }
       function v_Mi_30321(v_t_31410, v_i_31411, v_e_31412, v_n_31413, v_r_31414, v_s_31415) {
         var v_a_31416 = v_U_30262.Ta;
@@ -3241,16 +3241,16 @@
             success: v_a_31416.e1
           },
           prog_note: v_o_31417,
-          prog_time: v_ke_27824((v_U_30262.rr - v_U_30262.q1.Zu.ow) / (v_U_30262.q1.Zu.yi - v_U_30262.q1.Zu.ow) * 120),
+          prog_time: mathFloor((v_U_30262.rr - v_U_30262.q1.Zu.ow) / (v_U_30262.q1.Zu.yi - v_U_30262.q1.Zu.ow) * 120),
           gauge: v_Ai_30310(v_a_31416.yr.Cr).Hc,
           gauge_raw: v_a_31416.yr.Cr
         });
         if (!v_s_31415) {
-          if (v_c_31419.wr && v_y_30322(), v_c_31419.GP && (v_a_31416.yr.Ar += v_c_31419.GP - v_i_31411, v_a_31416.yr.Cr = v_pe_27823(v_a_31416.yr.Cr + v_e1_27826(1e3 * v_c_31419.GP) / 1e3, 0)), v_c_31419.NP && (v_t_31410 === v_O0_27789 && 0 !== v_c_31419.GP && (v_e_31412 = 0 <= v_c_31419.GP, v_ae_27643.xt() / 1e3 - v_U_30262.Ja < 1 || (v_U_30262.Ja = v_ae_27643.xt() / 1e3, v_e_31412 ? v_x_30250.e8(4) : v_x_30250.e8(5))), 0 === v_U_30262.vL && judgeSound.dn(v_ki_30303), v_c_31419.UP) && 0 < v_c_31419.UP.length) {
+          if (v_c_31419.wr && v_y_30322(), v_c_31419.GP && (v_a_31416.yr.Ar += v_c_31419.GP - v_i_31411, v_a_31416.yr.Cr = mathMax(v_a_31416.yr.Cr + mathCeil(1e3 * v_c_31419.GP) / 1e3, 0)), v_c_31419.NP && (v_t_31410 === v_O0_27789 && 0 !== v_c_31419.GP && (v_e_31412 = 0 <= v_c_31419.GP, v_ae_27643.xt() / 1e3 - v_U_30262.Ja < 1 || (v_U_30262.Ja = v_ae_27643.xt() / 1e3, v_e_31412 ? v_x_30250.e8(4) : v_x_30250.e8(5))), 0 === v_U_30262.vL && judgeSound.dn(v_ki_30303), v_c_31419.UP) && 0 < v_c_31419.UP.length) {
             let v_i_31421;
             for (let v_t_31422 = 0; v_t_31422 < v_U_30262.Ar.zm.length; ++v_t_31422) v_i_31421 = v_U_30262.Ar.zm[v_t_31422], -1 !== v_c_31419.UP.findIndex(v_t_31423 => v_t_31423 === v_i_31421) && v_C_30251.e8(3 + (v_U_30262.Ar.zm.length - v_t_31422 - 1));
           }
-          v_t_31410 === v_O0_27789 && (v_U_30262.ka = !0), v_a_31416.yr.Cr = v_me_27822(v_a_31416.yr.Cr, v_U_30262.V1);
+          v_t_31410 === v_O0_27789 && (v_U_30262.ka = !0), v_a_31416.yr.Cr = mathMin(v_a_31416.yr.Cr, v_U_30262.V1);
         }
         return v_c_31419;
       }
@@ -3349,12 +3349,12 @@
           }), v__s_27989.rg({
             Dc: v_ss_27982,
             W2: v_U_30262.rr
-          })), v_Zi_30343(v_me_27822(v_U_30262.b1 + .125, 2))) : v_U_30262.T1 = v_me_27822(v_pe_27823(1, v_ke_27824(100 * v_U_30262.T1 + 25) / 100), 20), v_U_30262.Sa = !0;else if (v_s_31430) v_w_31441 ? (v_Wi_30337(), v_U_30262.Y1.ig && (v__s_27989.rg({
+          })), v_Zi_30343(mathMin(v_U_30262.b1 + .125, 2))) : v_U_30262.T1 = mathMin(mathMax(1, mathFloor(100 * v_U_30262.T1 + 25) / 100), 20), v_U_30262.Sa = !0;else if (v_s_31430) v_w_31441 ? (v_Wi_30337(), v_U_30262.Y1.ig && (v__s_27989.rg({
             Dc: v_rs_27981
           }), v__s_27989.rg({
             Dc: v_ss_27982,
             W2: v_U_30262.rr
-          })), v_Zi_30343(v_pe_27823(v_U_30262.b1 - .125, .125))) : v_U_30262.T1 = v_me_27822(v_pe_27823(1, v_ke_27824(100 * v_U_30262.T1 - 25) / 100), 20), v_U_30262.Sa = !0;else if (v_o_31432) v_w_31441 ? (v_i_30263.pd = !0, v_i_30263.Dg = 0, v_p_30264.pd = !0, v_p_30264.ar = null, v_p_30264.rr = 0) : (v_i_30263.Dg += 1, v_p_30264.rr += 1);else if (v_l_31433) v_w_31441 ? (v_i_30263.pd = !1, v_i_30263.Dg = 0, v_p_30264.pd = !1, v_p_30264.rr = 0) : (--v_i_30263.Dg, --v_p_30264.rr);else if (v_c_31434) v_U_30262.A1 ^= !0, v_U_30262.Sa = !0, v_U_30262.A1 ? (v_U_30262.E1 = 0, v_U_30262.I1 = 0, v_U_30262.dI = 0) : (v_U_30262.E1 = -v_Ie_27966.$c("jdgTimingA") / 6e3 - 1 / 60, v_U_30262.I1 = -v_Ie_27966.$c("jdgTimingA") / 6e3 - v_Ie_27966.$c("jdgTimingB") / 6e3 - 1 / 60, v_U_30262.dI = -v_Ie_27966.$c("jdgTimingAir") / 6e3);else if (v_u_31435) v_U_30262.ib = !v_U_30262.ib, v_U_30262.Sa = !0;else if (v_f_31436) {
+          })), v_Zi_30343(mathMax(v_U_30262.b1 - .125, .125))) : v_U_30262.T1 = mathMin(mathMax(1, mathFloor(100 * v_U_30262.T1 - 25) / 100), 20), v_U_30262.Sa = !0;else if (v_o_31432) v_w_31441 ? (v_i_30263.pd = !0, v_i_30263.Dg = 0, v_p_30264.pd = !0, v_p_30264.ar = null, v_p_30264.rr = 0) : (v_i_30263.Dg += 1, v_p_30264.rr += 1);else if (v_l_31433) v_w_31441 ? (v_i_30263.pd = !1, v_i_30263.Dg = 0, v_p_30264.pd = !1, v_p_30264.rr = 0) : (--v_i_30263.Dg, --v_p_30264.rr);else if (v_c_31434) v_U_30262.A1 ^= !0, v_U_30262.Sa = !0, v_U_30262.A1 ? (v_U_30262.E1 = 0, v_U_30262.I1 = 0, v_U_30262.dI = 0) : (v_U_30262.E1 = -v_Ie_27966.$c("jdgTimingA") / 6e3 - 1 / 60, v_U_30262.I1 = -v_Ie_27966.$c("jdgTimingA") / 6e3 - v_Ie_27966.$c("jdgTimingB") / 6e3 - 1 / 60, v_U_30262.dI = -v_Ie_27966.$c("jdgTimingAir") / 6e3);else if (v_u_31435) v_U_30262.ib = !v_U_30262.ib, v_U_30262.Sa = !0;else if (v_f_31436) {
             if (v_U_30262.Y1.ig) v__s_27989.rg({
               Dc: v_cs_27986,
               sg: ""
@@ -3388,7 +3388,7 @@
       }
       function v_Fi_30325(v_t_31451, v_i_31452, v_e_31453) {
         if (v_U_30262.i1) {
-          if (v_U_30262.o1 && v_U_30262.n1 < v_A_30193 && (v_U_30262.W1 && !v_U_30262.K1 && !v_Se_27889.o1(v_U_30262.W1) && v_U_30262.rr >= v_U_30262.m1 + v_U_30262.q1.Zu._w - .01 && v_U_30262.n1 === v_S_30187 && .5 <= v_U_30262.b1 && (v_Se_27889.dn(v_U_30262.W1), v_U_30262.z1 && !v_U_30262.q1.Zu.hw && (v_U_30262.Y1.J6 || v_U_30262.z1.play(), v_U_30262.vk = v_t_31451), v_U_30262.K1 = !0), v_U_30262.rr = ((v_t_31451 - v_U_30262.l1) / 1e3 - v_U_30262.m1 + v_U_30262.q1.Zu._w) * v_U_30262.b1, v_U_30262.C1 = v_U_30262.rr + v_U_30262.E1), v_U_30262.n1 === v_S_30187 && !v_U_30262.Y1.X0 && (v_U_30262.Ta.vr >= v_U_30262.q1.Zu.kr || v_U_30262.w1 + 5 < v_U_30262.rr) && v_Hi_30330(), v_U_30262.Y1.Rx && v_U_30262.n1 >= v_S_30187 && 0 < (v_t_31451 = v_ke_27824((v_t_31451 - v_U_30262.l1) / 1e3 * 4) + 1) && v_t_31451 > v_U_30262.Vx && (v_Ni_30327(), v_U_30262.Vx = v_t_31451), v_U_30262.o1) {
+          if (v_U_30262.o1 && v_U_30262.n1 < v_A_30193 && (v_U_30262.W1 && !v_U_30262.K1 && !v_Se_27889.o1(v_U_30262.W1) && v_U_30262.rr >= v_U_30262.m1 + v_U_30262.q1.Zu._w - .01 && v_U_30262.n1 === v_S_30187 && .5 <= v_U_30262.b1 && (v_Se_27889.dn(v_U_30262.W1), v_U_30262.z1 && !v_U_30262.q1.Zu.hw && (v_U_30262.Y1.J6 || v_U_30262.z1.play(), v_U_30262.vk = v_t_31451), v_U_30262.K1 = !0), v_U_30262.rr = ((v_t_31451 - v_U_30262.l1) / 1e3 - v_U_30262.m1 + v_U_30262.q1.Zu._w) * v_U_30262.b1, v_U_30262.C1 = v_U_30262.rr + v_U_30262.E1), v_U_30262.n1 === v_S_30187 && !v_U_30262.Y1.X0 && (v_U_30262.Ta.vr >= v_U_30262.q1.Zu.kr || v_U_30262.w1 + 5 < v_U_30262.rr) && v_Hi_30330(), v_U_30262.Y1.Rx && v_U_30262.n1 >= v_S_30187 && 0 < (v_t_31451 = mathFloor((v_t_31451 - v_U_30262.l1) / 1e3 * 4) + 1) && v_t_31451 > v_U_30262.Vx && (v_Ni_30327(), v_U_30262.Vx = v_t_31451), v_U_30262.o1) {
             if (v_U_30262.Ta.wr) {
               let v_i_31468 = v_U_30262.rr + v_U_30262.S1 + v_U_30262.I1,
                 v_e_31469 = 0,
@@ -3515,8 +3515,8 @@
             } else v_Ci_30312(v_i_31452 / 1e3);
             v_Ti_30313(), judgeSound.oe();
           }
-          if (v_U_30262.n1 !== v_S_30187 || v_U_30262.Ta.wr || 0 < (v_t_31451 = v_ke_27824((v_U_30262.rr - v_U_30262.q1.Zu.ow) / 2) + 1) && v_t_31451 > v_U_30262.xa && (v_Mi_30321(v_O0_27789, 0, 0, 0, 0, !1), v_U_30262.xa = v_t_31451), v_Pi_30318(), v_U_30262.ka) {
-            if (v_U_30262.ka = !1, v_R_30261.Ss.Wt = v_me_27822(v_U_30262.Ta.Tr.Lr, 99999).toString(), v_R_30261.gk.Be = 0 === v_U_30262.Ta.Tr.Lr, v_R_30261.xs.Wt = v_me_27822(v_U_30262.Ta.Tr.Er, 99999).toString(), v_R_30261.wk.Be = 0 === v_U_30262.Ta.Tr.Er, v_R_30261.Is.Wt = v_me_27822(v_U_30262.Ta.Tr.Fr, 99999).toString(), v_R_30261.pk.Be = 0 === v_U_30262.Ta.Tr.Fr, v_R_30261.ys.Wt = v_me_27822(v_U_30262.Ta.Tr.Br, 99999).toString(), v_R_30261.mk.Be = 0 === v_U_30262.Ta.Tr.Br, v_R_30261.Ls.Wt = v_me_27822(v_U_30262.Ta.kr, 99999).toString(), v_R_30261.Es.Wt = v_U_30262.Ta.Sr.toLocaleString("ja").replaceAll(",", "C"), v_U_30262.J1) {
+          if (v_U_30262.n1 !== v_S_30187 || v_U_30262.Ta.wr || 0 < (v_t_31451 = mathFloor((v_U_30262.rr - v_U_30262.q1.Zu.ow) / 2) + 1) && v_t_31451 > v_U_30262.xa && (v_Mi_30321(v_O0_27789, 0, 0, 0, 0, !1), v_U_30262.xa = v_t_31451), v_Pi_30318(), v_U_30262.ka) {
+            if (v_U_30262.ka = !1, v_R_30261.Ss.Wt = mathMin(v_U_30262.Ta.Tr.Lr, 99999).toString(), v_R_30261.gk.Be = 0 === v_U_30262.Ta.Tr.Lr, v_R_30261.xs.Wt = mathMin(v_U_30262.Ta.Tr.Er, 99999).toString(), v_R_30261.wk.Be = 0 === v_U_30262.Ta.Tr.Er, v_R_30261.Is.Wt = mathMin(v_U_30262.Ta.Tr.Fr, 99999).toString(), v_R_30261.pk.Be = 0 === v_U_30262.Ta.Tr.Fr, v_R_30261.ys.Wt = mathMin(v_U_30262.Ta.Tr.Br, 99999).toString(), v_R_30261.mk.Be = 0 === v_U_30262.Ta.Tr.Br, v_R_30261.Ls.Wt = mathMin(v_U_30262.Ta.kr, 99999).toString(), v_R_30261.Es.Wt = v_U_30262.Ta.Sr.toLocaleString("ja").replaceAll(",", "C"), v_U_30262.J1) {
               var v_n_31456 = v_Tr_27949.Kc(v_U_30262.Y1._0.V0, v_U_30262.Y1._0.vn.bP);
               v_R_30261.ps.Wt = v_U_30262.Y1._0.V0.toString(), v_R_30261.ws.ln(1 - v_U_30262.Y1._0.V0 / v_U_30262.Y1._0.vn.bP), 0 === v_U_30262.Y1._0.V0 ? v_R_30261.ps.Ak = "lifeZero" : v_R_30261.ps.Ak = v_n_31456 ? "lifeCurrent" : "lifeDanger", v_U_30262.ma && !v_n_31456 ? v_x_30250.e8(2) : !v_U_30262.ma && v_n_31456 && v_x_30250.e8(3), v_U_30262.ma = v_n_31456;
             } else {
@@ -3527,7 +3527,7 @@
                 0 === v_s_31458.qe && v_t_31493 < v_r_31457.Hc && (v_t_31493 >= v_U_30262.O1 ? v_x_30250.NA(99, 0, v_s_31458.Te + 730, 117) : v_x_30250.NA(102, 1, v_s_31458.Te + 730, 117)), v_s_31458.an(v_t_31493 < v_r_31457.Hc ? 1 : 0);
               }
               var v_l_31459 = v_r_31457.Hc < v_U_30262.U1 ? v_r_31457.Uc / v_F0_27741[v_r_31457.Hc] : 1;
-              v_R_30261.fs.ln(v_l_31459), v_U_30262.ba && v_n_31456 && v_x_30250.e8(6), v_U_30262.ba = !v_n_31456, v_R_30261.fs.Je = "gaugeBar" + (v_n_31456 ? "Clear" : "Failed"), v_R_30261._s.Be = v_n_31456, v_R_30261.hs.Be = v_n_31456, v_x_30250.lt.yk(77).Be = 0 < v_r_31457.Hc, v_x_30250.lt.yk(77).Te = 38 * v_me_27822(v_U_30262.U1, v_r_31457.Hc) - 25 + (v_n_31456 ? 2 : 0), v_x_30250.lt.yk(77).Qt = v_n_31456 ? 2 : 8, v_x_30250.lt.yk(77).Wt = v_me_27822(v_U_30262.U1, v_r_31457.Hc).toString(), v_x_30250.lt.yk(77).Qe(v_n_31456 ? 1 : 0, 1, v_n_31456 ? 0 : 1, 1), v_U_30262.n1 >= v_N_30189 ? (v_n_31456 || v_R_30261.ds.Be || v_x_30250.e8(8), v_R_30261.ds.Be = !v_n_31456) : v_R_30261.ds.Be = !1, null !== v_U_30262.Ar.Om && (v_R_30261.Rs.Wt = v_Qa_28089(v_U_30262.Ar.Km, 0, 999).toString());
+              v_R_30261.fs.ln(v_l_31459), v_U_30262.ba && v_n_31456 && v_x_30250.e8(6), v_U_30262.ba = !v_n_31456, v_R_30261.fs.Je = "gaugeBar" + (v_n_31456 ? "Clear" : "Failed"), v_R_30261._s.Be = v_n_31456, v_R_30261.hs.Be = v_n_31456, v_x_30250.lt.yk(77).Be = 0 < v_r_31457.Hc, v_x_30250.lt.yk(77).Te = 38 * mathMin(v_U_30262.U1, v_r_31457.Hc) - 25 + (v_n_31456 ? 2 : 0), v_x_30250.lt.yk(77).Qt = v_n_31456 ? 2 : 8, v_x_30250.lt.yk(77).Wt = mathMin(v_U_30262.U1, v_r_31457.Hc).toString(), v_x_30250.lt.yk(77).Qe(v_n_31456 ? 1 : 0, 1, v_n_31456 ? 0 : 1, 1), v_U_30262.n1 >= v_N_30189 ? (v_n_31456 || v_R_30261.ds.Be || v_x_30250.e8(8), v_R_30261.ds.Be = !v_n_31456) : v_R_30261.ds.Be = !1, null !== v_U_30262.Ar.Om && (v_R_30261.Rs.Wt = v_Qa_28089(v_U_30262.Ar.Km, 0, 999).toString());
             }
             if (v_E_30309()) {
               var v_c_31460,
@@ -3540,7 +3540,7 @@
           }
           if (v_U_30262.Y1.k0) {
             var v_f_31462,
-              v_i_31452 = v_ke_27824(10 * v_U_30262.rr) + 1;
+              v_i_31452 = mathFloor(10 * v_U_30262.rr) + 1;
             if (v_i_31452 > v_U_30262.Ia && (v_U_30262.Sa = !0, v_U_30262.Ia = v_i_31452), v_U_30262.Sa) {
               if (v_U_30262.Y1.k0) {
                 v_m_30256.lt.yk(5).Je = v_U_30262.o1 ? "textPlay" : "textPause", v_m_30256.lt.yk(7).Wt = v_U_30262.b1.toFixed(2).replaceAll(".", "P"), v_m_30256.lt.yk(19).Wt = v_U_30262.T1.toFixed(2).replaceAll(".", "P"), v_m_30256.lt.yk(17).Je = v_U_30262.A1 ? "textOn" : "textOff", v_m_30256.lt.yk(23).Je = v_U_30262.ib ? "textBeat" : "textBar";
@@ -3556,12 +3556,12 @@
                       v_t_31495 = v_g_31499.mp, v_e_31497 = v_g_31499.Jg, v_n_31498 = v_g_31499.cb, v_i_31496 += v_f_31462;
                     }
                     v_t_31495 += (v___31463 - v_i_31496) / v_de_27728 / v_e_31497;
-                    var v_h_31464 = v_ke_27824((v_t_31495 - v_ke_27824(v_t_31495)) * v_n_31498) + 1;
-                    v_t_31495 < 0 && --v_t_31495, v_m_30256.lt.yk(9).Wt = (v_t_31495 < 0 ? "N" : "") + v_ke_27824(v_s1_27830(v_t_31495)) + "Q" + v_Xa_28081(v_me_27822(v_h_31464, 99), 2, "B"), v_m_30256.lt.yk(13).Wt = v_U_30262.q1.np(v___31463).toFixed(2).replaceAll(".", "P"), v_m_30256.lt.yk(15).Wt = v_n_31498 + "S" + v_i1_27825(v_n_31498 / v_e_31497);
+                    var v_h_31464 = mathFloor((v_t_31495 - mathFloor(v_t_31495)) * v_n_31498) + 1;
+                    v_t_31495 < 0 && --v_t_31495, v_m_30256.lt.yk(9).Wt = (v_t_31495 < 0 ? "N" : "") + mathFloor(mathAbs(v_t_31495)) + "Q" + v_Xa_28081(mathMin(v_h_31464, 99), 2, "B"), v_m_30256.lt.yk(13).Wt = v_U_30262.q1.np(v___31463).toFixed(2).replaceAll(".", "P"), v_m_30256.lt.yk(15).Wt = v_n_31498 + "S" + mathRound(v_n_31498 / v_e_31497);
                   } else v_m_30256.lt.yk(9).Wt = "", v_m_30256.lt.yk(13).Wt = v_U_30262.q1.np(v___31463).toFixed(2).replaceAll(".", "P"), v_m_30256.lt.yk(15).Wt = "";
                 }
                 v_h_31464 = v_U_30262.rr < 0 ? 1 : 0;
-                v_m_30256.lt.yk(11).Wt = (v_U_30262.rr < 0 ? "N" : "") + v_s1_27830(v_ke_27824(v_U_30262.rr / 60) + v_h_31464) % 60 + "C" + v_Xa_28081(v_s1_27830(v_ke_27824(v_U_30262.rr) + v_h_31464) % 60, 2, "0") + "P" + v_Xa_28081(v_s1_27830(v_ke_27824(1e3 * v_U_30262.rr) + v_h_31464) % 1e3, 3, "0"), v_m_30256.lt.yk(21).Wt = v_U_30262.q1.Zu.kr + "";
+                v_m_30256.lt.yk(11).Wt = (v_U_30262.rr < 0 ? "N" : "") + mathAbs(mathFloor(v_U_30262.rr / 60) + v_h_31464) % 60 + "C" + v_Xa_28081(mathAbs(mathFloor(v_U_30262.rr) + v_h_31464) % 60, 2, "0") + "P" + v_Xa_28081(mathAbs(mathFloor(1e3 * v_U_30262.rr) + v_h_31464) % 1e3, 3, "0"), v_m_30256.lt.yk(21).Wt = v_U_30262.q1.Zu.kr + "";
               }
               v_U_30262.Sa = !1;
             }
@@ -3595,7 +3595,7 @@
             v_s_31505 && v_U_30262.Y1.k0 && (v_U_30262.Sa = !0);
           }
           {
-            v_se_27562.enable(v_se_27562.BLEND), v_se_27562.disable(v_se_27562.STENCIL_TEST), v_se_27562.disable(v_se_27562.CULL_FACE), v_se_27562.depthFunc(v_se_27562.LESS), v_se_27562.cullFace(v_se_27562.FRONT_AND_BACK), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), v_se_27562.loadIdentity(), v_se_27562.perspective(45, v_yn_27656 / v_Sn_27657, .1, v_ve_27731), v_se_27562.lookAt(0, 850, 850, 0, -290, -1536, 0, 1, 0), v_se_27562.translate(0, 0, -6);
+            glContext.enable(glContext.BLEND), glContext.disable(glContext.STENCIL_TEST), glContext.disable(glContext.CULL_FACE), glContext.depthFunc(glContext.LESS), glContext.cullFace(glContext.FRONT_AND_BACK), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), glContext.loadIdentity(), glContext.perspective(45, v_yn_27656 / v_Sn_27657, .1, v_ve_27731), glContext.lookAt(0, 850, 850, 0, -290, -1536, 0, 1, 0), glContext.translate(0, 0, -6);
             let v_e_31510 = v_U_30262.rr + v_U_30262.I1,
               v_t_31511 = 0,
               v_i_31512;
@@ -3607,9 +3607,9 @@
               v_n_31513 = !0;
               break;
             }
-            for (v_U_30262.X1 ? (v_se_27562.pushMatrix(), v_se_27562.translate(0, -10, 0), v_li_30290.le(v_oi_30289), v_se_27562.popMatrix()) : v_k_30287.Rl(), v_k_30287.Fl(), v_se_27562.depthMask(!1), v_se_27562.enable(v_se_27562.DEPTH_TEST), v_se_27562.enable(v_se_27562.STENCIL_TEST), v_se_27562.stencilFunc(v_se_27562.NOTEQUAL, 1, 1), v_se_27562.stencilOp(v_se_27562.KEEP, v_se_27562.KEEP, v_se_27562.KEEP), v_U_30262.ha.Zl().forEach(function (v_t_31516) {
+            for (v_U_30262.X1 ? (glContext.pushMatrix(), glContext.translate(0, -10, 0), v_li_30290.le(v_oi_30289), glContext.popMatrix()) : v_k_30287.Rl(), v_k_30287.Fl(), glContext.depthMask(!1), glContext.enable(glContext.DEPTH_TEST), glContext.enable(glContext.STENCIL_TEST), glContext.stencilFunc(glContext.NOTEQUAL, 1, 1), glContext.stencilOp(glContext.KEEP, glContext.KEEP, glContext.KEEP), v_U_30262.ha.Zl().forEach(function (v_t_31516) {
               v_t_31516.lr && (v_t_31516.ar = v_k_30287.gc(v_t_31516.Fi, v_t_31516.ar, (v_ae_27643.xt() - v_t_31516.rr) / 1e3 * 60), !0 === v_t_31516.ar) && (v_t_31516.lr = !1);
-            }), v_se_27562.disable(v_se_27562.STENCIL_TEST), v_se_27562.depthMask(!0), v_se_27562.enable(v_se_27562.DEPTH_TEST), v_k_30287.Hl(), v_k_30287.tc(v_v_31466), v_k_30287.ac(1), v_k_30287.ac(5), v_se_27562.depthMask(!1), v_se_27562.enable(v_se_27562.DEPTH_TEST), v_k_30287.Pl(), v_k_30287.Dl(), v_k_30287.Ul(), v_k_30287.zl(), v_k_30287.Ol(), v_t_31511 = 0; v_t_31511 < v_U_30262.ta; ++v_t_31511) v_U_30262.ea[v_t_31511].Fi === v_le_27675 && v_k_30287.ec(v_U_30262.ea[v_t_31511]);
+            }), glContext.disable(glContext.STENCIL_TEST), glContext.depthMask(!0), glContext.enable(glContext.DEPTH_TEST), v_k_30287.Hl(), v_k_30287.tc(v_v_31466), v_k_30287.ac(1), v_k_30287.ac(5), glContext.depthMask(!1), glContext.enable(glContext.DEPTH_TEST), v_k_30287.Pl(), v_k_30287.Dl(), v_k_30287.Ul(), v_k_30287.zl(), v_k_30287.Ol(), v_t_31511 = 0; v_t_31511 < v_U_30262.ta; ++v_t_31511) v_U_30262.ea[v_t_31511].Fi === v_le_27675 && v_k_30287.ec(v_U_30262.ea[v_t_31511]);
             for (v_t_31511 = 0; v_t_31511 < v_U_30262.ta; ++v_t_31511) v_U_30262.ea[v_t_31511].Fi === v_ce_27678 && v_k_30287.ec(v_U_30262.ea[v_t_31511]);
             for (v_U_30262.Aa && v_k_30287.z4(), v_k_30287.$l(), v_k_30287.rc(v_v_31466), v_k_30287.ql(), v_k_30287.Ql(), v_k_30287.nc(v_v_31466), v_t_31511 = 0; v_t_31511 < v_v_31466.length; ++v_t_31511) v_v_31466[v_t_31511].Fi === v_t0_27693 && v_k_30287.dc(v_v_31466[v_t_31511]);
             for (v_t_31511 = 0; v_t_31511 < v_v_31466.length; ++v_t_31511) v_v_31466[v_t_31511].Fi === v_t0_27693 && v_k_30287._c(v_v_31466[v_t_31511]);
@@ -3636,7 +3636,7 @@
         } else v_Pi_30318();
       }
       function v_Bi_30326(v_t_31523, v_i_31524, v_e_31525) {
-        v_U_30262.i1 && (v_U_30262.Z1 || backgroundRenderer.le(v_t_31523), v_se_27562.clearStencil(0), v_se_27562.clear(v_se_27562.DEPTH_BUFFER_BIT | v_se_27562.STENCIL_BUFFER_BIT), v_se_27562.enable(v_se_27562.BLEND), v_se_27562.disable(v_se_27562.DEPTH_TEST), v_se_27562.disable(v_se_27562.STENCIL_TEST), v_se_27562.disable(v_se_27562.CULL_FACE), v_se_27562.cullFace(v_se_27562.FRONT_AND_BACK), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), v_se_27562.matrixMode(v_se_27562.MODELVIEW), v_se_27562.loadIdentity(), v_U_30262.Z1 ? v_U_30262.z1 ? (v_k_30287.El(v_U_30262.z1), v_k_30287.Ll()) : v_k_30287.Al() : v_k_30287.Cl(backgroundRenderer.KP(), backgroundRenderer.qP()));
+        v_U_30262.i1 && (v_U_30262.Z1 || backgroundRenderer.le(v_t_31523), glContext.clearStencil(0), glContext.clear(glContext.DEPTH_BUFFER_BIT | glContext.STENCIL_BUFFER_BIT), glContext.enable(glContext.BLEND), glContext.disable(glContext.DEPTH_TEST), glContext.disable(glContext.STENCIL_TEST), glContext.disable(glContext.CULL_FACE), glContext.cullFace(glContext.FRONT_AND_BACK), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), glContext.matrixMode(glContext.MODELVIEW), glContext.loadIdentity(), v_U_30262.Z1 ? v_U_30262.z1 ? (v_k_30287.El(v_U_30262.z1), v_k_30287.Ll()) : v_k_30287.Al() : v_k_30287.Cl(backgroundRenderer.KP(), backgroundRenderer.qP()));
       }
       function v_Ni_30327(v_t_31526) {
         let v_i_31527 = 0;
@@ -3782,8 +3782,8 @@
               v_n_31570 = v_U_30262.La.B4 ? 2 : v_U_30262.La.R4 ? 1 : 0;
               let v_l_31571 = v_I_30254.lt.yk(81),
                 v_c_31572 = v_I_30254.lt.yk(344);
-              v_l_31571.Be = !0, v_c_31572.Be = !1, v_I_30254.lt.yk(3).Qt = v_l_31571.Qt = v_c_31572.Qt = v_E_30309() ? 200 : 240, v_I_30254.lt.yk(513).Qt = v_E_30309() ? 420 : 460, v_I_30254.lt.yk(524).Be = v_t_31566, v_x_30250.lt.yk(23).Be = v_t_31566, v_I_30254.lt.yk(535).Be = !v_t_31566, v_x_30250.lt.yk(36).Be = !v_t_31566, v_I_30254.lt.yk(517).Be = v_t_31566, v_I_30254.lt.yk(105).Be = v_E_30309(), v_l_31571.yk(87).Be = 0 < v_o_31568 || !v_U_30262.Y1.y0.G4, v_l_31571.yk(125).Be = v_u1_27847(v_U_30262.La.Sr) > v_u1_27847(v_U_30262.Y1.y0.Sr) || !v_U_30262.Y1.y0.G4, v_l_31571.yk(117).Be = v_n_31570 > v_e_31569, v_l_31571.yk(110).Be = v_U_30262.La.M4 > v_U_30262.Y1.y0.M4, v_i_31567 = (v_i_31567 = (v_i_31567 = v_i_31567 || 0 < v_o_31568) || v_u1_27847(v_U_30262.La.Sr) > v_u1_27847(v_U_30262.Y1.y0.Sr)) || v_n_31570 > v_e_31569, v_E_30309() && (v_i_31567 = v_i_31567 || v_U_30262.La.M4 > v_U_30262.Y1.y0.M4);
-              var v_s_31541 = v_c1_27846(v_U_30262.La.Sr);
+              v_l_31571.Be = !0, v_c_31572.Be = !1, v_I_30254.lt.yk(3).Qt = v_l_31571.Qt = v_c_31572.Qt = v_E_30309() ? 200 : 240, v_I_30254.lt.yk(513).Qt = v_E_30309() ? 420 : 460, v_I_30254.lt.yk(524).Be = v_t_31566, v_x_30250.lt.yk(23).Be = v_t_31566, v_I_30254.lt.yk(535).Be = !v_t_31566, v_x_30250.lt.yk(36).Be = !v_t_31566, v_I_30254.lt.yk(517).Be = v_t_31566, v_I_30254.lt.yk(105).Be = v_E_30309(), v_l_31571.yk(87).Be = 0 < v_o_31568 || !v_U_30262.Y1.y0.G4, v_l_31571.yk(125).Be = rankLevel(v_U_30262.La.Sr) > rankLevel(v_U_30262.Y1.y0.Sr) || !v_U_30262.Y1.y0.G4, v_l_31571.yk(117).Be = v_n_31570 > v_e_31569, v_l_31571.yk(110).Be = v_U_30262.La.M4 > v_U_30262.Y1.y0.M4, v_i_31567 = (v_i_31567 = (v_i_31567 = v_i_31567 || 0 < v_o_31568) || rankLevel(v_U_30262.La.Sr) > rankLevel(v_U_30262.Y1.y0.Sr)) || v_n_31570 > v_e_31569, v_E_30309() && (v_i_31567 = v_i_31567 || v_U_30262.La.M4 > v_U_30262.Y1.y0.M4);
+              var v_s_31541 = rankLabel(v_U_30262.La.Sr);
               {
                 let v_n_31574,
                   v_r_31575,
@@ -3792,18 +3792,18 @@
                   v_e_31578;
                 var v_u_31540 = v_U_30262.La.Sr,
                   v_f_31542 = v_u_31540.toString(),
-                  v___31543 = v_f1_27848(v_u_31540);
+                  v___31543 = rankGrade(v_u_31540);
                 for (let v_t_31580 = 0; v_t_31580 < 7; ++v_t_31580) v_e_31578 = v_i_31577.ot("boardScoreNum" + v_t_31580), v_f_31542.length <= v_t_31580 ? (v_e_31578.Be = !1, 6 === v_t_31580 ? v_i_31577.ot("boardScoreNumC1").Be = !1 : 3 === v_t_31580 && (v_i_31577.ot("boardScoreNumC0").Be = !1)) : (6 === v_t_31580 ? v_i_31577.ot("boardScoreNumC1").Be = !0 : 3 === v_t_31580 && (v_i_31577.ot("boardScoreNumC0").Be = !0), v_e_31578.Be = !0, v_e_31578.Je = "numRank" + v___31543 + v_f_31542[v_f_31542.length - v_t_31580 - 1]);
-                v_i_31577.ot("boardScoreNumC0").Je = "numRank" + v___31543 + "C", v_i_31577.ot("boardScoreNumC1").Je = "numRank" + v___31543 + "C", v_n_31574 = v_l_31571.yk(91), v_r_31575 = v_l_31571.yk(92), 0 < v_o_31568 || !v_U_30262.Y1.y0.G4 ? (v_n_31574.Be = !0, v_r_31575.Be = !1, v_n_31574.Wt = "P" + v_o_31568.toLocaleString("ja").replaceAll(",", "C"), v_n_31574.Qe(1, 1, 0)) : v_o_31568 < 0 ? (v_n_31574.Be = !0, v_r_31575.Be = !1, v_n_31574.Wt = "M" + (-v_o_31568).toLocaleString("ja").replaceAll(",", "C"), v_n_31574.Qe(.65, .79, .94)) : (v_n_31574.Be = !1, v_r_31575.Be = !0), v_l_31571.yk(90).Wt = v_pe_27823(v_U_30262.La.Sr, v_U_30262.Y1.y0.Sr).toLocaleString("ja").replaceAll(",", "C"), v_i_31577 = v_l_31571.yk(119);
+                v_i_31577.ot("boardScoreNumC0").Je = "numRank" + v___31543 + "C", v_i_31577.ot("boardScoreNumC1").Je = "numRank" + v___31543 + "C", v_n_31574 = v_l_31571.yk(91), v_r_31575 = v_l_31571.yk(92), 0 < v_o_31568 || !v_U_30262.Y1.y0.G4 ? (v_n_31574.Be = !0, v_r_31575.Be = !1, v_n_31574.Wt = "P" + v_o_31568.toLocaleString("ja").replaceAll(",", "C"), v_n_31574.Qe(1, 1, 0)) : v_o_31568 < 0 ? (v_n_31574.Be = !0, v_r_31575.Be = !1, v_n_31574.Wt = "M" + (-v_o_31568).toLocaleString("ja").replaceAll(",", "C"), v_n_31574.Qe(.65, .79, .94)) : (v_n_31574.Be = !1, v_r_31575.Be = !0), v_l_31571.yk(90).Wt = mathMax(v_U_30262.La.Sr, v_U_30262.Y1.y0.Sr).toLocaleString("ja").replaceAll(",", "C"), v_i_31577 = v_l_31571.yk(119);
                 var v_h_31544 = !1;
                 v_e_31578 = v_i_31577.yk(143), v_h_31544 |= v_e_31578.Be = 1009e3 <= v_u_31540 && !0, v_e_31578 = v_i_31577.yk(174), v_h_31544 |= v_e_31578.Be = 1007500 <= v_u_31540 && !v_h_31544, v_e_31578 = v_i_31577.yk(198), v_h_31544 |= v_e_31578.Be = 1005e3 <= v_u_31540 && !v_h_31544, v_e_31578 = v_i_31577.yk(222), v_h_31544 |= v_e_31578.Be = 1e6 <= v_u_31540 && !v_h_31544, v_e_31578 = v_i_31577.yk(239), v_h_31544 |= v_e_31578.Be = 99e4 <= v_u_31540 && !v_h_31544, v_e_31578 = v_i_31577.yk(256), v_h_31544 |= v_e_31578.Be = 975e3 <= v_u_31540 && !v_h_31544, v_e_31578 = v_i_31577.yk(266), v_h_31544 |= v_e_31578.Be = 95e4 <= v_u_31540 && !v_h_31544, v_e_31578 = v_i_31577.yk(274), v_h_31544 |= v_e_31578.Be = 925e3 <= v_u_31540 && !v_h_31544, v_e_31578 = v_i_31577.yk(280), v_h_31544 |= v_e_31578.Be = 9e5 <= v_u_31540 && !v_h_31544, v_e_31578 = v_i_31577.yk(284), v_h_31544 |= v_e_31578.Be = 8e5 <= v_u_31540 && !v_h_31544, v_e_31578 = v_i_31577.yk(288), v_h_31544 |= v_e_31578.Be = 7e5 <= v_u_31540 && !v_h_31544, v_e_31578 = v_i_31577.yk(291), v_h_31544 |= v_e_31578.Be = 6e5 <= v_u_31540 && !v_h_31544, v_e_31578 = v_i_31577.yk(293), v_h_31544 |= v_e_31578.Be = 5e5 <= v_u_31540 && !v_h_31544, (v_e_31578 = v_i_31577.yk(295)).Be = !v_h_31544, v_l_31571.yk(126).Be = 975e3 <= v_u_31540, (v_e_31578 = v_l_31571.yk(105)).Be = v_E_30309(), v_l_31571.yk(111).Wt = "" + v_U_30262.Ta.mr, 2 <= v_U_30262.La.M4 ? (v_e_31578.yk(108).Je = "badgeFch2", v_e_31578.yk(109).Je = "badgeFch2", v_e_31578.yk(108).Be = !0, v_e_31578.yk(109).Be = !0) : 1 === v_U_30262.La.M4 ? (v_e_31578.yk(108).Je = "badgeFch", v_e_31578.yk(109).Je = "badgeFch", v_e_31578.yk(108).Be = !0, v_e_31578.yk(109).Be = !0) : (v_e_31578.yk(108).Be = !1, v_e_31578.yk(109).Be = !1), v_e_31578 = v_l_31571.yk(112), v_U_30262.La.B4 ? (v_e_31578.yk(115).Je = "badgeAj", v_e_31578.yk(116).Je = "badgeAj", v_e_31578.yk(115).Be = !0, v_e_31578.yk(116).Be = !0) : v_U_30262.La.R4 ? (v_e_31578.yk(115).Je = "badgeFc", v_e_31578.yk(116).Je = "badgeFc", v_e_31578.yk(115).Be = !0, v_e_31578.yk(116).Be = !0) : (v_e_31578.yk(115).Be = !1, v_e_31578.yk(116).Be = !1), v_l_31571.yk(118).Wt = "" + v_U_30262.Ta.kr, v_l_31571.yk(301).Wt = "" + v_U_30262.Ta.Tr.Lr, v_l_31571.yk(304).Wt = "" + v_U_30262.Ta.Tr.Er, v_l_31571.yk(307).Wt = "" + v_U_30262.Ta.Tr.Fr, v_l_31571.yk(310).Wt = "" + v_U_30262.Ta.Tr.Br;
                 let v_a_31579 = [[v_U_30262.Ta.R5.M5, v_U_30262.Ta.R5.D5, v_U_30262.Ta.R5.P5, v_U_30262.Ta.R5.G5], [v_U_30262.Ta.R5.N5, v_U_30262.Ta.R5.j5, v_U_30262.Ta.R5.H5, v_U_30262.Ta.R5.U5], [v_U_30262.Ta.R5.V5, v_U_30262.Ta.R5.J5, v_U_30262.Ta.R5.O5, v_U_30262.Ta.R5.W5], [v_U_30262.Ta.R5.K5, v_U_30262.Ta.R5.z5, v_U_30262.Ta.R5.X5, v_U_30262.Ta.R5.Z5], [v_U_30262.Ta.R5.Y5, v_U_30262.Ta.R5.q5, v_U_30262.Ta.R5.Q5, v_U_30262.Ta.R5.e4]];
                 v_De_28096([["Tap", v_U_30262.q1.Zu.ew.Ra, v_U_30262.Ta.Mr.Rr, v_U_30262.Ta.Mr.Pr], ["Slide", v_U_30262.q1.Zu.ew.Da, v_U_30262.Ta.Mr.Dr, v_U_30262.Ta.Mr.Gr], ["Hold", v_U_30262.q1.Zu.ew.iw, v_U_30262.Ta.Mr.jr, v_U_30262.Ta.Mr.Nr], ["Air", v_U_30262.q1.Zu.ew.Ga, v_U_30262.Ta.Mr.Hr, v_U_30262.Ta.Mr.Ur], ["Flick", v_U_30262.q1.Zu.ew.ja, v_U_30262.Ta.Mr.Vr, v_U_30262.Ta.Mr.Or]], function (v_t_31581, v_i_31582) {
                   var v_e_31583;
-                  v_n_31574 = v_l_31571.ot("boardDetail" + v_t_31581[0] + "Rate"), v_r_31575 = v_l_31571.ot("boardDetail" + v_t_31581[0] + "Count"), v_s_31576 = v_c_31572.ot("boardDetailNotes" + v_t_31581[0][0] + "Rate"), 0 === v_t_31581[1] ? (v_l_31571.ot("boardDetail" + v_t_31581[0] + "Bg").Je = "panelJudgeDetail" + v_t_31581[0], v_c_31572.ot("boardDetailNotes" + v_t_31581[0][0] + "RateBg").Je = "detailRateN", v_n_31574.Qe(1, 1, 1), v_n_31574.Wt = "MMMP", v_r_31575.Qe(1, 1, 1), v_r_31575.Wt = "MMM", v_s_31576.Qe(.73, .62, .76), v_s_31576.Wt = "MMMP") : ("101" == (v_e_31583 = "" + v_ke_27824(v_t_31581[3] / v_t_31581[1])) ? (v_l_31571.ot("boardDetail" + v_t_31581[0] + "Bg").Je = "panelJudgeDetail" + v_t_31581[0] + "P", v_c_31572.ot("boardDetailNotes" + v_t_31581[0][0] + "RateBg").Je = "detailRateP", v_n_31574.Qe(.2549, .19216, .66667), v_r_31575.Qe(.2549, .19216, .66667), v_s_31576.Qe(.2549, .19216, .66667)) : "100" == v_e_31583 ? (v_l_31571.ot("boardDetail" + v_t_31581[0] + "Bg").Je = "panelJudgeDetail" + v_t_31581[0] + "G", v_c_31572.ot("boardDetailNotes" + v_t_31581[0][0] + "RateBg").Je = "detailRateG", v_n_31574.Qe(0, 0, 0), v_r_31575.Qe(0, 0, 0), v_s_31576.Qe(0, 0, 0)) : (v_l_31571.ot("boardDetail" + v_t_31581[0] + "Bg").Je = "panelJudgeDetail" + v_t_31581[0], v_c_31572.ot("boardDetailNotes" + v_t_31581[0][0] + "RateBg").Je = "detailRateN", v_n_31574.Qe(1, 1, 1), v_r_31575.Qe(1, 1, 1), v_s_31576.Qe(.73, .62, .76)), v_n_31574.Wt = v_e_31583 + "P", v_s_31576.Wt = (v_t_31581[3] / v_t_31581[1]).toFixed(2).replaceAll(".", "C") + "P", v_r_31575.Wt = "" + v_t_31581[2]), (v_s_31576 = v_c_31572.ot("boardDetailNotes" + v_t_31581[0][0] + "CCount")).Wt = "" + v_a_31579[v_i_31582][0], v_s_31576.qe = 0 === v_a_31579[v_i_31582][0] ? .25 : 1, (v_s_31576 = v_c_31572.ot("boardDetailNotes" + v_t_31581[0][0] + "JCount")).Wt = "" + v_a_31579[v_i_31582][1], v_s_31576.qe = 0 === v_a_31579[v_i_31582][1] ? .25 : 1, (v_s_31576 = v_c_31572.ot("boardDetailNotes" + v_t_31581[0][0] + "ACount")).Wt = "" + v_a_31579[v_i_31582][2], v_s_31576.qe = 0 === v_a_31579[v_i_31582][2] ? .25 : 1, (v_s_31576 = v_c_31572.ot("boardDetailNotes" + v_t_31581[0][0] + "MCount")).Wt = "" + v_a_31579[v_i_31582][3], v_s_31576.qe = 0 === v_a_31579[v_i_31582][3] ? .25 : 1;
+                  v_n_31574 = v_l_31571.ot("boardDetail" + v_t_31581[0] + "Rate"), v_r_31575 = v_l_31571.ot("boardDetail" + v_t_31581[0] + "Count"), v_s_31576 = v_c_31572.ot("boardDetailNotes" + v_t_31581[0][0] + "Rate"), 0 === v_t_31581[1] ? (v_l_31571.ot("boardDetail" + v_t_31581[0] + "Bg").Je = "panelJudgeDetail" + v_t_31581[0], v_c_31572.ot("boardDetailNotes" + v_t_31581[0][0] + "RateBg").Je = "detailRateN", v_n_31574.Qe(1, 1, 1), v_n_31574.Wt = "MMMP", v_r_31575.Qe(1, 1, 1), v_r_31575.Wt = "MMM", v_s_31576.Qe(.73, .62, .76), v_s_31576.Wt = "MMMP") : ("101" == (v_e_31583 = "" + mathFloor(v_t_31581[3] / v_t_31581[1])) ? (v_l_31571.ot("boardDetail" + v_t_31581[0] + "Bg").Je = "panelJudgeDetail" + v_t_31581[0] + "P", v_c_31572.ot("boardDetailNotes" + v_t_31581[0][0] + "RateBg").Je = "detailRateP", v_n_31574.Qe(.2549, .19216, .66667), v_r_31575.Qe(.2549, .19216, .66667), v_s_31576.Qe(.2549, .19216, .66667)) : "100" == v_e_31583 ? (v_l_31571.ot("boardDetail" + v_t_31581[0] + "Bg").Je = "panelJudgeDetail" + v_t_31581[0] + "G", v_c_31572.ot("boardDetailNotes" + v_t_31581[0][0] + "RateBg").Je = "detailRateG", v_n_31574.Qe(0, 0, 0), v_r_31575.Qe(0, 0, 0), v_s_31576.Qe(0, 0, 0)) : (v_l_31571.ot("boardDetail" + v_t_31581[0] + "Bg").Je = "panelJudgeDetail" + v_t_31581[0], v_c_31572.ot("boardDetailNotes" + v_t_31581[0][0] + "RateBg").Je = "detailRateN", v_n_31574.Qe(1, 1, 1), v_r_31575.Qe(1, 1, 1), v_s_31576.Qe(.73, .62, .76)), v_n_31574.Wt = v_e_31583 + "P", v_s_31576.Wt = (v_t_31581[3] / v_t_31581[1]).toFixed(2).replaceAll(".", "C") + "P", v_r_31575.Wt = "" + v_t_31581[2]), (v_s_31576 = v_c_31572.ot("boardDetailNotes" + v_t_31581[0][0] + "CCount")).Wt = "" + v_a_31579[v_i_31582][0], v_s_31576.qe = 0 === v_a_31579[v_i_31582][0] ? .25 : 1, (v_s_31576 = v_c_31572.ot("boardDetailNotes" + v_t_31581[0][0] + "JCount")).Wt = "" + v_a_31579[v_i_31582][1], v_s_31576.qe = 0 === v_a_31579[v_i_31582][1] ? .25 : 1, (v_s_31576 = v_c_31572.ot("boardDetailNotes" + v_t_31581[0][0] + "ACount")).Wt = "" + v_a_31579[v_i_31582][2], v_s_31576.qe = 0 === v_a_31579[v_i_31582][2] ? .25 : 1, (v_s_31576 = v_c_31572.ot("boardDetailNotes" + v_t_31581[0][0] + "MCount")).Wt = "" + v_a_31579[v_i_31582][3], v_s_31576.qe = 0 === v_a_31579[v_i_31582][3] ? .25 : 1;
                 }), v_l_31571.yk(333).Wt = "" + v_U_30262.Ta.Jr.Kr, v_l_31571.yk(336).Wt = "" + v_U_30262.Ta.Jr.Wr, v_c_31572.yk(486).Wt = "" + v_U_30262.Ta.Jr.Kr, v_c_31572.yk(490).Wt = "" + v_U_30262.Ta.Jr.Wr;
-                var v_h_31544 = v_pe_27823(v_U_30262.Ta.Jr.zr, v_U_30262.Ta.Jr.Xr, v_U_30262.Ta.Jr.Zr, v_U_30262.Ta.Jr.Yr, v_U_30262.Ta.Jr.$r, v_U_30262.Ta.Jr.qr, v_U_30262.Ta.Jr.Qr);
-                v_c_31572.yk(452).ln(1, v_U_30262.Ta.Jr.Qr / v_h_31544), v_c_31572.yk(453).ln(1, v_U_30262.Ta.Jr.qr / v_h_31544), v_c_31572.yk(464).ln(1, v_U_30262.Ta.Jr.$r / v_h_31544), v_c_31572.yk(465).ln(1, v_U_30262.Ta.Jr.Yr / v_h_31544), v_c_31572.yk(466).ln(1, v_U_30262.Ta.Jr.Zr / v_h_31544), v_c_31572.yk(479).ln(1, v_U_30262.Ta.Jr.Xr / v_h_31544), v_c_31572.yk(480).ln(1, v_U_30262.Ta.Jr.zr / v_h_31544), v_c_31572.yk(454).Wt = "" + v_U_30262.Ta.Jr.Qr, v_c_31572.yk(455).Wt = "" + v_U_30262.Ta.Jr.qr, v_c_31572.yk(467).Wt = "" + v_U_30262.Ta.Jr.$r, v_c_31572.yk(468).Wt = "" + v_U_30262.Ta.Jr.Zr, v_c_31572.yk(481).Wt = "" + v_U_30262.Ta.Jr.Xr, v_c_31572.yk(482).Wt = "" + v_U_30262.Ta.Jr.zr, v_I_30254.lt.yk(491).Be = !v_U_30262.J1 && !v_U_30262.Y1.k0, v_U_30262.J1 || v_U_30262.Y1.k0 || (v_I_30254.lt.yk(494).Be = v_U_30262.Ta.wr, v_I_30254.lt.yk(495).Be = !v_U_30262.Ta.wr, v_I_30254.lt.yk(495).Wt = "P" + v_i1_27825(v_U_30262.Ta.yr.Ar), v_nl_28149(v_I_30254.lt.yk(491), v_U_30262.Ar, !1), null !== v_U_30262.Ar.Om && (v_I_30254.lt.yk(499).Wt = "" + v_Qa_28089(v_U_30262.Ar.Km, 0, 999))), v_I_30254.lt.yk(12).Be = v_E_30309(), v_I_30254.lt.yk(492).Be = v_E_30309();
+                var v_h_31544 = mathMax(v_U_30262.Ta.Jr.zr, v_U_30262.Ta.Jr.Xr, v_U_30262.Ta.Jr.Zr, v_U_30262.Ta.Jr.Yr, v_U_30262.Ta.Jr.$r, v_U_30262.Ta.Jr.qr, v_U_30262.Ta.Jr.Qr);
+                v_c_31572.yk(452).ln(1, v_U_30262.Ta.Jr.Qr / v_h_31544), v_c_31572.yk(453).ln(1, v_U_30262.Ta.Jr.qr / v_h_31544), v_c_31572.yk(464).ln(1, v_U_30262.Ta.Jr.$r / v_h_31544), v_c_31572.yk(465).ln(1, v_U_30262.Ta.Jr.Yr / v_h_31544), v_c_31572.yk(466).ln(1, v_U_30262.Ta.Jr.Zr / v_h_31544), v_c_31572.yk(479).ln(1, v_U_30262.Ta.Jr.Xr / v_h_31544), v_c_31572.yk(480).ln(1, v_U_30262.Ta.Jr.zr / v_h_31544), v_c_31572.yk(454).Wt = "" + v_U_30262.Ta.Jr.Qr, v_c_31572.yk(455).Wt = "" + v_U_30262.Ta.Jr.qr, v_c_31572.yk(467).Wt = "" + v_U_30262.Ta.Jr.$r, v_c_31572.yk(468).Wt = "" + v_U_30262.Ta.Jr.Zr, v_c_31572.yk(481).Wt = "" + v_U_30262.Ta.Jr.Xr, v_c_31572.yk(482).Wt = "" + v_U_30262.Ta.Jr.zr, v_I_30254.lt.yk(491).Be = !v_U_30262.J1 && !v_U_30262.Y1.k0, v_U_30262.J1 || v_U_30262.Y1.k0 || (v_I_30254.lt.yk(494).Be = v_U_30262.Ta.wr, v_I_30254.lt.yk(495).Be = !v_U_30262.Ta.wr, v_I_30254.lt.yk(495).Wt = "P" + mathRound(v_U_30262.Ta.yr.Ar), v_nl_28149(v_I_30254.lt.yk(491), v_U_30262.Ar, !1), null !== v_U_30262.Ar.Om && (v_I_30254.lt.yk(499).Wt = "" + v_Qa_28089(v_U_30262.Ar.Km, 0, 999))), v_I_30254.lt.yk(12).Be = v_E_30309(), v_I_30254.lt.yk(492).Be = v_E_30309();
                 for (const v_y_31584 of v_R_30261.gI) v_y_31584.Be = !1;
                 if (v_I_30254.lt.yk(509).Be = !1, v_E_30309()) {
                   var v_d_31545,
@@ -3814,9 +3814,9 @@
                     v_p_31550 = v_I_30254.lt.yk(20);
                   for (v_d_31545 of v_p_31550.We) v_d_31545.Be = !1;
                   let v_t_31585 = 0;
-                  for (v_v_31546 of v_oe_27649.Ox) v_v_31546.Ae === v_oe_27649.sx() ? v_I_30254.lt.yk(492).Je = "rank" + v_v_31546.iC : (v_w_31547 = v_oe_27649.ix.get(v_v_31546.Ae)) && ((v_g_31548 = v_p_31550.We[v_t_31585]).Be = !0, v_g_31548.ot("guestOrder").Je = "rank" + v_v_31546.iC, (v_m_31549 = v_g_31548.ot("guestScore")).Wt = v_v_31546.Sr.toLocaleString("ja").replaceAll(",", "C"), v_m_31549.Ak = "scoreRank" + v_f1_27848(v_v_31546.Sr), v_g_31548.ot("guestKilledFx").Be = !!(v_v_31546.ru & v_ua_28041), v_rl_28150(v_g_31548, v_w_31547), ++v_t_31585);
+                  for (v_v_31546 of v_oe_27649.Ox) v_v_31546.Ae === v_oe_27649.sx() ? v_I_30254.lt.yk(492).Je = "rank" + v_v_31546.iC : (v_w_31547 = v_oe_27649.ix.get(v_v_31546.Ae)) && ((v_g_31548 = v_p_31550.We[v_t_31585]).Be = !0, v_g_31548.ot("guestOrder").Je = "rank" + v_v_31546.iC, (v_m_31549 = v_g_31548.ot("guestScore")).Wt = v_v_31546.Sr.toLocaleString("ja").replaceAll(",", "C"), v_m_31549.Ak = "scoreRank" + rankGrade(v_v_31546.Sr), v_g_31548.ot("guestKilledFx").Be = !!(v_v_31546.ru & v_ua_28041), v_rl_28150(v_g_31548, v_w_31547), ++v_t_31585);
                 }
-                v_Ie_27966.D0("showRating") ? (v_u_31540 = handshake.rm.lm, v_h_31544 = "" + v_ke_27824(v_u_31540 / 100), v_k_31551 = v_Xa_28081("" + v_u_31540 % 100, 2, "0"), v_u_31540 = v__1_27850(v_u_31540), (v_b_31552 = v_I_30254.lt.yk(342)).Wt = v_h_31544 + "P" + v_k_31551, v_b_31552.Ak = "lgRating" + v_u_31540, v_I_30254.lt.yk(343).Wt = "N0C00") : ((v_h_31544 = v_I_30254.lt.yk(342)).Wt = "00000", v_h_31544.Ak = "lgRatingWt", v_I_30254.lt.yk(343).Wt = "M");
+                v_Ie_27966.D0("showRating") ? (v_u_31540 = handshake.rm.lm, v_h_31544 = "" + mathFloor(v_u_31540 / 100), v_k_31551 = v_Xa_28081("" + v_u_31540 % 100, 2, "0"), v_u_31540 = ratingColorName2(v_u_31540), (v_b_31552 = v_I_30254.lt.yk(342)).Wt = v_h_31544 + "P" + v_k_31551, v_b_31552.Ak = "lgRating" + v_u_31540, v_I_30254.lt.yk(343).Wt = "N0C00") : ((v_h_31544 = v_I_30254.lt.yk(342)).Wt = "00000", v_h_31544.Ak = "lgRatingWt", v_I_30254.lt.yk(343).Wt = "M");
               }
               v_t_31566 ? (v_I_30254.e8(27, void 0, 0), v_x_30250.e8(7, void 0, 0)) : (v_I_30254.e8(28, void 0, 0), v_x_30250.e8(9, void 0, 0));
               v_I_30254.e8(0, void 0, 0), v_I_30254.lt.yk(7).Be = v_U_30262.A1, v_U_30262.A1 && v_I_30254.e8(30, void 0, 135);
@@ -3869,11 +3869,11 @@
                   v_r_31600 = v_rc_28203(v_n_31597.O0, v_t_31615 => v_t_31615.Sr),
                   v_s_31601 = v_U_30262.Ea.Sr - v_n_31597.J0.Sr,
                   v_a_31602 = v_U_30262.Y1._0.V0 <= 0 || 2 <= v_n_31597.U0,
-                  v_e_31603 = v_c1_27846(v_r_31600 / 3),
+                  v_e_31603 = rankLabel(v_r_31600 / 3),
                   v_o_31604 = 0,
                   v_l_31605 = 0;
                 v_a_31602 && (v_o_31604 = v_n_31597.J0.B4 ? 2 : v_n_31597.J0.R4 ? 1 : 0, v_l_31605 = v_U_30262.Ea.B4 ? 2 : v_U_30262.Ea.R4 ? 1 : 0);
-                v_P_30255.lt.Kt(), v_P_30255.lt.yk(78).Wt = v_n_31597.vn.lf, v_P_30255.lt.yk(7).Je = "headerBg" + v_n_31597.vn.AP, v_P_30255.lt.yk(17).Be = v_a_31602, v_P_30255.lt.yk(11).Be = v_a_31602 && (0 < v_s_31601 || !v_n_31597.J0.G4), v_P_30255.lt.yk(82).Be = v_a_31602 && (v_u1_27847(v_U_30262.Ea.Sr) > v_u1_27847(v_n_31597.J0.Sr) || !v_n_31597.J0.G4), v_P_30255.lt.yk(16).Be = v_a_31602 && v_l_31605 > v_o_31604, v_a_31602 && (v_i_31599 = (v_i_31599 = (v_i_31599 = (v_i_31599 = v_i_31599 || !v_n_31597.J0.G4) || 0 < v_s_31601) || v_u1_27847(v_U_30262.La.Sr) > v_u1_27847(v_U_30262.Y1.y0.Sr)) || v_l_31605 > v_o_31604);
+                v_P_30255.lt.Kt(), v_P_30255.lt.yk(78).Wt = v_n_31597.vn.lf, v_P_30255.lt.yk(7).Je = "headerBg" + v_n_31597.vn.AP, v_P_30255.lt.yk(17).Be = v_a_31602, v_P_30255.lt.yk(11).Be = v_a_31602 && (0 < v_s_31601 || !v_n_31597.J0.G4), v_P_30255.lt.yk(82).Be = v_a_31602 && (rankLevel(v_U_30262.Ea.Sr) > rankLevel(v_n_31597.J0.Sr) || !v_n_31597.J0.G4), v_P_30255.lt.yk(16).Be = v_a_31602 && v_l_31605 > v_o_31604, v_a_31602 && (v_i_31599 = (v_i_31599 = (v_i_31599 = (v_i_31599 = v_i_31599 || !v_n_31597.J0.G4) || 0 < v_s_31601) || rankLevel(v_U_30262.La.Sr) > rankLevel(v_U_30262.Y1.y0.Sr)) || v_l_31605 > v_o_31604);
                 {
                   let v_i_31616 = v_P_30255.lt.yk(22),
                     v_e_31617;
@@ -3884,11 +3884,11 @@
                     v_h_31610,
                     v_d_31611,
                     v_v_31612 = v_r_31600.toString(),
-                    v_w_31613 = v_f1_27848(v_r_31600 / 3);
+                    v_w_31613 = rankGrade(v_r_31600 / 3);
                   for (let v_t_31618 = 0; v_t_31618 < 7; ++v_t_31618) v_e_31617 = v_i_31616.ot("boardScoreNum" + v_t_31618), v_v_31612.length <= v_t_31618 ? (v_e_31617.Be = !1, 6 === v_t_31618 ? v_i_31616.ot("boardScoreNumC1").Be = !1 : 3 === v_t_31618 && (v_i_31616.ot("boardScoreNumC0").Be = !1)) : (6 === v_t_31618 ? v_i_31616.ot("boardScoreNumC1").Be = !0 : 3 === v_t_31618 && (v_i_31616.ot("boardScoreNumC0").Be = !0), v_e_31617.Be = !0, v_e_31617.Je = "numRank" + v_w_31613 + v_v_31612[v_v_31612.length - v_t_31618 - 1]);
                   v_i_31616.ot("boardScoreNumC0").Je = "numRank" + v_w_31613 + "C", v_i_31616.ot("boardScoreNumC1").Je = "numRank" + v_w_31613 + "C";
-                  for (let v_t_31619 = 0; v_t_31619 < 3; ++v_t_31619) v_e_31617 = v_P_30255.lt.ot("trackScore" + v_t_31619), v_n_31597.U0 >= v_t_31619 || v_n_31597.vn.hI[v_t_31619].Fi === v_yr_27944 ? (v_e_31617.ot("trackScoreBg").Je = "resultTrackBg_" + v_Q0_27805[v_n_31597.vn.yP[v_t_31619].p0], v_ae_27643.Yt.Zt["jkt:" + v_n_31597.vn.yP[v_t_31619].Pp.w0] ? (v_e_31617.ot("trackScoreJacket").zt = !0, v_e_31617.ot("trackScoreJacket").Xt = "jkt:" + v_n_31597.vn.yP[v_t_31619].Pp.w0) : (v_e_31617.ot("trackScoreJacket").zt = !1, v_e_31617.ot("trackScoreJacket").Xt = "txDummyJacket"), v_u_31607 = v_n_31597.vn.yP[v_t_31619].Pp.meta[v_n_31597.vn.yP[v_t_31619].p0], v_e_31617.ot("trackScoreTitle").Wt = v_n_31597.vn.yP[v_t_31619].Pp.lf, v_f_31608 = v_e_31617.ot("trackScoreLevel"), v_c_31606 = v_e_31617.ot("trackScoreLevelWe"), 4 !== v_n_31597.vn.yP[v_t_31619].p0 ? (v_f_31608.Be = !0, v_c_31606.Be = !1, v_f_31608.ot("trackScoreLevelNum").Wt = v_u_31607.k5.replace(/\+/g, ""), v_f_31608.ot("trackScoreLevelPlus").Be = -1 !== v_u_31607.k5.indexOf("+")) : (v_f_31608.Be = !1, v_c_31606.Be = !0, v_c_31606.ot("trackScoreWeLevelNum").Wt = "r".repeat(v_Qa_28089(v_Pe_28064(v_u_31607.k5), 1, 5)), v_c_31606.ot("trackScoreWeAttr").Wt = v_u_31607.b5), v_n_31597.O0[v_t_31619] ? (v_f_31608 = v_f1_27848(v_n_31597.O0[v_t_31619].Sr), v_e_31617.ot("trackScoreScoreNum").Wt = v_n_31597.O0[v_t_31619].Sr.toLocaleString("ja").replaceAll(",", "C"), v_e_31617.ot("trackScoreScoreNum").Ak = "scoreRank" + v_f_31608, v_e_31617.ot("trackScoreClearBadge").Be = !0, v_e_31617.ot("trackScoreClearBadgeFx").Be = v_t_31619 == v_n_31597.U0, v_e_31617.ot("trackScoreClearBadge").Je = v_n_31597.O0[v_t_31619].ni ? "clear_badge" : "failed_badge", v_e_31617.ot("trackScoreClearBadgeFx").Je = v_n_31597.O0[v_t_31619].ni ? "clear_badge" : "failed_badge") : (v_e_31617.ot("trackScoreScoreNum").Wt = "", v_e_31617.ot("trackScoreClearBadge").Be = !1, v_e_31617.ot("trackScoreClearBadgeFx").Be = !1)) : v_n_31597.vn.hI[v_t_31619].Fi === v_Sr_27945 ? (v_e_31617.ot("trackScoreBg").Je = "resultTrackBg_RND", v_e_31617.ot("trackScoreJacket").zt = !1, v_e_31617.ot("trackScoreJacket").Xt = "txRandomJacket", v_e_31617.ot("trackScoreTitle").Wt = v_Ue_28209("musicSelectCategoryRandom"), v_c_31606 = v_e_31617.ot("trackScoreLevel"), v_u_31607 = v_e_31617.ot("trackScoreLevelWe"), v_c_31606.Be = !0, v_u_31607.Be = !1, v_c_31606.ot("trackScoreLevelNum").Wt = v_n_31597.vn.hI[v_t_31619].p9.replace(/\+/g, ""), v_c_31606.ot("trackScoreLevelPlus").Be = -1 !== v_n_31597.vn.hI[v_t_31619].p9.indexOf("+"), v_e_31617.ot("trackScoreScoreNum").Wt = "", v_e_31617.ot("trackScoreClearBadge").Be = !1, v_e_31617.ot("trackScoreClearBadgeFx").Be = !1) : v_n_31597.vn.hI[v_t_31619].Fi === v_Ar_27946 && (v_e_31617.ot("trackScoreBg").Je = "resultTrackBg_RND", v_e_31617.ot("trackScoreJacket").zt = !1, v_e_31617.ot("trackScoreJacket").Xt = "txRandomJacket1", v_e_31617.ot("trackScoreTitle").Wt = v_Ue_28209("musicSelectCategoryRandom"), v_f_31608 = v_e_31617.ot("trackScoreLevel"), v___31609 = v_e_31617.ot("trackScoreLevelWe"), v_f_31608.Be = !0, v___31609.Be = !1, v_f_31608.ot("trackScoreLevelNum").Wt = "M", v_f_31608.ot("trackScoreLevelPlus").Be = !1, v_e_31617.ot("trackScoreScoreNum").Wt = "", v_e_31617.ot("trackScoreClearBadge").Be = !1, v_e_31617.ot("trackScoreClearBadgeFx").Be = !1);
-                  v_h_31610 = v_P_30255.lt.yk(20), v_d_31611 = v_P_30255.lt.yk(21), 0 < v_s_31601 || !v_n_31597.J0.G4 ? (v_h_31610.Be = !0, v_d_31611.Be = !1, v_h_31610.Wt = "P" + v_s_31601.toLocaleString("ja").replaceAll(",", "C"), v_h_31610.Qe(1, 1, 0)) : v_s_31601 < 0 ? (v_h_31610.Be = !0, v_d_31611.Be = !1, v_h_31610.Wt = "M" + (-v_s_31601).toLocaleString("ja").replaceAll(",", "C"), v_h_31610.Qe(.65, .79, .94)) : (v_h_31610.Be = !1, v_d_31611.Be = !0), v_P_30255.lt.yk(19).Wt = v_pe_27823(v_U_30262.Ea.Sr, v_n_31597.J0.Sr).toLocaleString("ja").replaceAll(",", "C"), v_i_31616 = v_P_30255.lt.yk(79), v_a_31602 ? (v_h_31610 = !(v_i_31616.Be = !0), v_d_31611 = v_r_31600 / 3, v_e_31617 = v_i_31616.yk(99), v_h_31610 |= v_e_31617.Be = 1009e3 <= v_d_31611 && !0, v_e_31617 = v_i_31616.yk(130), v_h_31610 |= v_e_31617.Be = 1007500 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(154), v_h_31610 |= v_e_31617.Be = 1005e3 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(178), v_h_31610 |= v_e_31617.Be = 1e6 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(195), v_h_31610 |= v_e_31617.Be = 99e4 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(212), v_h_31610 |= v_e_31617.Be = 975e3 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(222), v_h_31610 |= v_e_31617.Be = 95e4 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(230), v_h_31610 |= v_e_31617.Be = 925e3 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(236), v_h_31610 |= v_e_31617.Be = 9e5 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(240), v_h_31610 |= v_e_31617.Be = 8e5 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(244), v_h_31610 |= v_e_31617.Be = 7e5 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(247), v_h_31610 |= v_e_31617.Be = 6e5 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(249), v_h_31610 |= v_e_31617.Be = 5e5 <= v_d_31611 && !v_h_31610, (v_e_31617 = v_i_31616.yk(251)).Be = !v_h_31610, v_P_30255.lt.yk(83).Be = 975e3 <= v_d_31611) : v_i_31616.Be = !1, v_e_31617 = v_P_30255.lt.yk(13), v_U_30262.Ea.B4 ? (v_e_31617.yk(14).Je = "badgeAj", v_e_31617.yk(15).Je = "badgeAj", v_e_31617.yk(14).Be = !0, v_e_31617.yk(15).Be = !0) : v_U_30262.Ea.R4 ? (v_e_31617.yk(14).Je = "badgeFc", v_e_31617.yk(15).Je = "badgeFc", v_e_31617.yk(14).Be = !0, v_e_31617.yk(15).Be = !0) : (v_e_31617.yk(14).Be = !1, v_e_31617.yk(15).Be = !1), (v_e_31617 = v_P_30255.lt.yk(253)).Be = v_a_31602, v_e_31617.yk(254).Je = v_t_31598 ? "allclear_badge" : "allfailed_badge", v_e_31617.yk(255).Je = v_t_31598 ? "allclear_badge" : "allfailed_badge";
+                  for (let v_t_31619 = 0; v_t_31619 < 3; ++v_t_31619) v_e_31617 = v_P_30255.lt.ot("trackScore" + v_t_31619), v_n_31597.U0 >= v_t_31619 || v_n_31597.vn.hI[v_t_31619].Fi === v_yr_27944 ? (v_e_31617.ot("trackScoreBg").Je = "resultTrackBg_" + v_Q0_27805[v_n_31597.vn.yP[v_t_31619].p0], v_ae_27643.Yt.Zt["jkt:" + v_n_31597.vn.yP[v_t_31619].Pp.w0] ? (v_e_31617.ot("trackScoreJacket").zt = !0, v_e_31617.ot("trackScoreJacket").Xt = "jkt:" + v_n_31597.vn.yP[v_t_31619].Pp.w0) : (v_e_31617.ot("trackScoreJacket").zt = !1, v_e_31617.ot("trackScoreJacket").Xt = "txDummyJacket"), v_u_31607 = v_n_31597.vn.yP[v_t_31619].Pp.meta[v_n_31597.vn.yP[v_t_31619].p0], v_e_31617.ot("trackScoreTitle").Wt = v_n_31597.vn.yP[v_t_31619].Pp.lf, v_f_31608 = v_e_31617.ot("trackScoreLevel"), v_c_31606 = v_e_31617.ot("trackScoreLevelWe"), 4 !== v_n_31597.vn.yP[v_t_31619].p0 ? (v_f_31608.Be = !0, v_c_31606.Be = !1, v_f_31608.ot("trackScoreLevelNum").Wt = v_u_31607.k5.replace(/\+/g, ""), v_f_31608.ot("trackScoreLevelPlus").Be = -1 !== v_u_31607.k5.indexOf("+")) : (v_f_31608.Be = !1, v_c_31606.Be = !0, v_c_31606.ot("trackScoreWeLevelNum").Wt = "r".repeat(v_Qa_28089(v_Pe_28064(v_u_31607.k5), 1, 5)), v_c_31606.ot("trackScoreWeAttr").Wt = v_u_31607.b5), v_n_31597.O0[v_t_31619] ? (v_f_31608 = rankGrade(v_n_31597.O0[v_t_31619].Sr), v_e_31617.ot("trackScoreScoreNum").Wt = v_n_31597.O0[v_t_31619].Sr.toLocaleString("ja").replaceAll(",", "C"), v_e_31617.ot("trackScoreScoreNum").Ak = "scoreRank" + v_f_31608, v_e_31617.ot("trackScoreClearBadge").Be = !0, v_e_31617.ot("trackScoreClearBadgeFx").Be = v_t_31619 == v_n_31597.U0, v_e_31617.ot("trackScoreClearBadge").Je = v_n_31597.O0[v_t_31619].ni ? "clear_badge" : "failed_badge", v_e_31617.ot("trackScoreClearBadgeFx").Je = v_n_31597.O0[v_t_31619].ni ? "clear_badge" : "failed_badge") : (v_e_31617.ot("trackScoreScoreNum").Wt = "", v_e_31617.ot("trackScoreClearBadge").Be = !1, v_e_31617.ot("trackScoreClearBadgeFx").Be = !1)) : v_n_31597.vn.hI[v_t_31619].Fi === v_Sr_27945 ? (v_e_31617.ot("trackScoreBg").Je = "resultTrackBg_RND", v_e_31617.ot("trackScoreJacket").zt = !1, v_e_31617.ot("trackScoreJacket").Xt = "txRandomJacket", v_e_31617.ot("trackScoreTitle").Wt = v_Ue_28209("musicSelectCategoryRandom"), v_c_31606 = v_e_31617.ot("trackScoreLevel"), v_u_31607 = v_e_31617.ot("trackScoreLevelWe"), v_c_31606.Be = !0, v_u_31607.Be = !1, v_c_31606.ot("trackScoreLevelNum").Wt = v_n_31597.vn.hI[v_t_31619].p9.replace(/\+/g, ""), v_c_31606.ot("trackScoreLevelPlus").Be = -1 !== v_n_31597.vn.hI[v_t_31619].p9.indexOf("+"), v_e_31617.ot("trackScoreScoreNum").Wt = "", v_e_31617.ot("trackScoreClearBadge").Be = !1, v_e_31617.ot("trackScoreClearBadgeFx").Be = !1) : v_n_31597.vn.hI[v_t_31619].Fi === v_Ar_27946 && (v_e_31617.ot("trackScoreBg").Je = "resultTrackBg_RND", v_e_31617.ot("trackScoreJacket").zt = !1, v_e_31617.ot("trackScoreJacket").Xt = "txRandomJacket1", v_e_31617.ot("trackScoreTitle").Wt = v_Ue_28209("musicSelectCategoryRandom"), v_f_31608 = v_e_31617.ot("trackScoreLevel"), v___31609 = v_e_31617.ot("trackScoreLevelWe"), v_f_31608.Be = !0, v___31609.Be = !1, v_f_31608.ot("trackScoreLevelNum").Wt = "M", v_f_31608.ot("trackScoreLevelPlus").Be = !1, v_e_31617.ot("trackScoreScoreNum").Wt = "", v_e_31617.ot("trackScoreClearBadge").Be = !1, v_e_31617.ot("trackScoreClearBadgeFx").Be = !1);
+                  v_h_31610 = v_P_30255.lt.yk(20), v_d_31611 = v_P_30255.lt.yk(21), 0 < v_s_31601 || !v_n_31597.J0.G4 ? (v_h_31610.Be = !0, v_d_31611.Be = !1, v_h_31610.Wt = "P" + v_s_31601.toLocaleString("ja").replaceAll(",", "C"), v_h_31610.Qe(1, 1, 0)) : v_s_31601 < 0 ? (v_h_31610.Be = !0, v_d_31611.Be = !1, v_h_31610.Wt = "M" + (-v_s_31601).toLocaleString("ja").replaceAll(",", "C"), v_h_31610.Qe(.65, .79, .94)) : (v_h_31610.Be = !1, v_d_31611.Be = !0), v_P_30255.lt.yk(19).Wt = mathMax(v_U_30262.Ea.Sr, v_n_31597.J0.Sr).toLocaleString("ja").replaceAll(",", "C"), v_i_31616 = v_P_30255.lt.yk(79), v_a_31602 ? (v_h_31610 = !(v_i_31616.Be = !0), v_d_31611 = v_r_31600 / 3, v_e_31617 = v_i_31616.yk(99), v_h_31610 |= v_e_31617.Be = 1009e3 <= v_d_31611 && !0, v_e_31617 = v_i_31616.yk(130), v_h_31610 |= v_e_31617.Be = 1007500 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(154), v_h_31610 |= v_e_31617.Be = 1005e3 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(178), v_h_31610 |= v_e_31617.Be = 1e6 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(195), v_h_31610 |= v_e_31617.Be = 99e4 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(212), v_h_31610 |= v_e_31617.Be = 975e3 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(222), v_h_31610 |= v_e_31617.Be = 95e4 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(230), v_h_31610 |= v_e_31617.Be = 925e3 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(236), v_h_31610 |= v_e_31617.Be = 9e5 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(240), v_h_31610 |= v_e_31617.Be = 8e5 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(244), v_h_31610 |= v_e_31617.Be = 7e5 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(247), v_h_31610 |= v_e_31617.Be = 6e5 <= v_d_31611 && !v_h_31610, v_e_31617 = v_i_31616.yk(249), v_h_31610 |= v_e_31617.Be = 5e5 <= v_d_31611 && !v_h_31610, (v_e_31617 = v_i_31616.yk(251)).Be = !v_h_31610, v_P_30255.lt.yk(83).Be = 975e3 <= v_d_31611) : v_i_31616.Be = !1, v_e_31617 = v_P_30255.lt.yk(13), v_U_30262.Ea.B4 ? (v_e_31617.yk(14).Je = "badgeAj", v_e_31617.yk(15).Je = "badgeAj", v_e_31617.yk(14).Be = !0, v_e_31617.yk(15).Be = !0) : v_U_30262.Ea.R4 ? (v_e_31617.yk(14).Je = "badgeFc", v_e_31617.yk(15).Je = "badgeFc", v_e_31617.yk(14).Be = !0, v_e_31617.yk(15).Be = !0) : (v_e_31617.yk(14).Be = !1, v_e_31617.yk(15).Be = !1), (v_e_31617 = v_P_30255.lt.yk(253)).Be = v_a_31602, v_e_31617.yk(254).Je = v_t_31598 ? "allclear_badge" : "allfailed_badge", v_e_31617.yk(255).Je = v_t_31598 ? "allclear_badge" : "allfailed_badge";
                 }
                 v_P_30255.e8(20, void 0, 75), v_P_30255.e8(18, void 0, 75), v_P_30255.e8(19, void 0, 90), v_P_30255.e8(29, void 0, 110);
                 for (let v_t_31620 = 0; v_t_31620 < 3; ++v_t_31620) v_Ae_27892.q6("play_result_open_details", v_Ge_28204(110 + 5 * v_t_31620));
@@ -3996,13 +3996,13 @@
             v_t_31648 = v___31655.mp, v_n_31651 = v_e_31650, v_e_31650 = v___31655.Jg, v_s_31653 = v_r_31652, v_r_31652 = v___31655.cb, v_i_31649 += v_u_31646;
           }
           var v_f_31647 = v_de_27728 * v_e_31650;
-          let v_a_31654 = v_i_31649 + (v_l_31644 ? v_ke_27824((v_c_31645 - v_i_31649) / (v_f_31647 / v_r_31652)) * (v_f_31647 / v_r_31652) : v_ke_27824((v_c_31645 - v_i_31649) / v_f_31647) * v_f_31647);
+          let v_a_31654 = v_i_31649 + (v_l_31644 ? mathFloor((v_c_31645 - v_i_31649) / (v_f_31647 / v_r_31652)) * (v_f_31647 / v_r_31652) : mathFloor((v_c_31645 - v_i_31649) / v_f_31647) * v_f_31647);
           return v_o_31643 ? v_a_31654 += v_l_31644 ? v_f_31647 / v_r_31652 : v_f_31647 : v_c_31645 - v_i_31649 < v_f_31647 ? v_a_31654 -= v_l_31644 ? v_de_27728 * v_n_31651 / v_s_31653 : v_de_27728 * v_n_31651 : v_a_31654 -= v_l_31644 ? v_de_27728 * v_e_31650 / v_r_31652 : v_de_27728 * v_e_31650, v_a_31654 += 1, v_Yi_30341(v_U_30262.q1.ep(v_a_31654)), 1;
         }
       }
       function v_Yi_30341(v_t_31656) {
         var v_i_31657;
-        v_U_30262.i1 && v_U_30262.n1 === v_S_30187 && (v_i_31657 = v_U_30262.o1, v_U_30262.o1 = !1, v_qi_30342(), v_U_30262.rr = v_pe_27823(v_t_31656, 0), v_U_30262.C1 = v_U_30262.rr + v_U_30262.E1, v_U_30262._1 = !0, 0 <= v_U_30262.rr && (v_U_30262.W1 && v_Se_27889.o6(v_U_30262.W1, v_U_30262.rr), v_U_30262.z1 && !v_U_30262.q1.Zu.hw && (v_U_30262.z1.currentTime = v_U_30262.rr), v_U_30262.o1 = v_i_31657), v_U_30262.lv = !0);
+        v_U_30262.i1 && v_U_30262.n1 === v_S_30187 && (v_i_31657 = v_U_30262.o1, v_U_30262.o1 = !1, v_qi_30342(), v_U_30262.rr = mathMax(v_t_31656, 0), v_U_30262.C1 = v_U_30262.rr + v_U_30262.E1, v_U_30262._1 = !0, 0 <= v_U_30262.rr && (v_U_30262.W1 && v_Se_27889.o6(v_U_30262.W1, v_U_30262.rr), v_U_30262.z1 && !v_U_30262.q1.Zu.hw && (v_U_30262.z1.currentTime = v_U_30262.rr), v_U_30262.o1 = v_i_31657), v_U_30262.lv = !0);
       }
       function v_qi_30342() {
         skillTrigger.Mt(), v_U_30262.q1.Pw();
@@ -4191,7 +4191,7 @@
             let v_t_31724 = "";
             v_t_31724 = v_a_31707 ? "_default_1" === v_U_30262.q1.Zu.Hw ? "fieldBgBlue" : 4 === v_U_30262.q1.Zu.te ? "fieldBgDark" : "fieldBgNext" : "fieldBgDark", v_$r_27975.it("/textures/" + v_t_31724 + ".dds", v_t_31725 => {
               null !== v_t_31725 && v_Io_28120(v_t_31725, !1, (v_t_31726, v_i_31727, v_e_31728) => {
-                v_t_31726 === v_xo_28116 ? (v_se_27562.bindTexture(v_se_27562.TEXTURE_2D, v_k_30287.Ml()), v_se_27562.pixelStorei(v_se_27562.UNPACK_FLIP_Y_WEBGL, !1)) : v_Ao_28115;
+                v_t_31726 === v_xo_28116 ? (glContext.bindTexture(glContext.TEXTURE_2D, v_k_30287.Ml()), glContext.pixelStorei(glContext.UNPACK_FLIP_Y_WEBGL, !1)) : v_Ao_28115;
               }), v_Me_28078(v_i_31722);
             });
           } else v_U_30262.X1 = !0, v_li_30290.Ec(v_t_31723, v_oi_30289, function (v_t_31729) {

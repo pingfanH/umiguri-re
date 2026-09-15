@@ -39,7 +39,7 @@
       ue: async function (v_t_35104) {
         if (!v_o_35080) {
           var v_i_35105;
-          if ("ja-JP" !== v_a_35086(v_Hi_27855) && (v_i_35105 = v_a_35086(v_Hi_27855), v_u_35085.unshift(new v_n_35079(v_i_35105, "reverie_" + v_i_35105, v_s_35083[v_i_35105]))), v_l_35081 = await new Promise(v_t_35106 => {
+          if ("ja-JP" !== v_a_35086(currentLang) && (v_i_35105 = v_a_35086(currentLang), v_u_35085.unshift(new v_n_35079(v_i_35105, "reverie_" + v_i_35105, v_s_35083[v_i_35105]))), v_l_35081 = await new Promise(v_t_35106 => {
             hostBridge.qu("/reverie/_VERSION", () => v_t_35106(!1), () => v_t_35106(!0));
           })) for (const v_e_35107 of v_u_35085) {
             let v_i_35108 = new v_ds_27991(v_e_35107.fk, 0, 2);

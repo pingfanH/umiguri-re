@@ -209,7 +209,7 @@
       for (const v_n_33790 of v_t_33787.table) {
         handshake.Mm.has(v_n_33790.musicId) || handshake.Mm.set(v_n_33790.musicId, new Map());
         var v_i_33788 = new v_zr_27970(),
-          v_e_33789 = (v_i_33788.Sr = v_me_27822(v_pe_27823(v_Pe_28064(v_n_33790.score), 0), 101e4), v_Pe_28064(v_n_33790.flags));
+          v_e_33789 = (v_i_33788.Sr = mathMin(mathMax(v_Pe_28064(v_n_33790.score), 0), 101e4), v_Pe_28064(v_n_33790.flags));
         v_i_33788.ni = v_Bs_28013.RA(v_e_33789), v_i_33788.R4 = v_Bs_28013.RA(v_e_33789), v_i_33788.B4 = v_Bs_28013.LA(v_e_33789), v_i_33788.M4 = v_Bs_28013.IA(v_e_33789), v_i_33788.D4 = v_n_33790.updatedAt, v_i_33788.P4 = v_n_33790.playCount, v_i_33788.G4 = !0, handshake.Mm.get(v_n_33790.musicId).set(v_n_33790.musicDiff, v_i_33788);
       }
     },
@@ -219,7 +219,7 @@
       if (v_Bs_28013.By(v_t_33791)) return !1;
       for (const v_n_33794 of v_t_33791.table) {
         var v_i_33792 = new v_zr_27970(),
-          v_e_33793 = (v_i_33792.Sr = v_me_27822(v_pe_27823(v_Pe_28064(v_n_33794.score), 0), 303e4), v_Pe_28064(v_n_33794.flags));
+          v_e_33793 = (v_i_33792.Sr = mathMin(mathMax(v_Pe_28064(v_n_33794.score), 0), 303e4), v_Pe_28064(v_n_33794.flags));
         v_i_33792.ni = v_Bs_28013.RA(v_e_33793), v_i_33792.R4 = v_Bs_28013.RA(v_e_33793), v_i_33792.B4 = v_Bs_28013.LA(v_e_33793), v_i_33792.D4 = v_n_33794.updatedAt, v_i_33792.P4 = v_n_33794.playCount, v_i_33792.G4 = !0, handshake.Em.set(v_n_33794.courseId, v_i_33792);
       }
     },

@@ -35,11 +35,11 @@
 | `logic/0027-v_hi_27809_x7.js` | 177098–177104 | VariableDeclaration |  |
 | `logic/0028-v_mi_27816_x4.js` | 177105–177232 | VariableDeclaration |  |
 | `logic/0029-v_t1_27820.js` | 177233–177233 | VariableDeclaration |  |
-| `logic/0030-v_ge_27821_x13.js` | 177234–177246 | VariableDeclaration |  |
+| `logic/0030-mathRandom_x13.js` | 177234–177246 | VariableDeclaration |  |
 | `logic/0031-v_o1_27834_x2.js` | 177247–177248 | VariableDeclaration |  |
-| `logic/0032-v_xi_27836.js` | 177249–177251 | FunctionDeclaration |  |
-| `logic/0033-v_c1_27846_x6.js` | 177252–177281 | VariableDeclaration | v_c1_27846 (177261–177263), v_u1_27847 (177264–177266), v_f1_27848 (177267–177269), v_Fi_27849 (177270–177272), v__1_27850 (177273–177275), v_Bi_27851 (177276–177278) |
-| `logic/0034-v_Hi_27855.js` | 177282–177282 | VariableDeclaration |  |
+| `logic/0032-rankName.js` | 177249–177251 | FunctionDeclaration |  |
+| `logic/0033-rankLabel_x6.js` | 177252–177281 | VariableDeclaration | rankLabel (177261–177263), rankLevel (177264–177266), rankGrade (177267–177269), ratingColorName (177270–177272), ratingColorName2 (177273–177275), ratingColorRgba (177276–177278) |
+| `logic/0034-currentLang.js` | 177282–177282 | VariableDeclaration |  |
 | `logic/0035-v_Ji_27856.js` | 177283–177283 | VariableDeclaration |  |
 | `logic/0036-v_be_27857_x4.js` | 177284–177496 | VariableDeclaration |  |
 | `logic/0037-v_Oi_27861.js` | 177497–177500 | FunctionDeclaration |  |

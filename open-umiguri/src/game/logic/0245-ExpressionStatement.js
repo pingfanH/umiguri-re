@@ -5,13 +5,13 @@
 
   v_Fl_28182.prototype = {
     Zh: function () {
-      v_se_27562.bindFramebuffer(v_se_27562.FRAMEBUFFER, this.Wh);
+      glContext.bindFramebuffer(glContext.FRAMEBUFFER, this.Wh);
     },
     _5: function () {
-      v_se_27562.activeTexture(v_se_27562.TEXTURE0), v_se_27562.bindTexture(v_se_27562.TEXTURE_2D, this.Kh);
+      glContext.activeTexture(glContext.TEXTURE0), glContext.bindTexture(glContext.TEXTURE_2D, this.Kh);
     }
   }, v_Fl_28182.Yh = function () {
-    v_se_27562.bindFramebuffer(v_se_27562.FRAMEBUFFER, null);
+    glContext.bindFramebuffer(glContext.FRAMEBUFFER, null);
   }, v_Bl_28183.prototype = {
     l5: function () {
       var v_i_35005 = this.Gh,
@@ -104,10 +104,10 @@
                 let v_n_35031 = null;
                 v_Io_28120(v_t_35030, !1, (v_t_35032, v_i_35033, v_e_35034) => {
                   v_t_35032 === v_xo_28116 ? (v_n_35031 = new glRuntime.Texture(v_i_35033, v_e_35034, {
-                    wrapS: v_r_35029.td ? v_se_27562.REPEAT : v_se_27562.CLAMP_TO_EDGE,
-                    wrapT: v_r_35029.nd ? v_se_27562.REPEAT : v_se_27562.CLAMP_TO_EDGE,
-                    format: v_se_27562.RGBA
-                  }), v_se_27562.pixelStorei(v_se_27562.UNPACK_FLIP_Y_WEBGL, !1)) : v_t_35032 === v_Ao_28115 && (v_n_35031 = null);
+                    wrapS: v_r_35029.td ? glContext.REPEAT : glContext.CLAMP_TO_EDGE,
+                    wrapT: v_r_35029.nd ? glContext.REPEAT : glContext.CLAMP_TO_EDGE,
+                    format: glContext.RGBA
+                  }), glContext.pixelStorei(glContext.UNPACK_FLIP_Y_WEBGL, !1)) : v_t_35032 === v_Ao_28115 && (v_n_35031 = null);
                 }), v_n_35031 && (this.Mf[v_s_35025] = v_n_35031);
               }
               v_i_35026();
@@ -145,7 +145,7 @@
           v_n_35042 || (v_e_35041.N_.length && v_e_35041.K3(this.Vk.Hk(v_e_35041.N_[0].D_.g_)), v_a_35021.Td[v_t_35040] = v_e_35041);
         }), v_Me_28078(v_t_35038);
       }, v_t_35046 => {
-        v_se_27562.pixelStorei(v_se_27562.UNPACK_FLIP_Y_WEBGL, !0), v_i_35022 && v_i_35022();
+        glContext.pixelStorei(glContext.UNPACK_FLIP_Y_WEBGL, !0), v_i_35022 && v_i_35022();
       }]);
     },
     h5: async function (v_t_35047) {
@@ -179,20 +179,20 @@
       for (const v_s_35066 of this.Y6) v_s_35066.lr && v_s_35066.Z6 < this.rr && (v_s_35066.lr = !1, v_s_35066.Ee());
       1e3 < this.rr - this.fv && (0 < this.Y6.length && (this.Y6 = this.Y6.filter(v_t_35067 => v_t_35067.lr)), this.fv = this.rr), this.Yt.Ph.Hh = 0, this.Yt.Ph.Rh = 0;
       var v_n_35064 = performance.now();
-      v_se_27562.activeTexture(v_se_27562.TEXTURE0), v_se_27562.bindTexture(v_se_27562.TEXTURE_2D, null), this.Yt.Cc(1), v_se_27562.clearStencil(0), v_se_27562.clearColor(0, 0, 0, 1), v_se_27562.clear(v_se_27562.COLOR_BUFFER_BIT | v_se_27562.DEPTH_BUFFER_BIT | v_se_27562.STENCIL_BUFFER_BIT);
+      glContext.activeTexture(glContext.TEXTURE0), glContext.bindTexture(glContext.TEXTURE_2D, null), this.Yt.Cc(1), glContext.clearStencil(0), glContext.clearColor(0, 0, 0, 1), glContext.clear(glContext.COLOR_BUFFER_BIT | glContext.DEPTH_BUFFER_BIT | glContext.STENCIL_BUFFER_BIT);
       for (let v_t_35068 = 0; v_t_35068 < this.o5.length; ++v_t_35068) this.o5[v_t_35068].v5.p9 <= this.k9 || (this.Yt.Cc(1), this.o5[v_t_35068].v5.Ld(v_i_35061, v_e_35062, this.Yt));
-      v_se_27562.disable(v_se_27562.STENCIL_TEST);
+      glContext.disable(glContext.STENCIL_TEST);
       var v_r_35065 = performance.now();
       if (this.Yt.Ph.rr[v_qa_28086(this.Yt.Ph.r5, this.Yt.Ph.rr.length)] = v_r_35065 - v_n_35064, this.Yt.Ph.r5++, v_k_27573 && this.Yt.Ph.n5) {
-        if (this.Yt.Dh.G3(0), this.Yt.Dh.P3(), this.Yt.Dh.H3(!1), v_xt_28153.T_(this.Yt.Dh.A_), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), this.Yt.Ph.r5 % 30 == 0) {
+        if (this.Yt.Dh.G3(0), this.Yt.Dh.P3(), this.Yt.Dh.H3(!1), v_xt_28153.T_(this.Yt.Dh.A_), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), this.Yt.Ph.r5 % 30 == 0) {
           let v_i_35069 = 0,
-            v_e_35070 = v_me_27822(this.Yt.Ph.r5, this.Yt.Ph.rr.length);
+            v_e_35070 = mathMin(this.Yt.Ph.r5, this.Yt.Ph.rr.length);
           for (let v_t_35071 = 0; v_t_35071 < v_e_35070; ++v_t_35071) v_i_35069 += this.Yt.Ph.rr[v_t_35071];
           this.Yt.Ph.a5 = v_i_35069 / v_e_35070;
         }
         this.Yt.Ph.n5.X3("RS SCENES: " + this.o5.length + "\nRS SPRITES: " + this.Yt.Ph.Rh + "\nRS DRAW CALLS: " + this.Yt.Ph.Hh + "\nRENDER TIME: " + this.Yt.Ph.a5.toFixed(2) + " ms\nFPS: " + v_l_27570.toFixed(2), .8, .8), this.Yt.Dh.B3(), this.Yt.Dh.N3(1.2), this.Yt.Dh.U3(!0, !1), this.Yt.Ph.n5.Y3([10, 952, 0], [0, 0, 0, 1]), this.Yt.Ph.n5.Y3([10, 950, 0], [1, 1, 1, 1]);
       }
-      v_se_27562.loadIdentity(), this.Yt.Cc(0), this.Yt.Nh(1), v_Jt_27635.amount = 1.04, v_t_35063 ? v_m_27612.uniforms(v_Jt_27635).draw(this.Yt.X6) : v_m_27612.uniforms(v_Jt_27635).draw(this.Yt.t5), this.Yt.Vk.Uk();
+      glContext.loadIdentity(), this.Yt.Cc(0), this.Yt.Nh(1), v_Jt_27635.amount = 1.04, v_t_35063 ? v_m_27612.uniforms(v_Jt_27635).draw(this.Yt.X6) : v_m_27612.uniforms(v_Jt_27635).draw(this.Yt.t5), this.Yt.Vk.Uk();
     },
     xt: function () {
       return this.rr;

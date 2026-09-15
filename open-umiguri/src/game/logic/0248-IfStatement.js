@@ -7,7 +7,7 @@
     v_M_27644 && v_M_27644.V7(), v_E_27645 && v_E_27645.V7(), v_D_27646 && v_D_27646.V7(), v_F_27647 && v_F_27647.V7();
   }), v_y_27559.addEventListener("contextmenu", v_t_35120 => v_t_35120.preventDefault()), v_ee_27876(), v_y_27559.style.display = "block", v_Hl_28188 = umgr_elc._, handshake.rm.I4 = v_Hl_28188.I4, handshake.rm.am = v_Hl_28188.am, handshake.rm.om = v_Hl_28188.O.ct, handshake.rm.lm = v_Hl_28188.O.B, handshake.rm.um = v_Hl_28188.O.p9, handshake.rm.b7 = v_Hl_28188.I, handshake.rm.y7 = v_Hl_28188.R, handshake.rm.A7 = v_Hl_28188.j, handshake.rm.S7 = v_Hl_28188.M, handshake.rm.A9 = v_Hl_28188.L, handshake.rm.S9 = v_Hl_28188.U, handshake.rm.x9 = v_Hl_28188.P, handshake.rm.I9 = v_Hl_28188.G, handshake.rm.OA = v_Hl_28188.Y, handshake.rm.dm = v_Hl_28188.fe, handshake.rm.vm = v_Hl_28188.v1, handshake.rm.gm = v_Hl_28188.J, handshake.rm.u8 = v_Hl_28188.K, handshake.rm.wm = v_Hl_28188.W, handshake.rm.pm = v_Hl_28188.u1, handshake.rm.km = v_Hl_28188.H, handshake.rm.bm = v_Hl_28188.f1, handshake.rm.Sm = v_Hl_28188.h1.T, handshake.rm.xm = v_Hl_28188.h1.rr, handshake.rm.ym = v_Hl_28188.h1.C, handshake.rm.Cm = v_Hl_28188.h1.GA, handshake.rm.Im = v_Hl_28188.Z.X, handshake.rm.Am = v_Hl_28188.Z.a1, handshake.rm.Tm = v_Hl_28188.Z.d1, handshake.rm.Lm = v_Hl_28188.Z.t1, handshake.rm.Rm = v_Hl_28188.Z.s1, handshake.rm.gb = v_Hl_28188.g1, setInterval(v_A1_27887, 500), win.body.addEventListener("keydown", function (v_t_35121) {
     v_t_35121.repeat || ("Enter" !== v_t_35121.key || v_t_35121.shiftKey || v_t_35121.metaKey || !v_t_35121.altKey || v_t_35121.ctrlKey ? "F1" !== v_t_35121.key || !v_t_35121.shiftKey || v_t_35121.metaKey || v_t_35121.altKey || v_t_35121.ctrlKey || v_ur_27932.bb() : (systemMisc.w2(), v_t_35121.preventDefault()));
-  }), v_Hi_27855 = handshake.rm.I4, v_h1_27859 = handshake.rm.Am, v_R_27641 = handshake.rm.pm, v_L_27642 = handshake.rm.km, v_bn_27637 = handshake.rm.vm || handshake.rm.gm, -1 === v_Ui_27854.indexOf(v_Hi_27855) && (handshake.A4 = !0, v_Hi_27855 = "ja-JP"), v_Ul_28187.has("errDisp")) {
+  }), currentLang = handshake.rm.I4, v_h1_27859 = handshake.rm.Am, v_R_27641 = handshake.rm.pm, v_L_27642 = handshake.rm.km, v_bn_27637 = handshake.rm.vm || handshake.rm.gm, -1 === supportedLangs.indexOf(currentLang) && (handshake.A4 = !0, currentLang = "ja-JP"), v_Ul_28187.has("errDisp")) {
     var v_Hl_28188 = v_Pe_28064(v_Ul_28187.get("errDisp"));
     let v_t_35122 = win.createElement("div"),
       v_i_35123 = (v_t_35122.setAttribute("style", "width: 1920px;height: 1080px;background: #000;font-family: system-ui;font-size: 16px;padding: 12px;z-index:99;"), win.createElement("div")),
@@ -65,12 +65,12 @@
       },
       v_r_35130 = [v_Jl_35131().ci, v_Jl_35131().cn];
     function v_Jl_35131() {
-      return v_i_35129[v_Hi_27855] || v_i_35129["ja-JP"];
+      return v_i_35129[currentLang] || v_i_35129["ja-JP"];
     }
     function v_jl_35132() {
       v_e_35127.clearRect(0, 0, v_yn_27656, v_Sn_27657), v_e_35127.fillStyle = "#fff", v_e_35127.strokeStyle = "#fff", v_e_35127.lineWidth = 5, v_e_35127.textBaseline = "top", v_e_35127.font = "normal 24px system-ui", v_e_35127.textAlign = "left", v_e_35127.fillText(v_n_35128, 20, 1040), v_e_35127.strokeRect(262, 152, 1395, 775), v_e_35127.textAlign = "center", v_e_35127.fillText(v_Jl_35131().lf, 960, 100), v_e_35127.textAlign = "left";
       let v_i_35134 = 0;
-      for (let v_t_35135 = v_pe_27823(v_r_35130.length - 22, 0); v_t_35135 < v_r_35130.length; ++v_t_35135) v_e_35127.fillText(v_r_35130[v_t_35135], 410, 210 + v_i_35134), v_i_35134 += 30;
+      for (let v_t_35135 = mathMax(v_r_35130.length - 22, 0); v_t_35135 < v_r_35130.length; ++v_t_35135) v_e_35127.fillText(v_r_35130[v_t_35135], 410, 210 + v_i_35134), v_i_35134 += 30;
     }
     function v_Ol_35133() {
       return new Promise(v_i_35136 => {
@@ -107,7 +107,7 @@
     }, [function (v_t_35155) {
       !function () {
         try {
-          v_se_27562 = glRuntime.create({
+          glContext = glRuntime.create({
             stencil: !0,
             antialias: !1
           });
@@ -115,16 +115,16 @@
           return;
         }
         {
-          var v_t_35156 = v_se_27562.getExtension("WEBGL_debug_renderer_info");
+          var v_t_35156 = glContext.getExtension("WEBGL_debug_renderer_info");
           systemMisc.b2({
-            renderer: v_se_27562.getParameter(v_t_35156.UNMASKED_RENDERER_WEBGL),
-            max_rend_buf_size: v_se_27562.getParameter(v_se_27562.MAX_RENDERBUFFER_SIZE),
-            max_tex_units: v_se_27562.getParameter(v_se_27562.MAX_TEXTURE_IMAGE_UNITS),
-            max_tex_size: v_se_27562.getParameter(v_se_27562.MAX_TEXTURE_SIZE)
+            renderer: glContext.getParameter(v_t_35156.UNMASKED_RENDERER_WEBGL),
+            max_rend_buf_size: glContext.getParameter(glContext.MAX_RENDERBUFFER_SIZE),
+            max_tex_units: glContext.getParameter(glContext.MAX_TEXTURE_IMAGE_UNITS),
+            max_tex_size: glContext.getParameter(glContext.MAX_TEXTURE_SIZE)
           });
         }
-        v_se_27562.getExtension("WEBGL_compressed_texture_s3tc"), v_se_27562.getExtension("WEBGL_depth_texture");
-        return v_se_27562.enable(v_se_27562.BLEND), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), v_se_27562.canvas.width = v_yn_27656, v_se_27562.canvas.height = v_Sn_27657, v_y_27559.appendChild(v_se_27562.canvas), v_se_27562.viewport(0, 0, v_yn_27656, v_Sn_27657), v_se_27562.matrixMode(v_se_27562.MODELVIEW), v_se_27562.canvas.addEventListener("webglcontextlost", v_te_27874), v_y_27559.style.width = v_yn_27656 + "px", v_y_27559.style.height = v_Sn_27657 + "px", v_ee_27876(), 1;
+        glContext.getExtension("WEBGL_compressed_texture_s3tc"), glContext.getExtension("WEBGL_depth_texture");
+        return glContext.enable(glContext.BLEND), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), glContext.canvas.width = v_yn_27656, glContext.canvas.height = v_Sn_27657, v_y_27559.appendChild(glContext.canvas), glContext.viewport(0, 0, v_yn_27656, v_Sn_27657), glContext.matrixMode(glContext.MODELVIEW), glContext.canvas.addEventListener("webglcontextlost", v_te_27874), v_y_27559.style.width = v_yn_27656 + "px", v_y_27559.style.height = v_Sn_27657 + "px", v_ee_27876(), 1;
       }() ? v_b1_27884(v_W_27705) : effekseer.initRuntime("effekseer.wasm", function () {
         v_Me_28078(v_t_35155);
       });

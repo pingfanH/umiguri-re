@@ -348,7 +348,7 @@
       var v_e_33500,
         v_n_33501 = {};
       v_i_33499 = (v_i_33499 += 8) + (8 + v_t_33498.length), v_n_33501.NAME = v_t_33498.length, v_i_33499 += 16, v_n_33501.META = 8, v_e_33500 = v_i_33499 += 8;
-      for (const v_o_33505 of this.D2) v_i_33499 += 2 + v_me_27822(v_o_33505.ct.length, 255);
+      for (const v_o_33505 of this.D2) v_i_33499 += 2 + mathMin(v_o_33505.ct.length, 255);
       v_n_33501["COL "] = v_i_33499 - v_e_33500, v_e_33500 = v_i_33499 += 8;
       for (const v_l_33506 of this.G2) for (let v_t_33507 = 0; v_t_33507 < this.D2.length; ++v_t_33507) switch (v_i_33499 += 4, this.D2[v_t_33507].Fi) {
         case 1:
@@ -379,7 +379,7 @@
         v_s_33503 = new DataView(v_r_33502.buffer);
       let v_a_33504 = 0;
       v_s_33503.setInt32(v_a_33504, 541868628, !0), v_s_33503.setInt32(v_a_33504 + 4, v_i_33499 - 8, !0), v_a_33504 += 8, v_s_33503.setInt32(v_a_33504, 1162690894, !0), v_s_33503.setInt32(v_a_33504 + 4, v_n_33501.NAME, !0), v_r_33502.set(new Uint8Array(v_t_33498.split("").map(v_t_33508 => v_t_33508.charCodeAt(0))), v_a_33504 + 8), v_a_33504 += 8 + v_n_33501.NAME, v_s_33503.setInt32(v_a_33504, 1096041805, !0), v_s_33503.setInt32(v_a_33504 + 4, v_n_33501.META, !0), v_s_33503.setInt32(v_a_33504 + 8, 0, !0), v_s_33503.setInt32(v_a_33504 + 12, 0, !0), v_a_33504 += 8 + v_n_33501.META, v_s_33503.setInt32(v_a_33504, 541871939, !0), v_s_33503.setInt32(v_a_33504 + 4, v_n_33501["COL "], !0), v_a_33504 += 8;
-      for (const v_c_33509 of this.D2) v_r_33502[v_a_33504] = v_c_33509.Fi, v_r_33502[v_a_33504 + 1] = v_me_27822(v_c_33509.ct.length, 255), v_r_33502.set(new Uint8Array(v_c_33509.ct.substr(0, 255).split("").map(v_t_33510 => v_t_33510.charCodeAt(0))), v_a_33504 + 2), v_a_33504 += 2 + v_me_27822(v_c_33509.ct.length, 255);
+      for (const v_c_33509 of this.D2) v_r_33502[v_a_33504] = v_c_33509.Fi, v_r_33502[v_a_33504 + 1] = mathMin(v_c_33509.ct.length, 255), v_r_33502.set(new Uint8Array(v_c_33509.ct.substr(0, 255).split("").map(v_t_33510 => v_t_33510.charCodeAt(0))), v_a_33504 + 2), v_a_33504 += 2 + mathMin(v_c_33509.ct.length, 255);
       v_s_33503.setInt32(v_a_33504, 1398230866, !0), v_s_33503.setInt32(v_a_33504 + 4, v_n_33501.ROWS, !0), v_a_33504 += 8;
       for (const v_u_33511 of this.G2) for (let v_t_33512 = 0; v_t_33512 < this.D2.length; ++v_t_33512) switch (this.D2[v_t_33512].Fi) {
         case 1:
@@ -498,7 +498,7 @@
       this.lr && v_t_33554 === this.Cr || (this.lr ? this.O2 = this.pi() : this.O2 = v_t_33554, this.J2 = this.Cr = v_t_33554, this.Ii = this.W2, this.lr = !0);
     },
     pi: function () {
-      return this.lr ? v_Ee_28084(this.O2, this.J2, this.z2(v_pe_27823(v_me_27822((this.W2 - this.Ii) / this.K2, 1), 0))) : this.Cr;
+      return this.lr ? v_Ee_28084(this.O2, this.J2, this.z2(mathMax(mathMin((this.W2 - this.Ii) / this.K2, 1), 0))) : this.Cr;
     }
   }, v_bs_27998.prototype = {
     qu: function (v_t_33555, v_i_33556) {

@@ -12,7 +12,7 @@
       J7: !1
     }, function (v_i_33609) {
       if (1 === v_i_33609[0]) {
-        v_e_33608.ER && (v_e_33608.DR = v_e_33608.FR, v_e_33608.FR = performance.now(), v_e_33608.PR = v_e_33608.FR - v_e_33608.DR, 0 < v_e_33608.DR) && (v_e_33608.RR = v_pe_27823(v_e_33608.RR, v_e_33608.PR));
+        v_e_33608.ER && (v_e_33608.DR = v_e_33608.FR, v_e_33608.FR = performance.now(), v_e_33608.PR = v_e_33608.FR - v_e_33608.DR, 0 < v_e_33608.DR) && (v_e_33608.RR = mathMax(v_e_33608.RR, v_e_33608.PR));
         for (let v_t_33610 = 0; v_t_33610 < 32; ++v_t_33610) v_e_33608.Q7[v_t_33610] = v_i_33609[v_t_33610 + 2];
       }
     }), this.Z7.G9(255, 253, !1), this.Q7 = Array.from({

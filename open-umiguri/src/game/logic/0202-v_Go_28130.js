@@ -5,8 +5,8 @@
 
   function v_Go_28130(v_t_34413) {
     this.Pk = v_t_34413, this.Yf = new glRuntime.Texture(v_t_34413.Le, v_t_34413.Le, {
-      wrapS: v_se_27562.CLAMP_TO_EDGE,
-      wrapT: v_se_27562.CLAMP_TO_EDGE,
-      format: v_se_27562.ALPHA
+      wrapS: glContext.CLAMP_TO_EDGE,
+      wrapT: glContext.CLAMP_TO_EDGE,
+      format: glContext.ALPHA
     }), this.Dk = new Map();
   }

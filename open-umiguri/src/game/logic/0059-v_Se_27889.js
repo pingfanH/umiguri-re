@@ -96,14 +96,14 @@
       },
       o6: function (v_t_28283, v_i_28284) {
         var v_e_28285;
-        v_s_28248.has(v_t_28283) && ((v_e_28285 = v_s_28248.get(v_t_28283)).l6 = v_i_28284, v_e_28285.o1() && (this.i6(v_t_28283), this.dn(v_t_28283)), v_l_28251.get(v_t_28283).l6 = v_ke_27824(v_i_28284 * v_c_28252));
+        v_s_28248.has(v_t_28283) && ((v_e_28285 = v_s_28248.get(v_t_28283)).l6 = v_i_28284, v_e_28285.o1() && (this.i6(v_t_28283), this.dn(v_t_28283)), v_l_28251.get(v_t_28283).l6 = mathFloor(v_i_28284 * v_c_28252));
       },
       o1: function (v_t_28286) {
         if (v_s_28248.has(v_t_28286)) return v_s_28248.get(v_t_28286).o1();
       },
       u6: function (v_t_28287, v_i_28288, v_e_28289) {
         var v_n_28290;
-        v_s_28248.has(v_t_28287) && ((v_n_28290 = v_s_28248.get(v_t_28287)).vv && (v_n_28290.vv.loop = v_i_28288, v_n_28290.vv.loopStart = v_i_28288 ? (v_e_28289 || 0) / 1e3 : 0, v_n_28290.vv.loopEnd = v_n_28290.th.duration), v_n_28290._6 = v_i_28288 ? (v_e_28289 || 0) / 1e3 : -1, v_l_28251.get(v_t_28287)._6 = v_i_28288 ? v_ke_27824((v_e_28289 || 0) * v_c_28252 / 1e3) : -1);
+        v_s_28248.has(v_t_28287) && ((v_n_28290 = v_s_28248.get(v_t_28287)).vv && (v_n_28290.vv.loop = v_i_28288, v_n_28290.vv.loopStart = v_i_28288 ? (v_e_28289 || 0) / 1e3 : 0, v_n_28290.vv.loopEnd = v_n_28290.th.duration), v_n_28290._6 = v_i_28288 ? (v_e_28289 || 0) / 1e3 : -1, v_l_28251.get(v_t_28287)._6 = v_i_28288 ? mathFloor((v_e_28289 || 0) * v_c_28252 / 1e3) : -1);
       },
       v6: function (v_t_28291, v_i_28292) {
         var v_e_28293;
@@ -119,7 +119,7 @@
         if (v_o_28250) return v_o_28250.b6(), v_o_28250.m6(), v_o_28250.S6();
       },
       dv: function () {
-        return 2 * v_ke_27824(v_c_28252 / 60) * 2;
+        return 2 * mathFloor(v_c_28252 / 60) * 2;
       },
       C6: function () {
         v_o_28250 = void 0, this.bv(!1);

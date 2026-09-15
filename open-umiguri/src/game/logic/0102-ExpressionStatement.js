@@ -76,56 +76,56 @@
                     var v_l_33213 = v_Pe_28064(v_e_33207[1]);
                     if (!(v_l_33213 < 0 || 7 < v_l_33213)) {
                       let v_i_33223 = {
-                        magFilter: v_se_27562.NEAREST,
-                        minFilter: v_se_27562.LINEAR,
-                        wrapS: v_se_27562.CLAMP_TO_EDGE,
-                        wrapT: v_se_27562.CLAMP_TO_EDGE
+                        magFilter: glContext.NEAREST,
+                        minFilter: glContext.LINEAR,
+                        wrapS: glContext.CLAMP_TO_EDGE,
+                        wrapT: glContext.CLAMP_TO_EDGE
                       };
                       switch (v_e_33207[3]) {
                         case "CLAMP":
-                          v_i_33223.wrapS = v_se_27562.CLAMP_TO_EDGE;
+                          v_i_33223.wrapS = glContext.CLAMP_TO_EDGE;
                           break;
                         case "REPEAT":
-                          v_i_33223.wrapS = v_se_27562.REPEAT;
+                          v_i_33223.wrapS = glContext.REPEAT;
                           break;
                         case "MIRROR":
-                          v_i_33223.wrapS = v_se_27562.MIRRORED_REPEAT;
+                          v_i_33223.wrapS = glContext.MIRRORED_REPEAT;
                       }
                       switch (v_e_33207[4]) {
                         case "CLAMP":
-                          v_i_33223.wrapT = v_se_27562.CLAMP_TO_EDGE;
+                          v_i_33223.wrapT = glContext.CLAMP_TO_EDGE;
                           break;
                         case "REPEAT":
-                          v_i_33223.wrapT = v_se_27562.REPEAT;
+                          v_i_33223.wrapT = glContext.REPEAT;
                           break;
                         case "MIRROR":
-                          v_i_33223.wrapT = v_se_27562.MIRRORED_REPEAT;
+                          v_i_33223.wrapT = glContext.MIRRORED_REPEAT;
                       }
                       switch (v_e_33207[5]) {
                         case "NEAREST":
-                          v_i_33223.minFilter = v_se_27562.NEAREST;
+                          v_i_33223.minFilter = glContext.NEAREST;
                           break;
                         case "LINEAR":
-                          v_i_33223.minFilter = v_se_27562.LINEAR;
+                          v_i_33223.minFilter = glContext.LINEAR;
                           break;
                         case "MIP_NEAREST":
-                          v_i_33223.minFilter = v_se_27562.NEAREST_MIPMAP_NEAREST;
+                          v_i_33223.minFilter = glContext.NEAREST_MIPMAP_NEAREST;
                           break;
                         case "MIP_LINEAR":
-                          v_i_33223.minFilter = v_se_27562.NEAREST_MIPMAP_LINEAR;
+                          v_i_33223.minFilter = glContext.NEAREST_MIPMAP_LINEAR;
                           break;
                         case "MIP_NEAREST2":
-                          v_i_33223.minFilter = v_se_27562.LINEAR_MIPMAP_NEAREST;
+                          v_i_33223.minFilter = glContext.LINEAR_MIPMAP_NEAREST;
                           break;
                         case "MIP_LINEAR2":
-                          v_i_33223.minFilter = v_se_27562.LINEAR_MIPMAP_LINEAR;
+                          v_i_33223.minFilter = glContext.LINEAR_MIPMAP_LINEAR;
                       }
                       switch (v_e_33207[6]) {
                         case "NEAREST":
-                          v_i_33223.magFilter = v_se_27562.NEAREST;
+                          v_i_33223.magFilter = glContext.NEAREST;
                           break;
                         case "LINEAR":
-                          v_i_33223.magFilter = v_se_27562.LINEAR;
+                          v_i_33223.magFilter = glContext.LINEAR;
                       }
                       var v_c_33214 = v_p_33201.Yf.find(v_t_33224 => v_t_33224.$f === v_e_33207[2] && v_t_33224.qf.magFilter === v_i_33223.magFilter && v_t_33224.qf.minFilter === v_i_33223.minFilter && v_t_33224.qf.wrapS === v_i_33223.wrapS && v_t_33224.qf.wrapT === v_i_33223.wrapT);
                       v_c_33214 ? v_n_33209.Pf.push([v_l_33213, v_c_33214.id]) : (++v_o_33212, v_p_33201.Yf.push({
@@ -172,7 +172,7 @@
               var v_e_33228 = {},
                 v_n_33229 = {},
                 v_e_33228 = ("" !== v_i_33227.Wf && (v_n_33229.vertices = v_r_33208[v_i_33227.Wf].xf), v_t_33226.Cf && (v_e_33228.coords = !0, "" !== v_i_33227.Kf) && (v_n_33229.coords = v_r_33208[v_i_33227.Kf].xf), v_t_33226.Af && (v_e_33228.triangles = !0, "" !== v_i_33227.zf) && (v_n_33229.triangles = v_r_33208[v_i_33227.zf].xf), v_t_33226.Tf && (v_e_33228.colors = !0, "" !== v_i_33227.Xf) && (v_n_33229.colors = v_r_33208[v_i_33227.Xf].xf), v_t_33226.Lf && (v_e_33228.normals = !0, "" !== v_i_33227.Zf) && (v_n_33229.normals = v_r_33208[v_i_33227.Zf].xf), v_t_33226.xf = new glRuntime.Mesh(v_e_33228), v_t_33226.xf);
-              v_n_33229.vertices || (v_e_33228.vertices = Float32Array.from(v_i_33227.Hf).buffer), v_t_33226.Cf && !v_n_33229.coords && (v_e_33228.coords = Float32Array.from(v_i_33227.Uf).buffer), v_t_33226.Af && !v_n_33229.triangles && (v_e_33228.triangles = Uint16Array.from(v_i_33227.Vf).buffer), v_t_33226.Tf && !v_n_33229.colors && (v_e_33228.colors = Float32Array.from(v_i_33227.Of).buffer), v_t_33226.Lf && !v_n_33229.normals && (v_e_33228.normals = Float32Array.from(v_i_33227.Jf).buffer), v_e_33228.use_shared(v_n_33229), v_e_33228.compilef(v_se_27562.STATIC_DRAW, {
+              v_n_33229.vertices || (v_e_33228.vertices = Float32Array.from(v_i_33227.Hf).buffer), v_t_33226.Cf && !v_n_33229.coords && (v_e_33228.coords = Float32Array.from(v_i_33227.Uf).buffer), v_t_33226.Af && !v_n_33229.triangles && (v_e_33228.triangles = Uint16Array.from(v_i_33227.Vf).buffer), v_t_33226.Tf && !v_n_33229.colors && (v_e_33228.colors = Float32Array.from(v_i_33227.Of).buffer), v_t_33226.Lf && !v_n_33229.normals && (v_e_33228.normals = Float32Array.from(v_i_33227.Jf).buffer), v_e_33228.use_shared(v_n_33229), v_e_33228.compilef(glContext.STATIC_DRAW, {
                 vertices: 3,
                 coords: 2,
                 colors: 4,
@@ -225,12 +225,12 @@
         v_i_33255 = !1,
         v_e_33256 = !1;
       for (const v_r_33258 of this.Nf) if (v_r_33258.Rf) {
-        v_t_33254 !== v_r_33258.If && (v_r_33258.If ? v_se_27562.enable(v_se_27562.DEPTH_TEST) : v_se_27562.disable(v_se_27562.DEPTH_TEST), v_t_33254 = v_r_33258.If), v_i_33255 !== v_r_33258.last_use_depth_write && (v_se_27562.depthMask(v_r_33258.yf), v_i_33255 = v_r_33258.yf), v_e_33256 !== v_r_33258.Bf && (v_r_33258.Bf ? v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE) : v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA), v_e_33256 = v_r_33258.Bf);
+        v_t_33254 !== v_r_33258.If && (v_r_33258.If ? glContext.enable(glContext.DEPTH_TEST) : glContext.disable(glContext.DEPTH_TEST), v_t_33254 = v_r_33258.If), v_i_33255 !== v_r_33258.last_use_depth_write && (glContext.depthMask(v_r_33258.yf), v_i_33255 = v_r_33258.yf), v_e_33256 !== v_r_33258.Bf && (v_r_33258.Bf ? glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE) : glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), v_e_33256 = v_r_33258.Bf);
         var v_n_33257 = {};
         for (const v_s_33259 of v_r_33258.Mf) v_s_33259[1].bind(v_s_33259[0]), v_n_33257["tex" + v_s_33259[0]] = v_s_33259[0];
         v_r_33258.Rf.uniforms(v_n_33257).draw(v_r_33258.xf);
       }
-      v_se_27562.disable(v_se_27562.DEPTH_TEST), v_se_27562.depthMask(!0), v_se_27562.blendFunc(v_se_27562.SRC_ALPHA, v_se_27562.ONE_MINUS_SRC_ALPHA);
+      glContext.disable(glContext.DEPTH_TEST), glContext.depthMask(!0), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA);
     },
     free: function () {
       for (const v_t_33260 of this.Nf) v_t_33260.xf.free();

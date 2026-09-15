@@ -33,10 +33,10 @@
     }
     v_t_34599.ot("guestSkill").Je = (v_Wt_27759 <= v_n_34602 ? "indi" : "icon") + v_Q_27767[v_n_34602], v_e_34601 && (v_t_34599.ot("guestNameplate").Je = "namePlate_" + v_Q0_27805[v_e_34601.te], v_t_34599.ot("guestDiff").Je = "tagDiff_" + v_Q0_27805[v_e_34601.te]);
     var v_e_34601 = v_i_34600.lm,
-      v_r_34603 = "" + v_ke_27824(v_e_34601 / 100),
+      v_r_34603 = "" + mathFloor(v_e_34601 / 100),
       v_s_34604 = v_Xa_28081("" + v_e_34601 % 100, 2, "0"),
-      v_a_34605 = v_Fi_27849(v_e_34601),
-      v_e_34601 = v_Bi_27851(v_e_34601),
+      v_a_34605 = ratingColorName(v_e_34601),
+      v_e_34601 = ratingColorRgba(v_e_34601),
       v_o_34606 = v_t_34599.ot("guestRatingText"),
       v_t_34599 = v_t_34599.ot("guestRatingLabel");
     v_o_34606.Wt = v_r_34603 + "P" + v_s_34604, v_o_34606.Ak = "rating" + v_a_34605, v_o_34606.Qe(v_e_34601[0], v_e_34601[1], v_e_34601[2], v_e_34601[3]), v_t_34599.Je = "numRating" + v_a_34605 + "Rating", v_t_34599.Qe(v_e_34601[0], v_e_34601[1], v_e_34601[2], v_e_34601[3]);

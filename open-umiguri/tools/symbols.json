@@ -28,6 +28,43 @@
     "v_jr_27964": { "name": "recordsStore", "note": "存档表(records/player.krtbl)", "confidence": "medium" },
     "v_Zr_27974": { "name": "hostBridge", "note": "前端桥封装(window.umgr_elc)", "confidence": "high" },
     "v_Qr_27976": { "name": "systemMisc", "note": "窗口/媒体/截图/系统杂项", "confidence": "medium" },
-    "v_Ne_28186": { "name": "languagePackages", "note": "语言包管理(/una/*.una)", "confidence": "high" }
+    "v_Ne_28186": { "name": "languagePackages", "note": "语言包管理(/una/*.una)", "confidence": "high" },
+
+    "v_ge_27821": { "name": "mathRandom", "note": "Math.random", "confidence": "high" },
+    "v_me_27822": { "name": "mathMin", "note": "Math.min", "confidence": "high" },
+    "v_pe_27823": { "name": "mathMax", "note": "Math.max", "confidence": "high" },
+    "v_ke_27824": { "name": "mathFloor", "note": "Math.floor", "confidence": "high" },
+    "v_i1_27825": { "name": "mathRound", "note": "Math.round", "confidence": "high" },
+    "v_e1_27826": { "name": "mathCeil", "note": "Math.ceil", "confidence": "high" },
+    "v_n1_27827": { "name": "mathSin", "note": "Math.sin", "confidence": "high" },
+    "v_r1_27828": { "name": "mathCos", "note": "Math.cos", "confidence": "high" },
+    "v_yi_27829": { "name": "mathTan", "note": "Math.tan", "confidence": "high" },
+    "v_s1_27830": { "name": "mathAbs", "note": "Math.abs", "confidence": "high" },
+    "v_Si_27831": { "name": "mathSqrt", "note": "Math.sqrt", "confidence": "high" },
+    "v_Ai_27832": { "name": "mathPow", "note": "Math.pow", "confidence": "high" },
+    "v_a1_27833": { "name": "mathPI", "note": "Math.PI", "confidence": "high" },
+
+    "v_Ci_27837": { "name": "raf", "note": "requestAnimationFrame 引用", "confidence": "high" },
+    "v_Ti_27838": { "name": "kbdStartFn", "note": "kbdStart 引用", "confidence": "high" },
+    "v_Ii_27839": { "name": "kbdUpdateFn", "note": "kbdUpdate 引用", "confidence": "high" },
+    "v_Pi_27840": { "name": "kbdHeldFn", "note": "kbdHeld 引用", "confidence": "high" },
+    "v_Ri_27841": { "name": "kbdUni2VirtFn", "note": "kbdUni2Virt 引用", "confidence": "high" },
+    "v_Li_27842": { "name": "di8KbdStartFn", "note": "di8KbdStart 引用", "confidence": "high" },
+    "v_Mi_27843": { "name": "di8KbdUpdateFn", "note": "di8KbdUpdate 引用", "confidence": "high" },
+    "v_Ei_27844": { "name": "di8KbdHeldFn", "note": "di8KbdHeld 引用", "confidence": "high" },
+    "v_Di_27845": { "name": "di8KbdShutdownFn", "note": "di8KbdShutdown 引用", "confidence": "high" },
+    "v_Ni_27852": { "name": "arrayPush", "note": "Array.prototype.push 引用", "confidence": "medium" },
+
+    "v_xi_27836": { "name": "rankName", "note": "分数 -> 段位名(sssp/sss/…)", "confidence": "medium" },
+    "v_c1_27846": { "name": "rankLabel", "note": "分数 -> 段位标签(Sssp/…)", "confidence": "medium" },
+    "v_u1_27847": { "name": "rankLevel", "note": "分数 -> 段位数值", "confidence": "medium" },
+    "v_f1_27848": { "name": "rankGrade", "note": "分数 -> 评级字母(S/A/B/…)", "confidence": "medium" },
+    "v_Fi_27849": { "name": "ratingColorName", "note": "rating -> 颜色名", "confidence": "medium" },
+    "v__1_27850": { "name": "ratingColorName2", "note": "rating -> 颜色名(第二套)", "confidence": "medium" },
+    "v_Bi_27851": { "name": "ratingColorRgba", "note": "rating -> rgba", "confidence": "medium" },
+
+    "v_Hi_27855": { "name": "currentLang", "note": "当前语言(默认 ja-JP)", "confidence": "high" },
+    "v_Ui_27854": { "name": "supportedLangs", "note": "支持语言列表", "confidence": "high" },
+    "v_se_27562": { "name": "glContext", "note": "WebGL 上下文(clearColor/clearStencil)", "confidence": "high" }
   }
 }

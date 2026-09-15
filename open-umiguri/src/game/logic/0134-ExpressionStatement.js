@@ -65,7 +65,7 @@
       return this.Gi() ? (v_i_33861 = performance.now(), this.RI + 1e3 > v_i_33861 ? -12 : (this.RI = v_i_33861, await this.LC.fL(this.Px, v_t_33860), v_Ms_28009)) : v_Es_28010;
     },
     fC: async function (v_i_33862) {
-      await v_fo_28103(100 * v_ge_27821() + 16);
+      await v_fo_28103(100 * mathRandom() + 16);
       let v_t_33863 = this.BC.find(v_t_33864 => v_t_33864.YC === v_i_33862);
       return v_t_33863 ? (await v_t_33863.qu()) ? v_t_33863 : null : (await (v_t_33863 = this.qC(v_i_33862, !1)).qu()) ? v_t_33863 : null;
     },

@@ -16,7 +16,7 @@
       v_n_34337 && v_n_34337(v_a_34340);
       for (const v___34346 in v_t_34334) v_a_34340[v___34346] = v_t_34334[v___34346];
       for (const v_h_34347 in this.n_) v_a_34340[v_h_34347] = this.i_[v_h_34347].buffer;
-      v_a_34340.compilef(v_se_27562.DYNAMIC_DRAW, v_s_34339), this.xf = v_a_34340;
+      v_a_34340.compilef(glContext.DYNAMIC_DRAW, v_s_34339), this.xf = v_a_34340;
     },
     Gl: function (v_t_34348) {
       return this.i_[v_t_34348];
