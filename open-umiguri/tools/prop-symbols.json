@@ -7,6 +7,8 @@
     "Le": { "name": "w", "note": "RSB 元素宽度", "confidence": "medium" },
     "G0": { "name": "h", "note": "RSB 元素高度", "confidence": "medium" },
     "yk": { "name": "elementByIndex", "note": "RSB 元素树: 按序号取元素(PROJECT_INFO §7.5)", "confidence": "high" },
-    "ot": { "name": "elementByName", "note": "RSB 元素树: 按名字向下查元素", "confidence": "high" }
+    "ot": { "name": "elementByName", "note": "RSB 元素树: 按名字向下查元素", "confidence": "high" },
+    "lt": { "name": "rsbTree", "note": "RSB 元素树根(new Il()), 含 elementByIndex/ByName", "confidence": "medium" },
+    "Wt": { "name": "text", "note": "元素文本内容(如 yk(12).Wt = \"...\")", "confidence": "medium" }
   }
 }

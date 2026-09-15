@@ -232,7 +232,7 @@
         v_r_34727 = 0;
       if (1178751826 !== v___34723.v3()) return !1;
       if (8 !== v___34723.u3()) return !1;
-      v_h_34724.lt.w = v___34723.u3(), v_h_34724.lt.h = v___34723.u3(), 0 !== v_h_34724.lt.w && 0 !== v_h_34724.lt.h || (v_h_34724.lt.w = 1920, v_h_34724.lt.h = 1080), 1 & v___34723.v3() && (v_t_34725 = !0), v___34723.y3(2), v_r_34727 = v___34723.v3(), v_t_34725 ? v___34723.i3("utf-8") : v___34723.i3("utf-16le");
+      v_h_34724.rsbTree.w = v___34723.u3(), v_h_34724.rsbTree.h = v___34723.u3(), 0 !== v_h_34724.rsbTree.w && 0 !== v_h_34724.rsbTree.h || (v_h_34724.rsbTree.w = 1920, v_h_34724.rsbTree.h = 1080), 1 & v___34723.v3() && (v_t_34725 = !0), v___34723.y3(2), v_r_34727 = v___34723.v3(), v_t_34725 ? v___34723.i3("utf-8") : v___34723.i3("utf-16le");
       for (var v_i_34728; !v___34723.C3();) if (1381324884 === (v_i_34728 = v___34723.v3())) {
         let v_i_34742 = v___34723.v3(),
           v_e_34743,
@@ -315,13 +315,13 @@
         v_d_34736 = void 0;
         v_v_34737 = void 0;
         v_w_34738 = void 0;
-        let v_t_34786 = [v_h_34724.lt],
+        let v_t_34786 = [v_h_34724.rsbTree],
           v_e_34787 = 0;
         for (; 0 < v_t_34786.length;) {
           var v_l_34732 = v___34723.v3();
           if (255 === v_l_34732) v_t_34786.pop();else {
             let v_i_34788;
-            (v_i_34788 = new (1380732739 === v_l_34732 ? v_Pl_28176 : 1381324884 === v_l_34732 ? v_Ll_28178 : 1415071060 === v_l_34732 ? v_Rl_28177 : 1481920595 === v_l_34732 ? v_Ml_28179 : 1381256262 === v_l_34732 ? v_El_28180 : v_Il_28175)()).Lk = new WeakRef(v_h_34724.lt), v_h_34724.lt.Ck.set(v_e_34787, v_i_34788), ++v_e_34787;
+            (v_i_34788 = new (1380732739 === v_l_34732 ? v_Pl_28176 : 1381324884 === v_l_34732 ? v_Ll_28178 : 1415071060 === v_l_34732 ? v_Rl_28177 : 1481920595 === v_l_34732 ? v_Ml_28179 : 1381256262 === v_l_34732 ? v_El_28180 : v_Il_28175)()).Lk = new WeakRef(v_h_34724.rsbTree), v_h_34724.rsbTree.Ck.set(v_e_34787, v_i_34788), ++v_e_34787;
             var v_l_34732 = v___34723.o3(),
               v_c_34733 = (v_i_34788.Md = v___34723.o3(), v___34723.u3());
             if (v_i_34788.visible = !(1 & v_c_34733), v_i_34788.Bd = 2 & v_c_34733, v_i_34788.Pd = 4 & v_c_34733, v_c_34733 = !(4096 & v_c_34733), v_i_34788.ct = v_p_34741(), v_i_34788.Ed = v_p_34741().split(" "), v_i_34788.x = v___34723._3(), v_i_34788.y = v___34723._3(), v_i_34788.w = v___34723._3(), v_i_34788.h = v___34723._3(), v_c_34733) for (let v_t_34789 = 0; v_t_34789 < 4; ++v_t_34789) v_i_34788.Fe[v_t_34789] = v_i_34788.Fe[v_t_34789 + 4] = v_i_34788.Fe[v_t_34789 + 8] = v_i_34788.Fe[v_t_34789 + 12] = v___34723.o3() / 255;else for (let v_t_34790 = 0; v_t_34790 < 16; ++v_t_34790) v_i_34788.Fe[v_t_34790] = v___34723.o3() / 255;
@@ -402,7 +402,7 @@
           for (let v_t_34820 = 0; v_t_34820 < v_n_34815.hd.length; ++v_t_34820) {
             var v_s_34817 = v_n_34815.hd[v_t_34820],
               v_a_34818 = this.Cd.get(v_s_34817.n8),
-              v_o_34819 = (v_i_34813 || this.lt).Yc(v_s_34817._d);
+              v_o_34819 = (v_i_34813 || this.rsbTree).Yc(v_s_34817._d);
             for (let v_t_34821 = 0; v_t_34821 < v_o_34819.length; ++v_t_34821) v_o_34819[v_t_34821].Dd.pd = !0, v_o_34819[v_t_34821].Dd.rr = 0, v_o_34819[v_t_34821].Dd.ud = v_s_34817.ud + v_r_34816, v_o_34819[v_t_34821].Dd.fd = v_s_34817.fd, v_o_34819[v_t_34821].Dd.kd = v_a_34818;
           }
         }
@@ -416,12 +416,12 @@
       var v_e_34826 = this.Ad.get(v_t_34824);
       if (v_e_34826) for (let v_t_34829 = 0; v_t_34829 < v_e_34826.hd.length; ++v_t_34829) {
         var v_n_34827 = v_e_34826.hd[v_t_34829],
-          v_r_34828 = (v_i_34825 || this.lt).Yc(v_n_34827._d);
+          v_r_34828 = (v_i_34825 || this.rsbTree).Yc(v_n_34827._d);
         for (let v_t_34830 = 0; v_t_34830 < v_r_34828.length; ++v_t_34830) v_r_34828[v_t_34830].Dd.pd = !1, v_r_34828[v_t_34830].Dd.kd = void 0;
       }
     },
     NA: function (v_t_34831, v_i_34832, v_e_34833, v_n_34834) {
-      v_t_34831 = this.lt.elementByIndex(v_t_34831);
+      v_t_34831 = this.rsbTree.elementByIndex(v_t_34831);
       if (!v_t_34831) return null;
       var v_t_34831 = v_t_34831.Ve(!0),
         v_r_34835 = this.Ad.get(v_i_34832);
@@ -440,7 +440,7 @@
       }
       v_t_34831.visible = !0, v_t_34831.x = v_e_34833 - v_t_34831.Fd[0] * v_t_34831.w, v_t_34831.y = v_n_34834 - v_t_34831.Fd[1] * v_t_34831.h;
       v_e_34833 = new v_xl_28172();
-      return v_e_34833.GA = v_t_34831, v_e_34833.UA = v_Ge_28204(v_s_34836), this.HA.push(v_e_34833), this.jA || (this.jA = new v_Il_28175(), this.lt.Ze(this.jA)), this.jA.Ze(v_t_34831), this.e8(v_i_34832, v_t_34831, 0), v_e_34833;
+      return v_e_34833.GA = v_t_34831, v_e_34833.UA = v_Ge_28204(v_s_34836), this.HA.push(v_e_34833), this.jA || (this.jA = new v_Il_28175(), this.rsbTree.Ze(this.jA)), this.jA.Ze(v_t_34831), this.e8(v_i_34832, v_t_34831, 0), v_e_34833;
     },
     JA: function (v_t_34841) {
       v_t_34841.UA = 0;
@@ -448,8 +448,8 @@
     Ld: function (v_t_34842, v_s_34843, v_R_34844) {
       const v_L_34845 = this;
       if (v_L_34845.Jt) {
-        let v_f_34888 = this.lt.w,
-          v___34889 = this.lt.h;
+        let v_f_34888 = this.rsbTree.w,
+          v___34889 = this.rsbTree.h;
         glContext.enable(glContext.BLEND), glContext.disable(glContext.DEPTH_TEST), glContext.disable(glContext.CULL_FACE), glContext.blendFunc(glContext.SRC_ALPHA, glContext.ONE_MINUS_SRC_ALPHA), glContext.matrixMode(glContext.MODELVIEW), glContext.clearStencil(0), glContext.clear(glContext.STENCIL_BUFFER_BIT), glContext.loadIdentity(), glContext.translate(-1, 1, 0), glContext.scale(2 / v_f_34888, 2 / v___34889, 1), v_gt_34913.prototype = {
           yb: function (v_t_34922) {
             this.Th = 0, this.Ah = v_t_34922.Ah, this.Ab = v_t_34922.Ab, this.Ib = v_t_34922.Ib, this.Cb = v_t_34922.Cb, this.Tb = v_t_34922.Tb, this.Md = v_t_34922.Md, this.kh = v_t_34922.kh, this.bh = v_t_34922.bh, this.Sh = v_t_34922.Sh, this.Lb = 0;
@@ -481,7 +481,7 @@
           v_k_34901 = mathPI / 180,
           v_b_34902 = [0, 0, 0, 0, 0, 0, 0, 0, 0],
           v_r_34903,
-          v_y_34904 = ((v_r_34903 = new v_wt_34912()).Ih = this.lt, v_r_34903.yh = v_f_34888, v_r_34903.Ch = v___34889, v_xt_28153.T_(v_r_34903.A_), v_l_34848.push(v_r_34903), v_R_34844.xf.Gl("vertices")),
+          v_y_34904 = ((v_r_34903 = new v_wt_34912()).Ih = this.rsbTree, v_r_34903.yh = v_f_34888, v_r_34903.Ch = v___34889, v_xt_28153.T_(v_r_34903.A_), v_l_34848.push(v_r_34903), v_R_34844.xf.Gl("vertices")),
           v_S_34905 = v_R_34844.xf.Gl("colors"),
           v_A_34906 = v_R_34844.xf.Gl("coords"),
           v_x_34907 = v_R_34844.xf.Gl("texCoord1"),

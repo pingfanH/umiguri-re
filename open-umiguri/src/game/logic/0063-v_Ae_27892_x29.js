@@ -296,8 +296,8 @@
           v_h_28418 = [], v_e_28419 = [], v_Le_28076([v_e_28468 => {
             languagePackages.it("ui/keyGuide.rsb", function (v_t_28469) {
               v_t_28469 ? (v_t_28469 = new v_Dl_28181(v_t_28469), renderer.nt(v_t_28469.rt(renderer.p5()), v_t_28470 => {
-                v_d_28420 = v_t_28470, v_v_28421 = v_t_28470.lt.elementByIndex(0), v_c_28422 = v_t_28470.lt.elementByIndex(1);
-                var v_i_28471 = v_t_28470.lt.elementByIndex(2);
+                v_d_28420 = v_t_28470, v_v_28421 = v_t_28470.rsbTree.elementByIndex(0), v_c_28422 = v_t_28470.rsbTree.elementByIndex(1);
+                var v_i_28471 = v_t_28470.rsbTree.elementByIndex(2);
                 for (let v_t_28472 = 0; v_t_28472 < v_i_28471.We.length; ++v_t_28472) v_i_28471.We[v_t_28472].visible = !1, v_w_28423[v_i_28471.We[v_t_28472].ct] = v_i_28471.We[v_t_28472];
                 v_Me_28078(v_e_28468);
               })) : v_i_28467();
@@ -560,7 +560,7 @@
           }, v_i_28613 => {
             languagePackages.it("ui/commonIndicator.rsb", function (v_t_28614) {
               v_t_28614 ? (v_t_28614 = new v_Dl_28181(v_t_28614), renderer.ut("sysIndicator", v_t_28614.rt(renderer.p5()), 1001, v_t_28615 => {
-                (v_n_28608 = v_t_28615).lt.elementByIndex(5).visible = !1, v_n_28608.lt.elementByIndex(2).visible = !1, v_n_28608.lt.elementByIndex(0).visible = !1, v_n_28608.lt.elementByIndex(3).visible = !1, v_n_28608.lt.elementByIndex(4).visible = !1, v_n_28608.lt.elementByIndex(1).visible = !1, v_Me_28078(v_i_28613);
+                (v_n_28608 = v_t_28615).rsbTree.elementByIndex(5).visible = !1, v_n_28608.rsbTree.elementByIndex(2).visible = !1, v_n_28608.rsbTree.elementByIndex(0).visible = !1, v_n_28608.rsbTree.elementByIndex(3).visible = !1, v_n_28608.rsbTree.elementByIndex(4).visible = !1, v_n_28608.rsbTree.elementByIndex(1).visible = !1, v_Me_28078(v_i_28613);
               })) : v_e_28609();
             });
           }, v_t_28616 => {
@@ -574,10 +574,10 @@
           v_r_28607.Jt = !1;
         },
         N4: function (v_t_28617) {
-          v_r_28607.lt.elementByIndex(12).Wt = v_t_28617;
+          v_r_28607.rsbTree.elementByIndex(12).Wt = v_t_28617;
         },
         j4: function (v_t_28618, v_i_28619) {
-          v_r_28607.lt.Kt(), v_r_28607.lt.elementByIndex(5).Je = "title" + v_ot_27785[v_i_28619], v_r_28607.lt.elementByIndex(11).Wt = v_t_28618;
+          v_r_28607.rsbTree.Kt(), v_r_28607.rsbTree.elementByIndex(5).Je = "title" + v_ot_27785[v_i_28619], v_r_28607.rsbTree.elementByIndex(11).Wt = v_t_28618;
         },
         H4: function (v_i_28620) {
           var v_t_28621 = v_be_27857.Hp.find(v_t_28622 => v_t_28622.id === v_i_28620);
@@ -585,39 +585,39 @@
         },
         U4: function (v_t_28623) {
           var v_i_28624;
-          "string" == typeof v_t_28623 && (v_i_28624 = v_Dr_27956(v_t_28623), v_r_28607.lt.elementByIndex(10).zt = !0, v_r_28607.lt.elementByIndex(10).Xt = "chara:" + v_i_28624 + ":0:" + v_t_28623);
+          "string" == typeof v_t_28623 && (v_i_28624 = v_Dr_27956(v_t_28623), v_r_28607.rsbTree.elementByIndex(10).zt = !0, v_r_28607.rsbTree.elementByIndex(10).Xt = "chara:" + v_i_28624 + ":0:" + v_t_28623);
         },
         V4: function (v_n_28625) {
           return new Promise(async v_t_28626 => {
             var v_i_28627, v_e_28628;
             "string" == typeof v_n_28625 && -1 !== v_be_27857.Up.findIndex(v_t_28629 => v_t_28629.id === v_n_28625) && (v_i_28627 = await new Promise(v_t_28630 => v__o_28104("/nameplates/" + v_n_28625 + "/image.png", v_t_28630))) && (v_i_28627 = glRuntime.Texture.fromImage(v_i_28627, {
               noFlip: !0
-            }), v_e_28628 = "cache:playerplate:nameplate", renderer.Yt.Zt[v_e_28628] && renderer.Yt.Zt[v_e_28628].free(), renderer.Yt.Zt[v_e_28628] = v_i_28627, v_r_28607.lt.elementByIndex(0).zt = !0, v_r_28607.lt.elementByIndex(0).Xt = v_e_28628), v_t_28626();
+            }), v_e_28628 = "cache:playerplate:nameplate", renderer.Yt.Zt[v_e_28628] && renderer.Yt.Zt[v_e_28628].free(), renderer.Yt.Zt[v_e_28628] = v_i_28627, v_r_28607.rsbTree.elementByIndex(0).zt = !0, v_r_28607.rsbTree.elementByIndex(0).Xt = v_e_28628), v_t_28626();
           });
         },
         J4: function (v_t_28631, v_i_28632) {
           var v_e_28633, v_n_28634;
-          v_i_28632 ? (v_i_28632 = "" + mathFloor(v_t_28631 / 100), v_e_28633 = v_Xa_28081("" + v_t_28631 % 100, 2, "0"), v_n_28634 = ratingColorName(v_t_28631), v_t_28631 = ratingColorRgba(v_t_28631), v_r_28607.lt.elementByIndex(9).Wt = v_i_28632 + "P" + v_e_28633, v_r_28607.lt.elementByIndex(9).Ak = "rating" + v_n_28634, v_r_28607.lt.elementByIndex(9).Qe(v_t_28631[0], v_t_28631[1], v_t_28631[2], v_t_28631[3]), v_r_28607.lt.elementByIndex(8).Je = "numRating" + v_n_28634 + "Rating", v_r_28607.lt.elementByIndex(8).Qe(v_t_28631[0], v_t_28631[1], v_t_28631[2], v_t_28631[3])) : (v_r_28607.lt.elementByIndex(9).Wt = "N", v_r_28607.lt.elementByIndex(9).Ak = "ratingWt", v_r_28607.lt.elementByIndex(9).Qe(.825, .825, .825, 1), v_r_28607.lt.elementByIndex(8).Je = "numRatingWtRating", v_r_28607.lt.elementByIndex(8).Qe(.825, .825, .825, 1));
+          v_i_28632 ? (v_i_28632 = "" + mathFloor(v_t_28631 / 100), v_e_28633 = v_Xa_28081("" + v_t_28631 % 100, 2, "0"), v_n_28634 = ratingColorName(v_t_28631), v_t_28631 = ratingColorRgba(v_t_28631), v_r_28607.rsbTree.elementByIndex(9).Wt = v_i_28632 + "P" + v_e_28633, v_r_28607.rsbTree.elementByIndex(9).Ak = "rating" + v_n_28634, v_r_28607.rsbTree.elementByIndex(9).Qe(v_t_28631[0], v_t_28631[1], v_t_28631[2], v_t_28631[3]), v_r_28607.rsbTree.elementByIndex(8).Je = "numRating" + v_n_28634 + "Rating", v_r_28607.rsbTree.elementByIndex(8).Qe(v_t_28631[0], v_t_28631[1], v_t_28631[2], v_t_28631[3])) : (v_r_28607.rsbTree.elementByIndex(9).Wt = "N", v_r_28607.rsbTree.elementByIndex(9).Ak = "ratingWt", v_r_28607.rsbTree.elementByIndex(9).Qe(.825, .825, .825, 1), v_r_28607.rsbTree.elementByIndex(8).Je = "numRatingWtRating", v_r_28607.rsbTree.elementByIndex(8).Qe(.825, .825, .825, 1));
         },
         O4: function (v_t_28635, v_i_28636) {
-          v_r_28607.lt.elementByIndex(7).Wt = v_i_28636 ? "" + mathMin(mathMax(v_t_28635, 1), 99) : "MM";
+          v_r_28607.rsbTree.elementByIndex(7).Wt = v_i_28636 ? "" + mathMin(mathMax(v_t_28635, 1), 99) : "MM";
         },
         $t: function (v_t_28637) {
-          v_n_28608.lt.elementByIndex(5).visible = !!v_t_28637;
+          v_n_28608.rsbTree.elementByIndex(5).visible = !!v_t_28637;
         },
         VA: function (v_t_28638, v_i_28639) {
-          v_n_28608.lt.elementByIndex(0).Wt = v_i_28639 ? "C" + v_i_28639 + "S" + v_t_28638 : "C" + v_t_28638;
+          v_n_28608.rsbTree.elementByIndex(0).Wt = v_i_28639 ? "C" + v_i_28639 + "S" + v_t_28638 : "C" + v_t_28638;
         },
         uP: function (v_t_28640) {
-          v_n_28608.lt.elementByIndex(0).visible = v_t_28640;
+          v_n_28608.rsbTree.elementByIndex(0).visible = v_t_28640;
         },
         _P: function (v_t_28641) {},
         kL: function (v_t_28642) {
-          v_n_28608.lt.elementByIndex(1).visible = null !== v_t_28642, v_n_28608.lt.elementByIndex(4).visible = null !== v_t_28642;
+          v_n_28608.rsbTree.elementByIndex(1).visible = null !== v_t_28642, v_n_28608.rsbTree.elementByIndex(4).visible = null !== v_t_28642;
           v_t_28642 = -1 === v_t_28642 || null === v_t_28642 ? 999 : v_t_28642;
-          v_n_28608.lt.elementByIndex(4).Wt = v_t_28642.toFixed(0) + " ms";
+          v_n_28608.rsbTree.elementByIndex(4).Wt = v_t_28642.toFixed(0) + " ms";
           let v_i_28643 = 0;
-          v_t_28642 < 50 ? v_i_28643 = 2 : v_t_28642 < 100 && (v_i_28643 = 1), v_n_28608.lt.elementByIndex(1).Je = "iconNetwork" + v_i_28643;
+          v_t_28642 < 50 ? v_i_28643 = 2 : v_t_28642 < 100 && (v_i_28643 = 1), v_n_28608.rsbTree.elementByIndex(1).Je = "iconNetwork" + v_i_28643;
         }
       };
     }(),
@@ -655,7 +655,7 @@
         ue: function (v_e_28662) {
           v_Le_28076([v_i_28663 => {
             languagePackages.it("ui/commonTimer.rsb", function (v_t_28664) {
-              v_t_28664 ? (v_t_28664 = new v_Dl_28181(v_t_28664), (v_n_28646 = v_t_28664.rt(renderer.p5())).Jt = !0, v_r_28647 = v_n_28646.lt.elementByIndex(5), v_a_28649 = v_n_28646.lt.elementByIndex(3), v_s_28648 = v_n_28646.lt.elementByIndex(2), v_o_28650 = v_n_28646.lt.elementByIndex(6), (v_l_28651 = v_n_28646.lt.elementByIndex(0)).visible = !1, v_n_28646.lt.elementByIndex(1).visible = !1, renderer.ut("sysTimer", v_n_28646, 4090, v_t_28665 => {
+              v_t_28664 ? (v_t_28664 = new v_Dl_28181(v_t_28664), (v_n_28646 = v_t_28664.rt(renderer.p5())).Jt = !0, v_r_28647 = v_n_28646.rsbTree.elementByIndex(5), v_a_28649 = v_n_28646.rsbTree.elementByIndex(3), v_s_28648 = v_n_28646.rsbTree.elementByIndex(2), v_o_28650 = v_n_28646.rsbTree.elementByIndex(6), (v_l_28651 = v_n_28646.rsbTree.elementByIndex(0)).visible = !1, v_n_28646.rsbTree.elementByIndex(1).visible = !1, renderer.ut("sysTimer", v_n_28646, 4090, v_t_28665 => {
                 v_Me_28078(v_i_28663);
               })) : v_e_28662();
             });
@@ -670,10 +670,10 @@
           v_o_28650.visible = !1, v_s_28648.visible = !0, v_a_28649.visible = !1, v_r_28647.y = 35;
         },
         ti: function () {
-          v_n_28646.lt.elementByIndex(1).visible = !0, v_v_28661();
+          v_n_28646.rsbTree.elementByIndex(1).visible = !0, v_v_28661();
         },
         ii: function () {
-          v_n_28646.lt.elementByIndex(1).visible = !1;
+          v_n_28646.rsbTree.elementByIndex(1).visible = !1;
         },
         ft: function (v_t_28667) {
           v_i_28652.push(v_t_28667);
@@ -721,8 +721,8 @@
       let v_r_28672 = void 0;
       async function v_e_28676() {
         v_r_28672.Jt = !0;
-        for (const v_n_28677 of v_r_28672.lt.We) v_n_28677.visible = !1;
-        var v_t_28674 = v_r_28672.lt.elementByIndex(0);
+        for (const v_n_28677 of v_r_28672.rsbTree.We) v_n_28677.visible = !1;
+        var v_t_28674 = v_r_28672.rsbTree.elementByIndex(0);
         let v_i_28675 = v_t_28674.elementByIndex(6),
           v_e_28676 = v_t_28674.elementByIndex(9);
         v_t_28674.visible = !0, v_r_28672.e8(2, v_t_28674), v_i_28675.Wt = "0C00P", v_e_28676.ln(0), await v_fo_28103(v_Ge_28204(30)), await function (v_r_28678) {
@@ -801,9 +801,9 @@
           let v_e_28728 = ["ja-JP", "en-US", "zh-CN"],
             v_n_28729 = mathMax(v_e_28728.indexOf(currentLang), 0);
           v_a_28716.Jt = !0;
-          for (const v_t_28732 of v_a_28716.lt.We) v_t_28732.visible = !1;
-          let v_r_28730 = v_a_28716.lt.elementByIndex(0),
-            v_s_28731 = v_a_28716.lt.elementByIndex(6);
+          for (const v_t_28732 of v_a_28716.rsbTree.We) v_t_28732.visible = !1;
+          let v_r_28730 = v_a_28716.rsbTree.elementByIndex(0),
+            v_s_28731 = v_a_28716.rsbTree.elementByIndex(6);
           for (let v_t_28733 = 0; v_t_28733 < v_s_28731.We.length; ++v_t_28733) v_s_28731.We[v_t_28733].We[1].visible = !1;
           v_s_28731.We[v_n_28729].We[1].visible = !0, v_a_28716.e8(3, v_s_28731.We[v_n_28729]), menuSystem.ft(), menuSystem.vt("left", v_o_28718, 0, 3, v_ai_27793, !0, !1, !1, "left", function (v_t_28734) {
             if ("down" === v_t_28734) {
@@ -818,18 +818,18 @@
               v_s_28731.We[v_n_28729].We[1].visible = !0, v_a_28716.e8(3, v_s_28731.We[v_n_28729]), menuSystem.kt("left", v_n_28729 <= 0), menuSystem.kt("right", v_n_28729 >= v_e_28728.length - 1);
             }
           }), menuSystem.vt("enter", v_c_28720, 6, 4, v_W0_27791, !1, !1, !1, "enter", async function (v_t_28738) {
-            "down" === v_t_28738 && (menuSystem._t(), currentLang = v_e_28728[v_n_28729], await v_ts_27977.L4(currentLang), await v_fo_28103(v_Ge_28204(20)), (v_t_28738 = v_a_28716.lt.elementByIndex(16)).visible = !0, v_a_28716.e8(2, v_t_28738), v_t_28738.elementByIndex(21).Je = "textLangSelect_" + currentLang, await v_fo_28103(v_Ge_28204(30)), await menuSystem.T4(v_u_28721), v_a_28716.e8(1, v_t_28738), v_a_28716.e8(1, v_r_28730), await v_fo_28103(v_Ge_28204(20)), v_i_28727());
+            "down" === v_t_28738 && (menuSystem._t(), currentLang = v_e_28728[v_n_28729], await v_ts_27977.L4(currentLang), await v_fo_28103(v_Ge_28204(20)), (v_t_28738 = v_a_28716.rsbTree.elementByIndex(16)).visible = !0, v_a_28716.e8(2, v_t_28738), v_t_28738.elementByIndex(21).Je = "textLangSelect_" + currentLang, await v_fo_28103(v_Ge_28204(30)), await menuSystem.T4(v_u_28721), v_a_28716.e8(1, v_t_28738), v_a_28716.e8(1, v_r_28730), await v_fo_28103(v_Ge_28204(20)), v_i_28727());
           }), menuSystem.kt("left", v_n_28729 <= 0), menuSystem.kt("right", v_n_28729 >= v_e_28728.length - 1), v_r_28730.visible = !0, v_a_28716.e8(2, v_r_28730), menuSystem.It(!0), menuSystem.T9(v_Ge_28204(20));
         });
       }
       async function v_r_28723() {
         v_a_28716.Jt = !0;
-        for (const v_i_28740 of v_a_28716.lt.We) v_i_28740.visible = !1;
-        var v_t_28739 = v_a_28716.lt.elementByIndex(22);
+        for (const v_i_28740 of v_a_28716.rsbTree.We) v_i_28740.visible = !1;
+        var v_t_28739 = v_a_28716.rsbTree.elementByIndex(22);
         v_t_28739.elementByIndex(27).Je = "textAssetDL_" + currentLang, v_t_28739.elementByIndex(28).Wt = (v_s_28717 / 1048576).toFixed(2).replaceAll(".", "C") + "U", v_t_28739.visible = !0, v_a_28716.e8(2, v_t_28739), await v_fo_28103(v_Ge_28204(30)), await menuSystem.T4(v_u_28721), v_a_28716.e8(1, v_t_28739), await v_fo_28103(v_Ge_28204(20)), async function () {
           v_a_28716.Jt = !0;
-          for (const v_r_28745 of v_a_28716.lt.We) v_r_28745.visible = !1;
-          let v_t_28741 = v_a_28716.lt.elementByIndex(29),
+          for (const v_r_28745 of v_a_28716.rsbTree.We) v_r_28745.visible = !1;
+          let v_t_28741 = v_a_28716.rsbTree.elementByIndex(29),
             v_i_28742 = v_t_28741.elementByIndex(36),
             v_e_28743 = v_t_28741.elementByIndex(39),
             v_n_28744 = (v_t_28741.visible = !0, v_a_28716.e8(2, v_t_28741), v_t_28741.elementByIndex(35).Je = "textDownloading_" + currentLang, v_i_28742.Wt = "0C00P", v_e_28743.ln(0), await v_fo_28103(v_Ge_28204(30)), await v_ts_27977.u4(function (v_t_28746) {
@@ -842,14 +842,14 @@
       }
       async function v_f_28724(v_t_28748) {
         v_a_28716.Jt = !0;
-        for (const v_e_28750 of v_a_28716.lt.We) v_e_28750.visible = !1;
-        var v_i_28749 = v_a_28716.lt.elementByIndex(40);
+        for (const v_e_28750 of v_a_28716.rsbTree.We) v_e_28750.visible = !1;
+        var v_i_28749 = v_a_28716.rsbTree.elementByIndex(40);
         v_i_28749.elementByIndex(45).Je = v_t_28748 ? "textCompleteDL_" + currentLang : "textFailedDL_" + currentLang, v_i_28749.elementByIndex(46).Je = "textBackTitle_" + currentLang, v_i_28749.visible = !0, v_a_28716.e8(2, v_i_28749), await v_fo_28103(v_Ge_28204(30)), await menuSystem.T4(v_u_28721), v_a_28716.e8(1, v_i_28749), await v_fo_28103(v_Ge_28204(20)), v_t_28748 ? await v_ts_27977.v4() : location.reload();
       }
       async function v___28725() {
         v_a_28716.Jt = !0;
-        for (const v_i_28752 of v_a_28716.lt.We) v_i_28752.visible = !1;
-        var v_t_28751 = v_a_28716.lt.elementByIndex(47);
+        for (const v_i_28752 of v_a_28716.rsbTree.We) v_i_28752.visible = !1;
+        var v_t_28751 = v_a_28716.rsbTree.elementByIndex(47);
         v_t_28751.elementByIndex(52).Je = "textBackTitle_" + currentLang, v_t_28751.visible = !0, v_a_28716.e8(2, v_t_28751), await v_fo_28103(v_Ge_28204(30)), await menuSystem.T4(v_u_28721), v_a_28716.e8(1, v_t_28751), await v_fo_28103(v_Ge_28204(20)), location.reload();
       }
       function v_h_28726() {
@@ -933,7 +933,7 @@
           v_Le_28076([v_i_28782 => {
             languagePackages.it("ui/advertise.rsb", function (v_t_28783) {
               v_t_28783 ? (v_t_28783 = new v_Dl_28181(v_t_28783), renderer.nt(v_t_28783.rt(renderer.p5()), v_t_28784 => {
-                (v_n_28770 = v_t_28784).lt.elementByIndex(27).Wt = "Version " + v_nc_28202(), v_n_28770.lt.elementByIndex(28).Wt = "Build " + handshake.rm.Sm, v_Me_28078(v_i_28782);
+                (v_n_28770 = v_t_28784).rsbTree.elementByIndex(27).Wt = "Version " + v_nc_28202(), v_n_28770.rsbTree.elementByIndex(28).Wt = "Build " + handshake.rm.Sm, v_Me_28078(v_i_28782);
               })) : v_e_28781();
             });
           }, v_t_28785 => {
@@ -1109,7 +1109,7 @@
               await renderer.C7(v_Ge_28204(15)), menuSystem.It(!0), menuSystem.T9(v_Ge_28204(20)), sceneManager.ft(new v_M1_27898(v_e_28868, void 0)), sceneManager.ri(30), sceneManager.ti();
               var v_i_28867 = await v_D_27646.R9();
               if (v_i_28867 !== v_Ts_28004) if (v_i_28867 === v_Is_28005) await new Promise(v_t_28871 => v_Te_27911.Ai(v_Ue_28209("amReaderErrorFatal"), v_N0_27771 | v_U0_27775, 1500, v_t_28871)), v_e_28868();else {
-                v_u_28793.e8(1, void 0, 10), sceneManager.ni(), sceneManager.ii(), menuSystem.It(!1), await renderer.C7(v_Ge_28204(30)), menuSystem.dt(), v_t_28866++, v_d_28802(v___28800), v_u_28793.lt.elementByIndex(50).Wt = v_Rs_28007.E9(v_i_28867), v_u_28793.e8(2, void 0, 10);
+                v_u_28793.e8(1, void 0, 10), sceneManager.ni(), sceneManager.ii(), menuSystem.It(!1), await renderer.C7(v_Ge_28204(30)), menuSystem.dt(), v_t_28866++, v_d_28802(v___28800), v_u_28793.rsbTree.elementByIndex(50).Wt = v_Rs_28007.E9(v_i_28867), v_u_28793.e8(2, void 0, 10);
                 for (const v_r_28872 of [["exit", "Exit", 0, 16, v_W0_27791, v_e_28868]]) menuSystem.vt(v_r_28872[0], v_r_28872[1], v_r_28872[2], v_r_28872[3], v_r_28872[4], !1, !1, !1, "", v_r_28872[5]);
                 await renderer.C7(v_Ge_28204(15)), menuSystem.It(!0), menuSystem.T9(v_Ge_28204(20)), sceneManager.ft(new v_M1_27898(v_e_28868, void 0)), sceneManager.ri(30), sceneManager.ti();
               }
@@ -1148,7 +1148,7 @@
           v_Le_28076([v_i_28875 => {
             languagePackages.it("ui/login.rsb", function (v_t_28876) {
               v_t_28876 ? (v_t_28876 = new v_Dl_28181(v_t_28876), renderer.nt(v_t_28876.rt(renderer.p5()), v_t_28877 => {
-                v_u_28793 = v_t_28877, v_f_28794 = v_u_28793.lt.elementByIndex(0), v_n_28795 = v_u_28793.lt.elementByIndex(21), v_s_28796 = v_u_28793.lt.elementByIndex(23), v_a_28797 = v_u_28793.lt.elementByIndex(26), v_o_28798 = v_u_28793.lt.elementByIndex(36), v_l_28799 = v_u_28793.lt.elementByIndex(42), v___28800 = v_u_28793.lt.elementByIndex(47), v_h_28801 = v_u_28793.lt.elementByIndex(52), v_Me_28078(v_i_28875);
+                v_u_28793 = v_t_28877, v_f_28794 = v_u_28793.rsbTree.elementByIndex(0), v_n_28795 = v_u_28793.rsbTree.elementByIndex(21), v_s_28796 = v_u_28793.rsbTree.elementByIndex(23), v_a_28797 = v_u_28793.rsbTree.elementByIndex(26), v_o_28798 = v_u_28793.rsbTree.elementByIndex(36), v_l_28799 = v_u_28793.rsbTree.elementByIndex(42), v___28800 = v_u_28793.rsbTree.elementByIndex(47), v_h_28801 = v_u_28793.rsbTree.elementByIndex(52), v_Me_28078(v_i_28875);
               })) : v_e_28874();
             });
           }, v_t_28878 => {
@@ -1183,7 +1183,7 @@
         v_r_28885.e8(0), menuSystem.It(!1), renderer.W6(v_t_28892, v_Ge_28204(30));
       }
       function v_c_28891() {
-        v_r_28885.lt.elementByIndex(6).Wt = v_s_28886[v_n_28887.wi], v_r_28885.lt.elementByIndex(7).Wt = "Page " + (v_n_28887.wi + 1) + " / " + v_s_28886.length, menuSystem.kt("left", v_n_28887.wi <= 0), menuSystem.kt("right", v_n_28887.wi >= v_s_28886.length - 1), menuSystem.Cv(!0);
+        v_r_28885.rsbTree.elementByIndex(6).Wt = v_s_28886[v_n_28887.wi], v_r_28885.rsbTree.elementByIndex(7).Wt = "Page " + (v_n_28887.wi + 1) + " / " + v_s_28886.length, menuSystem.kt("left", v_n_28887.wi <= 0), menuSystem.kt("right", v_n_28887.wi >= v_s_28886.length - 1), menuSystem.Cv(!0);
       }
       function v_t_28892() {
         menuSystem._t(), renderer._i("licenseText"), v_n_28887.Ee && v_n_28887.Ee();
@@ -1292,7 +1292,7 @@
           }]);
         },
         ti: function (v_t_28930) {
-          v_n_28924.Jt = !0, v_n_28924.lt.elementByIndex(2).Je = "text" + v_t_28930, v_n_28924.lt.elementByIndex(3).Wt = v_Ue_28209("header" + v_t_28930), v_n_28924.e8(0), sceneManager.ei();
+          v_n_28924.Jt = !0, v_n_28924.rsbTree.elementByIndex(2).Je = "text" + v_t_28930, v_n_28924.rsbTree.elementByIndex(3).Wt = v_Ue_28209("header" + v_t_28930), v_n_28924.e8(0), sceneManager.ei();
         },
         ii: function () {
           v_n_28924.Jt = !1, sceneManager.qt();
@@ -1366,8 +1366,8 @@
           v_Le_28076([v_e_28969 => {
             languagePackages.it("ui/commonDialog.rsb", function (v_t_28970) {
               v_t_28970 ? (v_t_28970 = new v_Dl_28181(v_t_28970), renderer.nt(v_t_28970.rt(renderer.p5()), v_t_28971 => {
-                v_c_28932 = v_t_28971, v_u_28933 = v_t_28971.lt.elementByIndex(0);
-                var v_i_28972 = v_t_28971.lt.elementByIndex(1);
+                v_c_28932 = v_t_28971, v_u_28933 = v_t_28971.rsbTree.elementByIndex(0);
+                var v_i_28972 = v_t_28971.rsbTree.elementByIndex(1);
                 for (let v_t_28973 = 0; v_t_28973 < v_i_28972.We.length; ++v_t_28973) v_i_28972.We[v_t_28973].visible = !1, v_f_28934[v_i_28972.We[v_t_28973].ct] = v_i_28972.We[v_t_28973];
                 v_Me_28078(v_e_28969);
               })) : v_i_28968();
@@ -1632,8 +1632,8 @@
           }, v_n_29101 => {
             languagePackages.it("ui/nameEntry.rsb", function (v_t_29102) {
               v_t_29102 ? (v_t_29102 = new v_Dl_28181(v_t_29102), renderer.nt(v_t_29102.rt(renderer.p5()), v_t_29103 => {
-                v___29000 = v_t_29103, v_h_29001 = v_t_29103.lt.elementByIndex(23), v_r_29002 = v_t_29103.lt.elementByIndex(22), v_d_29003 = v_t_29103.lt.elementByIndex(25), v_v_29004.Oi = v_t_29103.lt.elementByIndex(18), v_v_29004.Ji = v_t_29103.lt.elementByIndex(20), v_v_29004.wn = v_t_29103.lt.elementByIndex(28), v_v_29004.pn = v_t_29103.lt.elementByIndex(27), v_s_29005 = v_t_29103.lt.elementByIndex(36), v_a_29006 = v_t_29103.lt.elementByIndex(29);
-                var v_i_29104 = v_t_29103.lt.elementByIndex(86);
+                v___29000 = v_t_29103, v_h_29001 = v_t_29103.rsbTree.elementByIndex(23), v_r_29002 = v_t_29103.rsbTree.elementByIndex(22), v_d_29003 = v_t_29103.rsbTree.elementByIndex(25), v_v_29004.Oi = v_t_29103.rsbTree.elementByIndex(18), v_v_29004.Ji = v_t_29103.rsbTree.elementByIndex(20), v_v_29004.wn = v_t_29103.rsbTree.elementByIndex(28), v_v_29004.pn = v_t_29103.rsbTree.elementByIndex(27), v_s_29005 = v_t_29103.rsbTree.elementByIndex(36), v_a_29006 = v_t_29103.rsbTree.elementByIndex(29);
+                var v_i_29104 = v_t_29103.rsbTree.elementByIndex(86);
                 for (let v_t_29106 = 0; v_t_29106 < v_i_29104.We.length; ++v_t_29106) v_i_29104.We[v_t_29106].visible = !1, v_w_29007[v_i_29104.We[v_t_29106].ct] = v_i_29104.We[v_t_29106];
                 for (let v_t_29107 = 0; v_t_29107 < 9; ++v_t_29107) {
                   var v_e_29105 = v_w_29007.catPanel.Ve(!0);
@@ -1697,7 +1697,7 @@
       function v_o_29130(v_t_29136) {
         v_a_29129.KS = v_Qa_28089(v_t_29136, 0, v_e_29125 - 1);
         v_t_29136 = v_s_29128[v_a_29129.KS];
-        v_r_29127.lt.elementByIndex(15).x = v_t_29136.x - 16, v_r_29127.e8(8);
+        v_r_29127.rsbTree.elementByIndex(15).x = v_t_29136.x - 16, v_r_29127.e8(8);
       }
       function v_l_29131(v_i_29137, v_t_29138) {
         if (v_t_29138) for (let v_t_29139 = 0; v_t_29139 < v_e_29125; ++v_t_29139) v_s_29128[v_t_29139].Je = "numRoom" + v_a_29129.zS[v_t_29139];else {
@@ -1729,15 +1729,15 @@
             return void v_i_29135();
           case "enter":
             !async function () {
-              menuSystem.It(!1), v_r_29127.lt.elementByIndex(30).visible = !1, v_r_29127.lt.elementByIndex(15).visible = !1;
+              menuSystem.It(!1), v_r_29127.rsbTree.elementByIndex(30).visible = !1, v_r_29127.rsbTree.elementByIndex(15).visible = !1;
               var v_t_29142 = !v_a_29129.YS || (await v_a_29129.YS(v_Pe_28064(v_a_29129.zS.join(""))));
-              (v_t_29142 ? v_i_29135 : (v_r_29127.lt.elementByIndex(30).visible = !0, v_r_29127.lt.elementByIndex(15).visible = !0, v_u_29133))();
+              (v_t_29142 ? v_i_29135 : (v_r_29127.rsbTree.elementByIndex(30).visible = !0, v_r_29127.rsbTree.elementByIndex(15).visible = !0, v_u_29133))();
             }();
         }
         v_u_29133();
       }
       function v_i_29135() {
-        sceneManager._t(), menuSystem.It(!1), v_r_29127.e8(7), v_r_29127.lt.elementByIndex(30).visible = !1, v_r_29127.lt.elementByIndex(15).visible = !1, renderer.W6(() => {
+        sceneManager._t(), menuSystem.It(!1), v_r_29127.e8(7), v_r_29127.rsbTree.elementByIndex(30).visible = !1, v_r_29127.rsbTree.elementByIndex(15).visible = !1, renderer.W6(() => {
           menuSystem._t(), v_r_29127.i8(7), renderer._i("openCoop"), v_a_29129.Gi = !1, v_a_29129.qS && v_a_29129.qS(), v_a_29129.qS = void 0;
         }, 250);
       }
@@ -1746,7 +1746,7 @@
           v_Le_28076([v_i_29144 => {
             languagePackages.it("ui/openCoop.rsb", function (v_t_29145) {
               v_t_29145 ? (v_t_29145 = new v_Dl_28181(v_t_29145), renderer.nt(v_t_29145.rt(renderer.p5()), v_t_29146 => {
-                v_r_29127 = v_t_29146, v_s_29128.push(v_r_29127.lt.elementByIndex(19)), v_s_29128.push(v_r_29127.lt.elementByIndex(21)), v_s_29128.push(v_r_29127.lt.elementByIndex(23)), v_s_29128.push(v_r_29127.lt.elementByIndex(25)), v_s_29128.push(v_r_29127.lt.elementByIndex(27)), v_s_29128.push(v_r_29127.lt.elementByIndex(29)), v_Me_28078(v_i_29144);
+                v_r_29127 = v_t_29146, v_s_29128.push(v_r_29127.rsbTree.elementByIndex(19)), v_s_29128.push(v_r_29127.rsbTree.elementByIndex(21)), v_s_29128.push(v_r_29127.rsbTree.elementByIndex(23)), v_s_29128.push(v_r_29127.rsbTree.elementByIndex(25)), v_s_29128.push(v_r_29127.rsbTree.elementByIndex(27)), v_s_29128.push(v_r_29127.rsbTree.elementByIndex(29)), v_Me_28078(v_i_29144);
               })) : v_e_29143();
             });
           }, v_t_29147 => {
@@ -1754,7 +1754,7 @@
           }]);
         },
         T0: async function (v_t_29148, v_i_29149) {
-          (v_a_29129 = new v_n_29126()).Gi = !0, v_a_29129.YS = v_t_29148, v_a_29129.qS = v_i_29149, v_r_29127.Jt = !1, await new Promise(v_t_29150 => renderer.ut("openCoop", v_r_29127, 60, v_t_29150)), v_r_29127.lt.elementByIndex(30).visible = !0, v_r_29127.lt.elementByIndex(15).visible = !0, v_o_29130(0), v_l_29131(!1, !0), menuSystem.ft();
+          (v_a_29129 = new v_n_29126()).Gi = !0, v_a_29129.YS = v_t_29148, v_a_29129.qS = v_i_29149, v_r_29127.Jt = !1, await new Promise(v_t_29150 => renderer.ut("openCoop", v_r_29127, 60, v_t_29150)), v_r_29127.rsbTree.elementByIndex(30).visible = !0, v_r_29127.rsbTree.elementByIndex(15).visible = !0, v_o_29130(0), v_l_29131(!1, !0), menuSystem.ft();
           for (const v_e_29151 of [["left", "Left", 0, 3, v_ai_27793, !0, "left"], ["right", "Right", 3, 3, v_ai_27793, !0, "right"], ["changeDown", "ChangeMinus", 6, 2, v_X0_27795, !0, "down"], ["changeUp", "ChangePlus", 8, 2, v_X0_27795, !0, "up"], ["cancel", "Cancel", 12, 2, v_si_27792, !1, ""], ["enter", "Enter", 14, 2, v_W0_27791, !1, "enter"]]) menuSystem.vt(v_e_29151[0], v_e_29151[1], v_e_29151[2], v_e_29151[3], v_e_29151[4], v_e_29151[5], !1, !1, v_e_29151[6], function (v_t_29152, v_i_29153) {
             "down" === v_t_29152 && v_f_29134(this.Ae);
           });
@@ -1812,21 +1812,21 @@
         v_u_29163();
       }
       function v_d_29165() {
-        v___29155.lt.elementByIndex(15).Wt = v_h_29158.ZS ? v_Xa_28081(v_h_29158.zS.toString(), 6, "0") : "AAAAAA";
+        v___29155.rsbTree.elementByIndex(15).Wt = v_h_29158.ZS ? v_Xa_28081(v_h_29158.zS.toString(), 6, "0") : "AAAAAA";
       }
       function v_v_29166(v_t_29175) {
         let v_u_29176 = [34, 57, 80],
           v_f_29177 = [!1, !1, !1];
-        for (let v_t_29179 = 0; v_t_29179 < 3; ++v_t_29179) v___29155.lt.elementByIndex(v_u_29176[v_t_29179]).visible = !1;
+        for (let v_t_29179 = 0; v_t_29179 < 3; ++v_t_29179) v___29155.rsbTree.elementByIndex(v_u_29176[v_t_29179]).visible = !1;
         if (!v_t_29175) {
           let v_c_29180 = 0;
           for (v_oe_27649.ix.forEach((v_t_29181, v_i_29182) => {
             var v_e_29183, v_n_29184, v_r_29185, v_s_29186, v_a_29187, v_o_29188, v_l_29189;
-            v_t_29181.nx === v_oe_27649.sx() || 3 <= v_c_29180 || (v_a_29187 = v___29155.lt.elementByIndex(v_u_29176[v_c_29180]), v_e_29183 = v_a_29187.elementByName("playerInfo"), v_a_29187.visible = !0, v_f_29177[v_c_29180] = v_h_29158.$S[v_c_29180] !== v_t_29181.nx, v_h_29158.$S[v_c_29180] = v_t_29181.nx, v_a_29187 = v_t_29181, (v_l_29189 = v_e_29183).elementByName("guestTitleText").Wt = v_a_29187.ox, v_l_29189.elementByName("guestTitlePlate").Je = "title" + v_ot_27785[v_a_29187.lx], v_l_29189.elementByName("guestPlayerName").Wt = v_a_29187.om, v_l_29189.elementByName("guestChara").zt = !0, v_l_29189.elementByName("guestChara").Xt = v_a_29187.ux, v_a_29187 = v_a_29187.lm, v_n_29184 = "" + mathFloor(v_a_29187 / 100), v_r_29185 = v_Xa_28081("" + v_a_29187 % 100, 2, "0"), v_s_29186 = ratingColorName(v_a_29187), v_a_29187 = ratingColorRgba(v_a_29187), v_o_29188 = v_l_29189.elementByName("guestRatingText"), v_l_29189 = v_l_29189.elementByName("guestRatingLabel"), v_o_29188.Wt = v_n_29184 + "P" + v_r_29185, v_o_29188.Ak = "rating" + v_s_29186, v_o_29188.Qe(v_a_29187[0], v_a_29187[1], v_a_29187[2], v_a_29187[3]), v_l_29189.Je = "numRating" + v_s_29186 + "Rating", v_l_29189.Qe(v_a_29187[0], v_a_29187[1], v_a_29187[2], v_a_29187[3]), v_e_29183.elementByName("guestConnecting").visible = !v_oe_27649.uI(v_t_29181.nx), ++v_c_29180);
+            v_t_29181.nx === v_oe_27649.sx() || 3 <= v_c_29180 || (v_a_29187 = v___29155.rsbTree.elementByIndex(v_u_29176[v_c_29180]), v_e_29183 = v_a_29187.elementByName("playerInfo"), v_a_29187.visible = !0, v_f_29177[v_c_29180] = v_h_29158.$S[v_c_29180] !== v_t_29181.nx, v_h_29158.$S[v_c_29180] = v_t_29181.nx, v_a_29187 = v_t_29181, (v_l_29189 = v_e_29183).elementByName("guestTitleText").Wt = v_a_29187.ox, v_l_29189.elementByName("guestTitlePlate").Je = "title" + v_ot_27785[v_a_29187.lx], v_l_29189.elementByName("guestPlayerName").Wt = v_a_29187.om, v_l_29189.elementByName("guestChara").zt = !0, v_l_29189.elementByName("guestChara").Xt = v_a_29187.ux, v_a_29187 = v_a_29187.lm, v_n_29184 = "" + mathFloor(v_a_29187 / 100), v_r_29185 = v_Xa_28081("" + v_a_29187 % 100, 2, "0"), v_s_29186 = ratingColorName(v_a_29187), v_a_29187 = ratingColorRgba(v_a_29187), v_o_29188 = v_l_29189.elementByName("guestRatingText"), v_l_29189 = v_l_29189.elementByName("guestRatingLabel"), v_o_29188.Wt = v_n_29184 + "P" + v_r_29185, v_o_29188.Ak = "rating" + v_s_29186, v_o_29188.Qe(v_a_29187[0], v_a_29187[1], v_a_29187[2], v_a_29187[3]), v_l_29189.Je = "numRating" + v_s_29186 + "Rating", v_l_29189.Qe(v_a_29187[0], v_a_29187[1], v_a_29187[2], v_a_29187[3]), v_e_29183.elementByName("guestConnecting").visible = !v_oe_27649.uI(v_t_29181.nx), ++v_c_29180);
           }); v_c_29180 < 3; ++v_c_29180) v_h_29158.$S[v_c_29180] = 0;
           for (let v_t_29190 = 0; v_t_29190 < 3; ++v_t_29190) {
             var v_i_29178;
-            v_f_29177[v_t_29190] && (v_i_29178 = v___29155.lt.elementByIndex(v_u_29176[v_t_29190]), v___29155.e8(11, v_i_29178));
+            v_f_29177[v_t_29190] && (v_i_29178 = v___29155.rsbTree.elementByIndex(v_u_29176[v_t_29190]), v___29155.e8(11, v_i_29178));
           }
         }
       }
@@ -1857,7 +1857,7 @@
           v_Le_28076([v_i_29208 => {
             languagePackages.it("ui/coopLobby.rsb", function (v_t_29209) {
               v_t_29209 ? (v_t_29209 = new v_Dl_28181(v_t_29209), renderer.nt(v_t_29209.rt(renderer.p5()), v_t_29210 => {
-                v___29155 = v_t_29210, v_a_29156 = [v___29155.lt.elementByIndex(103), v___29155.lt.elementByIndex(104), v___29155.lt.elementByIndex(105)], v_o_29157 = [v___29155.lt.elementByIndex(109), v___29155.lt.elementByIndex(113), v___29155.lt.elementByIndex(117), v___29155.lt.elementByIndex(121), v___29155.lt.elementByIndex(126), v___29155.lt.elementByIndex(130), v___29155.lt.elementByIndex(134), v___29155.lt.elementByIndex(138)], v_Me_28078(v_i_29208);
+                v___29155 = v_t_29210, v_a_29156 = [v___29155.rsbTree.elementByIndex(103), v___29155.rsbTree.elementByIndex(104), v___29155.rsbTree.elementByIndex(105)], v_o_29157 = [v___29155.rsbTree.elementByIndex(109), v___29155.rsbTree.elementByIndex(113), v___29155.rsbTree.elementByIndex(117), v___29155.rsbTree.elementByIndex(121), v___29155.rsbTree.elementByIndex(126), v___29155.rsbTree.elementByIndex(130), v___29155.rsbTree.elementByIndex(134), v___29155.rsbTree.elementByIndex(138)], v_Me_28078(v_i_29208);
               })) : v_e_29207();
             });
           }, v_t_29211 => {
@@ -1893,18 +1893,18 @@
         v_o_29226 = new v_t_29224(),
         v_n_29227 = win.createElement("input");
       function v_r_29228(v_t_29240) {
-        v_c_29225 && (v_c_29225.lt.elementByIndex(17).visible = !v_n_29227.value.length);
+        v_c_29225 && (v_c_29225.rsbTree.elementByIndex(17).visible = !v_n_29227.value.length);
       }
       async function v_i_29229(v_t_29241) {
         v_o_29226.Gi && "f3" === v_t_29241 && (await renderer.C7(v_Ge_28204(1)), v_u_29233(!v_o_29226.eL));
       }
       function v_s_29230(v_t_29242) {
         var v_i_29243;
-        80 <= v_o_29226.oL.length && (v_i_29243 = v_o_29226.oL.shift()).hL && v_c_29225.lt.elementByIndex(11).Ke(v_i_29243.hL), v_t_29242.hL = function (v_t_29244) {
-          var v_i_29245 = v_c_29225.lt.elementByIndex(11),
-            v_e_29246 = v_c_29225.lt.elementByIndex(24),
-            v_n_29247 = v_c_29225.lt.elementByIndex(33),
-            v_r_29248 = v_c_29225.lt.elementByIndex(32),
+        80 <= v_o_29226.oL.length && (v_i_29243 = v_o_29226.oL.shift()).hL && v_c_29225.rsbTree.elementByIndex(11).Ke(v_i_29243.hL), v_t_29242.hL = function (v_t_29244) {
+          var v_i_29245 = v_c_29225.rsbTree.elementByIndex(11),
+            v_e_29246 = v_c_29225.rsbTree.elementByIndex(24),
+            v_n_29247 = v_c_29225.rsbTree.elementByIndex(33),
+            v_r_29248 = v_c_29225.rsbTree.elementByIndex(32),
             v_s_29249 = v_c_29225.Td[v_r_29248.jd];
           if (renderer.Yt.Dh.B3(), !v_s_29249) return null;
           renderer.Yt.Dh.P3(600), renderer.Yt.Dh.D3(600), renderer.Yt.Dh.N3(v_r_29248.w_), renderer.Yt.Dh.H3(v_r_29248.F_), renderer.Yt.Dh.U3(v_r_29248.B_, v_r_29248.M_);
@@ -1923,7 +1923,7 @@
         }(v_t_29242), v_o_29226.oL.push(v_t_29242), v_o_29226.dL = 0, v_o_29226.rL = !v_o_29226.Gi, v_o_29226.Gi && (v_o_29226.eL ? (v_o_29226.sL = v_t_29242.tL, v_a_29232()) : v_l_29231(!0));
       }
       function v_l_29231(v_t_29255) {
-        if (v_c_29225.lt.elementByIndex(19).visible = v_t_29255) {
+        if (v_c_29225.rsbTree.elementByIndex(19).visible = v_t_29255) {
           clearTimeout(v_o_29226.aL), v_o_29226.aL = v_uo_28102(() => {
             v_l_29231(!1);
           }, 4e3);
@@ -1937,14 +1937,14 @@
             var v_s_29256 = v_o_29226.oL[v_t_29263];
             v_s_29256.tL <= v_o_29226.sL || v_s_29256.nx === v_oe_27649.sx() || (v_r_29261 || (v_n_29260 += "\n"), v_n_29260 += `<#c:777>[${v_f_29234(v_s_29256.nx)}]<#r> ` + v_s_29256.Wt, v_r_29261 = !1);
           }
-          var v_t_29255 = v_c_29225.lt.elementByIndex(22),
+          var v_t_29255 = v_c_29225.rsbTree.elementByIndex(22),
             v_a_29257 = (v_t_29255.Tn || (v_t_29255.Tn = new v_Bo_28128()), v_t_29255.Wt = v_t_29255.Tn.An(v_n_29260), 23 * v_e_29259 + 20);
-          v_t_29255.h = v_a_29257 - 20, v_c_29225.lt.elementByIndex(20).h = v_a_29257, v_c_29225.lt.elementByIndex(21).h = v_a_29257, v_c_29225.lt.elementByIndex(19).h = v_a_29257, v_c_29225.lt.elementByIndex(19).y = 1010 - v_a_29257;
+          v_t_29255.h = v_a_29257 - 20, v_c_29225.rsbTree.elementByIndex(20).h = v_a_29257, v_c_29225.rsbTree.elementByIndex(21).h = v_a_29257, v_c_29225.rsbTree.elementByIndex(19).h = v_a_29257, v_c_29225.rsbTree.elementByIndex(19).y = 1010 - v_a_29257;
         } else clearTimeout(v_o_29226.aL), v_o_29226.aL = 0;
       }
       function v_a_29270() {
         let v_i_29264 = 0;
-        var v_e_29265 = v_c_29225.lt.elementByIndex(11);
+        var v_e_29265 = v_c_29225.rsbTree.elementByIndex(11);
         for (let v_t_29271 = v_o_29226.oL.length - 1; 0 <= v_t_29271; --v_t_29271) {
           var v_n_29266 = v_o_29226.oL[v_t_29271];
           v_i_29264 += v_n_29266.hL.h - 8;
@@ -1956,12 +1956,12 @@
           var v_s_29269 = v_o_29226.oL[v_t_29272];
           v_s_29269.hL.We[0].visible = v_r_29268 > -v_e_29265.h - 100 && v_r_29268 <= v_s_29269.hL.h + 100, v_s_29269.hL.$e(0, v_r_29268 - v_s_29269.hL.h), v_r_29268 -= v_s_29269.hL.h - 8;
         }
-        var v_a_29270 = v_c_29225.lt.elementByIndex(13);
+        var v_a_29270 = v_c_29225.rsbTree.elementByIndex(13);
         v_a_29270.$e(0, 460 * (1 - v_o_29226.dL / v_t_29267) * (1 - v_e_29265.h / v_i_29264)), v_a_29270.ln(1, v_e_29265.h / v_i_29264), v_a_29270.visible = v_e_29265.h < v_i_29264;
       }
       function v_u_29233(v_t_29273, v_i_29274) {
         var v_e_29275;
-        (v_o_29226.Gi && v_o_29226.eL !== v_t_29273 || v_i_29274) && (v_o_29226.eL !== v_t_29273 && v_c_29225.e8(v_t_29273 ? 1 : 0), v_o_29226.eL = v_t_29273, v_c_29225.lt.elementByIndex(3).visible = !0, menuSystem.Ct(v_t_29273), v_i_29274 = v_c_29225.lt.elementByIndex(3).x, v_e_29275 = v_c_29225.lt.elementByIndex(3).y, v_i_29274 += v_c_29225.lt.elementByIndex(6).x, v_e_29275 += v_c_29225.lt.elementByIndex(6).y, v_i_29274 += v_c_29225.lt.elementByIndex(15).x, v_e_29275 += v_c_29225.lt.elementByIndex(15).y, v_n_29227.tabIndex = -1, v_n_29227.style.width = v_c_29225.lt.elementByIndex(15).w + "px", v_n_29227.style.height = "48px", v_n_29227.style.display = v_t_29273 ? "block" : "none", v_n_29227.style.position = "absolute", v_n_29227.style.border = "none", v_n_29227.style.outline = "none", v_n_29227.style.background = "transparent", v_n_29227.style.font = "500 24px system-ui", v_n_29227.style.padding = "0 20px", v_n_29227.style.zIndex = "1000", v_n_29227.style.left = v_i_29274 + "px", v_n_29227.style.top = v_e_29275 + "px", v_t_29273 ? (v_a_29232(), v_l_29231(!1), v_r_29228(), v_y_27559.appendChild(v_n_29227), v_n_29227.focus(), v_o_29226.rL = !1, v_o_29226.oL.length && (v_o_29226.sL = v_o_29226.oL[v_o_29226.oL.length - 1].tL), sceneManager.ft(new v_M1_27898(() => {
+        (v_o_29226.Gi && v_o_29226.eL !== v_t_29273 || v_i_29274) && (v_o_29226.eL !== v_t_29273 && v_c_29225.e8(v_t_29273 ? 1 : 0), v_o_29226.eL = v_t_29273, v_c_29225.rsbTree.elementByIndex(3).visible = !0, menuSystem.Ct(v_t_29273), v_i_29274 = v_c_29225.rsbTree.elementByIndex(3).x, v_e_29275 = v_c_29225.rsbTree.elementByIndex(3).y, v_i_29274 += v_c_29225.rsbTree.elementByIndex(6).x, v_e_29275 += v_c_29225.rsbTree.elementByIndex(6).y, v_i_29274 += v_c_29225.rsbTree.elementByIndex(15).x, v_e_29275 += v_c_29225.rsbTree.elementByIndex(15).y, v_n_29227.tabIndex = -1, v_n_29227.style.width = v_c_29225.rsbTree.elementByIndex(15).w + "px", v_n_29227.style.height = "48px", v_n_29227.style.display = v_t_29273 ? "block" : "none", v_n_29227.style.position = "absolute", v_n_29227.style.border = "none", v_n_29227.style.outline = "none", v_n_29227.style.background = "transparent", v_n_29227.style.font = "500 24px system-ui", v_n_29227.style.padding = "0 20px", v_n_29227.style.zIndex = "1000", v_n_29227.style.left = v_i_29274 + "px", v_n_29227.style.top = v_e_29275 + "px", v_t_29273 ? (v_a_29232(), v_l_29231(!1), v_r_29228(), v_y_27559.appendChild(v_n_29227), v_n_29227.focus(), v_o_29226.rL = !1, v_o_29226.oL.length && (v_o_29226.sL = v_o_29226.oL[v_o_29226.oL.length - 1].tL), sceneManager.ft(new v_M1_27898(() => {
           v_u_29233(!1, !0);
         }, void 0))) : (v_n_29227.blur(), v_y_27559.removeChild(v_n_29227), sceneManager._t()));
       }
@@ -1997,13 +1997,13 @@
           }]);
         },
         T0: function () {
-          v_o_29226.Gi || (v_o_29226.Gi = !0, v_c_29225.Jt = !0, v_c_29225.lt.elementByIndex(3).visible = !1, v_l_29231(v_o_29226.rL), v_o_29226.rL = !1, inputModule.$I("textChat", v_i_29229));
+          v_o_29226.Gi || (v_o_29226.Gi = !0, v_c_29225.Jt = !0, v_c_29225.rsbTree.elementByIndex(3).visible = !1, v_l_29231(v_o_29226.rL), v_o_29226.rL = !1, inputModule.$I("textChat", v_i_29229));
         },
         XS: function () {
-          v_o_29226.Gi && (v_u_29233(!1), v_l_29231(!1), v_c_29225.lt.elementByIndex(3).visible = !1, v_o_29226.Gi = !1, v_c_29225.Jt = !1, inputModule.ZI("textChat"));
+          v_o_29226.Gi && (v_u_29233(!1), v_l_29231(!1), v_c_29225.rsbTree.elementByIndex(3).visible = !1, v_o_29226.Gi = !1, v_c_29225.Jt = !1, inputModule.ZI("textChat"));
         },
         B3: function () {
-          v_c_29225.lt.elementByIndex(11).tn(), v_o_29226 = new v_t_29224();
+          v_c_29225.rsbTree.elementByIndex(11).tn(), v_o_29226 = new v_t_29224();
         },
         cL: function (v_t_29286, v_i_29287) {
           v_t_29286 === v_ea_28033 && v_s_29230(new v_e_29223(v_i_29287.tL, v_i_29287.nx, v_i_29287.iL, v_i_29287.MI));
@@ -2024,7 +2024,7 @@
         v_a_29290.tS = !1;
       }
       async function v_l_29292() {
-        for (v_s_29289.lt.elementByIndex(15).visible = !0, v_s_29289.lt.elementByIndex(30).visible = !1, menuSystem.wt("payment", !1), menuSystem.wt("balance", !0), menuSystem.kt("balance", !0), menuSystem.kt("payment", !0), await v_o_29291(), menuSystem.kt("balance", !1), menuSystem.kt("payment", !1), v_D_27646.eS(100), ++v_a_29290.QA; !v_a_29290.tS;) {
+        for (v_s_29289.rsbTree.elementByIndex(15).visible = !0, v_s_29289.rsbTree.elementByIndex(30).visible = !1, menuSystem.wt("payment", !1), menuSystem.wt("balance", !0), menuSystem.kt("balance", !0), menuSystem.kt("payment", !0), await v_o_29291(), menuSystem.kt("balance", !1), menuSystem.kt("payment", !1), v_D_27646.eS(100), ++v_a_29290.QA; !v_a_29290.tS;) {
           var v_t_29295 = await v_D_27646.iS();
           v_t_29295.nS && (v_D_27646.rS(100), await renderer.C7(v_Ge_28204(30)), v_D_27646.sS(), v_t_29295.aS(), await renderer.C7(3e3), v_D_27646.eS(100)), await renderer.C7(v_Ge_28204(30));
         }
@@ -2037,7 +2037,7 @@
             break;
           case "balance":
             !async function () {
-              for (v_s_29289.lt.elementByIndex(15).visible = !1, v_s_29289.lt.elementByIndex(30).visible = !0, menuSystem.wt("payment", !0), menuSystem.wt("balance", !1), menuSystem.kt("balance", !0), menuSystem.kt("payment", !0), await v_o_29291(), menuSystem.kt("balance", !1), menuSystem.kt("payment", !1), v_D_27646.lS(), ++v_a_29290.QA; !v_a_29290.tS;) {
+              for (v_s_29289.rsbTree.elementByIndex(15).visible = !1, v_s_29289.rsbTree.elementByIndex(30).visible = !0, menuSystem.wt("payment", !0), menuSystem.wt("balance", !1), menuSystem.kt("balance", !0), menuSystem.kt("payment", !0), await v_o_29291(), menuSystem.kt("balance", !1), menuSystem.kt("payment", !1), v_D_27646.lS(), ++v_a_29290.QA; !v_a_29290.tS;) {
                 var v_t_29297,
                   v_i_29298 = await v_D_27646.iS();
                 v_i_29298.nS && (null !== (v_t_29297 = await v_i_29298.cS()) ? v_D_27646.lS(v_t_29297) : v_D_27646.sS(), v_i_29298.aS(), await renderer.C7(2e3), v_D_27646.lS()), await renderer.C7(v_Ge_28204(30));
@@ -2081,14 +2081,14 @@
           });
           menuSystem.It(!0), menuSystem.wt("payment", !1), menuSystem.T9(v_Ge_28204(20));
           var v_e_29306 = v_R1_27896.KA();
-          for (v_s_29289.lt.elementByIndex(11).Wt = (v_e_29306 * v_t_29304).toString(), v_s_29289.lt.elementByIndex(14).Wt = v_t_29304.toString(); !v_a_29290.$A;) {
+          for (v_s_29289.rsbTree.elementByIndex(11).Wt = (v_e_29306 * v_t_29304).toString(), v_s_29289.rsbTree.elementByIndex(14).Wt = v_t_29304.toString(); !v_a_29290.$A;) {
             if (v_R1_27896.XA(v_t_29304)) {
               v_i_29305 = !0;
               break;
             }
-            v_s_29289.lt.elementByIndex(9).Wt = (v_R1_27896.YA() + mathMin(v_R1_27896.ZA(), v_t_29304) * v_e_29306).toString(), await renderer.C7(250);
+            v_s_29289.rsbTree.elementByIndex(9).Wt = (v_R1_27896.YA() + mathMin(v_R1_27896.ZA(), v_t_29304) * v_e_29306).toString(), await renderer.C7(250);
           }
-          return v_i_29305 && (v_s_29289.lt.elementByIndex(9).Wt = (v_e_29306 * v_t_29304).toString()), menuSystem.Ct(!0), menuSystem.It(!1), await v_o_29291(), v_s_29289.e8(1), await renderer.C7(v_Ge_28204(30)), renderer._i("paymentModal"), menuSystem.Ct(!1), menuSystem._t(), v_a_29290.Gi = !1, sceneManager._t(), v_i_29305;
+          return v_i_29305 && (v_s_29289.rsbTree.elementByIndex(9).Wt = (v_e_29306 * v_t_29304).toString()), menuSystem.Ct(!0), menuSystem.It(!1), await v_o_29291(), v_s_29289.e8(1), await renderer.C7(v_Ge_28204(30)), renderer._i("paymentModal"), menuSystem.Ct(!1), menuSystem._t(), v_a_29290.Gi = !1, sceneManager._t(), v_i_29305;
         },
         C9: v_u_29294,
         Gi: () => v_a_29290.Gi
@@ -2417,8 +2417,8 @@
           v_Le_28076([v_n_29446 => {
             languagePackages.it("ui/userBox.rsb", function (v_t_29447) {
               v_t_29447 ? (v_t_29447 = new v_Dl_28181(v_t_29447), renderer.nt(v_t_29447.rt(renderer.p5()), v_t_29448 => {
-                v_o_29318 = v_t_29448, v_c_29319 = v_t_29448.lt.elementByIndex(39), v_u_29320 = v_t_29448.lt.elementByIndex(42), v_r_29321 = v_t_29448.lt.elementByIndex(71), v_f_29322.Oi = v_t_29448.lt.elementByIndex(41), v_f_29322.Ji = v_t_29448.lt.elementByIndex(69), v_f_29322.Wi = v_t_29448.lt.elementByIndex(33), v_f_29322.Ki = v_t_29448.lt.elementByIndex(34), v_f_29322.zi = v_t_29448.lt.elementByIndex(37), v_f_29322.Xi = v_t_29448.lt.elementByIndex(36), v_f_29322.Zi = v_t_29448.lt.elementByIndex(47), v_f_29322.Yi = v_t_29448.lt.elementByIndex(60), v_f_29322.$i = v_t_29448.lt.elementByIndex(62), v_f_29322.qi = v_t_29448.lt.elementByIndex(52), v_f_29322.Qi = v_t_29448.lt.elementByIndex(55), v_f_29322.en = v_t_29448.lt.elementByIndex(56), v_f_29322.BI = v_t_29448.lt.elementByIndex(57), v_f_29322.bk = v_t_29448.lt.elementByIndex(48), v_f_29322.Sk = v_t_29448.lt.elementByIndex(51);
-                var v_i_29449 = v_t_29448.lt.elementByIndex(72);
+                v_o_29318 = v_t_29448, v_c_29319 = v_t_29448.rsbTree.elementByIndex(39), v_u_29320 = v_t_29448.rsbTree.elementByIndex(42), v_r_29321 = v_t_29448.rsbTree.elementByIndex(71), v_f_29322.Oi = v_t_29448.rsbTree.elementByIndex(41), v_f_29322.Ji = v_t_29448.rsbTree.elementByIndex(69), v_f_29322.Wi = v_t_29448.rsbTree.elementByIndex(33), v_f_29322.Ki = v_t_29448.rsbTree.elementByIndex(34), v_f_29322.zi = v_t_29448.rsbTree.elementByIndex(37), v_f_29322.Xi = v_t_29448.rsbTree.elementByIndex(36), v_f_29322.Zi = v_t_29448.rsbTree.elementByIndex(47), v_f_29322.Yi = v_t_29448.rsbTree.elementByIndex(60), v_f_29322.$i = v_t_29448.rsbTree.elementByIndex(62), v_f_29322.qi = v_t_29448.rsbTree.elementByIndex(52), v_f_29322.Qi = v_t_29448.rsbTree.elementByIndex(55), v_f_29322.en = v_t_29448.rsbTree.elementByIndex(56), v_f_29322.BI = v_t_29448.rsbTree.elementByIndex(57), v_f_29322.bk = v_t_29448.rsbTree.elementByIndex(48), v_f_29322.Sk = v_t_29448.rsbTree.elementByIndex(51);
+                var v_i_29449 = v_t_29448.rsbTree.elementByIndex(72);
                 for (let v_t_29451 = 0; v_t_29451 < v_i_29449.We.length; ++v_t_29451) v_i_29449.We[v_t_29451].visible = !1, v_k_29323[v_i_29449.We[v_t_29451].ct] = v_i_29449.We[v_t_29451];
                 for (let v_t_29452 = 0; v_t_29452 < 9; ++v_t_29452) {
                   var v_e_29450 = v_k_29323.catPanel.Ve(!0);
@@ -2607,8 +2607,8 @@
           v_Le_28076([v_e_29530 => {
             languagePackages.it("ui/courseSelect.rsb", function (v_t_29531) {
               v_t_29531 ? (v_t_29531 = new v_Dl_28181(v_t_29531), renderer.nt(v_t_29531.rt(renderer.p5()), v_t_29532 => {
-                v_l_29467 = v_t_29532, v_c_29468 = v_t_29532.lt.elementByIndex(22), v_u_29469.Oi = v_t_29532.lt.elementByIndex(21), v_u_29469.Wi = v_t_29532.lt.elementByIndex(17), v_u_29469.Ki = v_t_29532.lt.elementByIndex(18), v_u_29469.zi = v_t_29532.lt.elementByIndex(16), v_u_29469.Xi = v_t_29532.lt.elementByIndex(15), v_u_29469.wn = v_t_29532.lt.elementByIndex(26), v_u_29469.pn = v_t_29532.lt.elementByIndex(24), v_u_29469.kn = v_t_29532.lt.elementByIndex(47), v_u_29469.bn = v_t_29532.lt.elementByIndex(50), v_u_29469.mn = v_t_29532.lt.elementByIndex(52), v_u_29469.Sn = v_t_29532.lt.elementByIndex(98), v_u_29469.xn = v_t_29532.lt.elementByIndex(59), v_u_29469.In = v_t_29532.lt.elementByIndex(99), v_u_29469.yn = v_t_29532.lt.elementByIndex(38), v_u_29469.Cn = v_t_29532.lt.elementByIndex(61);
-                var v_i_29533 = v_t_29532.lt.elementByIndex(100);
+                v_l_29467 = v_t_29532, v_c_29468 = v_t_29532.rsbTree.elementByIndex(22), v_u_29469.Oi = v_t_29532.rsbTree.elementByIndex(21), v_u_29469.Wi = v_t_29532.rsbTree.elementByIndex(17), v_u_29469.Ki = v_t_29532.rsbTree.elementByIndex(18), v_u_29469.zi = v_t_29532.rsbTree.elementByIndex(16), v_u_29469.Xi = v_t_29532.rsbTree.elementByIndex(15), v_u_29469.wn = v_t_29532.rsbTree.elementByIndex(26), v_u_29469.pn = v_t_29532.rsbTree.elementByIndex(24), v_u_29469.kn = v_t_29532.rsbTree.elementByIndex(47), v_u_29469.bn = v_t_29532.rsbTree.elementByIndex(50), v_u_29469.mn = v_t_29532.rsbTree.elementByIndex(52), v_u_29469.Sn = v_t_29532.rsbTree.elementByIndex(98), v_u_29469.xn = v_t_29532.rsbTree.elementByIndex(59), v_u_29469.In = v_t_29532.rsbTree.elementByIndex(99), v_u_29469.yn = v_t_29532.rsbTree.elementByIndex(38), v_u_29469.Cn = v_t_29532.rsbTree.elementByIndex(61);
+                var v_i_29533 = v_t_29532.rsbTree.elementByIndex(100);
                 for (let v_t_29534 = 0; v_t_29534 < v_i_29533.We.length; ++v_t_29534) v_i_29533.We[v_t_29534].visible = !1, v_f_29470[v_i_29533.We[v_t_29534].ct] = v_i_29533.We[v_t_29534];
                 v_Me_28078(v_e_29530);
               })) : v_i_29529();
@@ -2669,7 +2669,7 @@
         v_d_29554 = [],
         v_v_29555 = new v_o_29548();
       function v_s_29556() {
-        v_el_28148(v_u_29549.lt.elementByIndex(70), v_v_29555.Bn, !0);
+        v_el_28148(v_u_29549.rsbTree.elementByIndex(70), v_v_29555.Bn, !0);
       }
       function v_a_29557() {
         return !!v_v_29555.Ui;
@@ -2764,7 +2764,7 @@
             for (const v_i_29589 of [["changeDown", "ChangeMinus", 6, 2, v_X0_27795, !0, "down"], ["changeUp", "ChangePlus", 8, 2, v_X0_27795, !0, "up"], ["enter", "Enter", 14, 2, v_W0_27791, !1, "enter"]]) menuSystem.vt(v_i_29589[0], v_i_29589[1], v_i_29589[2], v_i_29589[3], v_i_29589[4], v_i_29589[5], !1, !1, v_i_29589[6], function (v_t_29590, v_i_29591) {
               "down" === v_t_29590 && v_y_29564(this.Ae);
             });
-            return v_k_29562(), v_s_29556(), v_u_29549.lt.elementByIndex(64).visible = !0, v_u_29549.e8(9), menuSystem.Ct(!0), void renderer.W6(() => {
+            return v_k_29562(), v_s_29556(), v_u_29549.rsbTree.elementByIndex(64).visible = !0, v_u_29549.e8(9), menuSystem.Ct(!0), void renderer.W6(() => {
               menuSystem.Ct(!1);
             }, v_Ge_28204(30));
         } else if (v_v_29555.n1 === v_n_29545) switch (v_t_29588) {
@@ -2775,7 +2775,7 @@
             v_Ae_27892.dn("change_value"), v_v_29555.Bn.Pm < 50 && ++v_v_29555.Bn.Pm, v_u_29549.e8(1), v_s_29556();
             break;
           case "enter":
-            return v_Ae_27892.dn("menu_in"), menuSystem._t(), v_v_29555.n1 = v_e_29544, v_u_29549.e8(3), v_el_28148(v_u_29549.lt.elementByIndex(44), v_v_29555.Bn, !0), menuSystem.Ct(!0), void renderer.W6(() => {
+            return v_Ae_27892.dn("menu_in"), menuSystem._t(), v_v_29555.n1 = v_e_29544, v_u_29549.e8(3), v_el_28148(v_u_29549.rsbTree.elementByIndex(44), v_v_29555.Bn, !0), menuSystem.Ct(!0), void renderer.W6(() => {
               menuSystem.Ct(!1);
             }, v_Ge_28204(30));
         }
@@ -2790,8 +2790,8 @@
           v_Le_28076([v_e_29594 => {
             languagePackages.it("ui/skillSelect.rsb", function (v_t_29595) {
               v_t_29595 ? (v_t_29595 = new v_Dl_28181(v_t_29595), renderer.nt(v_t_29595.rt(renderer.p5()), v_t_29596 => {
-                v_u_29549 = v_t_29596, v_l_29550 = v_t_29596.lt.elementByIndex(40), v_f_29551 = v_t_29596.lt.elementByIndex(43), v___29552.Oi = v_t_29596.lt.elementByIndex(42), v___29552.Wi = v_t_29596.lt.elementByIndex(34), v___29552.Ki = v_t_29596.lt.elementByIndex(35), v___29552.zi = v_t_29596.lt.elementByIndex(38), v___29552.Xi = v_t_29596.lt.elementByIndex(37), v___29552.Rn = v_t_29596.lt.elementByIndex(31), v___29552.fb = v_t_29596.lt.elementByIndex(32), v___29552.B5 = v_t_29596.lt.elementByIndex(68), v___29552._b = v_t_29596.lt.elementByIndex(69), v___29552.Pn = v_t_29596.lt.elementByIndex(50), v___29552.Dn = v_t_29596.lt.elementByIndex(51);
-                var v_i_29597 = v_t_29596.lt.elementByIndex(80);
+                v_u_29549 = v_t_29596, v_l_29550 = v_t_29596.rsbTree.elementByIndex(40), v_f_29551 = v_t_29596.rsbTree.elementByIndex(43), v___29552.Oi = v_t_29596.rsbTree.elementByIndex(42), v___29552.Wi = v_t_29596.rsbTree.elementByIndex(34), v___29552.Ki = v_t_29596.rsbTree.elementByIndex(35), v___29552.zi = v_t_29596.rsbTree.elementByIndex(38), v___29552.Xi = v_t_29596.rsbTree.elementByIndex(37), v___29552.Rn = v_t_29596.rsbTree.elementByIndex(31), v___29552.fb = v_t_29596.rsbTree.elementByIndex(32), v___29552.B5 = v_t_29596.rsbTree.elementByIndex(68), v___29552._b = v_t_29596.rsbTree.elementByIndex(69), v___29552.Pn = v_t_29596.rsbTree.elementByIndex(50), v___29552.Dn = v_t_29596.rsbTree.elementByIndex(51);
+                var v_i_29597 = v_t_29596.rsbTree.elementByIndex(80);
                 for (let v_t_29598 = 0; v_t_29598 < v_i_29597.We.length; ++v_t_29598) v_i_29597.We[v_t_29598].visible = !1, v_h_29553[v_i_29597.We[v_t_29598].ct] = v_i_29597.We[v_t_29598];
                 v_Me_28078(v_e_29594);
               })) : v_i_29593();
@@ -2836,11 +2836,11 @@
                 v_e_29623 && ++v_n_29624, v_l_29616.En = v_s_29626.En, v_l_29616.Pi = v_n_29624, v_l_29616.Di = v_e_29623, v_d_29554.push(v_l_29616), ++v_n_29624, ++v_a_29627;
               }
             }
-            v_m_29560(), v_S_29565(), v_el_28148(v_u_29549.lt.elementByIndex(44), v_a_29601, !0);
+            v_m_29560(), v_S_29565(), v_el_28148(v_u_29549.rsbTree.elementByIndex(44), v_a_29601, !0);
             for (const v_r_29629 of [["left", "Left", 0, 3, v_ai_27793, !0, "left"], ["right", "Right", 3, 3, v_ai_27793, !0, "right"], ["enter", "Enter", 6, 4, v_W0_27791, !1, "enter"], ["prevGroup", "PrevGroup", 10, 2, v_X0_27795, !0, "up"], ["nextGroup", "NextGroup", 12, 2, v_X0_27795, !0, "down"], ["exceedLimit", "ExceedLimit", 14, 2, v_ci_27797, !1, ""]]) menuSystem.vt(v_r_29629[0], v_r_29629[1], v_r_29629[2], v_r_29629[3], v_r_29629[4], v_r_29629[5], !1, !1, v_r_29629[6], function (v_t_29630, v_i_29631) {
               "down" === v_t_29630 && v_y_29564(this.Ae);
             });
-            menuSystem.yv(), v_k_29562(), sceneManager.ft(new v_M1_27898(v_b_29563, void 0)), v_u_29549.lt.elementByIndex(64).visible = !1, v_u_29549.Jt = !0, v_u_29549.e8(2), v_u_29549.e8(0), menuSystem.Ct(!0), renderer.W6(() => {
+            menuSystem.yv(), v_k_29562(), sceneManager.ft(new v_M1_27898(v_b_29563, void 0)), v_u_29549.rsbTree.elementByIndex(64).visible = !1, v_u_29549.Jt = !0, v_u_29549.e8(2), v_u_29549.e8(0), menuSystem.Ct(!0), renderer.W6(() => {
               v_v_29555.Ee && v_v_29555.Ee(v_Qt_27768, 0), menuSystem.Ct(!1);
             }, v_Ge_28204(30));
           }]);
@@ -2916,8 +2916,8 @@
           v_Le_28076([v_e_29656 => {
             languagePackages.it("ui/transformSelect.rsb", function (v_t_29657) {
               v_t_29657 ? (v_t_29657 = new v_Dl_28181(v_t_29657), renderer.nt(v_t_29657.rt(renderer.p5()), v_t_29658 => {
-                v_u_29635 = v_t_29658, v_f_29636 = v_t_29658.lt.elementByIndex(25), v_n_29637.Oi = v_t_29658.lt.elementByIndex(24), v_n_29637.jn = v_t_29658.lt.Yc("charaImg"), v_n_29637.jn = v_n_29637.jn.concat(v_t_29658.lt.Yc("charaImgFrontShadowFx")), v_n_29637.charaInfoName = v_t_29658.lt.elementByIndex(20), v_n_29637.charaInfoIllustrator = v_t_29658.lt.elementByIndex(21);
-                var v_i_29659 = v_t_29658.lt.elementByIndex(26);
+                v_u_29635 = v_t_29658, v_f_29636 = v_t_29658.rsbTree.elementByIndex(25), v_n_29637.Oi = v_t_29658.rsbTree.elementByIndex(24), v_n_29637.jn = v_t_29658.rsbTree.Yc("charaImg"), v_n_29637.jn = v_n_29637.jn.concat(v_t_29658.rsbTree.Yc("charaImgFrontShadowFx")), v_n_29637.charaInfoName = v_t_29658.rsbTree.elementByIndex(20), v_n_29637.charaInfoIllustrator = v_t_29658.rsbTree.elementByIndex(21);
+                var v_i_29659 = v_t_29658.rsbTree.elementByIndex(26);
                 for (let v_t_29660 = 0; v_t_29660 < v_i_29659.We.length; ++v_t_29660) v_i_29659.We[v_t_29660].visible = !1, v___29638[v_i_29659.We[v_t_29660].ct] = v_i_29659.We[v_t_29660];
                 v_Me_28078(v_e_29656);
               })) : v_i_29655();
@@ -2939,7 +2939,7 @@
               });
             }, () => v_Me_28078(v_t_29668));
           }, v_t_29674 => {
-            v_d_29640.Mn = v_a_29662, v_d_29640.Bn = v_o_29663, v_d_29640.Gn = v_l_29664, v_d_29640.Mi = v_d_29640.Ni = v_o_29663 ? v_o_29663.jm : 0, v_u_29635.lt.elementByIndex(9).visible = !v_a_29662.ub, v_u_29635.lt.elementByIndex(13).visible = v_a_29662.ub;
+            v_d_29640.Mn = v_a_29662, v_d_29640.Bn = v_o_29663, v_d_29640.Gn = v_l_29664, v_d_29640.Mi = v_d_29640.Ni = v_o_29663 ? v_o_29663.jm : 0, v_u_29635.rsbTree.elementByIndex(9).visible = !v_a_29662.ub, v_u_29635.rsbTree.elementByIndex(13).visible = v_a_29662.ub;
             var v_i_29675 = v_a_29662.Hm,
               v_e_29676 = (v_h_29639 = [], v_f_29636.tn(), 1 < v_i_29675 ? -(142 * (v_i_29675 + 1) - 42) / 2 : -50),
               v_n_29677 = new v_c_29633();
@@ -2972,7 +2972,7 @@
       }
       function v_l_29688() {
         for (let v_t_29693 = 0; v_t_29693 < v_a_29686.length; ++v_t_29693) v_a_29686[v_t_29693].Nn = v_s_29685.Ni === v_t_29693 ? 0 : 1;
-        v_r_29684.lt.elementByIndex(6).x = v_a_29686[v_s_29685.Ni].x - 30;
+        v_r_29684.rsbTree.elementByIndex(6).x = v_a_29686[v_s_29685.Ni].x - 30;
       }
       function v_c_29689() {
         menuSystem.St("cancel");
@@ -2990,7 +2990,7 @@
           v_Le_28076([v_i_29696 => {
             languagePackages.it("ui/musicSort.rsb", function (v_t_29697) {
               v_t_29697 ? (v_t_29697 = new v_Dl_28181(v_t_29697), renderer.nt(v_t_29697.rt(renderer.p5()), v_t_29698 => {
-                v_r_29684 = v_t_29698, v_a_29686 = [v_r_29684.lt.elementByIndex(7), v_r_29684.lt.elementByIndex(8), v_r_29684.lt.elementByIndex(9)], v_Me_28078(v_i_29696);
+                v_r_29684 = v_t_29698, v_a_29686 = [v_r_29684.rsbTree.elementByIndex(7), v_r_29684.rsbTree.elementByIndex(8), v_r_29684.rsbTree.elementByIndex(9)], v_Me_28078(v_i_29696);
               })) : v_e_29695();
             });
           }, v_t_29699 => {
@@ -3352,8 +3352,8 @@
             var v_i_29903 = v_G_29762.a0;
             v_i_29903.OP && v_i_29903.OP.call(v_i_29903), v_M_29750.VP.visible = !1, v_M_29750.mL.visible = !1, v_G_29762.ji = v_G_29762.a0.Wn, v_G_29762.Ni = v_G_29762.a0.Kn, v_i_29903 = v_G_29762.a0, v_M_29750.wR.visible = !0, v_i_29903.Qn && v_i_29903.Qn.call(v_i_29903), v_St_29774(!1, !0), v_M_29750.wn.visible = !0, v_M_29750.pn.visible = !0;
             for (let v_t_29904 = 0; v_t_29904 < v_d_29768()[v_G_29762.ji].Bi.length; ++v_t_29904) v_d_29768()[v_G_29762.ji].Bi[v_t_29904].ze.nn();
-            v_v_29772(), v_yt_29773(), v_L_29745.e8(v_n_29895), v_L_29745.lt.elementByIndex(29).visible = !1, v_J_29784(), "" !== v_r_29896 ? v_H_29781(v_a_29898, v_F_29756[v_r_29896].Jn[v_s_29897].Bi[v_a_29898], v_G_29762.Ni, v_d_29768()[v_G_29762.ji].Bi[v_G_29762.Ni]) : v_H_29781(0, null, v_G_29762.Ni, v_d_29768()[v_G_29762.ji].Bi[v_G_29762.Ni]), renderer.W6(() => {
-              v_L_29745.lt.elementByIndex(29).visible = !0, v_L_29745.e8(5), v_L_29745.e8(0);
+            v_v_29772(), v_yt_29773(), v_L_29745.e8(v_n_29895), v_L_29745.rsbTree.elementByIndex(29).visible = !1, v_J_29784(), "" !== v_r_29896 ? v_H_29781(v_a_29898, v_F_29756[v_r_29896].Jn[v_s_29897].Bi[v_a_29898], v_G_29762.Ni, v_d_29768()[v_G_29762.ji].Bi[v_G_29762.Ni]) : v_H_29781(0, null, v_G_29762.Ni, v_d_29768()[v_G_29762.ji].Bi[v_G_29762.Ni]), renderer.W6(() => {
+              v_L_29745.rsbTree.elementByIndex(29).visible = !0, v_L_29745.e8(5), v_L_29745.e8(0);
               var v_t_29905 = v_G_29762.a0;
               v_t_29905.e0 && v_t_29905.e0.call(v_t_29905), menuSystem.Ct(!1), v_G_29762.a0.t0 && v_G_29762.a0.t0.call(v_G_29762.a0, -1, null, v_G_29762.Ni, v_d_29768()[v_G_29762.ji].Bi[v_G_29762.Ni]), v_G_29762.n0 = !1;
             }, v_Ge_28204(20));
@@ -3720,7 +3720,7 @@
       function v_Ht_29800() {
         var v_t_30036 = v_F_29756.music || new v_R_29743(),
           v_i_30037 = (v_t_30036.t0 = function (v_t_30052, v_i_30053, v_e_30054, v_n_30055) {
-            v_M_29750.gx.visible = !1, v_n_30055 && v_n_30055.On.bx && "music" === v_G_29762.r0 && ((v_n_30055 = (v_n_30055 = v_oe_27649.Ix.get(v_n_30055.On.yx)) ? v_oe_27649.ix.get(v_n_30055.nx) : void 0) ? (v_L_29745.lt.elementByIndex(55).zt = !0, v_L_29745.lt.elementByIndex(55).Xt = v_n_30055.ux, v_L_29745.lt.elementByIndex(57).Wt = v_n_30055.om, v_L_29745.e8(4, v_M_29750.gx), v_M_29750.gx.visible = !0) : v_M_29750.gx.visible = !1);
+            v_M_29750.gx.visible = !1, v_n_30055 && v_n_30055.On.bx && "music" === v_G_29762.r0 && ((v_n_30055 = (v_n_30055 = v_oe_27649.Ix.get(v_n_30055.On.yx)) ? v_oe_27649.ix.get(v_n_30055.nx) : void 0) ? (v_L_29745.rsbTree.elementByIndex(55).zt = !0, v_L_29745.rsbTree.elementByIndex(55).Xt = v_n_30055.ux, v_L_29745.rsbTree.elementByIndex(57).Wt = v_n_30055.om, v_L_29745.e8(4, v_M_29750.gx), v_M_29750.gx.visible = !0) : v_M_29750.gx.visible = !1);
           }, v_t_30036.yR = v_t_30036.wx = function () {
             var v_t_30056 = v_G_29762.a0.Jn[v_G_29762.ji].Fi;
             v_M_29750.VP.visible = v_t_30056 === v_y_29710 || v_t_30056 === v_m_29711 || v_t_30056 === v_b_29717, v_M_29750.mL.visible = v_t_30056 === v_b_29717, v_M_29750.gx.visible = !1;
@@ -4025,8 +4025,8 @@
           v_Le_28076([v_n_30161 => {
             languagePackages.it("ui/musicSelect.rsb", function (v_t_30162) {
               v_t_30162 ? (v_t_30162 = new v_Dl_28181(v_t_30162), renderer.nt(v_t_30162.rt(renderer.p5()), v_t_30163 => {
-                v_L_29745 = v_t_30163, v___29747 = v_t_30163.lt.elementByIndex(34), v_r_29748 = v_t_30163.lt.elementByIndex(33), v_h_29749 = v_t_30163.lt.elementByIndex(36), v_M_29750.Oi = v_t_30163.lt.elementByIndex(29), v_M_29750.Ji = v_t_30163.lt.elementByIndex(31), v_M_29750.wR = v_t_30163.lt.elementByIndex(42), v_M_29750.Wi = v_t_30163.lt.elementByIndex(45), v_M_29750.Ki = v_t_30163.lt.elementByIndex(46), v_M_29750.zi = v_t_30163.lt.elementByIndex(44), v_M_29750.Xi = v_t_30163.lt.elementByIndex(43), v_M_29750.l4 = v_t_30163.lt.elementByIndex(27), v_M_29750.o4 = v_t_30163.lt.elementByIndex(28), v_M_29750.wn = v_t_30163.lt.elementByIndex(40), v_M_29750.pn = v_t_30163.lt.elementByIndex(38), v_M_29750.g0 = v_t_30163.lt.elementByIndex(58), v_M_29750.gx = v_t_30163.lt.elementByIndex(52), v_M_29750.VP = v_t_30163.lt.elementByIndex(48), v_M_29750.mL = v_t_30163.lt.elementByIndex(49), v_M_29750.g0.visible = !1, v_M_29750.gx.visible = !1;
-                var v_i_30164 = v_t_30163.lt.elementByIndex(73);
+                v_L_29745 = v_t_30163, v___29747 = v_t_30163.rsbTree.elementByIndex(34), v_r_29748 = v_t_30163.rsbTree.elementByIndex(33), v_h_29749 = v_t_30163.rsbTree.elementByIndex(36), v_M_29750.Oi = v_t_30163.rsbTree.elementByIndex(29), v_M_29750.Ji = v_t_30163.rsbTree.elementByIndex(31), v_M_29750.wR = v_t_30163.rsbTree.elementByIndex(42), v_M_29750.Wi = v_t_30163.rsbTree.elementByIndex(45), v_M_29750.Ki = v_t_30163.rsbTree.elementByIndex(46), v_M_29750.zi = v_t_30163.rsbTree.elementByIndex(44), v_M_29750.Xi = v_t_30163.rsbTree.elementByIndex(43), v_M_29750.l4 = v_t_30163.rsbTree.elementByIndex(27), v_M_29750.o4 = v_t_30163.rsbTree.elementByIndex(28), v_M_29750.wn = v_t_30163.rsbTree.elementByIndex(40), v_M_29750.pn = v_t_30163.rsbTree.elementByIndex(38), v_M_29750.g0 = v_t_30163.rsbTree.elementByIndex(58), v_M_29750.gx = v_t_30163.rsbTree.elementByIndex(52), v_M_29750.VP = v_t_30163.rsbTree.elementByIndex(48), v_M_29750.mL = v_t_30163.rsbTree.elementByIndex(49), v_M_29750.g0.visible = !1, v_M_29750.gx.visible = !1;
+                var v_i_30164 = v_t_30163.rsbTree.elementByIndex(73);
                 for (let v_t_30166 = 0; v_t_30166 < v_i_30164.We.length; ++v_t_30166) v_i_30164.We[v_t_30166].visible = !1, v_E_29751[v_i_30164.We[v_t_30166].ct] = v_i_30164.We[v_t_30166];
                 v_M_29750.v0 = v_E_29751.musicPanelStartBg.Ve(!0), v_M_29750.h0 = v_E_29751.musicPanelStartFg.Ve(!0);
                 for (let v_t_30167 = 0; v_t_30167 < 9; ++v_t_30167) {
