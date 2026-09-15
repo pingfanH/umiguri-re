@@ -769,7 +769,7 @@
               });
             }, function (v_t_32575) {
               v_lo_28099(v_l_32557, function (v_i_32576, v_t_32577, v_e_32578) {
-                v___32552 && v___32552(v_r_32564, v_n_32563, 1), ++v_r_32564, void 0 !== v_e_32578.res_info.jacket && void 0 === v_ae_27643.Yt.Zt["jkt:" + v_e_32578.w0] ? v_Da_28067(v_e_32578.res_info.jacket, ".dds") ? v_$r_27975.it("/music/" + v_e_32578.dir + "/" + v_e_32578.res_info.jacket, v_t_32579 => {
+                v___32552 && v___32552(v_r_32564, v_n_32563, 1), ++v_r_32564, void 0 !== v_e_32578.res_info.jacket && void 0 === renderer.Yt.Zt["jkt:" + v_e_32578.w0] ? v_Da_28067(v_e_32578.res_info.jacket, ".dds") ? v_$r_27975.it("/music/" + v_e_32578.dir + "/" + v_e_32578.res_info.jacket, v_t_32579 => {
                   if (null !== v_t_32579) {
                     let v_n_32580 = null;
                     v_Io_28120(v_t_32579, !1, (v_t_32581, v_i_32582, v_e_32583) => {
@@ -778,11 +778,11 @@
                         wrapT: glContext.CLAMP_TO_EDGE,
                         format: glContext.RGB
                       }), glContext.pixelStorei(glContext.UNPACK_FLIP_Y_WEBGL, !1)) : v_t_32581 === v_Ao_28115 && (v_n_32580 = null);
-                    }), v_n_32580 && (v_ae_27643.Yt.Zt["jkt:" + v_e_32578.w0] = v_n_32580);
+                    }), v_n_32580 && (renderer.Yt.Zt["jkt:" + v_e_32578.w0] = v_n_32580);
                   }
                   v_i_32576();
                 }) : v__o_28104("/music/" + v_e_32578.dir + "/" + v_e_32578.res_info.jacket, function (v_t_32584) {
-                  v_t_32584 && (v_ae_27643.Yt.Zt["jkt:" + v_e_32578.w0] = glRuntime.Texture.fromImage(v_t_32584, v_c_32558)), v_i_32576();
+                  v_t_32584 && (renderer.Yt.Zt["jkt:" + v_e_32578.w0] = glRuntime.Texture.fromImage(v_t_32584, v_c_32558)), v_i_32576();
                 }) : v_i_32576();
               }, function () {
                 v_Me_28078(v_t_32575);
@@ -877,7 +877,7 @@
                     S5: 0
                   };
                 for (let v_t_32634 = 0; v_t_32634 < 6; ++v_t_32634) void 0 !== v_a_32632.charts[v_t_32634] && (v_n_32629 = v_a_32632.charts[v_t_32634], (v_r_32630 = new v_hr_27935()).k5 = v_n_32629.Zu.k5, v_r_32630.b5 = v_n_32629.Zu.b5, v_r_32630.T5 = v_n_32629.Zu.T5, v_o_32633.meta[v_t_32634] = v_r_32630, "" !== v_n_32629.Zu.lf && (v_o_32633.lf = v_n_32629.Zu.lf), "" !== v_n_32629.Zu.x5 && (v_o_32633.x5 = v_n_32629.Zu.x5), 0 !== v_n_32629.Zu.I5 && (v_o_32633.I5 = v_n_32629.Zu.I5), "" !== v_n_32629.Zu.C5 && (v_o_32633.C5 = v_n_32629.Zu.C5), 0 !== v_n_32629.Zu.A5 && (v_o_32633.A5 = v_n_32629.Zu.A5), "" !== v_n_32629.Zu.Ow && (v_o_32633.res_info.jacket = v_n_32629.Zu.Ow), "" !== v_n_32629.Zu.jw && (v_o_32633.res_info.bg = v_n_32629.Zu.jw), "" !== v_n_32629.Zu.Ww && (v_o_32633.res_info.field_bg = v_n_32629.Zu.Ww), "" !== v_n_32629.Zu.Gw && (v_o_32633.res_info.wave = v_n_32629.Zu.Gw), 0 < v_n_32629.Zu.Yw[1] - v_n_32629.Zu.Yw[0] && (v_o_32633.m5 = v_n_32629.Zu.Yw[0], v_o_32633.S5 = v_n_32629.Zu.Yw[1]), "" !== v_n_32629.Zu.y5) && (v_o_32633.y5 = v_n_32629.Zu.y5.trim());
-                v_s_32631 = v_o_32633, v_l_32557.push(v_s_32631), void 0 !== v_o_32633.res_info.jacket && void 0 === v_ae_27643.Yt.Zt["jkt:" + v_e_32628] ? v_Da_28067(v_o_32633.res_info.jacket, ".dds") ? v_$r_27975.it("/music/" + v_a_32632.dir + "/" + v_o_32633.res_info.jacket, v_t_32635 => {
+                v_s_32631 = v_o_32633, v_l_32557.push(v_s_32631), void 0 !== v_o_32633.res_info.jacket && void 0 === renderer.Yt.Zt["jkt:" + v_e_32628] ? v_Da_28067(v_o_32633.res_info.jacket, ".dds") ? v_$r_27975.it("/music/" + v_a_32632.dir + "/" + v_o_32633.res_info.jacket, v_t_32635 => {
                   if (null !== v_t_32635) {
                     let v_n_32636 = null;
                     v_Io_28120(v_t_32635, !1, (v_t_32637, v_i_32638, v_e_32639) => {
@@ -886,11 +886,11 @@
                         wrapT: glContext.CLAMP_TO_EDGE,
                         format: glContext.RGB
                       }), glContext.pixelStorei(glContext.UNPACK_FLIP_Y_WEBGL, !1)) : v_t_32637 === v_Ao_28115 && (v_n_32636 = null);
-                    }), v_n_32636 && (v_ae_27643.Yt.Zt["jkt:" + v_e_32628] = v_n_32636);
+                    }), v_n_32636 && (renderer.Yt.Zt["jkt:" + v_e_32628] = v_n_32636);
                   }
                   v_i_32626();
                 }) : v__o_28104("/music/" + v_a_32632.dir + "/" + v_o_32633.res_info.jacket, function (v_t_32640) {
-                  v_t_32640 && (v_ae_27643.Yt.Zt["jkt:" + v_e_32628] = glRuntime.Texture.fromImage(v_t_32640, v_c_32558)), v_i_32626();
+                  v_t_32640 && (renderer.Yt.Zt["jkt:" + v_e_32628] = glRuntime.Texture.fromImage(v_t_32640, v_c_32558)), v_i_32626();
                 }) : v_i_32626();
               }, function () {
                 v_Me_28078(v_t_32624);

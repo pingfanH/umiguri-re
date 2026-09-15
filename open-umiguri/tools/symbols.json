@@ -65,6 +65,12 @@
 
     "v_Hi_27855": { "name": "currentLang", "note": "当前语言(默认 ja-JP)", "confidence": "high" },
     "v_Ui_27854": { "name": "supportedLangs", "note": "支持语言列表", "confidence": "high" },
-    "v_se_27562": { "name": "glContext", "note": "WebGL 上下文(clearColor/clearStencil)", "confidence": "high" }
+    "v_se_27562": { "name": "glContext", "note": "WebGL 上下文(clearColor/clearStencil)", "confidence": "high" },
+
+    "v_Gl_28185": { "name": "Renderer", "note": "渲染器类(RS SCENES/SPRITES/DRAW CALLS)", "confidence": "high" },
+    "v_ae_27643": { "name": "renderer", "note": "Renderer 实例(全局共享)", "confidence": "high" },
+    "v_Bl_28183": { "name": "RenderScene", "note": "renderer.Yt: 场景/绘制批次管理", "confidence": "medium" },
+    "v_Fl_28182": { "name": "Framebuffer", "note": "FBO 包装(Zh/_5 bindFramebuffer)", "confidence": "medium" },
+    "v_ho_28105": { "name": "MeshBuffer", "note": "顶点/UV/颜色缓冲包装(.yl 定义布局)", "confidence": "medium" }
   }
 }

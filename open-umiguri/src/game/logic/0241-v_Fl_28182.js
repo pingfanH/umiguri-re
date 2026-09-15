@@ -1,8 +1,0 @@
-// game: 语句 241 (FunctionDeclaration)
-// 自动生成: tools/split-game.mjs
-// 来源: game_main.deobf.js
-// 说明: 本文件是 bundle 片段, 由 build/assemble-game.mjs 按 manifest 拼接;请勿手改拼接顺序。
-
-  function v_Fl_28182(v_t_34998, v_i_34999, v_e_35000) {
-    this.Wh = glContext.createFramebuffer(), this.Kh = null, this.zh = null, this.Xh = null, this.Zh(), (1 & v_e_35000 || 2 & v_e_35000) && (this.Kh = glContext.createTexture(), glContext.bindTexture(glContext.TEXTURE_2D, this.Kh), glContext.pixelStorei(glContext.UNPACK_FLIP_Y_WEBGL, 0), glContext.texParameteri(glContext.TEXTURE_2D, glContext.TEXTURE_MAG_FILTER, glContext.LINEAR), glContext.texParameteri(glContext.TEXTURE_2D, glContext.TEXTURE_MIN_FILTER, glContext.LINEAR), glContext.texParameteri(glContext.TEXTURE_2D, glContext.TEXTURE_WRAP_S, glContext.CLAMP_TO_EDGE), glContext.texParameteri(glContext.TEXTURE_2D, glContext.TEXTURE_WRAP_T, glContext.CLAMP_TO_EDGE), v_e_35000 = 1 & v_e_35000 ? glContext.RGB : glContext.RGBA, glContext.texImage2D(glContext.TEXTURE_2D, 0, v_e_35000, v_t_34998, v_i_34999, 0, v_e_35000, glContext.UNSIGNED_BYTE, null), glContext.framebufferTexture2D(glContext.FRAMEBUFFER, glContext.COLOR_ATTACHMENT0, glContext.TEXTURE_2D, this.Kh, 0)), this.zh = glContext.createRenderbuffer(), glContext.bindRenderbuffer(glContext.RENDERBUFFER, this.zh), glContext.renderbufferStorage(glContext.RENDERBUFFER, glContext.DEPTH_STENCIL, v_t_34998, v_i_34999), glContext.framebufferRenderbuffer(glContext.FRAMEBUFFER, glContext.DEPTH_STENCIL_ATTACHMENT, glContext.RENDERBUFFER, this.zh), glContext.bindTexture(glContext.TEXTURE_2D, null), glContext.bindRenderbuffer(glContext.RENDERBUFFER, null), v_Fl_28182.Yh();
-  }

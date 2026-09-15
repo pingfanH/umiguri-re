@@ -3,7 +3,7 @@
 // 来源: game_main.deobf.js
 // 说明: 本文件是 bundle 片段, 由 build/assemble-game.mjs 按 manifest 拼接;请勿手改拼接顺序。
 
-  v_ho_28105.prototype = {
+  MeshBuffer.prototype = {
     yl: function (v_t_34334, v_i_34335, v_e_34336, v_n_34337) {
       for (const v_o_34341 in this.n_) "triangles" === v_o_34341 || "lines" === v_o_34341 ? this.i_[v_o_34341] = (v_e_34336 ? v_e_34336[v_o_34341] : void 0) || new Uint16Array(this.n_[v_o_34341]) : this.i_[v_o_34341] = (v_e_34336 ? v_e_34336[v_o_34341] : void 0) || new Float32Array(this.n_[v_o_34341]);
       var v_r_34338 = {};

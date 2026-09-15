@@ -192,7 +192,7 @@
 | `logic/0184-v_uo_28102.js` | 193610–193612 | FunctionDeclaration |  |
 | `logic/0185-v_fo_28103.js` | 193613–193615 | FunctionDeclaration |  |
 | `logic/0186-v_o_28104.js` | 193616–193623 | FunctionDeclaration |  |
-| `logic/0187-v_ho_28105.js` | 193624–193626 | FunctionDeclaration |  |
+| `logic/0187-MeshBuffer.js` | 193624–193626 | FunctionDeclaration |  |
 | `logic/0188-ExpressionStatement.js` | 193627–193663 | ExpressionStatement |  |
 | `logic/0189-v_vo_28106_x12.js` | 193664–193675 | VariableDeclaration |  |
 | `logic/0190-v_To_28118.js` | 193676–193695 | FunctionDeclaration |  |
@@ -246,10 +246,10 @@
 | `logic/0238-v_El_28180.js` | 194422–194424 | FunctionDeclaration |  |
 | `logic/0239-v_Dl_28181.js` | 194425–194427 | FunctionDeclaration |  |
 | `logic/0240-ExpressionStatement.js` | 194428–195290 | ExpressionStatement |  |
-| `logic/0241-v_Fl_28182.js` | 195291–195293 | FunctionDeclaration |  |
-| `logic/0242-v_Bl_28183.js` | 195294–195318 | FunctionDeclaration |  |
+| `logic/0241-Framebuffer.js` | 195291–195293 | FunctionDeclaration |  |
+| `logic/0242-RenderScene.js` | 195294–195318 | FunctionDeclaration |  |
 | `logic/0243-v_Nl_28184.js` | 195319–195321 | FunctionDeclaration |  |
-| `logic/0244-v_Gl_28185.js` | 195322–195324 | FunctionDeclaration |  |
+| `logic/0244-Renderer.js` | 195322–195324 | FunctionDeclaration |  |
 | `logic/0245-ExpressionStatement.js` | 195325–195539 | ExpressionStatement |  |
 | `logic/0246-languagePackages.js` | 195540–195613 | VariableDeclaration | languagePackages (195540–195613) |
 | `logic/0247-v_Ul_28187.js` | 195614–195614 | VariableDeclaration |  |

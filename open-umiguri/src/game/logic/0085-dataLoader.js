@@ -75,13 +75,13 @@
                             v_s_32762 = v_i_32742 ? new v_ds_27991(v_l_32741.fullPath + "/data.arc", 0, 1) : void 0;
                           function v_e_32766(v_i_32765, v_e_32766) {
                             v_i_32765 >= v_r_32760 ? v_Me_28078(v_t_32759) : (v_n_32761 = "image_" + v_i_32765 + "_" + v_f_32719[v_e_32766] + ".png", -1 !== v_o_32743.findIndex(v_t_32767 => v_t_32767.name === v_n_32761) ? v__o_28104(v_l_32741.fullPath + "/" + v_n_32761, function (v_t_32768) {
-                              v_t_32768 && (v_ae_27643.Yt.Zt["chara:" + v_i_32765 + ":" + v_e_32766 + ":" + v_c_32735.C0] = glRuntime.Texture.fromImage(v_t_32768, v_u_32724)), v_a_32764(v_i_32765, v_e_32766);
+                              v_t_32768 && (renderer.Yt.Zt["chara:" + v_i_32765 + ":" + v_e_32766 + ":" + v_c_32735.C0] = glRuntime.Texture.fromImage(v_t_32768, v_u_32724)), v_a_32764(v_i_32765, v_e_32766);
                             }) : (v_n_32761 = "dds_" + v_i_32765 + "_" + v_f_32719[v_e_32766] + ".dds", -1 !== v_o_32743.findIndex(v_t_32769 => v_t_32769.name === v_n_32761) ? v_$r_27975.it(v_l_32741.fullPath + "/" + v_n_32761, function (v_t_32770) {
                               if (null !== v_t_32770) {
                                 let v_n_32771 = null;
                                 v_Io_28120(v_t_32770, !1, function (v_t_32772, v_i_32773, v_e_32774) {
                                   v_t_32772 === v_xo_28116 ? (v_n_32771 = new glRuntime.Texture(v_i_32773, v_e_32774, v_u_32724), v_i_32773 === v_e_32774 && (v_c_32735.ub = !0)) : v_t_32772 === v_Ao_28115 && (v_n_32771 = null);
-                                }), v_n_32771 && (v_ae_27643.Yt.Zt["chara:" + v_i_32765 + ":" + v_e_32766 + ":" + v_c_32735.C0] = v_n_32771);
+                                }), v_n_32771 && (renderer.Yt.Zt["chara:" + v_i_32765 + ":" + v_e_32766 + ":" + v_c_32735.C0] = v_n_32771);
                               }
                               v_c_32735.vb = !0, v_a_32764(v_i_32765, v_e_32766);
                             }) : v_a_32764(v_i_32765, v_e_32766)));
@@ -102,7 +102,7 @@
                                       wrapT: glContext.CLAMP_TO_EDGE,
                                       format: glContext.RGBA
                                     }), glContext.pixelStorei(glContext.UNPACK_FLIP_Y_WEBGL, !1)) : v_t_32783 === v_Ao_28115 && (v_n_32782 = null);
-                                  }), v_n_32782 && (v_ae_27643.Yt.Zt["chara:" + v_i_32779 + ":" + v_e_32780 + ":" + v_c_32735.C0] = v_n_32782);
+                                  }), v_n_32782 && (renderer.Yt.Zt["chara:" + v_i_32779 + ":" + v_e_32780 + ":" + v_c_32735.C0] = v_n_32782);
                                 }
                                 v_n_32778(v_i_32779, v_e_32780);
                               });

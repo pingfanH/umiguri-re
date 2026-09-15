@@ -100,7 +100,7 @@
       v_t_33875.QP = !1, v_t_33875.ux = "cchara:" + v_t_33875.nx;
       var v_i_33876,
         v_e_33877 = await v_oe_27649.fC(v_t_33875.nx);
-      return !!v_e_33877 && !!(v_e_33877 = await v_e_33877._C(v_ba_28052)) && ((v_i_33876 = v_ae_27643.Yt.Zt[v_t_33875.ux]) && (delete v_ae_27643.Yt.Zt[v_t_33875.ux], v_i_33876.free()), v_ae_27643.Yt.Zt[v_t_33875.ux] = await v_To_28118(v_e_33877.Yu, v_e_33877.eT & v_xa_28056, !0), !0);
+      return !!v_e_33877 && !!(v_e_33877 = await v_e_33877._C(v_ba_28052)) && ((v_i_33876 = renderer.Yt.Zt[v_t_33875.ux]) && (delete renderer.Yt.Zt[v_t_33875.ux], v_i_33876.free()), renderer.Yt.Zt[v_t_33875.ux] = await v_To_28118(v_e_33877.Yu, v_e_33877.eT & v_xa_28056, !0), !0);
     },
     eR: async function (v_t_33878) {
       v_t_33878 = this.Ix.get(v_t_33878);
@@ -108,7 +108,7 @@
       if (this.o1) return !(v_t_33878.$P = !0);
       v_t_33878.$P = !1;
       var v_i_33879 = await v_oe_27649.fC(v_t_33878.nx);
-      return !!v_i_33879 && !!(v_i_33879 = await v_i_33879._C(v_Sa_28054)) && (v_ae_27643.Yt.Zt[v_t_33878.Jx] = await v_To_28118(v_i_33879.Yu, v_i_33879.eT & v_xa_28056, !1), !0);
+      return !!v_i_33879 && !!(v_i_33879 = await v_i_33879._C(v_Sa_28054)) && (renderer.Yt.Zt[v_t_33878.Jx] = await v_To_28118(v_i_33879.Yu, v_i_33879.eT & v_xa_28056, !1), !0);
     },
     iT: function (v_i_33880, v_e_33881) {
       if (v_i_33880 === v_js_28019) {
@@ -118,7 +118,7 @@
         });
       } else if (v_i_33880 === v_aa_28037) v_e_33881.nx !== v_oe_27649.sx() && this.iR(v_e_33881.nx);else if (v_i_33880 === v_Vs_28021) {
         v_t_33882 = new v_Gs_28015();
-        v_t_33882.nx = v_e_33881.nx, v_t_33882.yx = v_e_33881.yx, v_t_33882.ng = v_e_33881.ng, v_t_33882.Jx = "cjkt:" + v_t_33882.yx, v_t_33882.Mx = v_e_33881.nx === v_oe_27649.sx(), this.Ix.set(v_t_33882.yx, v_t_33882), v_e_33881.nx === v_oe_27649.sx() ? (this.Px = v_e_33881.yx, this.jC(), this.nT(v_t_33882.nx)) : (v_ae_27643.Yt.Zt[v_t_33882.Jx] = v_ae_27643.Yt.Mf["textures\\txDummyJacket.dds"], this.eR(v_t_33882.yx));
+        v_t_33882.nx = v_e_33881.nx, v_t_33882.yx = v_e_33881.yx, v_t_33882.ng = v_e_33881.ng, v_t_33882.Jx = "cjkt:" + v_t_33882.yx, v_t_33882.Mx = v_e_33881.nx === v_oe_27649.sx(), this.Ix.set(v_t_33882.yx, v_t_33882), v_e_33881.nx === v_oe_27649.sx() ? (this.Px = v_e_33881.yx, this.jC(), this.nT(v_t_33882.nx)) : (renderer.Yt.Zt[v_t_33882.Jx] = renderer.Yt.Mf["textures\\txDummyJacket.dds"], this.eR(v_t_33882.yx));
       } else if (v_i_33880 === v_Xs_28023) this.GC !== v_e_33881.yx && (this.nT(v_e_33881.nx), this.rT(v_e_33881.nx, v_e_33881.ru, v_e_33881.te), v_e_33881.nx === v_oe_27649.sx()) && (this.Px = v_e_33881.yx);else if (v_i_33880 === v_zs_28024) this.GC !== v_e_33881.yx && this.sT(v_e_33881.nx);else if (v_i_33880 === v_Zs_28028) this.rT(v_e_33881.nx, v_e_33881.ru, v_e_33881.te);else if (v_i_33880 === v_Ys_28026) this.sP = v_e_33881.n1, this.DC === v_e_33881.n1 && (v_e_33881.n1 === v_ha_28044 && this.aT(), this.FC) && (this.FC(!0), this.FC = void 0);else if (v_i_33880 === v_Qs_28030) this.aP = v_e_33881.n1, this.nP === v_e_33881.n1 && this.rP && (this.rP(!0), this.rP = void 0);else if (v_i_33880 === v_qs_28027) {
         this.aC = v_e_33881.oT;
         for (var v_n_33883 of v_e_33881.lT) {
@@ -156,13 +156,13 @@
         for (v_u_33890 of this.BC) if (v_u_33890.OI(v_i_33880, v_f_33891)) break;
       } else v_i_33880 === v_ta_28031 ? (v_t_33882 = v_e_33881.Hx).nx !== v_oe_27649.sx() && (v___33892 = this.ix.get(v_t_33882.nx)) && (v___33892.TC = v_t_33882.TC, v___33892.MC = v_t_33882.MC, v___33892.RC = v_t_33882.RC, this.iR(v_t_33882.nx)) : v_i_33880 === v_Js_28018 ? this.Gx() : v_i_33880 === v_ea_28033 && audioFontHub.cL(v_i_33880, v_e_33881);
       var v___33892;
-      this.EC && this.EC(v_i_33880, v_e_33881), v_i_33880 === v_Ws_28022 ? this.ZC(v_e_33881.yx) : v_i_33880 === v_Os_28020 && ((v___33892 = this.ix.get(v_e_33881.nx)) && (v_t_33882 = v_ae_27643.Yt.Zt[v___33892.ux]) && (delete v_ae_27643.Yt.Zt[v___33892.ux], v_t_33882.free()), this.ix.delete(v_e_33881.nx), this.GC) && (v___33892 = this.Ox.find(v_t_33903 => v_t_33903.Ae === v_e_33881.nx)) && (v___33892.eP = !0), this.EC && this.EC(v_sa_28036, {
+      this.EC && this.EC(v_i_33880, v_e_33881), v_i_33880 === v_Ws_28022 ? this.ZC(v_e_33881.yx) : v_i_33880 === v_Os_28020 && ((v___33892 = this.ix.get(v_e_33881.nx)) && (v_t_33882 = renderer.Yt.Zt[v___33892.ux]) && (delete renderer.Yt.Zt[v___33892.ux], v_t_33882.free()), this.ix.delete(v_e_33881.nx), this.GC) && (v___33892 = this.Ox.find(v_t_33903 => v_t_33903.Ae === v_e_33881.nx)) && (v___33892.eP = !0), this.EC && this.EC(v_sa_28036, {
         nx: v_e_33881.nx
       });
     },
     ZC: function (v_t_33904) {
       var v_i_33905, v_e_33906;
-      this.GC !== v_t_33904 && ((v_i_33905 = this.Ix.get(v_t_33904)) && (v_e_33906 = v_ae_27643.Yt.Zt[v_i_33905.Jx]) && (delete v_ae_27643.Yt.Zt[v_i_33905.Jx], v_e_33906 !== v_ae_27643.Yt.Mf["textures\\txDummyJacket.dds"]) && v_e_33906.free(), this.Ix.delete(v_t_33904), this.Px === v_t_33904) && (this.Px = 0, this.Nx = null, this.sP = v__a_28043);
+      this.GC !== v_t_33904 && ((v_i_33905 = this.Ix.get(v_t_33904)) && (v_e_33906 = renderer.Yt.Zt[v_i_33905.Jx]) && (delete renderer.Yt.Zt[v_i_33905.Jx], v_e_33906 !== renderer.Yt.Mf["textures\\txDummyJacket.dds"]) && v_e_33906.free(), this.Ix.delete(v_t_33904), this.Px === v_t_33904) && (this.Px = 0, this.Nx = null, this.sP = v__a_28043);
     },
     Gi: function () {
       return null !== this.zS;

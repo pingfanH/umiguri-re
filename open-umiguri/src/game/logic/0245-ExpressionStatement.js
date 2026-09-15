@@ -3,19 +3,19 @@
 // 来源: game_main.deobf.js
 // 说明: 本文件是 bundle 片段, 由 build/assemble-game.mjs 按 manifest 拼接;请勿手改拼接顺序。
 
-  v_Fl_28182.prototype = {
+  Framebuffer.prototype = {
     Zh: function () {
       glContext.bindFramebuffer(glContext.FRAMEBUFFER, this.Wh);
     },
     _5: function () {
       glContext.activeTexture(glContext.TEXTURE0), glContext.bindTexture(glContext.TEXTURE_2D, this.Kh);
     }
-  }, v_Fl_28182.Yh = function () {
+  }, Framebuffer.Yh = function () {
     glContext.bindFramebuffer(glContext.FRAMEBUFFER, null);
-  }, v_Bl_28183.prototype = {
+  }, RenderScene.prototype = {
     l5: function () {
       var v_i_35005 = this.Gh,
-        v_e_35006 = (this.xf = new v_ho_28105({
+        v_e_35006 = (this.xf = new MeshBuffer({
           vertices: 4 * v_i_35005 * 3,
           coords: 4 * v_i_35005 * 2,
           texCoord1: 4 * v_i_35005 * 2,
@@ -42,7 +42,7 @@
       }), this.t5.vertices = [[-1, 1, 0], [1, 1, 0], [-1, -1, 0], [1, -1, 0]], this.t5.colors = [[1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1]], this.t5.coords = [[0, 1], [1, 1], [0, 0], [1, 0]], this.t5.triangles = [[0, 1, 2], [2, 1, 3]], this.t5.compile(), this.X6 = new glRuntime.Mesh({
         colors: !0,
         coords: !0
-      }), this.X6.vertices = [[-1, 1, 0], [1, 1, 0], [-1, -1, 0], [1, -1, 0]], this.X6.colors = [[1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1]], this.X6.coords = [[0, 0], [1, 0], [0, 1], [1, 1]], this.X6.triangles = [[0, 1, 2], [2, 1, 3]], this.X6.compile(), this.jh = new v_ho_28105({
+      }), this.X6.vertices = [[-1, 1, 0], [1, 1, 0], [-1, -1, 0], [1, -1, 0]], this.X6.colors = [[1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1]], this.X6.coords = [[0, 0], [1, 0], [0, 1], [1, 1]], this.X6.triangles = [[0, 1, 2], [2, 1, 3]], this.X6.compile(), this.jh = new MeshBuffer({
         vertices: 12,
         coords: 8,
         colors: 16
@@ -63,10 +63,10 @@
       this.Vh.Yf = v_S_27621, this.Vh.Jh = v_A_27622, this.Vh.Oh = v_C_27624, this.Vh.Rb = v_x_27623, this.Vh.Fe = v_d_27605, this.Vh.Uh = v_w_27607, this.Vh.D_ = v_b_27620, this.Vh.$h = v_v_27606, this.Dh = new v_Eo_28125();
     },
     f5: function () {
-      this.qh.Qh = new v_Fl_28182(v_yn_27656, v_Sn_27657, 49), this.qh.e5 = new v_Fl_28182(v_yn_27656, v_Sn_27657, 50);
+      this.qh.Qh = new Framebuffer(v_yn_27656, v_Sn_27657, 49), this.qh.e5 = new Framebuffer(v_yn_27656, v_Sn_27657, 50);
     },
     Cc: function (v_t_35010) {
-      0 === v_t_35010 ? v_Fl_28182.Yh() : 1 === v_t_35010 ? this.qh.Qh.Zh() : 2 === v_t_35010 && this.qh.e5.Zh();
+      0 === v_t_35010 ? Framebuffer.Yh() : 1 === v_t_35010 ? this.qh.Qh.Zh() : 2 === v_t_35010 && this.qh.e5.Zh();
     },
     Nh: function (v_t_35011) {
       1 === v_t_35011 ? this.qh.Qh._5() : 2 === v_t_35011 && this.qh.e5._5();
@@ -153,7 +153,7 @@
         v_e_35049 = await languagePackages.ck("fonts/Debug.rgf");
       v_e_35049 ? (this.Ph.i5 = await v_Mo_28124.A3(v_e_35049), (v_e_35049 = new v_Fo_28127()).W3(this.Dh), v_e_35049.O3(this.Vh.D_), v_e_35049.J3(this.Vh.$h), (v_i_35048 = new v_Do_28126()).R_ = 0, v_i_35048.P_ = 127, v_i_35048.D_ = this.Ph.i5, v_i_35048.G_ = 1, v_i_35048.j_ = 1, v_e_35049.K3(v_i_35048), this.Ph.n5 = v_e_35049, v_t_35047(!0)) : v_t_35047(!1);
     }
-  }, v_Gl_28185.prototype = {
+  }, Renderer.prototype = {
     nt: function (v_t_35050, v_i_35051) {
       this.Yt.d5(v_t_35050, () => {
         v_i_35051 && v_i_35051(v_t_35050);
