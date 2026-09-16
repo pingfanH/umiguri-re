@@ -62,6 +62,7 @@ export async function loadHostConfig() {
     // 游戏要求键位串长度 38, 不合法则视为未配置
     keymap: typeof keymap === 'string' && keymap.length === 38 ? keymap : null,
     ledPort: pick(game, 'devices.led_controller.port', null),
+    ledEnabled: pick(game, 'devices.led_controller.enabled', null),
     comMainPort: pick(game, 'devices.com.port_maindev', null),
     comIoPort: pick(game, 'devices.com.port_umgrio', null),
     amreaderPort: pick(game, 'devices.amreader.port', null),
@@ -74,6 +75,8 @@ export async function loadHostConfig() {
     bgThrottling: pick(game, 'system.bg_throttling', null),
     blockSleep: pick(game, 'system.block_sleep', null),
     scalingQuality: pick(game, 'system.scaling_quality', null),
+    // 手台/灯光(hardware): { autoConnect?: bool, ledOrder?: 'rgb'|'bgr'|..., port?: string }
+    hardware: pick(game, 'hardware', null),
   };
   return hostConfig;
 }

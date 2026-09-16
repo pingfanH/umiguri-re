@@ -13,7 +13,7 @@
       "port_umgrio": 2
     },
     "led_controller": {
-      "enabled": false,
+      "enabled": true,
       "port": 8090
     }
   },

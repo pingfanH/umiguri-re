@@ -3,6 +3,7 @@ mod android;
 mod archive;
 mod bundle;
 mod fs;
+mod hardware;
 mod handshake;
 mod paths;
 mod protocol;
@@ -16,6 +17,7 @@ use tauri::http::{header, Response};
 use tauri::{Emitter, Manager};
 
 use bundle::{fs_bundle_tree, fs_tree_sig};
+use hardware::{hw_connect, hw_disconnect, hw_init, hw_list_ports, hw_status};
 use fs::{debug_probe, fs_file, fs_list, fs_read, fs_size, fs_write};
 use handshake::{diag, handshake};
 use paths::{read_all, read_range, size_of};
@@ -88,6 +90,7 @@ pub fn run() {
     let last_move: Arc<Mutex<Option<Instant>>> = Arc::new(Mutex::new(None));
 
     tauri::Builder::default()
+        .manage(hardware::HardwareState::default())
         .setup(|app| {
             if let Some(win) = app.get_webview_window("main") {
                 // 从 tauri.conf.json 读取窗口尺寸配置(不硬编码)
@@ -237,7 +240,12 @@ pub fn run() {
             open_storage_access_settings,
             restart_app_cmd,
             apply_window_config,
-            window_fullscreen
+            window_fullscreen,
+            hw_init,
+            hw_connect,
+            hw_disconnect,
+            hw_status,
+            hw_list_ports
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

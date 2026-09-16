@@ -12,6 +12,7 @@ import { installErrorDiagnostics, installConsoleForwarding, reportGlExtensionsNo
 import { prefetchTree, prefetchPacks } from './core/protocol.js';
 import { setupMusicCache } from './core/music-cache.js';
 import { installFullscreenGuard, setFullscreenDesired } from './platform/fullscreen.js';
+import { setupHardware } from './bridge/hardware.js';
 import { setupWindowDragPause } from './platform/window-drag.js';
 import { installDxtSoftwareDecode } from './platform/textures-dxt.js';
 import { setupStorageAccessCheck } from './platform/storage-access.js';
@@ -52,8 +53,9 @@ installDxtSoftwareDecode(); // DXT 软解
 whenPageReady(async () => {
   installConsoleForwarding();
   // 读取游戏自身配置(assets/core/config/*.json)并应用到握手/窗口
+  let cfg = null;
   try {
-    const cfg = await loadHostConfig();
+    cfg = await loadHostConfig();
     applyHostConfig(cfg);
     if (cfg.windowMode || cfg.resolution) {
       setFullscreenDesired(cfg.windowMode === 'fullscreen');
@@ -73,6 +75,13 @@ whenPageReady(async () => {
   reportGlExtensionsNow();
   setupStorageAccessCheck();
   reportGlExtensionsDelayed(1500);
+  // 手台 + LED: 先起 LED 服务端(游戏的 ledOutput 启动时就会连), 桌面默认自动探测手台
+  try {
+    await setupHardware(cfg);
+  } catch (e) {
+    diagLog('[umg][hw] 初始化失败: ' + ((e && e.message) || e));
+  }
+
   // 批量预取: 一次 IPC 取回整棵子树, 消除逐文件往返延迟(单次往返 10~30ms, 启动约 300 次)。
   // 分两组:
   //   小数据树(曲库/角色/各种表, 几 MB): 启动前 await, 之后全部命中内存;

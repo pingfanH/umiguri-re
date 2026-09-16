@@ -62,6 +62,9 @@ export function applyHostConfig(cfg) {
   handshake.O.p9 = num(cfg.playerLevel, handshake.O.p9);
   handshake.fe = str(cfg.keymap, handshake.fe);
   handshake.R = num(cfg.ledPort, handshake.R);
+  // devices.led_controller.enabled -> handshake.I(游戏的 rm.b7): 游戏据此启用
+  // ledOutput 的 WebSocket 客户端(连 ws://localhost:<R>), 由宿主 hardware 模块接住。
+  if (cfg.ledEnabled !== null && cfg.ledEnabled !== undefined) handshake.I = cfg.ledEnabled ? 1 : 0;
   handshake.j = num(cfg.comMainPort, handshake.j);
   handshake.M = num(cfg.amreaderPort, handshake.M);
   handshake.P = str(cfg.amreaderKeyA, handshake.P);
