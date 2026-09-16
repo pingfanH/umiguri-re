@@ -17,15 +17,24 @@ export function laneForVk(vk) {
   return VK_LANE.get(vk);
 }
 
+const lanePressAt = new Map();
 export function touchPress(vk) {
   touchState.add(vk);
   const lane = VK_LANE.get(vk);
+  if (lane !== undefined && !lanePressAt.has(vk)) lanePressAt.set(vk, performance.now());
   if (lane !== undefined) window.__umgLanes[lane] = 1;
 }
 
 export function touchRelease(vk) {
-  touchState.delete(vk);
   const lane = VK_LANE.get(vk);
+  if (lane !== undefined) {
+    const t0 = lanePressAt.get(vk);
+    if (t0 !== undefined) {
+      lanePressAt.delete(vk);
+      try { console.error('[umg][lane] vk=' + vk + ' lane=' + lane + ' held=' + Math.round(performance.now() - t0) + 'ms'); } catch (e) {}
+    }
+  }
+  touchState.delete(vk);
   if (lane !== undefined) window.__umgLanes[lane] = 0;
 }
 
