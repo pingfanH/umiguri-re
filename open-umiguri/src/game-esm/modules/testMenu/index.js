@@ -154,7 +154,7 @@ export function createTestMenu(scope) {
     }, pageObj_2.hu = function () {
       var analogValues = scope.inputModule.sR();
       let textBuf = "";
-      textBuf = (textBuf += (menuState.tu & BTN_TEST ? "<#c:62cbf5>ON<#r>" : "OFF") + "\n") + (menuState.tu & BTN_SERVICE ? "<#c:62cbf5>ON<#r>" : "OFF"), this.On.Eu.Wt = this.On.Eu.Tn.An(textBuf);
+      window.__umgTu = { tu: menuState.tu, eu: menuState.eu, iu: menuState.iu, kb: inputModule.vR().map(k => k.Ae + ":" + k.lu).join(",") }, textBuf = (textBuf += (menuState.tu & BTN_TEST ? "<#c:62cbf5>ON<#r>" : "OFF") + "\n") + (menuState.tu & BTN_SERVICE ? "<#c:62cbf5>ON<#r>" : "OFF"), this.On.Eu.Wt = this.On.Eu.Tn.An(textBuf);
       for (let halfIdx = 0; halfIdx < 2; ++halfIdx) {
         textBuf = "";
         for (let laneIdx = 16 * halfIdx; laneIdx < 16 * halfIdx + 16; ++laneIdx) {
