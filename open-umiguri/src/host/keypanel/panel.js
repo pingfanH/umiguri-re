@@ -162,6 +162,24 @@ export function ensureKeyPanel() {
     keyPanel.appendChild(dbg);
   } catch (e) {}
 
+  // 临时几何日志: 面板盒 / air 区 / 网格 / 底边空隙
+  requestAnimationFrame(() => {
+    try {
+      const kb = keyPanel.getBoundingClientRect();
+      const ab = airBox.getBoundingClientRect();
+      const gb = grid.getBoundingClientRect();
+      const kk = keyPanel.querySelectorAll('[data-vk]');
+      const first = kk[0] && kk[0].getBoundingClientRect();
+      const last = kk[kk.length - 1] && kk[kk.length - 1].getBoundingClientRect();
+      console.error('[umg][panel-geo] box=' + [kb.left, kb.top, kb.width, kb.height].map(Math.round).join(',') +
+        ' air=' + [ab.top, ab.height].map(Math.round).join(',') +
+        ' grid=' + [gb.top, gb.height].map(Math.round).join(',') +
+        ' content=' + (first ? Math.round(first.top) : '?') + '..' + (last ? Math.round(last.bottom) : '?') +
+        ' gapBelow=' + Math.round(kb.bottom - (last ? last.bottom : kb.bottom)) +
+        ' pad=' + keyPanel.style.paddingBottom);
+    } catch (e) {}
+  });
+
   // AIR 区域: 宽度占满游戏窗口(100vw),横条竖排,判定线在中间
   // (始终构建; showLanes=false 时只设为不可见, 不销毁、不影响触摸)
   const airBox = document.createElement('div');
