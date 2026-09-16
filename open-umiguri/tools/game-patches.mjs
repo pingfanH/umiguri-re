@@ -39,5 +39,24 @@ export function applyGamePatches(ast) {
     },
   });
 
+  // 去掉游戏里遗留的调试 console.log。
+  // 这些日志本身无害, 但代价很大: 宿主会把每次 log 交给转发钩子(逐调用 JSON.stringify),
+  // 而 chartParser.rt() 结尾就打印整份解析结果 —— 每解析一首曲子都要序列化一个巨大的
+  // 乐谱对象, 曲库一大就明显拖慢加载。
+  let removedLogs = 0;
+  traverse(ast, {
+    CallExpression(path) {
+      const callee = path.node.callee;
+      if (!t.isMemberExpression(callee) || callee.computed) return;
+      if (!t.isIdentifier(callee.object, { name: 'console' })) return;
+      if (!t.isIdentifier(callee.property, { name: 'log' })) return;
+      // 表达式位置用 void 0 占位, 保持逗号表达式/条件判断的语义
+      if (path.parentPath.isExpressionStatement()) path.parentPath.remove();
+      else path.replaceWith(t.unaryExpression('void', t.numericLiteral(0)));
+      removedLogs++;
+    },
+  });
+  if (removedLogs) applied.push(`去掉遗留调试 console.log ×${removedLogs}`);
+
   return applied;
 }

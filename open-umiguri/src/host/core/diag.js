@@ -24,8 +24,21 @@ export function installConsoleForwarding() {
     const orig = console[name].bind(console);
     console[name] = function () {
       orig.apply(null, arguments);
+      // 转发前只做「便宜的字符串检查」: 游戏会 console.log 巨大的对象(如整份乐谱),
+      // 对它们 JSON.stringify 只为判断是否包含 [umg]/[DIAG] 是纯浪费(曲库大时非常明显)。
+      if (!always) {
+        let hit = false;
+        for (let i = 0; i < arguments.length; i++) {
+          const a = arguments[i];
+          if (typeof a === 'string' && (a.indexOf('[umg]') >= 0 || a.indexOf('[DIAG]') >= 0)) {
+            hit = true;
+            break;
+          }
+        }
+        if (!hit) return;
+      }
       const m = fmt([].slice.call(arguments));
-      if (always || /\[umg\]|\[DIAG\]/.test(m)) forward('t+' + (performance.now() - T0).toFixed(0) + 'ms ' + name.toUpperCase() + ' ' + m);
+      forward('t+' + (performance.now() - T0).toFixed(0) + 'ms ' + name.toUpperCase() + ' ' + m);
     };
   };
   wrap('error', true);

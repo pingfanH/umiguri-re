@@ -154,7 +154,7 @@ export function createTestMenu(scope) {
     }, pageObj_2.hu = function () {
       var analogValues = scope.inputModule.sR();
       let textBuf = "";
-      window.__umgTu = { tu: menuState.tu, eu: menuState.eu, iu: menuState.iu, kb: scope.inputModule.vR().map(k => k.Ae + ":" + k.lu).join(",") }, textBuf = (textBuf += (menuState.tu & BTN_TEST ? "<#c:62cbf5>ON<#r>" : "OFF") + "\n") + (menuState.tu & BTN_SERVICE ? "<#c:62cbf5>ON<#r>" : "OFF"), this.On.Eu.Wt = this.On.Eu.Tn.An(textBuf);
+      textBuf = (textBuf += (menuState.tu & BTN_TEST ? "<#c:62cbf5>ON<#r>" : "OFF") + "\n") + (menuState.tu & BTN_SERVICE ? "<#c:62cbf5>ON<#r>" : "OFF"), this.On.Eu.Wt = this.On.Eu.Tn.An(textBuf);
       for (let halfIdx = 0; halfIdx < 2; ++halfIdx) {
         textBuf = "";
         for (let laneIdx = 16 * halfIdx; laneIdx < 16 * halfIdx + 16; ++laneIdx) {
@@ -445,7 +445,6 @@ export function createTestMenu(scope) {
             }
             2 & zone.lu && (heldButtons |= zone.Ae), 2 === zone.lu && (edgeMask |= zone.Ae);
           }
-          window.__umgAgg = { held: heldButtons, edge: edgeMask, esc: (keyBindings_2.find(function (k) { return k.Ae === 'esc'; }) || {}).lu, n: keyBindings_2.length };
           menuState.tu = heldButtons, menuState.eu = edgeMask, window.__umgPadTake && (menuState.eu |= window.__umgPadTake(), menuState.tu = menuState.eu);
         }
         menuState.iu.nu ? handleDialogInput(menuState.eu, menuState.tu) : (!menuState.Qc && menuState.a0.du && menuState.a0.du(menuState.eu, menuState.tu), !menuState.Qc && menuState.a0.hu && menuState.a0.hu()), menuState.Qc = !1;
