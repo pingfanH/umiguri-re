@@ -79,6 +79,9 @@ export function installLayoutFix() {
   let overlay = null;
   function showOverlay(info) {
     try {
+      let dbg = false;
+      try { dbg = localStorage.getItem('umg_layout_debug') === '1'; } catch (e) {}
+      if (!dbg) return;
       if (!overlay) {
         overlay = document.createElement('div');
         overlay.style.cssText =

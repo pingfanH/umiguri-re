@@ -1,5 +1,5 @@
 // 虚拟按键面板: DOM 构建与显隐。
-import { panelCfg, panelScale, MAIN_FRONT, MAIN_BACK, AIR_KEYS } from './config.js';
+import { panelCfg, MAIN_FRONT, MAIN_BACK, AIR_KEYS } from './config.js';
 import { charToVk } from '../input/vk.js';
 import { touchPress, touchRelease } from '../input/lanes.js';
 import { setTouchKeyCollector } from '../input/keyboard.js';
@@ -104,8 +104,10 @@ export function setKeyActive(el, active) {
 
 // 底部安全距离: 避开 Android 手势条/导航栏(移动端最下一排曾被系统手势截走)。
 // 面板在缩放过的 #main_container 内, 故需按容器缩放换算成容器坐标。
+// 面板直接固定在视口(屏幕坐标), 与游戏的 #main_container transform 解耦:
+// 后者在 iOS 上可能被安全区/约束搞偏, 牵连面板。
 function panelBottomInset() {
-  return Math.round(panelCfg.bottomInset / panelScale());
+  return Math.round(panelCfg.bottomInset);
 }
 
 export function ensureKeyPanel() {
@@ -114,10 +116,10 @@ export function ensureKeyPanel() {
   keyPanel = document.createElement('div');
   keyPanel.id = 'ugv_keys';
   keyPanel.style.cssText =
-    'position:absolute;left:0;right:0;top:0;bottom:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;' +
+    'position:fixed;left:0;right:0;top:0;bottom:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;' +
     'pointer-events:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none;';
   keyPanel.style.paddingBottom = panelBottomInset() + 'px';
-  (document.getElementById('main_container') || document.body).appendChild(keyPanel);
+  document.body.appendChild(keyPanel);
 
   // AIR 区域: 宽度占满游戏窗口(100vw),横条竖排,判定线在中间
   // (始终构建; showLanes=false 时只设为不可见, 不销毁、不影响触摸)
