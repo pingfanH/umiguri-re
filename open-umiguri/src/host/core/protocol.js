@@ -201,6 +201,19 @@ export async function rangeFile(p, offset, size) {
   const key = String(p).split('?')[0];
   if (key.endsWith('/')) throw new Error('is directory: ' + key);
   if (size <= 0) return { data: new Uint8Array(0), total: -1 };
+  try {
+    return await rangeFileInner(key, offset, size);
+  } catch (e) {
+    // Range 路径异常(某些 WebView/自定义协议组合会中途失败): 退回整包缓存+本地切片。
+    // 只慢一次, 之后命中 fileCache; 同时把原因打出来, 便于定位是 404/416/网络中断。
+    console.error('[umg][net] range 失败, 回退整包: ' + key + ' @' + offset + '+' + size + ' ' + ((e && e.message) || e));
+    noRange.add(key);
+    const all = await fetchInto(key);
+    return { data: all.subarray(offset, Math.min(offset + size, all.length)), total: all.length };
+  }
+}
+
+async function rangeFileInner(key, offset, size) {
 
   // Range 不可用: 整包缓存后本地切片
   if (noRange.has(key)) {
