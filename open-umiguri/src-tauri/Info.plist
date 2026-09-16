@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- tauri dev 的内嵌 plist 只含 CFBundleName/Version; 缺此键会被 macOS 当 1x 应用 -->
+	<!-- 整窗放大 -> 桌面端(含文字/按键面板)发糊。tauri build 打包版由 bundler 自动加上。 -->
+	<key>NSHighResolutionCapable</key>
+	<true/>
+</dict>
+</plist>
