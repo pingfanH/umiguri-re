@@ -6,7 +6,7 @@ import { setTouchKeyCollector } from '../input/keyboard.js';
 
 let keyPanel = null;
 // 面板参数以容器单位(1920x1080 设计稿)表示; 现在面板固定在视口, 需按游戏缩放比换算。
-const ux = (v) => v; // 面板在缩放后的 #main_container 内, 尺寸直接用容器单位
+const ux = (v) => v * panelScale(); // 容器单位 -> 视口像素
 let panelVisible = true;
 let rebuiltHook = null;
 
@@ -117,15 +117,29 @@ export function ensureKeyPanel() {
   if (keyPanel) keyPanel.remove();
   keyPanel = document.createElement('div');
   keyPanel.id = 'ugv_keys';
+  // 覆盖在 #main_container 的可视矩形上(fixed), 与容器 transform 解耦
+  const mc = document.getElementById('main_container');
+  const mr = mc ? mc.getBoundingClientRect() : null;
   keyPanel.style.cssText =
-    'position:absolute;left:0;right:0;top:0;bottom:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;' +
+    'position:fixed;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;' +
     'pointer-events:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none;';
+  if (mr) {
+    keyPanel.style.left = Math.round(mr.left) + 'px';
+    keyPanel.style.top = Math.round(mr.top) + 'px';
+    keyPanel.style.width = Math.round(mr.width) + 'px';
+    keyPanel.style.height = Math.round(mr.height) + 'px';
+  } else {
+    keyPanel.style.left = '0px';
+    keyPanel.style.top = '0px';
+    keyPanel.style.width = '100vw';
+    keyPanel.style.height = '100vh';
+  }
   keyPanel.style.paddingBottom = panelBottomInset() + 'px';
   try {
     console.error('[umg][panel] rebuild scale=' + panelScale().toFixed(3) + ' vp=' + innerWidth + 'x' + innerHeight +
       ' rowH=' + panelCfg.rowH + ' airH=' + panelCfg.airH + ' bottomInset=' + panelCfg.bottomInset + ' pad=' + panelBottomInset());
   } catch (e) {}
-  (document.getElementById('main_container') || document.body).appendChild(keyPanel);
+  document.body.appendChild(keyPanel);
 
   // AIR 区域: 宽度占满游戏窗口(100vw),横条竖排,判定线在中间
   // (始终构建; showLanes=false 时只设为不可见, 不销毁、不影响触摸)
@@ -225,6 +239,19 @@ export function collectTouchKey(vk) {
       }
     }, 300);
   }
+}
+
+// 视口/窗口变化时重建面板, 使其跟随容器矩形
+let resizeTimer = null;
+function scheduleRebuild() {
+  if (!keyPanel) return;
+  if (resizeTimer) clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => { resizeTimer = null; try { ensureKeyPanel(); } catch (e) {} }, 200);
+}
+export function installPanelResizeHook() {
+  window.addEventListener('resize', scheduleRebuild, { passive: true });
+  window.addEventListener('orientationchange', scheduleRebuild, { passive: true });
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', scheduleRebuild, { passive: true });
 }
 
 // 把面板构建回调注册给键盘模块(di8KbdHeld 惰性采集)
