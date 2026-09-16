@@ -49,5 +49,6 @@ export function installLayoutDiagnostics() {
   // 临时: 回报游戏侧测试菜单的输入位
   setInterval(() => {
     try { if (window.__umgTu) console.error('[umg][tu] ' + JSON.stringify(window.__umgTu)); } catch (e) {}
+    try { if (window.__umgAgg) console.error('[umg][agg] ' + JSON.stringify(window.__umgAgg)); } catch (e) {}
   }, 1000);
 }
