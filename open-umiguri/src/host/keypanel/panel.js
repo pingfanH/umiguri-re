@@ -5,6 +5,8 @@ import { touchPress, touchRelease } from '../input/lanes.js';
 import { setTouchKeyCollector } from '../input/keyboard.js';
 
 let keyPanel = null;
+// 面板盒按视口坐标定位; 尺寸/字体用容器比例换算(容器单位 -> 视口 px)
+const ux = (v) => v * panelScale();
 let panelVisible = true;
 let rebuiltHook = null;
 
@@ -60,11 +62,11 @@ function mkKey(vk, kind) {
   if (kind === 'air') {
     // air 横条: 判定线(横线)在判定区中间,更透明
     b.style.cssText =
-      'position:relative;width:100%;height:' + st.airH + 'px;cursor:pointer;box-sizing:border-box;' + NOSEL;
+      'position:relative;width:100%;height:' + ux(st.airH) + 'px;cursor:pointer;box-sizing:border-box;' + NOSEL;
     const bar = document.createElement('div');
     bar.className = 'ugv-bar';
     bar.style.cssText =
-      'position:absolute;left:0;right:0;top:50%;height:3px;transform:translateY(-50%);' +
+      'position:absolute;left:0;right:0;top:50%;height:' + Math.max(1, ux(3)) + 'px;transform:translateY(-50%);' +
       'background:rgba(128,128,128,0.3);';
     b.appendChild(bar);
   } else if (kind === 'cell') {
@@ -73,15 +75,15 @@ function mkKey(vk, kind) {
     b.style.cssText =
       'display:flex;align-items:center;justify-content:center;' +
       'border-right:1px solid rgba(128,128,128,0.4);border-bottom:1px solid rgba(128,128,128,0.4);' +
-      'color:rgba(255,255,255,' + st.label + ');font:bold 14px/1 system-ui;cursor:pointer;touch-action:none;' +
+      'color:rgba(255,255,255,' + st.label + ');font:bold ' + Math.round(ux(14)) + 'px/1 system-ui;cursor:pointer;touch-action:none;' +
       'box-sizing:border-box;' + NOSEL;
   } else {
     // 功能键: 灰色半透明
     b.textContent = navLabel(vk);
     b.style.cssText =
-      'min-width:64px;height:176px;display:flex;align-items:center;justify-content:center;' +
+      'min-width:' + ux(64) + 'px;height:' + ux(176) + 'px;display:flex;align-items:center;justify-content:center;' +
       'background:rgba(128,128,128,0.15);border:1px solid rgba(128,128,128,0.4);' +
-      'color:rgba(255,255,255,' + st.label + ');font:bold 15px/1 system-ui;cursor:pointer;touch-action:none;' +
+      'color:rgba(255,255,255,' + st.label + ');font:bold ' + Math.round(ux(15)) + 'px/1 system-ui;cursor:pointer;touch-action:none;' +
       'box-sizing:border-box;' + NOSEL;
   }
   b.style.opacity = String(st.alpha);
@@ -104,8 +106,9 @@ export function setKeyActive(el, active) {
 
 // 底部安全距离: 避开 Android 手势条/导航栏(移动端最下一排曾被系统手势截走)。
 // 面板在缩放过的 #main_container 内, 故需按容器缩放换算成容器坐标。
+// bottomInset 语义是"距屏幕底边"(视口 px); 面板盒按视口定位, 直接使用
 function panelBottomInset() {
-  return Math.round(panelCfg.bottomInset / panelScale());
+  return Math.round(panelCfg.bottomInset);
 }
 
 export function ensureKeyPanel() {
@@ -113,11 +116,36 @@ export function ensureKeyPanel() {
   if (keyPanel) keyPanel.remove();
   keyPanel = document.createElement('div');
   keyPanel.id = 'ugv_keys';
+  // 覆盖在 #main_container 的可视矩形上(fixed), 与容器 transform 解耦;
+  // 宽度对齐游戏画面, 高度延伸到视口底边。
+  const mc = document.getElementById('main_container');
+  const mr = mc ? mc.getBoundingClientRect() : null;
+  if (mr && (mr.width < 40 || mr.height < 40)) {
+    scheduleRebuild(); // 容器尚未布局完成, 稍后重试
+    return;
+  }
   keyPanel.style.cssText =
-    'position:absolute;left:0;right:0;top:0;bottom:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;' +
+    'position:fixed;z-index:99999;box-sizing:border-box;' +
     'pointer-events:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none;';
-  keyPanel.style.paddingBottom = panelBottomInset() + 'px';
-  (document.getElementById('main_container') || document.body).appendChild(keyPanel);
+  if (mr) {
+    keyPanel.style.left = Math.round(mr.left) + 'px';
+    keyPanel.style.top = Math.round(mr.top) + 'px';
+    keyPanel.style.width = Math.round(mr.width) + 'px';
+    keyPanel.style.height = Math.max(0, Math.round(window.innerHeight - mr.top)) + 'px';
+  } else {
+    keyPanel.style.left = '0px';
+    keyPanel.style.top = '0px';
+    keyPanel.style.width = '100vw';
+    keyPanel.style.height = '100vh';
+  }
+  document.body.appendChild(keyPanel);
+
+  // 内容容器: 明确锚定到盒底(bottom = 距屏幕底边)
+  const stack = document.createElement('div');
+  stack.style.cssText =
+    'position:absolute;left:0;right:0;bottom:' + panelBottomInset() + 'px;' +
+    'display:flex;flex-direction:column;align-items:center;pointer-events:none;';
+  keyPanel.appendChild(stack);
 
   // AIR 区域: 宽度占满游戏窗口(100vw),横条竖排,判定线在中间
   // (始终构建; showLanes=false 时只设为不可见, 不销毁、不影响触摸)
@@ -126,17 +154,17 @@ export function ensureKeyPanel() {
   const airVks = AIR_KEYS.map(charToVk);
   airVks.forEach((vk, i) => {
     const el = mkKey(vk, 'air');
-    if (panelCfg.airRowGap > 0 && i < airVks.length - 1) el.style.marginBottom = panelCfg.airRowGap + 'px';
+    if (panelCfg.airRowGap > 0 && i < airVks.length - 1) el.style.marginBottom = ux(panelCfg.airRowGap) + 'px';
     airBox.appendChild(el);
   });
-  keyPanel.appendChild(airBox);
+  stack.appendChild(airBox);
 
   // 主键区域: 固定 16 列 × 2 行, 位置严格对应配置顺序(MAIN_FRONT / MAIN_BACK)
   const grid = document.createElement('div');
   const st = panelCfg;
   grid.style.cssText =
-    'margin:' + st.airGap + 'px auto 0;display:grid;grid-template-columns:repeat(16,1fr);column-gap:' + st.colGap + 'px;' +
-    'grid-template-rows:repeat(2,' + st.rowH + 'px);' +
+    'margin:' + ux(st.airGap) + 'px auto 0;display:grid;grid-template-columns:repeat(16,1fr);column-gap:' + ux(st.colGap) + 'px;' +
+    'grid-template-rows:repeat(2,' + ux(st.rowH) + 'px);' +
     'width:66.6667%;background:rgba(128,128,128,' + st.bg + ');' +
     'border:1px solid rgba(128,128,128,0.4);pointer-events:auto;box-sizing:border-box;';
   MAIN_FRONT.concat(MAIN_BACK).map(charToVk).forEach((vk, i) => {
@@ -145,7 +173,7 @@ export function ensureKeyPanel() {
     if (i >= 16) c.style.borderBottom = 'none';
     grid.appendChild(c);
   });
-  keyPanel.appendChild(grid);
+  stack.appendChild(grid);
 
   // 「显示虚拟键盘」关闭: 仅不可见(元素保留, 布局与触摸命中不变)
   if (!panelCfg.showLanes) {
@@ -157,7 +185,7 @@ export function ensureKeyPanel() {
   //   FN 点击后在下一行横向展开 F1-F5; 点任一功能键或再点 FN 收回
   const navBox = document.createElement('div');
   navBox.style.cssText =
-    'position:absolute;left:8px;top:112px;display:flex;flex-direction:column;gap:6px;pointer-events:auto;align-items:flex-start;';
+    'position:absolute;left:' + ux(8) + 'px;top:' + Math.round(ux(112)) + 'px;display:flex;flex-direction:column;gap:' + Math.round(ux(6)) + 'px;pointer-events:auto;align-items:flex-start;';
   function barStyle(b, w, h) {
     b.style.minWidth = '0';
     b.style.width = w + 'px';
@@ -175,16 +203,16 @@ export function ensureKeyPanel() {
     return b;
   }
   const navRow = document.createElement('div');
-  navRow.style.cssText = 'display:flex;flex-direction:row;gap:6px;';
-  for (const vk of [27, 13]) navRow.appendChild(barStyle(mkKey(vk, 'nav'), 200, 46));
-  const fnBtn = barStyle(mkFnBtn('FN'), 200, 46);
+  navRow.style.cssText = 'display:flex;flex-direction:row;gap:' + Math.round(ux(6)) + 'px;';
+  for (const vk of [27, 13]) navRow.appendChild(barStyle(mkKey(vk, 'nav'), ux(200), ux(46)));
+  const fnBtn = barStyle(mkFnBtn('FN'), ux(200), ux(46));
   navRow.appendChild(fnBtn);
   navBox.appendChild(navRow);
   // F1-F5 弹层: 功能键行下方, 横向
   const fWrap = document.createElement('div');
   fWrap.style.cssText = 'display:none;flex-direction:row;gap:4px;';
   for (const vk of [112, 113, 114, 115, 116]) {
-    const b = barStyle(mkKey(vk, 'nav'), 117, 46);
+    const b = barStyle(mkKey(vk, 'nav'), ux(117), ux(46));
     b.addEventListener('pointerdown', function () { fWrap.style.display = 'none'; }, true);
     fWrap.appendChild(b);
   }
@@ -217,6 +245,32 @@ export function collectTouchKey(vk) {
       }
     }, 300);
   }
+}
+
+// 跟随容器/窗口变化重建
+let resizeTimer = null;
+function scheduleRebuild() {
+  if (!keyPanel) return;
+  if (resizeTimer) clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    resizeTimer = null;
+    try { ensureKeyPanel(); } catch (e) {}
+  }, 200);
+}
+
+export function installPanelResizeHook() {
+  window.addEventListener('resize', scheduleRebuild, { passive: true });
+  window.addEventListener('orientationchange', scheduleRebuild, { passive: true });
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', scheduleRebuild, { passive: true });
+  const mc = document.getElementById('main_container');
+  if (mc && 'ResizeObserver' in window) {
+    try { new ResizeObserver(scheduleRebuild).observe(mc); } catch (e) {}
+  }
+  let n = 0;
+  const t = setInterval(() => {
+    if (keyPanel) ensureKeyPanel();
+    if (++n >= 40) clearInterval(t);
+  }, 400);
 }
 
 // 把面板构建回调注册给键盘模块(di8KbdHeld 惰性采集)
