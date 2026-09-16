@@ -20,7 +20,8 @@
     "analyze:game": "node tools/analyze-bundle.mjs",
     "analyze:props": "node tools/analyze-props.mjs",
     "patch:ios": "node tools/patch-ios.mjs",
-    "clean:android": "node tools/clean-android.mjs"
+    "clean:android": "node tools/clean-android.mjs",
+    "build:esm:dev": "npm run build:host && npm run build:game:esm"
   },
   "devDependencies": {
     "@babel/generator": "^7.24.0",

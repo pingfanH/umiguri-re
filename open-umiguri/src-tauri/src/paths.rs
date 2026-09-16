@@ -31,6 +31,9 @@ const PATH_MAP: &[(&str, &str)] = &[
 pub enum Src {
     Disk(PathBuf),
     Apk(String),
+    // 归档合成: 磁盘上是「解包目录」(.una/.arc 目录), 读取时按需合成归档字节。
+    // dev 用: assets/ 保持解密解包态, 只有 release/Android 才预打包。
+    Synth { dir: PathBuf, p2: u8 },
 }
 
 // 可写层根目录(存档/配置写入处)。env UMIGURI_DATA_DIR 可覆盖。
@@ -41,18 +44,26 @@ pub fn data_root() -> PathBuf {
     default_data_root()
 }
 
-// 只读资源根目录(构建产物 dist/game_data)。env UMIGURI_ASSETS_DIR 可覆盖。
+// 只读资源根目录。env UMIGURI_ASSETS_DIR 可覆盖。
+// 桌面调试(dev): 直接读解密解包态 assets/ —— 无需打包, .una/.arc 目录由 archive.rs
+// 按需合成归档字节; 打包构建(release / Android)才用 dist/game_data 的预打包产物。
 // Android 无此层(直接读 APK assets)。
 #[cfg(not(target_os = "android"))]
 pub fn asset_root() -> PathBuf {
     if let Ok(dir) = std::env::var("UMIGURI_ASSETS_DIR") {
         return PathBuf::from(dir);
     }
-    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .parent()
         .unwrap()
-        .join("dist")
-        .join("game_data")
+        .to_path_buf();
+    if cfg!(debug_assertions) {
+        let loose = root.join("assets");
+        if loose.is_dir() {
+            return loose;
+        }
+    }
+    root.join("dist").join("game_data")
 }
 
 // 桌面: 可写层独立于构建产物, 避免 npm run build:assets 清掉存档。
@@ -156,8 +167,15 @@ pub fn resolve_src(vpath: &str) -> Option<Src> {
         }
         for root in &roots {
             let disk = root.join(&rel);
+            // .una/.arc 的解包目录 == 归档: 按需合成(dev 文件夹态)
+            if disk.is_dir() {
+                if let Some(p2) = crate::archive::archive_p2(&rel) {
+                    return Some(Src::Synth { dir: disk, p2 });
+                }
+                return Some(Src::Disk(disk)); // 普通目录: 由上层返回错误
+            }
             if disk.exists() {
-                return Some(Src::Disk(disk)); // 目录或不可读: 由上层返回错误
+                return Some(Src::Disk(disk)); // 不可读: 由上层返回错误
             }
         }
     }
@@ -176,6 +194,7 @@ pub fn read_all(vpath: &str) -> Option<Vec<u8>> {
             let len = apk_size(&rel)? as usize;
             apk_read_range(&rel, 0, len)
         }
+        Src::Synth { dir, p2 } => crate::archive::dir_archive(&dir, p2).map(|b| b.as_ref().clone()),
     }
 }
 
@@ -184,6 +203,7 @@ pub fn size_of(vpath: &str) -> Option<u64> {
     match resolve_src(vpath)? {
         Src::Disk(p) => std::fs::metadata(p).ok().map(|m| m.len()),
         Src::Apk(rel) => apk_size(&rel),
+        Src::Synth { dir, p2 } => crate::archive::dir_archive(&dir, p2).map(|b| b.len() as u64),
     }
 }
 
@@ -209,5 +229,11 @@ pub fn read_range(vpath: &str, offset: u64, size: usize) -> Option<Vec<u8>> {
             Some(buf)
         }
         Src::Apk(rel) => apk_read_range(&rel, offset, size),
+        Src::Synth { dir, p2 } => {
+            let bytes = crate::archive::dir_archive(&dir, p2)?;
+            let start = (offset as usize).min(bytes.len());
+            let end = (start + size).min(bytes.len());
+            Some(bytes[start..end].to_vec())
+        }
     }
 }

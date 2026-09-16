@@ -123,6 +123,16 @@ pub fn fs_size(path: String) -> FsSizeResult {
                 data: None,
             },
         },
+        Some(Src::Synth { dir, p2 }) => match crate::archive::dir_archive(&dir, p2) {
+            Some(b) => FsSizeResult {
+                status: 0,
+                data: Some(b.len() as u64),
+            },
+            None => FsSizeResult {
+                status: -1,
+                data: None,
+            },
+        },
         None => FsSizeResult {
             status: -1,
             data: None,
@@ -145,6 +155,12 @@ pub fn fs_read(path: String, offset: u64, size: usize) -> Result<String, String>
         }
         Some(Src::Apk(rel)) => {
             crate::paths::apk_read_range(&rel, offset, size).ok_or_else(|| format!("apk read failed: {rel}"))?
+        }
+        Some(Src::Synth { dir, p2 }) => {
+            let bytes = crate::archive::dir_archive(&dir, p2).ok_or_else(|| format!("synth failed: {path}"))?;
+            let start = (offset as usize).min(bytes.len());
+            let end = (start + size).min(bytes.len());
+            bytes[start..end].to_vec()
         }
         None => return Err(format!("not found: {path}")),
     };

@@ -382,11 +382,11 @@ fn apk_open(rel: &str) -> Option<ndk::asset::Asset> {
     am.open(&c)
 }
 
-pub(crate) fn apk_size(rel: &str) -> Option<u64> {
+pub fn apk_size(rel: &str) -> Option<u64> {
     apk_open(rel).map(|a| a.length() as u64)
 }
 
-pub(crate) fn apk_read_range(rel: &str, offset: u64, size: usize) -> Option<Vec<u8>> {
+pub fn apk_read_range(rel: &str, offset: u64, size: usize) -> Option<Vec<u8>> {
     use std::io::{Read, Seek, SeekFrom};
     let mut a = apk_open(rel)?;
     if offset > 0 {
@@ -405,7 +405,7 @@ pub(crate) fn apk_read_range(rel: &str, offset: u64, size: usize) -> Option<Vec<
     Some(buf)
 }
 
-pub(crate) fn apk_list(rel: &str) -> Vec<String> {
+pub fn apk_list(rel: &str) -> Vec<String> {
     use jni::objects::{JObjectArray, JString, JValue};
     let ctx = match tauri::tao::platform::android::prelude::main_android_context() {
         Some(c) => c,

@@ -1,5 +1,6 @@
 // Tauri 后端入口: 文件系统 command(替代 Electron 的 ipcMain) + umg:// 协议。
 mod android;
+mod archive;
 mod fs;
 mod handshake;
 mod paths;
@@ -45,8 +46,12 @@ fn apply_window_config(
 ) -> bool {
     let mut ok = false;
     if let Some(m) = mode.as_deref() {
-        let _ = window.set_fullscreen(m == "fullscreen");
         ok = true;
+        // set_fullscreen 仅桌面可用; 移动端全屏由 AndroidManifest / iOS 处理
+        #[cfg(desktop)]
+        let _ = window.set_fullscreen(m == "fullscreen");
+        #[cfg(not(desktop))]
+        let _ = m;
     }
     if let Some(s) = size.as_deref() {
         if let Some((w, h)) = s.split_once('x') {
