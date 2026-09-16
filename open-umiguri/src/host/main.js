@@ -12,6 +12,7 @@ import { installErrorDiagnostics, installConsoleForwarding, reportGlExtensionsNo
 import { setupWindowDragPause } from './platform/window-drag.js';
 import { installDxtSoftwareDecode } from './platform/textures-dxt.js';
 import { setupStorageAccessCheck } from './platform/storage-access.js';
+import { installLayoutFix } from './platform/layout.js';
 import { loadMain } from './loader/decrypt-loader.js';
 
 // Tauri v2 在 csp:null 时会拦截「页面加载阶段」的 IPC(fetch ipc://localhost),
@@ -43,6 +44,7 @@ whenPageReady(() => {
   setupStorageAccessCheck();
   reportGlExtensionsDelayed(1500);
   loadMain(); // 解密并执行游戏前端(main.js.enc)
+  installLayoutFix(); // 容器居中补偿(iOS 安全区/尺寸不一致)
 
   // iOS 横屏: 启动阶段(方向/安全区未稳定)算出的缩放可能不准且后续不再重算。
   // 主动触发几次 resize, 让游戏按最终尺寸重算布局。
