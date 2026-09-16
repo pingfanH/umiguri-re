@@ -1,23 +1,30 @@
-// NoSafeAreaInsets.mm - 修复 WKWebView 被安全区内缩导致的整体偏移(iOS)。
+// NoSafeAreaInsets.mm - 强制 WKWebView 铺满整个 window(iOS)。
 //
-// 现象: 横屏时 WKWebView 尺寸=安全区尺寸(如 750x381, 全屏应为 874x402),
-// 游戏画面整体左移/上移, 虚拟键盘也跟着偏。
-// 处理: 解除 tao/wry 给 WKWebView 施加的约束, 让它填满 superview,
-// 并关闭 contentInsetAdjustmentBehavior; 同时把原生真实度量注入页面浮层,
-// 便于在画面上确认(见 [umg][layout] 的 native 字段)。
+// 背景: tao/wry 把 WKWebView 约束到安全区(横屏 750x381, 全屏应 874x402)且锚在原点,
+// 导致游戏整体偏移。这里不去修补 game 的 CSS, 而是直接:
+//   1) 解掉父视图/自身对 WKWebView 的约束
+//   2) 清掉祖先链的 clipsToBounds 与安全区边距, 允许溢出父视图
+//   3) 用 window 坐标把 WKWebView 的 frame 设为铺满 window
+//   4) 关闭 contentInsetAdjustmentBehavior
+// 并把结果注入页面(window.__umgNative), 便于在画面上确认。
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
 
-static void UMGInjectMetrics(WKWebView *wv) {
+static NSUInteger UMGRunCount = 0;
+
+static void UMGInjectJS(WKWebView *wv) {
     if (!wv) return;
     UIView *sup = wv.superview;
     CGRect f = wv.frame;
     CGRect sb = sup ? sup.bounds : CGRectZero;
+    CGRect wb = wv.window ? wv.window.bounds : CGRectZero;
     UIEdgeInsets sa = wv.safeAreaInsets;
     NSString *js = [NSString stringWithFormat:
-        @"window.__umgNative={frame:[%g,%g,%g,%g],sup:[%g,%g,%g,%g],safe:[%g,%g,%g,%g],inset:%g};",
+        @"window.__umgNative={ran:%lu,frame:[%g,%g,%g,%g],sup:[%g,%g,%g,%g],win:[%g,%g,%g,%g],safe:[%g,%g,%g,%g],inset:%g};",
+        (unsigned long)UMGRunCount,
         f.origin.x, f.origin.y, f.size.width, f.size.height,
         sb.origin.x, sb.origin.y, sb.size.width, sb.size.height,
+        wb.origin.x, wb.origin.y, wb.size.width, wb.size.height,
         sa.top, sa.left, sa.bottom, sa.right,
         wv.scrollView.contentInsetAdjustmentBehavior];
     [wv evaluateJavaScript:js completionHandler:nil];
@@ -26,8 +33,9 @@ static void UMGInjectMetrics(WKWebView *wv) {
 static void UMGApplyFix(WKWebView *wv) {
     if (!wv) return;
     UIView *sup = wv.superview;
+    UIWindow *win = wv.window;
 
-    // 1) 去掉约束(若有) —— Auto Layout 会在下次 layout 覆盖 frame
+    // 1) 解除约束
     if (sup) {
         for (NSLayoutConstraint *c in [sup.constraints copy]) {
             if (c.firstItem == wv || c.secondItem == wv) c.active = NO;
@@ -36,15 +44,28 @@ static void UMGApplyFix(WKWebView *wv) {
     for (NSLayoutConstraint *c in [wv.constraints copy]) c.active = NO;
     wv.translatesAutoresizingMaskIntoConstraints = YES;
 
-    // 2) 关闭安全区内缩, 填满父视图
+    // 2) 祖先链允许溢出 + 取消安全区边距
+    for (UIView *a = sup; a && a != win; a = a.superview) {
+        a.clipsToBounds = NO;
+        a.insetsLayoutMarginsFromSafeArea = NO;
+        a.layoutMargins = UIEdgeInsetsZero;
+        if (@available(iOS 11.0, *)) a.directionalLayoutMargins = NSDirectionalEdgeInsetsZero;
+    }
+
+    // 3) 关闭安全区内缩
     wv.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     wv.scrollView.contentInset = UIEdgeInsetsZero;
     wv.scrollView.scrollIndicatorInsets = UIEdgeInsetsZero;
-    if (sup) {
-        wv.frame = sup.bounds;
+
+    // 4) 铺满 window(把 window 的 bounds 转到 superview 坐标系)
+    if (win && sup) {
+        wv.frame = [sup convertRect:win.bounds fromView:win];
         wv.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    } else if (sup) {
+        wv.frame = sup.bounds;
     }
-    UMGInjectMetrics(wv);
+    UMGRunCount++;
+    UMGInjectJS(wv);
 }
 
 static void UMGFixAll(void) {
@@ -66,7 +87,7 @@ static void UMGFixAll(void) {
 }
 
 static void UMGScheduleFix(void) {
-    static const int64_t delaysMs[] = {200, 600, 1200, 2500, 4000};
+    static const int64_t delaysMs[] = {100, 300, 600, 1000, 1600, 2500, 4000, 6000};
     for (unsigned i = 0; i < sizeof(delaysMs) / sizeof(delaysMs[0]); i++) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delaysMs[i] * NSEC_PER_MSEC)),
                        dispatch_get_main_queue(), ^{ UMGFixAll(); });
@@ -81,6 +102,7 @@ __attribute__((constructor)) static void UMGInstallInsetsFix(void) {
         UIApplicationDidChangeStatusBarOrientationNotification,
         UIDeviceOrientationDidChangeNotification,
         UIWindowDidBecomeKeyNotification,
+        UIWindowDidBecomeVisibleNotification,
     ];
     for (NSString *name in names) {
         [nc addObserverForName:name
@@ -88,4 +110,5 @@ __attribute__((constructor)) static void UMGInstallInsetsFix(void) {
                          queue:[NSOperationQueue mainQueue]
                     usingBlock:^(NSNotification *n) { UMGScheduleFix(); }];
     }
+    UMGScheduleFix();
 }
