@@ -142,6 +142,27 @@ src/game-esm/
 > 绑定的引用改写为 `scope.<name>`;模块 IIFE → 工厂;顶层 function → helpers;
 > 其余顶层语句按原顺序留在 `index.js`。静态校验(bundle 后无任何未绑定的游戏作用域名)通过。
 
+### 资源格式模块 `src/game-esm/formats/`(手写, 不被重新生成清掉)
+
+一个模块收齐所有「加密/打包格式」与资源加载 API:
+
+| 文件 | 内容 |
+|---|---|
+| `constants.js` | MAGIC/种子/VA·WA 表/AES 密钥/P2 约定 |
+| `cipher.js` | 位置相关 XOR 表、Na 流密码(正/逆) |
+| `gzip.js` | gzip 解/压缩(CompressionStream, 浏览器与 Node18+ 通用) |
+| `archive.js` | `.una/.arc` 头部与表解析、文件体解密、解包、打包、扩展名识别 |
+| `stringTable.js` | RVST 字符串表解析/构建 |
+| `dds.js` | DDS 头部解析 + DXT1/3/5 软解 |
+| `aes.js` | AES-256-CBC(WebCrypto, main.js.enc) |
+| `index.js` | 统一导出 + `createResourceLoader(io)` / `openArchive(io,path,p2)` |
+
+算法移植自已验证逐字节可逆的 `tools/umg.cjs`。实测:
+`.una` 解包与 umg 结果一致;重打包与原始**逐字节一致**;RVST 往返一致;DDS 头部/DXT 正常。
+
+> 下一步:把游戏内散落的归档读取(`scope.v_ds_27991` / `scope.v_vs_27992` / 语言包)
+> 改为调用本模块(行为一致, 但需要真机回归)。
+
 ### B. 片段版(旧, 保留为回退)
 
 `src/game/logic/` + `manifest.json` 字符串拼接, 见下节。构建:`npm run build:game`。

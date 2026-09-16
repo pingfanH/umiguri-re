@@ -101,7 +101,10 @@ traverse(ast, {
 });
 
 // ---------- 生成各产物 ----------
-fs.rmSync(outDir, { recursive: true, force: true });
+// 只重建自动生成的部分; 保留手写模块(如 src/game-esm/formats/)。
+for (const sub of ['modules', 'runtime', 'index.js']) {
+  fs.rmSync(path.join(outDir, sub), { recursive: true, force: true });
+}
 fs.mkdirSync(path.join(outDir, 'runtime'), { recursive: true });
 fs.mkdirSync(path.join(outDir, 'modules'), { recursive: true });
 
@@ -156,7 +159,8 @@ lines.push(`import './runtime/helpers.js'; // 载入并挂载顶层辅助函数`
 lines.push(...moduleImports);
 lines.push('');
 lines.push(`// ---- bootstrap(原游戏 IIFE 顶层语句, 保持原始执行顺序) ----`);
-for (const p of iifeParams) lines.push(`scope.${p} = window; // IIFE 形参`);
+for (const p of iifeParams) lines.push(`scope.${p} = globalThis; // IIFE 形参(浏览器 = window)`);
+lines.push(`if (!scope.${iifeParams[0] || 'win'} || !scope.${iifeParams[0] || 'win'}.getElementById) console.error('[umg] IIFE 形参无效:', typeof scope.${iifeParams[0] || 'win'});`);
 
 const stripDecl = (stmt, out) => {
   if (stmt.type === 'FunctionDeclaration') return; // 已在 helpers.js
