@@ -14,6 +14,9 @@ import { installDxtSoftwareDecode } from './platform/textures-dxt.js';
 import { setupStorageAccessCheck } from './platform/storage-access.js';
 import { installLayoutDiagnostics } from './platform/layout.js';
 import { loadMain } from './loader/decrypt-loader.js';
+import { loadHostConfig } from './bridge/host-config.js';
+import { applyHostConfig, handshake } from './bridge/handshake.js';
+import { tryInvoke } from './core/invoke.js';
 
 // Tauri v2 在 csp:null 时会拦截「页面加载阶段」的 IPC(fetch ipc://localhost),
 // 见 tauri#14707 / #15216。因此凡会触发 invoke 的初始化(含游戏启动)一律推迟到
@@ -38,8 +41,21 @@ setupWindowDragPause(); // 拖动暂停 RAF
 installDxtSoftwareDecode(); // DXT 软解
 
 // ---- 页面加载完成后再执行(会触发 IPC 的部分) ----
-whenPageReady(() => {
+whenPageReady(async () => {
   installConsoleForwarding();
+  // 读取游戏自身配置(assets/core/config/*.json)并应用到握手/窗口
+  try {
+    const cfg = await loadHostConfig();
+    applyHostConfig(cfg);
+    if (cfg.windowMode || cfg.resolution) {
+      await tryInvoke('apply_window_config', { mode: cfg.windowMode, size: cfg.resolution }, false);
+    }
+    console.error('[umg][handshake] ' + JSON.stringify({
+      ct: handshake.O.ct, B: handshake.O.B, p9: handshake.O.p9, I4: handshake.I4,
+      fe: handshake.fe, R: handshake.R, j: handshake.j, M: handshake.M, u1: handshake.u1,
+      windowMode: cfg.windowMode,
+    }));
+  } catch (e) {}
   installErrorDiagnostics(); // 包裹 umgr_elc.st(内部会 invoke('diag'))
   reportGlExtensionsNow();
   setupStorageAccessCheck();

@@ -36,6 +36,29 @@ fn open_storage_access_settings() -> bool {
     return false;
 }
 
+// 按 assets/core/config 设置窗口模式与尺寸
+#[tauri::command]
+fn apply_window_config(
+    window: tauri::Window,
+    mode: Option<String>,
+    size: Option<String>,
+) -> bool {
+    let mut ok = false;
+    if let Some(m) = mode.as_deref() {
+        let _ = window.set_fullscreen(m == "fullscreen");
+        ok = true;
+    }
+    if let Some(s) = size.as_deref() {
+        if let Some((w, h)) = s.split_once('x') {
+            if let (Ok(w), Ok(h)) = (w.trim().parse::<f64>(), h.trim().parse::<f64>()) {
+                let _ = window.set_size(tauri::Size::Logical(tauri::LogicalSize::new(w, h)));
+                ok = true;
+            }
+        }
+    }
+    ok
+}
+
 // 重启应用(授权后需要完整重扫追加数据)
 #[tauri::command]
 fn restart_app_cmd() -> bool {
@@ -183,7 +206,8 @@ pub fn run() {
             debug_probe,
             storage_access,
             open_storage_access_settings,
-            restart_app_cmd
+            restart_app_cmd,
+            apply_window_config
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
