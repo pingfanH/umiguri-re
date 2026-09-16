@@ -1,6 +1,6 @@
 // window.umgr_elc: 游戏 -> 宿主(Tauri)桥。
 import { invoke, tryInvoke } from '../core/invoke.js';
-import { cachedFile, rangeFile } from '../core/protocol.js';
+import { cachedFile, rangeFile, schedulePrefetch } from '../core/protocol.js';
 import { toB64 } from '../core/encoding.js';
 import { handshake } from './handshake.js';
 
@@ -10,7 +10,12 @@ export const umgrElc = {
   enable: true,
   _: handshake,
   st: {
-    zu: (p) => invoke('fs_list', { path: p }),
+    zu: (p) =>
+      invoke('fs_list', { path: p }).then((r) => {
+        // 目录列出后, 后台并行预取小文件(游戏随后会逐个 sn)
+        try { schedulePrefetch(p, r && r.data); } catch (e) {}
+        return r;
+      }),
     sn: (p) => cachedFile(p).then((data) => ({ status: 0, data })).catch(() => ({ status: -1 })),
     _2: (p) =>
       invoke('fs_size', { path: p })

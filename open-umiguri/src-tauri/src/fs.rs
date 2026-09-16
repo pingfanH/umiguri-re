@@ -11,6 +11,7 @@ pub struct FileEntry {
     is_directory: bool,
     is_file: bool,
     name: String,
+    size: u64,
 }
 
 #[derive(Serialize)]
@@ -44,11 +45,17 @@ pub fn fs_list(path: String) -> FsListResult {
                 }
                 let is_dir = e.file_type().map(|t| t.is_dir()).unwrap_or(false);
                 let is_file = e.file_type().map(|t| t.is_file()).unwrap_or(false);
+                let size = if is_file {
+                    e.metadata().map(|m| m.len()).unwrap_or(0)
+                } else {
+                    0
+                };
                 data.push(FileEntry {
                     full_path: format!("/{dir_rel}/{name}"),
                     is_directory: is_dir,
                     is_file,
                     name,
+                    size,
                 });
             }
         }
@@ -65,11 +72,17 @@ pub fn fs_list(path: String) -> FsListResult {
         };
         // list() 不区分文件/目录: 能用 AAsset 打开就是文件
         let is_file = crate::paths::apk_size(&child_rel).is_some();
+        let size = if is_file {
+            crate::paths::apk_size(&child_rel).unwrap_or(0)
+        } else {
+            0
+        };
         data.push(FileEntry {
             full_path: format!("/{child_rel}"),
             is_directory: !is_file,
             is_file,
             name: name.clone(),
+            size,
         });
     }
     let exists = any_dir || !apk_entries.is_empty();
