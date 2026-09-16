@@ -389,8 +389,14 @@ pub fn apk_size(rel: &str) -> Option<u64> {
 pub fn apk_read_range(rel: &str, offset: u64, size: usize) -> Option<Vec<u8>> {
     use std::io::{Read, Seek, SeekFrom};
     let mut a = apk_open(rel)?;
+    let total = a.length();
+    let mut seek_res: Option<u64> = Some(0);
     if offset > 0 {
-        a.seek(SeekFrom::Start(offset)).ok()?;
+        seek_res = a.seek(SeekFrom::Start(offset)).ok();
+        if seek_res.is_none() {
+            eprintln!("[umg][apk] {rel} seek off={offset} FAILED (len={total})");
+            return None;
+        }
     }
     let mut buf = vec![0u8; size];
     let mut read = 0usize;
@@ -402,6 +408,9 @@ pub fn apk_read_range(rel: &str, offset: u64, size: usize) -> Option<Vec<u8>> {
         }
     }
     buf.truncate(read);
+    if read < size {
+        eprintln!("[umg][apk] {rel} off={offset} want={size} got={read} (len={total} seek={seek_res:?})");
+    }
     Some(buf)
 }
 

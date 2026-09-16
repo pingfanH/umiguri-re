@@ -147,6 +147,7 @@ pub fn run() {
                     let resp: Response<Vec<u8>> = Response::builder()
                         .status(StatusCode::PARTIAL_CONTENT)
                         .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+                        .header(header::CACHE_CONTROL, "no-store")
                         .header(header::CONTENT_TYPE, mime)
                         .header(header::ACCEPT_RANGES, "bytes")
                         .header(
@@ -167,6 +168,7 @@ pub fn run() {
                     let resp: Response<Vec<u8>> = Response::builder()
                         .status(StatusCode::RANGE_NOT_SATISFIABLE)
                         .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+                        .header(header::CACHE_CONTROL, "no-store")
                         .header(header::ACCEPT_RANGES, "bytes")
                         .header(header::CONTENT_RANGE, format!("bytes */{}", total))
                         .body(Vec::new())
@@ -183,6 +185,7 @@ pub fn run() {
                     let resp: Response<Vec<u8>> = Response::builder()
                         .status(StatusCode::OK)
                         .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+                        .header(header::CACHE_CONTROL, "no-store")
                         .header(header::CONTENT_TYPE, mime)
                         .header(header::ACCEPT_RANGES, "bytes")
                         .header(header::CONTENT_LENGTH, data.len())
@@ -194,6 +197,7 @@ pub fn run() {
                     let resp: Response<Vec<u8>> = Response::builder()
                         .status(StatusCode::NOT_FOUND)
                         .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+                        .header(header::CACHE_CONTROL, "no-store")
                         .body(Vec::new())
                         .unwrap();
                     let _ = responder.respond(resp);

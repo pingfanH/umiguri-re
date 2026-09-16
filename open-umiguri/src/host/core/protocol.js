@@ -2,6 +2,8 @@
 //   macOS/Linux/iOS: <scheme>://localhost
 //   Windows/Android: http://<scheme>.localhost (默认)
 
+import { invoke } from './invoke.js';
+
 export const UMG_ORIGIN = /Windows|Android/i.test(navigator.userAgent)
   ? 'http://umg.localhost'
   : 'umg://localhost';
@@ -28,7 +30,7 @@ function fetchInto(key) {
   if (inflight.has(key)) return inflight.get(key);
   const pr = (async () => {
     const t0 = performance.now();
-    const resp = await fetch(umgUrl(key));
+    const resp = await fetch(umgUrl(key), { cache: 'no-store' });
     if (!resp.ok) throw new Error('HTTP ' + resp.status + ' ' + key);
     const data = new Uint8Array(await resp.arrayBuffer());
     netPath = key;
@@ -169,16 +171,43 @@ function blockCachePut(key, idx, data) {
 const noRange = new Set();
 let warnedNoRange = false;
 
+// 文件大小缓存。用于把 range 请求裁剪到文件内 —— 请求区间越过末尾时,
+// 服务端只能返回不足长度的 206, 而部分 WebView(Android)会因此直接
+// "Failed to fetch"(实测: 读归档尾部表 bytes=1572864-1835007 而文件仅 1638384)。
+const sizeCache = new Map();
+async function sizeOf(p) {
+  if (sizeCache.has(p)) return sizeCache.get(p);
+  let v = -1;
+  try {
+    const r = await invoke('fs_size', { path: p });
+    if (r && r.status === 0 && typeof r.data === 'number') v = r.data;
+  } catch (e) {}
+  sizeCache.set(p, v);
+  return v;
+}
+
 async function fetchBlock(key, idx, total) {
   const hit = blockCacheGet(key, idx);
   if (hit) return hit;
   const start = idx * RANGE_BLOCK;
+  if (total < 0) total = await sizeOf(key);
   if (total >= 0 && start >= total) return new Uint8Array(0);
   const end = total >= 0 ? Math.min(start + RANGE_BLOCK, total) - 1 : start + RANGE_BLOCK - 1;
   const t0 = performance.now();
   net.rangeCalls++;
-  const resp = await fetch(umgUrl(key), { headers: { Range: `bytes=${start}-${end}` } });
+  let resp;
+  try {
+    // cache:'no-store': 同一 URL 的多个 206 片段被 Chromium 缓存复用时会
+    // 出现「首个 range 成功、后续 range Failed to fetch」。
+    resp = await fetch(umgUrl(key), { headers: { Range: `bytes=${start}-${end}` }, cache: 'no-store' });
+  } catch (e) {
+    console.error(`[umg][net] fetch 抛错: ${key} range=${start}-${end} ${(e && e.message) || e}`);
+    throw e;
+  }
   if (resp.status === 416) return new Uint8Array(0);
+  if (resp.status !== 200 && resp.status !== 206) {
+    console.error(`[umg][net] fetch ${resp.status}: ${key} range=${start}-${end}`);
+  }
   if (resp.status === 200) {
     if (!warnedNoRange) {
       warnedNoRange = true;
@@ -197,6 +226,15 @@ async function fetchBlock(key, idx, total) {
   return data;
 }
 
+// 游戏把返回的 Uint8Array 当「独立缓冲区」用(直接取 buf.buffer 建 DataView/Uint32Array,
+// 见 index.js 归档表解析与 pi)。返回大缓冲的 subarray 视图(byteOffset!=0)会让它从
+// 整个文件的第 0 字节开始解析 -> 归档表变垃圾 -> _VERSION 查不到 -> 数据修复模式。
+// 因此按范围读取一律返回「长度恰好、byteOffset=0」的独立缓冲。
+function exact(u8) {
+  if (u8.byteOffset === 0 && u8.byteLength === u8.buffer.byteLength) return u8;
+  return new Uint8Array(u8);
+}
+
 export async function rangeFile(p, offset, size) {
   const key = String(p).split('?')[0];
   if (key.endsWith('/')) throw new Error('is directory: ' + key);
@@ -209,7 +247,7 @@ export async function rangeFile(p, offset, size) {
     console.error('[umg][net] range 失败, 回退整包: ' + key + ' @' + offset + '+' + size + ' ' + ((e && e.message) || e));
     noRange.add(key);
     const all = await fetchInto(key);
-    return { data: all.subarray(offset, Math.min(offset + size, all.length)), total: all.length };
+    return { data: exact(all.subarray(offset, Math.min(offset + size, all.length))), total: all.length };
   }
 }
 
@@ -218,7 +256,7 @@ async function rangeFileInner(key, offset, size) {
   // Range 不可用: 整包缓存后本地切片
   if (noRange.has(key)) {
     const all = await fetchInto(key);
-    return { data: all.subarray(offset, Math.min(offset + size, all.length)), total: all.length };
+    return { data: exact(all.subarray(offset, Math.min(offset + size, all.length))), total: all.length };
   }
 
   // 归档类: 块级预读(减少往返)
@@ -228,7 +266,7 @@ async function rangeFileInner(key, offset, size) {
     const probe = await fetchBlock(key, firstIdx, -1);
     if (noRange.has(key)) {
       const all = fileCache.get(key);
-      return { data: all.subarray(offset, Math.min(offset + size, all.length)), total: all.length };
+      return { data: exact(all.subarray(offset, Math.min(offset + size, all.length))), total: all.length };
     }
     const total = probe.length < RANGE_BLOCK ? firstIdx * RANGE_BLOCK + probe.length : -1;
     const idxs = [];
@@ -253,24 +291,24 @@ async function rangeFileInner(key, offset, size) {
       w += n;
       if (w >= out.length) break;
     }
-    return { data: out.subarray(0, w), total };
+    return { data: exact(out.subarray(0, w)), total };
   }
 
   // 非归档/大范围: 单次 range
   const end = offset + size - 1;
   const t0 = performance.now();
   net.rangeCalls++;
-  const resp = await fetch(umgUrl(key), { headers: { Range: `bytes=${offset}-${end}` } });
+  const resp = await fetch(umgUrl(key), { headers: { Range: `bytes=${offset}-${end}` }, cache: 'no-store' });
   if (resp.status === 416) throw new Error('range not satisfiable: ' + key);
   if (resp.status === 200) {
     const all = new Uint8Array(await resp.arrayBuffer());
     netTick(t0, all.length, 'sn');
     noRange.add(key);
     fileCache.set(key, all);
-    return { data: all.subarray(offset, Math.min(offset + size, all.length)), total: all.length };
+    return { data: exact(all.subarray(offset, Math.min(offset + size, all.length))), total: all.length };
   }
   if (!resp.ok && resp.status !== 206) throw new Error('HTTP ' + resp.status + ' ' + key);
-  const data = new Uint8Array(await resp.arrayBuffer());
+  const data = exact(new Uint8Array(await resp.arrayBuffer()));
   netTick(t0, data.length, 'xl');
   let total = -1;
   const cr = resp.headers.get('content-range');
