@@ -5,7 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const targets = ['dist/www/tauri-bridge.js', 'dist/main.js'];
+const targets = ['dist/www/tauri-bridge.js', 'dist/main.js', 'dist/main.esm.js'];
 let failed = 0;
 for (const t of targets) {
   const f = path.join(root, t);

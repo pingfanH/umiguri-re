@@ -11,6 +11,7 @@
     "build:host": "node build/bundle-host.mjs",
     "build:game": "node build/assemble-game.mjs && node build/bundle-game.mjs",
     "build": "npm run build:assets && npm run build:host && npm run build:game",
+    "build:esm": "npm run build:assets && npm run build:host && npm run build:game:esm",
     "assemble:game": "node build/assemble-game.mjs",
     "check": "node build/check.mjs && node build/contract-check.mjs && node build/freevar-check.mjs",
     "extract:game": "node tools/split-game.mjs",

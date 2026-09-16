@@ -4,8 +4,8 @@
   "version": "2.0.1",
   "identifier": "jp.inonote.umiguri",
   "build": {
-    "beforeDevCommand": "npm run build",
-    "beforeBuildCommand": "npm run build",
+    "beforeDevCommand": "npm run build:esm",
+    "beforeBuildCommand": "npm run build:esm",
     "frontendDist": "../dist/www"
   },
   "app": {
