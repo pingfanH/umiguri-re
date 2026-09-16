@@ -43,4 +43,37 @@ whenPageReady(() => {
   setupStorageAccessCheck();
   reportGlExtensionsDelayed(1500);
   loadMain(); // 解密并执行游戏前端(main.js.enc)
+
+  // iOS 横屏: 启动阶段(方向/安全区未稳定)算出的缩放可能不准且后续不再重算。
+  // 主动触发几次 resize, 让游戏按最终尺寸重算布局。
+  let n = 0;
+  const t = setInterval(() => {
+    try {
+      window.dispatchEvent(new Event('resize'));
+    } catch (e) {}
+    if (++n >= 4) clearInterval(t);
+  }, 600);
+
+  // 布局诊断: 输出实际尺寸与最终 transform
+  setTimeout(() => {
+    try {
+      const b = document.body;
+      const mc = document.getElementById('main_container');
+      console.error(
+        '[umg][layout] ' +
+          JSON.stringify({
+            bw: b.clientWidth,
+            bh: b.clientHeight,
+            iw: innerWidth,
+            ih: innerHeight,
+            vw: (window.visualViewport && window.visualViewport.width) || null,
+            vh: (window.visualViewport && window.visualViewport.height) || null,
+            dpr: window.devicePixelRatio,
+            screen: [screen.width, screen.height],
+            orient: screen.orientation && screen.orientation.type,
+            transform: mc && mc.style.transform,
+          })
+      );
+    } catch (e) {}
+  }, 2500);
 });
