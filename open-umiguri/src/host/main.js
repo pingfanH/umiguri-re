@@ -161,11 +161,23 @@ whenPageReady(async () => {
   });
   let probeN = 0;
   const probe = setInterval(() => {
-    lockCanvasCssSize();
-    const list = [...document.querySelectorAll('#main_container canvas')].map(
-      (c) => `${c.width}x${c.height}`
+    // 先记录「游戏自然状态」, 再看我们干预后的状态
+    const c0 = document.querySelector('#main_container > canvas');
+    const b0 = document.getElementById('main_container');
+    diagLog(
+      `[umg][render] 自然: canvas=${c0 ? c0.width + 'x' + c0.height : '-'} css=${c0 ? c0.clientWidth + 'x' + c0.clientHeight : '-'}` +
+        ` inlineStyle=${c0 ? (c0.style.width || 'none') + '/' + (c0.style.height || 'none') : '-'}` +
+        ` box=${b0 ? b0.clientWidth + 'x' + b0.clientHeight : '-'} win=${innerWidth}x${innerHeight}`
     );
-    diagLog(`[umg][render] canvas 背衬=[${list.join(' | ')}] scale=${window.__umgPixelScale}`);
+    lockCanvasCssSize();
+    const c = document.querySelector('#main_container > canvas');
+    const box = document.getElementById('main_container');
+    const cs = box ? getComputedStyle(box) : null;
+    diagLog(
+      `[umg][render] canvas=${c ? c.width + 'x' + c.height : '-'} css=${c ? c.clientWidth + 'x' + c.clientHeight : '-'}` +
+        ` box=${box ? box.clientWidth + 'x' + box.clientHeight : '-'} styleW=${box ? box.style.width : '-'}` +
+        ` transform=${cs ? cs.transform : '-'} win=${innerWidth}x${innerHeight} k=${window.__umgPixelScale}`
+    );
     if (++probeN >= 3) clearInterval(probe);
   }, 5000);
   installLayoutDiagnostics(); // 布局诊断(默认关闭, 见 localStorage.umg_layout_debug)

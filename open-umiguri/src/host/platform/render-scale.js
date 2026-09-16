@@ -17,9 +17,10 @@ const DESIGN_CSS = { w: DESIGN_W + 'px', h: DESIGN_H + 'px' };
 export function lockCanvasCssSize() {
   const c = document.querySelector('#main_container > canvas');
   if (!c) return false;
-  // CSS 尺寸锁回设计空间(画布自身按背衬尺寸会溢出容器)
-  c.style.width = DESIGN_CSS.w;
-  c.style.height = DESIGN_CSS.h;
+  // 只在游戏没给画布显式 CSS 尺寸时才补设计尺寸(否则会按背衬尺寸撑破容器)。
+  // 实测游戏(glRuntime)自己会设成设计尺寸, 那就沿用, 不要去覆盖 —— 覆盖会打乱它的布局。
+  if (!c.style.width) c.style.width = DESIGN_CSS.w;
+  if (!c.style.height) c.style.height = DESIGN_CSS.h;
   // 背衬 = 设计空间 × 倍率, 并用同一个 GL context 校正 viewport。
   // 必须在这里做: 游戏自带的 glRuntime 会在窗口 resize 时把画布按窗口尺寸重置
   // (canvas.width = window.innerWidth - ...), 会覆盖掉初始倍率。
