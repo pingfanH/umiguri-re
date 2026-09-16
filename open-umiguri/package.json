@@ -18,7 +18,8 @@
     "modularize": "node tools/modularize-game.mjs",
     "build:game:esm": "node build/bundle-game-esm.mjs",
     "analyze:game": "node tools/analyze-bundle.mjs",
-    "analyze:props": "node tools/analyze-props.mjs"
+    "analyze:props": "node tools/analyze-props.mjs",
+    "patch:ios": "node tools/patch-ios.mjs"
   },
   "devDependencies": {
     "@babel/generator": "^7.24.0",
