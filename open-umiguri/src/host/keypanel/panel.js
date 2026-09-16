@@ -108,8 +108,9 @@ export function setKeyActive(el, active) {
 // 面板在缩放过的 #main_container 内, 故需按容器缩放换算成容器坐标。
 // 面板直接固定在视口(屏幕坐标), 与游戏的 #main_container transform 解耦:
 // 后者在 iOS 上可能被安全区/约束搞偏, 牵连面板。
+// bottomInset 语义是"距屏幕底边"(视口 px); 面板盒按视口尺寸定位, 直接用
 function panelBottomInset() {
-  return Math.round(panelCfg.bottomInset / panelScale());
+  return Math.round(panelCfg.bottomInset);
 }
 
 export function ensureKeyPanel() {
@@ -120,14 +121,20 @@ export function ensureKeyPanel() {
   // 覆盖在 #main_container 的可视矩形上(fixed), 与容器 transform 解耦
   const mc = document.getElementById('main_container');
   const mr = mc ? mc.getBoundingClientRect() : null;
+  if (mr && (mr.width < 40 || mr.height < 40)) {
+    // 容器尚未布局完成(退化矩形): 先不建, 稍后重试
+    scheduleRebuild();
+    return;
+  }
   keyPanel.style.cssText =
     'position:fixed;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;' +
     'pointer-events:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none;';
   if (mr) {
+    // 宽度对齐游戏画面(与赛道一致), 高度延伸到视口底边(避免画面下方"悬空")
     keyPanel.style.left = Math.round(mr.left) + 'px';
     keyPanel.style.top = Math.round(mr.top) + 'px';
     keyPanel.style.width = Math.round(mr.width) + 'px';
-    keyPanel.style.height = Math.round(mr.height) + 'px';
+    keyPanel.style.height = Math.max(0, Math.round(window.innerHeight - mr.top)) + 'px';
   } else {
     keyPanel.style.left = '0px';
     keyPanel.style.top = '0px';
@@ -137,9 +144,23 @@ export function ensureKeyPanel() {
   keyPanel.style.paddingBottom = panelBottomInset() + 'px';
   try {
     console.error('[umg][panel] rebuild scale=' + panelScale().toFixed(3) + ' vp=' + innerWidth + 'x' + innerHeight +
-      ' rowH=' + panelCfg.rowH + ' airH=' + panelCfg.airH + ' bottomInset=' + panelCfg.bottomInset + ' pad=' + panelBottomInset());
+      ' rect=' + (mr ? [Math.round(mr.left), Math.round(mr.top), Math.round(mr.width), Math.round(mr.height)].join(',') : 'null') +
+      ' rowH=' + panelCfg.rowH + ' bottomInset=' + panelCfg.bottomInset + ' pad=' + panelBottomInset());
   } catch (e) {}
   document.body.appendChild(keyPanel);
+
+  // 临时调试: 画面板盒边框 + 数值(便于截图定位)
+  try {
+    keyPanel.style.outline = '2px solid #f00';
+    const dbg = document.createElement('div');
+    dbg.style.cssText =
+      'position:absolute;left:0;bottom:0;z-index:100000;pointer-events:none;background:rgba(0,0,0,.75);' +
+      'color:#f66;font:10px/1.3 ui-monospace,monospace;padding:1px 3px;white-space:pre;';
+    dbg.textContent =
+      'box ' + keyPanel.style.left + ',' + keyPanel.style.top + ' ' + keyPanel.style.width + 'x' + keyPanel.style.height +
+      '\npad ' + keyPanel.style.paddingBottom + '  bottomInset ' + panelCfg.bottomInset + '  rowH ' + panelCfg.rowH;
+    keyPanel.appendChild(dbg);
+  } catch (e) {}
 
   // AIR 区域: 宽度占满游戏窗口(100vw),横条竖排,判定线在中间
   // (始终构建; showLanes=false 时只设为不可见, 不销毁、不影响触摸)
@@ -252,6 +273,19 @@ export function installPanelResizeHook() {
   window.addEventListener('resize', scheduleRebuild, { passive: true });
   window.addEventListener('orientationchange', scheduleRebuild, { passive: true });
   if (window.visualViewport) window.visualViewport.addEventListener('resize', scheduleRebuild, { passive: true });
+  // 容器的尺寸/transform/display 变化都要跟随
+  const mc = document.getElementById('main_container');
+  if (mc && 'ResizeObserver' in window) {
+    try {
+      new ResizeObserver(scheduleRebuild).observe(mc);
+    } catch (e) {}
+  }
+  // 启动阶段容器会经历 hidden -> 布局 -> transform, 定时同步一段时间
+  let n = 0;
+  const t = setInterval(() => {
+    if (keyPanel) ensureKeyPanel();
+    if (++n >= 40) clearInterval(t);
+  }, 400);
 }
 
 // 把面板构建回调注册给键盘模块(di8KbdHeld 惰性采集)
