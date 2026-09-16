@@ -3,32 +3,51 @@
 //   容器 px —— 面板在缩放过的 #main_container 内, 桌面 1:1, 手机约 0.33(1920 宽缩到 ~630)
 //   视口 px —— 触摸坐标(getBoundingClientRect / clientX), 与屏幕像素一致
 
-const IS_MOBILE = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+export const IS_MOBILE = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-export const PANEL_DEFAULTS = {
+// 共享默认值(两端一致的部分)
+const BASE_DEFAULTS = {
   rowH: 192, // 按钮高度
   colGap: 0, // 每列间距(整体宽度固定 -> 间距变大则按钮变窄)
   airH: 64, // air 条高度
-  airGap: 16, // air 区与按键区(button)的距离: 0 = 紧贴
+  airGap: 16, // air 区与按键区的距离: 0 = 紧贴
   airRowGap: 0, // air 各判定区(横条)之间的间距
-  bottomInset: 30, // 按键区距屏幕底边距离(视口 px, 用于避开手势条)
-  radius: IS_MOBILE ? 10 : 25, // 范围触发圆半径(视口 px)
+  bottomInset: 30, // 按键区距屏幕底边距离(视口 px)
   alpha: 1, // 整体不透明度
   label: 0.6, // 字色透明度
   bg: 0.08, // 面板底色透明度
   showGuide: true, // 显示「参考圆」
-  showHit: false, // 高亮「范围触发」实际命中的键(由设置页的开关控制)
-  showLanes: true, // 显示虚拟键盘主体(air 条 + 32 个按键); 关闭后仅保留功能键
+  showHit: false, // 高亮「范围触发」实际命中的键
+  showLanes: true, // 显示虚拟键盘主体(air 条 + 32 键)
 };
+
+// 移动端默认值(覆盖/新增 BASE_DEFAULTS 的项)
+const MOBILE_DEFAULTS = {
+  radius: 10, // 范围触发圆半径(视口 px), 触屏手指更粗 -> 更小
+  bottomInset: 34, // 避开 Android 手势条
+};
+
+// 桌面端默认值
+const DESKTOP_DEFAULTS = {
+  radius: 25,
+};
+
+// 最终默认值(按平台合并)
+export const PANEL_DEFAULTS = Object.assign({}, BASE_DEFAULTS, IS_MOBILE ? MOBILE_DEFAULTS : DESKTOP_DEFAULTS);
+
+// 持久化键按平台分开(互不干扰); 首次读不到时兼容旧的 umg_kbd_cfg
+export const CFG_STORAGE_KEY = IS_MOBILE ? 'umg_kbd_cfg_mobile' : 'umg_kbd_cfg_desktop';
+const LEGACY_CFG_KEY = 'umg_kbd_cfg';
 
 export const panelCfg = Object.assign({}, PANEL_DEFAULTS);
 try {
-  Object.assign(panelCfg, JSON.parse(localStorage.getItem('umg_kbd_cfg') || '{}'));
+  const raw = localStorage.getItem(CFG_STORAGE_KEY) || localStorage.getItem(LEGACY_CFG_KEY);
+  if (raw) Object.assign(panelCfg, JSON.parse(raw));
 } catch (e) {}
 
 export function savePanelCfg() {
   try {
-    localStorage.setItem('umg_kbd_cfg', JSON.stringify(panelCfg));
+    localStorage.setItem(CFG_STORAGE_KEY, JSON.stringify(panelCfg));
   } catch (e) {}
 }
 
