@@ -153,12 +153,32 @@ whenPageReady(async () => {
   loadMain(); // 解密并执行游戏前端(main.js.enc)
 
   // 验证渲染倍率是否落到画布背衬(设计空间 1920x1080, 背衬应为 1920*k)
-  // resize 后校正画布(glRuntime 会按窗口重置画布尺寸)
+  // 窗口尺寸变化后: 校正画布(glRuntime 会按窗口重置画布尺寸) 并让游戏重算 fit。
+  // 游戏只有 resize 时才会重算缩放: 若它在窗口还很大时算过一次、之后窗口变小,
+  // 画面就会按过大的比例放大 -> 右侧/底部被切掉。
+  let reflowing = false;
+  const reflow = () => {
+    if (reflowing) return;
+    reflowing = true;
+    try {
+      lockCanvasCssSize();
+      window.dispatchEvent(new Event('resize'));
+    } catch (e) {}
+    finally {
+      reflowing = false;
+    }
+  };
   let fixTimer = null;
   window.addEventListener('resize', () => {
     clearTimeout(fixTimer);
-    fixTimer = setTimeout(() => lockCanvasCssSize(), 300);
+    fixTimer = setTimeout(reflow, 300);
   });
+  // 启动阶段(全屏切换/安全区未稳定)多补几次: 这些点在游戏挂上监听之后
+  let n = 0;
+  const t = setInterval(() => {
+    reflow();
+    if (++n >= 4) clearInterval(t);
+  }, 2000);
   let probeN = 0;
   const probe = setInterval(() => {
     // 先记录「游戏自然状态」, 再看我们干预后的状态
@@ -182,14 +202,6 @@ whenPageReady(async () => {
   }, 5000);
   installLayoutDiagnostics(); // 布局诊断(默认关闭, 见 localStorage.umg_layout_debug)
 
-  // iOS 横屏: 启动阶段(方向/安全区未稳定)算出的缩放可能不准且后续不再重算。
-  // 主动触发几次 resize, 让游戏按最终尺寸重算布局。
-  let n = 0;
-  const t = setInterval(() => {
-    try {
-      window.dispatchEvent(new Event('resize'));
-    } catch (e) {}
-    if (++n >= 4) clearInterval(t);
-  }, 600);
+
 
 });
