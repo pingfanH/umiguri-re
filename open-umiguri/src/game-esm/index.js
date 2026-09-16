@@ -57,8 +57,16 @@ import { createV_Ns_28014 } from './modules/v_Ns_28014/index.js';
 import { createLanguagePackages } from './modules/languagePackages/index.js';
 
 // ---- bootstrap(原游戏 IIFE 顶层语句, 保持原始执行顺序) ----
-scope.win = globalThis; // IIFE 形参(浏览器 = window)
-if (!scope.win || !scope.win.getElementById) console.error('[umg] IIFE 形参无效:', typeof scope.win);
+scope.win = (function () {
+  const cands = [];
+  try { if (typeof window !== "undefined") cands.push(["window", window]); } catch (e) {}
+  try { if (typeof self !== "undefined") cands.push(["self", self]); } catch (e) {}
+  try { if (typeof document !== "undefined" && document.defaultView) cands.push(["defaultView", document.defaultView]); } catch (e) {}
+  try { if (typeof globalThis !== "undefined") cands.push(["globalThis", globalThis]); } catch (e) {}
+  for (const [n, o] of cands) if (o && typeof o.getElementById === "function") return o;
+  console.error("[umg] 找不到有效 window 全局:", cands.map(([n, o]) => n + ":" + Object.prototype.toString.call(o)).join(", "));
+  return cands.length ? cands[0][1] : undefined;
+})(); // IIFE 形参(浏览器 = window)
 scope.v_y_27559 = scope.win.getElementById("main_container");
 scope.v_n_27560 = scope.win.getElementById("log");
 scope.v_e_27561 = scope.win.getElementById("status");

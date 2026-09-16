@@ -159,8 +159,16 @@ lines.push(`import './runtime/helpers.js'; // 载入并挂载顶层辅助函数`
 lines.push(...moduleImports);
 lines.push('');
 lines.push(`// ---- bootstrap(原游戏 IIFE 顶层语句, 保持原始执行顺序) ----`);
-for (const p of iifeParams) lines.push(`scope.${p} = globalThis; // IIFE 形参(浏览器 = window)`);
-lines.push(`if (!scope.${iifeParams[0] || 'win'} || !scope.${iifeParams[0] || 'win'}.getElementById) console.error('[umg] IIFE 形参无效:', typeof scope.${iifeParams[0] || 'win'});`);
+for (const p of iifeParams) lines.push(`scope.${p} = (function () {
+  const cands = [];
+  try { if (typeof window !== "undefined") cands.push(["window", window]); } catch (e) {}
+  try { if (typeof self !== "undefined") cands.push(["self", self]); } catch (e) {}
+  try { if (typeof document !== "undefined" && document.defaultView) cands.push(["defaultView", document.defaultView]); } catch (e) {}
+  try { if (typeof globalThis !== "undefined") cands.push(["globalThis", globalThis]); } catch (e) {}
+  for (const [n, o] of cands) if (o && typeof o.getElementById === "function") return o;
+  console.error("[umg] 找不到有效 window 全局:", cands.map(([n, o]) => n + ":" + Object.prototype.toString.call(o)).join(", "));
+  return cands.length ? cands[0][1] : undefined;
+})(); // IIFE 形参(浏览器 = window)`);
 
 const stripDecl = (stmt, out) => {
   if (stmt.type === 'FunctionDeclaration') return; // 已在 helpers.js
