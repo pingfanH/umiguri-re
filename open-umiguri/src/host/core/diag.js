@@ -12,6 +12,7 @@ export function diagLog(msg) {
 
 // 把 WebView 的 console(仅 [umg]/[DIAG]/error) 转发到 Rust stderr, 便于命令行抓日志。
 export function installConsoleForwarding() {
+  const T0 = performance.now();
   const forward = (msg) => {
     if (!invoke) return;
     try {
@@ -24,7 +25,7 @@ export function installConsoleForwarding() {
     console[name] = function () {
       orig.apply(null, arguments);
       const m = fmt([].slice.call(arguments));
-      if (always || /\[umg\]|\[DIAG\]/.test(m)) forward(name.toUpperCase() + ' ' + m);
+      if (always || /\[umg\]|\[DIAG\]/.test(m)) forward('t+' + (performance.now() - T0).toFixed(0) + 'ms ' + name.toUpperCase() + ' ' + m);
     };
   };
   wrap('error', true);

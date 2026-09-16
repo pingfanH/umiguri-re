@@ -31,7 +31,9 @@ function fetchInto(key) {
     const resp = await fetch(umgUrl(key));
     if (!resp.ok) throw new Error('HTTP ' + resp.status + ' ' + key);
     const data = new Uint8Array(await resp.arrayBuffer());
-    netTick(t0, data.length);
+    netPath = key;
+    netTick(t0, data.length, 'sn');
+    netPath = null;
     fileCache.set(key, data);
     return data;
   })();
@@ -78,12 +80,21 @@ export function schedulePrefetch(dirPath, entries) {
 }
 
 // 网络/传输统计(用于判断「搬 Rust」是否有收益)
-const net = { calls: 0, bytes: 0, ms: 0, rangeCalls: 0 };
+const net = { calls: 0, bytes: 0, ms: 0, rangeCalls: 0, snCalls: 0, snMs: 0, snBytes: 0 };
+const snPaths = new Map();
 let netReporterOn = false;
-function netTick(t0, n) {
+let netPath = null;
+function netTick(t0, n, kind) {
+  const dt = performance.now() - t0;
   net.calls++;
   net.bytes += n;
-  net.ms += performance.now() - t0;
+  net.ms += dt;
+  if (kind === 'sn') {
+    net.snCalls++;
+    net.snMs += dt;
+    net.snBytes += n;
+    if (netPath) snPaths.set(netPath, (snPaths.get(netPath) || 0) + n);
+  }
   if (!netReporterOn) {
     netReporterOn = true;
     let lastMs = 0;
@@ -99,8 +110,13 @@ function netTick(t0, n) {
       if (dC === 0) return; // 空闲不打印
       console.error(
         `[umg][net] +${dC} calls +${(dB / 1048576).toFixed(2)}MB in ${dMs.toFixed(0)}ms |` +
-          ` total ${(net.bytes / 1048576).toFixed(2)}MB/${net.calls}calls/${net.ms.toFixed(0)}ms range=${net.rangeCalls}`
+          ` total ${(net.bytes / 1048576).toFixed(2)}MB/${net.calls}calls/${net.ms.toFixed(0)}ms range=${net.rangeCalls}` +
+          ` | sn ${net.snCalls}calls ${(net.snBytes / 1048576).toFixed(2)}MB ${net.snMs.toFixed(0)}ms`
       );
+      if (dC > 0 && snPaths.size) {
+        const top = [...snPaths.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
+        console.error('[umg][sn-top] ' + top.map(([p, b]) => `${p}=${(b / 1048576).toFixed(2)}MB`).join(' '));
+      }
     }, 2000);
   }
 }

@@ -19,6 +19,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parser, traverse, generate, t, loadSymbols, applySymbols, loadProps, applyProps } from './lib/symbols.mjs';
+import { deferStartup } from './startup-defer.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const fixedSrc = path.join(root, 'dist/game_main.deobf.js');
@@ -204,7 +205,11 @@ const stripDecl = (stmt, out) => {
 
 for (const stmt of body) stripDecl(stmt, lines);
 lines.push('');
-fs.writeFileSync(path.join(outDir, 'index.js'), lines.join('\n') + '\n');
+{
+  // 启动后台化: 音频/数据库不再阻塞进主页(UMG_NO_DEFER=1 可关)
+  const src = deferStartup(lines.join('\n') + '\n');
+  fs.writeFileSync(path.join(outDir, 'index.js'), src);
+}
 
 process.stderr.write(`模块工厂: ${modules.length} 个\n`);
 process.stderr.write(`顶层辅助函数: ${helperFuncs.length} 个\n`);
