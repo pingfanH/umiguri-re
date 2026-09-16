@@ -27,7 +27,7 @@ export const keyPanelApi = {
       if (k in PANEL_DEFAULTS) panelCfg[k] = patch[k];
     }
     savePanelCfg();
-    if (isPanelBuilt()) ensureKeyPanel();
+    ensureKeyPanel(); // 无条件重建, 保证参数调整立即生效
     refreshEditor();
     return Object.assign({}, panelCfg);
   },

@@ -6,7 +6,7 @@ import { setTouchKeyCollector } from '../input/keyboard.js';
 
 let keyPanel = null;
 // 面板参数以容器单位(1920x1080 设计稿)表示; 现在面板固定在视口, 需按游戏缩放比换算。
-const ux = (v) => v * panelScale();
+const ux = (v) => v; // 面板在缩放后的 #main_container 内, 尺寸直接用容器单位
 let panelVisible = true;
 let rebuiltHook = null;
 
@@ -109,7 +109,7 @@ export function setKeyActive(el, active) {
 // 面板直接固定在视口(屏幕坐标), 与游戏的 #main_container transform 解耦:
 // 后者在 iOS 上可能被安全区/约束搞偏, 牵连面板。
 function panelBottomInset() {
-  return Math.round(panelCfg.bottomInset);
+  return Math.round(panelCfg.bottomInset / panelScale());
 }
 
 export function ensureKeyPanel() {
@@ -118,10 +118,14 @@ export function ensureKeyPanel() {
   keyPanel = document.createElement('div');
   keyPanel.id = 'ugv_keys';
   keyPanel.style.cssText =
-    'position:fixed;left:0;right:0;top:0;bottom:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;' +
+    'position:absolute;left:0;right:0;top:0;bottom:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;' +
     'pointer-events:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:none;';
   keyPanel.style.paddingBottom = panelBottomInset() + 'px';
-  document.body.appendChild(keyPanel);
+  try {
+    console.error('[umg][panel] rebuild scale=' + panelScale().toFixed(3) + ' vp=' + innerWidth + 'x' + innerHeight +
+      ' rowH=' + panelCfg.rowH + ' airH=' + panelCfg.airH + ' bottomInset=' + panelCfg.bottomInset + ' pad=' + panelBottomInset());
+  } catch (e) {}
+  (document.getElementById('main_container') || document.body).appendChild(keyPanel);
 
   // AIR 区域: 宽度占满游戏窗口(100vw),横条竖排,判定线在中间
   // (始终构建; showLanes=false 时只设为不可见, 不销毁、不影响触摸)

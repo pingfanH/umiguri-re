@@ -36,6 +36,15 @@ export function touchRadius() {
   return panelCfg.radius;
 }
 
+// 与游戏一致的视口缩放比: 游戏布局用 min(body宽/1920, body高/1080)。
+// 面板尺寸以容器单位表示, 换算成视口像素时用这个(不依赖容器 rect, 更稳)。
+export function viewportScale() {
+  const w = window.innerWidth || 1920;
+  const h = window.innerHeight || 1080;
+  const k = Math.min(w / 1920, h / 1080);
+  return k > 0 ? k : 1;
+}
+
 // #main_container 的缩放比(1 单位容器 px = 多少视口 px)
 export function panelScale() {
   const mc = document.getElementById('main_container');
