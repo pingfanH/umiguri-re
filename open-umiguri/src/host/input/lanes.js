@@ -17,13 +17,20 @@ export function laneForVk(vk) {
   return VK_LANE.get(vk);
 }
 
+const pressAt = new Map(); // vk -> 按下时间(临时诊断)
 export function touchPress(vk) {
   touchState.add(vk);
+  if (!pressAt.has(vk)) pressAt.set(vk, performance.now());
   const lane = VK_LANE.get(vk);
   if (lane !== undefined) window.__umgLanes[lane] = 1;
 }
 
 export function touchRelease(vk) {
+  const t0 = pressAt.get(vk);
+  if (t0 !== undefined) {
+    pressAt.delete(vk);
+    try { console.error('[umg][hold] vk=' + vk + ' lane=' + VK_LANE.get(vk) + ' held=' + Math.round(performance.now() - t0) + 'ms'); } catch (e) {}
+  }
   touchState.delete(vk);
   const lane = VK_LANE.get(vk);
   if (lane !== undefined) window.__umgLanes[lane] = 0;
