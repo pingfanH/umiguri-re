@@ -48,7 +48,14 @@ export function installErrorDiagnostics() {
     setTimeout(poll, 1000);
   })();
 
-  const st = window.umgr_elc && window.umgr_elc.st;
+  // 逐调用埋点(每次 sn/xl/zu/_2 都 console + invoke('diag') = 2 次 IPC)开销可观:
+  // 300+ 次调用 ≈ 600+ 次 IPC。默认关闭, 需要时 localStorage.umg_diag='1' 打开。
+  let perCall = false;
+  try {
+    perCall = localStorage.getItem('umg_diag') === '1';
+  } catch (e) {}
+  if (perCall) diagLog('[umg][diag] 逐调用埋点已开启(umg_diag=1)');
+  const st = perCall && window.umgr_elc && window.umgr_elc.st;
   if (st) {
     const wrap = (name) => {
       const orig = st[name];
@@ -60,10 +67,13 @@ export function installErrorDiagnostics() {
           window.__diagSeen = key;
           diagLog('CALL ' + key);
         }
+        const t0 = performance.now();
         const r = orig.apply(this, arguments);
         if (r && r.then)
           r.then(
             function (x) {
+              const ms = performance.now() - t0;
+              if (ms >= 150) diagLog('[umg][slow] ' + key + ' ' + ms.toFixed(0) + 'ms');
               const s = x && x.status;
               if (s === 0) diagLog('OK ' + name + ' ' + p);
               else diagLog('FAIL ' + name + ' ' + p);

@@ -11,7 +11,8 @@ pub static UNA_REQS: AtomicU64 = AtomicU64::new(0);
 pub static UNA_BYTES: AtomicU64 = AtomicU64::new(0);
 
 pub fn enabled() -> bool {
-    std::env::var_os("UMG_STATS").is_some()
+    // 调试构建默认开启(真机上无法方便地设置环境变量); release 需 UMG_STATS=1
+    cfg!(debug_assertions) || std::env::var_os("UMG_STATS").is_some()
 }
 
 pub fn record(vpath: &str, bytes: usize, read: Duration, is_range: bool) {

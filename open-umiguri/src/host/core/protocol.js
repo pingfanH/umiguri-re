@@ -3,6 +3,7 @@
 //   Windows/Android: http://<scheme>.localhost (默认)
 
 import { invoke } from './invoke.js';
+import { diagLog } from './diag.js';
 
 export const UMG_ORIGIN = /Windows|Android/i.test(navigator.userAgent)
   ? 'http://umg.localhost'
@@ -84,6 +85,16 @@ export function schedulePrefetch(dirPath, entries) {
 // 网络/传输统计(用于判断「搬 Rust」是否有收益)
 const net = { calls: 0, bytes: 0, ms: 0, rangeCalls: 0, snCalls: 0, snMs: 0, snBytes: 0 };
 const snPaths = new Map();
+const snMsByPath = new Map();
+// 埋点: 单次请求耗时直方图 + /music/ 专项(判断是固定开销还是大文件传输主导)
+const DUR_EDGES = [2, 5, 10, 20, 50, 100, 250, Infinity];
+const durCounts = new Array(DUR_EDGES.length).fill(0);
+const durBytes = new Array(DUR_EDGES.length).fill(0);
+function durBucket(ms) {
+  for (let i = 0; i < DUR_EDGES.length; i++) if (ms < DUR_EDGES[i]) return i;
+  return DUR_EDGES.length - 1;
+}
+const music = { calls: 0, bytes: 0, ms: 0, songs: new Set() };
 let netReporterOn = false;
 let netPath = null;
 function netTick(t0, n, kind) {
@@ -91,11 +102,22 @@ function netTick(t0, n, kind) {
   net.calls++;
   net.bytes += n;
   net.ms += dt;
+  durCounts[durBucket(dt)]++;
+  durBytes[durBucket(dt)] += n;
+  if (netPath && netPath.indexOf('/music/') === 0) {
+    music.calls++;
+    music.bytes += n;
+    music.ms += dt;
+    music.songs.add(netPath.split('/').slice(0, 4).join('/'));
+  }
   if (kind === 'sn') {
     net.snCalls++;
     net.snMs += dt;
     net.snBytes += n;
-    if (netPath) snPaths.set(netPath, (snPaths.get(netPath) || 0) + n);
+    if (netPath) {
+      snPaths.set(netPath, (snPaths.get(netPath) || 0) + n);
+      snMsByPath.set(netPath, (snMsByPath.get(netPath) || 0) + dt);
+    }
   }
   if (!netReporterOn) {
     netReporterOn = true;
@@ -110,14 +132,24 @@ function netTick(t0, n, kind) {
       lastBytes = net.bytes;
       lastCalls = net.calls;
       if (dC === 0) return; // 空闲不打印
-      console.error(
+      diagLog(
         `[umg][net] +${dC} calls +${(dB / 1048576).toFixed(2)}MB in ${dMs.toFixed(0)}ms |` +
           ` total ${(net.bytes / 1048576).toFixed(2)}MB/${net.calls}calls/${net.ms.toFixed(0)}ms range=${net.rangeCalls}` +
           ` | sn ${net.snCalls}calls ${(net.snBytes / 1048576).toFixed(2)}MB ${net.snMs.toFixed(0)}ms`
       );
       if (dC > 0 && snPaths.size) {
         const top = [...snPaths.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
-        console.error('[umg][sn-top] ' + top.map(([p, b]) => `${p}=${(b / 1048576).toFixed(2)}MB`).join(' '));
+        diagLog('[umg][sn-top] ' + top.map(([p, b]) => `${p}=${(b / 1048576).toFixed(2)}MB`).join(' '));
+        const topMs = [...snMsByPath.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
+        diagLog('[umg][sn-slow] ' + topMs.map(([p, ms]) => `${p}=${ms.toFixed(0)}ms`).join(' '));
+        let lo = 0;
+        const hist = DUR_EDGES.map((e, i) => {
+          const part = `${lo}-${e === Infinity ? 'inf' : e}ms:${durCounts[i]}`;
+          lo = e;
+          return part;
+        }).join(' ');
+        diagLog('[umg][dur] ' + hist);
+        diagLog(`[umg][music] calls=${music.calls} ${(music.bytes / 1048576).toFixed(2)}MB ${music.ms.toFixed(0)}ms songs=${music.songs.size}`);
       }
     }, 2000);
   }
@@ -129,6 +161,47 @@ export async function cachedFile(p) {
   // 直接失败,不发 fetch,避免 404 报错,保持与「读不到」一致的 fallback 语义。
   if (key.endsWith('/')) throw new Error('is directory: ' + key);
   return fetchInto(key);
+}
+
+// 批量预取: 一次 IPC(fs_bundle_tree)取回整棵子树的文件, 灌入 fileCache。
+// 游戏随后的 sn/qu/Ic/rangeFile 直接命中缓存, 不再逐文件往返(每次 ~10~30ms)。
+export async function prefetchTree(root, { maxFile = 4 << 20, maxTotal = 48 << 20 } = {}) {
+  const t0 = performance.now();
+  let buf;
+  try {
+    buf = await invoke('fs_bundle_tree', { root, maxFile, maxTotal });
+  } catch (e) {
+    diagLog('[umg][bundle] 失败 ' + root + ' ' + ((e && e.message) || e));
+    return { files: 0, bytes: 0 };
+  }
+  const u8 = buf instanceof Uint8Array ? buf : new Uint8Array(buf);
+  const dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
+  let off = 0;
+  const count = dv.getUint32(off, true);
+  off += 4;
+  const dec = new TextDecoder();
+  let files = 0;
+  let bytes = 0;
+  for (let i = 0; i < count; i++) {
+    const plen = dv.getUint16(off, true);
+    off += 2;
+    const path = dec.decode(u8.subarray(off, off + plen));
+    off += plen;
+    const size = dv.getUint32(off, true);
+    off += 4;
+    const data = u8.slice(off, off + size); // 复制成独立缓冲(游戏会直接用 .buffer)
+    off += size;
+    const key = path.split('?')[0];
+    if (!fileCache.has(key)) {
+      fileCache.set(key, data);
+      files++;
+      bytes += size;
+    }
+  }
+  diagLog(
+    `[umg][bundle] ${root} files=${files} ${(bytes / 1048576).toFixed(2)}MB ${(performance.now() - t0).toFixed(0)}ms`
+  );
+  return { files, bytes };
 }
 
 // 按范围读取(HTTP Range)。用于归档切片读取: 不再把整个 .una(可达 20MB+)
@@ -201,17 +274,17 @@ async function fetchBlock(key, idx, total) {
     // 出现「首个 range 成功、后续 range Failed to fetch」。
     resp = await fetch(umgUrl(key), { headers: { Range: `bytes=${start}-${end}` }, cache: 'no-store' });
   } catch (e) {
-    console.error(`[umg][net] fetch 抛错: ${key} range=${start}-${end} ${(e && e.message) || e}`);
+    diagLog(`[umg][net] fetch 抛错: ${key} range=${start}-${end} ${(e && e.message) || e}`);
     throw e;
   }
   if (resp.status === 416) return new Uint8Array(0);
   if (resp.status !== 200 && resp.status !== 206) {
-    console.error(`[umg][net] fetch ${resp.status}: ${key} range=${start}-${end}`);
+    diagLog(`[umg][net] fetch ${resp.status}: ${key} range=${start}-${end}`);
   }
   if (resp.status === 200) {
     if (!warnedNoRange) {
       warnedNoRange = true;
-      console.error('[umg][net] Range 不支持, 回退为整包缓存+本地切片');
+      diagLog('[umg][net] Range 不支持, 回退为整包缓存+本地切片');
     }
     const all = new Uint8Array(await resp.arrayBuffer());
     netTick(t0, all.length, 'sn');
@@ -244,7 +317,7 @@ export async function rangeFile(p, offset, size) {
   } catch (e) {
     // Range 路径异常(某些 WebView/自定义协议组合会中途失败): 退回整包缓存+本地切片。
     // 只慢一次, 之后命中 fileCache; 同时把原因打出来, 便于定位是 404/416/网络中断。
-    console.error('[umg][net] range 失败, 回退整包: ' + key + ' @' + offset + '+' + size + ' ' + ((e && e.message) || e));
+    diagLog('[umg][net] range 失败, 回退整包: ' + key + ' @' + offset + '+' + size + ' ' + ((e && e.message) || e));
     noRange.add(key);
     const all = await fetchInto(key);
     return { data: exact(all.subarray(offset, Math.min(offset + size, all.length))), total: all.length };
@@ -252,6 +325,14 @@ export async function rangeFile(p, offset, size) {
 }
 
 async function rangeFileInner(key, offset, size) {
+  // 已由批量预取灌入缓存: 直接切片(省一次整包 fetch 或 range 往返)
+  const cachedAll = fileCache.get(key);
+  if (cachedAll) {
+    return {
+      data: exact(cachedAll.subarray(offset, Math.min(offset + size, cachedAll.length))),
+      total: cachedAll.length,
+    };
+  }
 
   // Range 不可用: 整包缓存后本地切片
   if (noRange.has(key)) {

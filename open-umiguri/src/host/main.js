@@ -8,7 +8,8 @@ import { installPanelShortcut, installPanelResizeHook } from './keypanel/panel.j
 import { installKeyPanelApi } from './keypanel/api.js';
 import { installUmgrElc } from './bridge/umgr-elc.js';
 import { installNativeInput } from './bridge/native-input.js';
-import { installErrorDiagnostics, installConsoleForwarding, reportGlExtensionsNow, reportGlExtensionsDelayed } from './core/diag.js';
+import { installErrorDiagnostics, installConsoleForwarding, reportGlExtensionsNow, reportGlExtensionsDelayed, diagLog } from './core/diag.js';
+import { prefetchTree } from './core/protocol.js';
 import { setupWindowDragPause } from './platform/window-drag.js';
 import { installDxtSoftwareDecode } from './platform/textures-dxt.js';
 import { setupStorageAccessCheck } from './platform/storage-access.js';
@@ -31,6 +32,7 @@ function whenPageReady(fn) {
 }
 
 // ---- 立即执行(不触发 IPC) ----
+diagLog('[umg][nav] ' + location.href); // 埋点: 区分 ?fix(修复模式)/?errDisp(错误页)
 preventViewportGestures(); // 手势/页面缩放拦截
 installKeyboardListeners(); // 键盘监听
 installPanelShortcut(); // 虚拟按键面板快捷键
@@ -67,6 +69,14 @@ whenPageReady(async () => {
   reportGlExtensionsNow();
   setupStorageAccessCheck();
   reportGlExtensionsDelayed(1500);
+  // 曲库等数据库信息批量预取: 一次 IPC 取回整棵子树, 消除逐文件往返延迟。
+  // /music 是曲库(meta/封面/谱面), /chara 角色, 其余是列表类小数据表。
+  for (const root of ['/music', '/chara', '/skills', '/nameplates', '/titles', '/courses']) {
+    try {
+      await prefetchTree(root);
+    } catch (e) {}
+  }
+
   loadMain(); // 解密并执行游戏前端(main.js.enc)
   installLayoutDiagnostics(); // 布局诊断(默认关闭, 见 localStorage.umg_layout_debug)
 

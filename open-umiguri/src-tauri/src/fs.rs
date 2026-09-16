@@ -30,6 +30,7 @@ pub struct FsSizeResult {
 #[tauri::command]
 pub fn fs_list(path: String) -> FsListResult {
     use std::collections::HashSet;
+    let t0 = std::time::Instant::now();
     let dir_rel = vpath_to_rel(&path);
     let mut data: Vec<FileEntry> = Vec::new();
     let mut seen: HashSet<String> = HashSet::new();
@@ -86,6 +87,10 @@ pub fn fs_list(path: String) -> FsListResult {
         });
     }
     let exists = any_dir || !apk_entries.is_empty();
+    let ms = t0.elapsed().as_millis();
+    if ms >= 20 || data.len() >= 16 {
+        eprintln!("[umg][list] {} n={} {}ms", path, data.len(), ms);
+    }
     FsListResult {
         status: if exists { 0 } else { -1 },
         data,

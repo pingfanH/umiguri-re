@@ -1,6 +1,7 @@
 // Tauri 后端入口: 文件系统 command(替代 Electron 的 ipcMain) + umg:// 协议。
 mod android;
 mod archive;
+mod bundle;
 mod fs;
 mod handshake;
 mod paths;
@@ -14,6 +15,7 @@ use tauri::http::status::StatusCode;
 use tauri::http::{header, Response};
 use tauri::{Emitter, Manager};
 
+use bundle::fs_bundle_tree;
 use fs::{debug_probe, fs_file, fs_list, fs_read, fs_size, fs_write};
 use handshake::{diag, handshake};
 use paths::{read_all, read_range, size_of};
@@ -143,7 +145,11 @@ pub fn run() {
                 let len = (end - start + 1) as usize;
                 let t0 = Instant::now();
                 if let Some(data) = read_range(&vpath, start, len) {
-                    stats::record(&vpath, data.len(), t0.elapsed(), true);
+                    let el = t0.elapsed();
+                    stats::record(&vpath, data.len(), el, true);
+                    if el.as_millis() >= 50 {
+                        eprintln!("[umg][read] {} range {}-{} {}B {}ms", vpath, start, end, data.len(), el.as_millis());
+                    }
                     let resp: Response<Vec<u8>> = Response::builder()
                         .status(StatusCode::PARTIAL_CONTENT)
                         .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")
@@ -181,7 +187,11 @@ pub fn run() {
             let t0 = Instant::now();
             match read_all(&vpath) {
                 Some(data) => {
-                    stats::record(&vpath, data.len(), t0.elapsed(), false);
+                    let el = t0.elapsed();
+                    stats::record(&vpath, data.len(), el, false);
+                    if el.as_millis() >= 50 {
+                        eprintln!("[umg][read] {} full {}B {}ms", vpath, data.len(), el.as_millis());
+                    }
                     let resp: Response<Vec<u8>> = Response::builder()
                         .status(StatusCode::OK)
                         .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")
@@ -194,6 +204,8 @@ pub fn run() {
                     let _ = responder.respond(resp);
                 }
                 None => {
+                    eprintln!("[umg][404] {}", vpath);
+                    stats::record(&vpath, 0, t0.elapsed(), false); // 404 也计入, 便于统计真实请求数
                     let resp: Response<Vec<u8>> = Response::builder()
                         .status(StatusCode::NOT_FOUND)
                         .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")
@@ -210,6 +222,7 @@ pub fn run() {
             fs_size,
             fs_read,
             fs_write,
+            fs_bundle_tree,
             handshake,
             diag,
             debug_probe,

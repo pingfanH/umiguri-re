@@ -111,9 +111,9 @@ pub fn apk_list(_rel: &str) -> Vec<String> {
 #[cfg(target_os = "android")]
 pub use crate::android::{apk_list, apk_read_range, apk_size};
 
-pub fn vpath_to_rel(vpath: &str) -> String {
+// 折叠重复斜杠并去掉首斜杠(保留尾斜杠, 否则 PATH_MAP 里 "config/" 这类前缀匹配不上)
+fn collapse_vpath(vpath: &str) -> String {
     let normalized = vpath.replace('\\', "/");
-    // 只折叠重复斜杠(保留尾斜杠, 否则 PATH_MAP 里 "config/" 这类前缀匹配不上)
     let mut collapsed = String::with_capacity(normalized.len());
     let mut prev_slash = false;
     for ch in normalized.chars() {
@@ -127,7 +127,12 @@ pub fn vpath_to_rel(vpath: &str) -> String {
         }
         collapsed.push(ch);
     }
-    let candidate = collapsed.trim_start_matches('/');
+    collapsed
+}
+
+pub fn vpath_to_rel(vpath: &str) -> String {
+    let candidate = collapse_vpath(vpath);
+    let candidate = candidate.trim_start_matches('/');
     for (prefix, real) in PATH_MAP {
         if candidate.starts_with(prefix) {
             let rest = candidate[prefix.len()..].trim_matches('/');
@@ -137,16 +142,51 @@ pub fn vpath_to_rel(vpath: &str) -> String {
     candidate.trim_matches('/').to_string()
 }
 
+// 语言包回退: 游戏会按顺序探测多个语言包(实测 zh-CN -> exField -> 基础包), 本地化包里
+// 没有的文件才回退到基础包。同一份内容游戏要多花 1~2 个往返(实测每启动 300 次 404)。
+// 宿主按同样顺序在同一请求内解析, 结果一致但省掉失败探测。
+const PACK_FALLBACK: &[(&str, &[&str])] = &[
+    (
+        "reverie_zh-CN/",
+        &["core/una/zh-CN.una/", "core/una/hiiragi.una/", "core/una/natsukawa.una/"],
+    ),
+    (
+        "reverie_exField/",
+        &["core/una/natsukawa.una/", "core/una/hiiragi.una/", "core/una/zh-CN.una/"],
+    ),
+    (
+        "reverie_en-US/",
+        &["core/una/sakuragi.una/", "core/una/hiiragi.una/"],
+    ),
+    ("reverie/", &["core/una/hiiragi.una/", "core/una/natsukawa.una/"]),
+];
+
+// 按回退顺序给出所有可能的真实相对路径
+fn rel_bases(vpath: &str) -> Vec<String> {
+    let candidate = collapse_vpath(vpath);
+    let candidate = candidate.trim_start_matches('/');
+    for (prefix, dirs) in PACK_FALLBACK {
+        if candidate.starts_with(prefix) {
+            let rest = candidate[prefix.len()..].trim_matches('/');
+            return dirs.iter().map(|d| format!("{d}{rest}")).collect();
+        }
+    }
+    vec![vpath_to_rel(vpath)]
+}
+
 // 解密脚本(decrypt_arc.js)曾为每个文件重复追加一次扩展名,
 // 导致磁盘上文件名为双扩展名(startup.rsb.rsb / _VERSION.txt)。
 // 读取时按 exact -> name.ext.ext -> name.txt 依次尝试。
 pub fn rel_candidates(vpath: &str) -> Vec<String> {
-    let base = vpath_to_rel(vpath);
-    let mut out = vec![base.clone()];
-    if let Some(ext) = Path::new(&base).extension().and_then(|e| e.to_str()) {
-        out.push(format!("{base}.{ext}"));
+    let mut out: Vec<String> = Vec::new();
+    for base in rel_bases(vpath) {
+        out.push(base.clone());
+        if let Some(ext) = Path::new(&base).extension().and_then(|e| e.to_str()) {
+            out.push(format!("{base}.{ext}"));
+        }
+        out.push(format!("{base}.txt"));
     }
-    out.push(format!("{base}.txt"));
+    out.dedup();
     out
 }
 
