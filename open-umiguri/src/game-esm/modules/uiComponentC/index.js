@@ -15,7 +15,7 @@ export function createUiComponentC(scope) {
   }
   function v_l_29688() {
     for (let v_t_29693 = 0; v_t_29693 < v_a_29686.length; ++v_t_29693) v_a_29686[v_t_29693].Nn = v_s_29685.Ni === v_t_29693 ? 0 : 1;
-    v_r_29684.rsbTree.elementByIndex(6).x = v_a_29686[v_s_29685.Ni].x - 30;
+    v_r_29684.lt.yk(6).Te = v_a_29686[v_s_29685.Ni].Te - 30;
   }
   function v_c_29689() {
     scope.menuSystem.St("cancel");
@@ -33,7 +33,7 @@ export function createUiComponentC(scope) {
       scope.v_Le_28076([v_i_29696 => {
         scope.languagePackages.it("ui/musicSort.rsb", function (v_t_29697) {
           v_t_29697 ? (v_t_29697 = new scope.v_Dl_28181(v_t_29697), scope.renderer.nt(v_t_29697.rt(scope.renderer.p5()), v_t_29698 => {
-            v_r_29684 = v_t_29698, v_a_29686 = [v_r_29684.rsbTree.elementByIndex(7), v_r_29684.rsbTree.elementByIndex(8), v_r_29684.rsbTree.elementByIndex(9)], scope.v_Me_28078(v_i_29696);
+            v_r_29684 = v_t_29698, v_a_29686 = [v_r_29684.lt.yk(7), v_r_29684.lt.yk(8), v_r_29684.lt.yk(9)], scope.v_Me_28078(v_i_29696);
           })) : v_e_29695();
         });
       }, v_t_29699 => {

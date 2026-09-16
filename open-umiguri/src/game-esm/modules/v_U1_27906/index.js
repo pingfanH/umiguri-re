@@ -19,7 +19,7 @@ export function createV_U1_27906(scope) {
     v_r_28885.e8(0), scope.menuSystem.It(!1), scope.renderer.W6(v_t_28892, scope.v_Ge_28204(30));
   }
   function v_c_28891() {
-    v_r_28885.rsbTree.elementByIndex(6).Wt = v_s_28886[v_n_28887.wi], v_r_28885.rsbTree.elementByIndex(7).Wt = "Page " + (v_n_28887.wi + 1) + " / " + v_s_28886.length, scope.menuSystem.kt("left", v_n_28887.wi <= 0), scope.menuSystem.kt("right", v_n_28887.wi >= v_s_28886.length - 1), scope.menuSystem.Cv(!0);
+    v_r_28885.lt.yk(6).Wt = v_s_28886[v_n_28887.wi], v_r_28885.lt.yk(7).Wt = "Page " + (v_n_28887.wi + 1) + " / " + v_s_28886.length, scope.menuSystem.kt("left", v_n_28887.wi <= 0), scope.menuSystem.kt("right", v_n_28887.wi >= v_s_28886.length - 1), scope.menuSystem.Cv(!0);
   }
   function v_t_28892() {
     scope.menuSystem._t(), scope.renderer._i("licenseText"), v_n_28887.Ee && v_n_28887.Ee();

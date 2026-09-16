@@ -200,19 +200,17 @@ src/game-esm/
 
 ## 对象字段改名(property)
 
-`tools/prop-symbols.json` 维护被 terser **property mangling** 的字段名映射。由于字段名不可逆,
-只对**有实测依据**的字段改名, 且 `applyProps` 强制安全门槛:
+> ⚠️ 默认**关闭**(`--props` 才启用)。原因: 新字段名可能与对象上**已有的同名属性**
+> 冲突(如 `.Te→x`/`.Be→visible`, 而 `visible`/`x` 本身已是其它对象的属性),
+> 实测曾导致启动异常。改名映射保留在 `tools/prop-symbols.json`, 分析见
+> `tools/analyze-props.mjs` 生成的 `src/game/logic/PROPERTIES.md`。
 
-- 若该名字以**字符串字面量**出现(`"Fi"`)或以 `obj["Fi"]` **动态访问** → 拒绝(可能被序列化/动态访问);
-- 简写 `{Fi}` / 解构 `const {Fi} = o` → 拒绝(需改写语法, 保守跳过);
-- 仅改 `.Fi` 访问、`{Fi: …}` 键、类成员名。
+`tools/prop-symbols.json` 维护被 terser **property mangling** 的字段名映射。启用时
+`applyProps` 有安全门槛: 若该名字以**字符串字面量**出现或以 `obj["x"]` 动态访问,
+或简写/解构, 一律拒绝。
 
-当前批次(依据 `PROJECT_INFO` §2.2/§7.5, 共 2568 处):
-`Be→visible`、`Te→x`、`Qt→y`、`Le→w`、`G0→h`、`yk→elementByIndex`、`ot→elementByName`。
-
-> ⚠️ JSON 序列化不会在源码留下字符串字面量, 因此仍可能漏判; 改名后**必须真机回归**。
-
-字段使用统计见 `tools/analyze-props.mjs` 生成的 `src/game/logic/PROPERTIES.md`。
+已收录: `Be→visible`、`Te→x`、`Qt→y`、`Le→w`、`G0→h`、`yk→elementByIndex`、
+`ot→elementByName`、`lt→rsbTree`。
 
 ## vendor 上游替换
 

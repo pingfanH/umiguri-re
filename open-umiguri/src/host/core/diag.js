@@ -10,6 +10,28 @@ export function diagLog(msg) {
   } catch (e) {}
 }
 
+// 把 WebView 的 console(仅 [umg]/[DIAG]/error) 转发到 Rust stderr, 便于命令行抓日志。
+export function installConsoleForwarding() {
+  const forward = (msg) => {
+    if (!invoke) return;
+    try {
+      invoke('diag', { msg: String(msg) }).catch(function () {});
+    } catch (e) {}
+  };
+  const fmt = (args) => args.map((x) => (typeof x === 'string' ? x : (() => { try { return JSON.stringify(x); } catch (e) { return String(x); } })())).join(' ');
+  const wrap = (name, always) => {
+    const orig = console[name].bind(console);
+    console[name] = function () {
+      orig.apply(null, arguments);
+      const m = fmt([].slice.call(arguments));
+      if (always || /\[umg\]|\[DIAG\]/.test(m)) forward(name.toUpperCase() + ' ' + m);
+    };
+  };
+  wrap('error', true);
+  wrap('warn', true);
+  wrap('log', false);
+}
+
 // 全局错误捕获 + 记录前端桥调用(来源 diag.js)。
 // 需在 umgr_elc 定义之后调用(会包裹 st 的方法)。
 export function installErrorDiagnostics() {

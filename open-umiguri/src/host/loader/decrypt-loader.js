@@ -4,7 +4,7 @@ const IV = 'umiguri-iv-16byt'; // 16 字节
 
 export async function loadMain() {
   try {
-    const enc = await fetch('main.js.enc').then((r) => r.arrayBuffer());
+    const enc = await fetch('main.js.enc', { cache: 'no-store' }).then((r) => r.arrayBuffer());
     const keyBytes = new TextEncoder().encode(KEY);
     const ivBytes = new TextEncoder().encode(IV);
     const key = await crypto.subtle.importKey('raw', keyBytes, 'AES-CBC', false, ['decrypt']);

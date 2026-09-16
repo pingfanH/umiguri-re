@@ -73,7 +73,7 @@ export function createCoopLobby(scope) {
           v_g_29009.a0.Yn = v_i_29041;
           let v_a_29043 = v_g_29009.a0;
           let v_o_29044 = v_p_29012()[v_t_29039];
-          for (let v_t_29045 = 0; v_t_29045 < v_o_29044.Bi.length; ++v_t_29045) v_o_29044.Bi[v_t_29045].ze.nn(), v_o_29044.Bi[v_t_29045].ze.visible = !1;
+          for (let v_t_29045 = 0; v_t_29045 < v_o_29044.Bi.length; ++v_t_29045) v_o_29044.Bi[v_t_29045].ze.nn(), v_o_29044.Bi[v_t_29045].ze.Be = !1;
           v_b_29016(scope.v_ui_27806, v_t_29039, v_s_29040);
           v_b_29016(v_i_29041 & scope.v_fi_27807 ? scope.v_di_27810 : scope.v_hi_27809, v_t_29039, v_s_29040);
           scope.renderer.W6(() => {
@@ -92,7 +92,7 @@ export function createCoopLobby(scope) {
         }, scope.v_Ge_28204(v_t_29037)));
       } else {
         v_g_29009.ji = v_s_29035;
-        for (let v_t_29051 = 0; v_t_29051 < v_p_29012()[v_s_29035].Bi.length; ++v_t_29051) v_p_29012()[v_s_29035].Bi[v_t_29051].ze.visible = !1;
+        for (let v_t_29051 = 0; v_t_29051 < v_p_29012()[v_s_29035].Bi.length; ++v_t_29051) v_p_29012()[v_s_29035].Bi[v_t_29051].ze.Be = !1;
         v_y_29017(scope.v_gi_27815), v_b_29016(scope.v_gi_27815);
       }
     }
@@ -107,9 +107,9 @@ export function createCoopLobby(scope) {
     var v_o_29059 = void 0 !== v_i_29052 && (v_i_29052 & scope.v_hi_27809 || v_i_29052 & scope.v_di_27810),
       v_l_29060 = void 0 !== scope.v_wi_27814 && v_i_29052 & scope.v_wi_27814,
       v_c_29061 = void 0 !== v_i_29052 && v_i_29052 & scope.v_vi_27813 ? 3 : 6;
-    for (let v_t_29062 = 0; v_t_29062 < v_r_29056 - 7; ++v_t_29062) v_s_29057.Bi[v_t_29062].ze.visible = !1;
-    for (let v_t_29063 = v_r_29056 + 8; v_t_29063 < v_s_29057.Bi.length; ++v_t_29063) v_s_29057.Bi[v_t_29063].ze.visible = !1;
-    for (let v_t_29064 = -7; v_t_29064 < 8; ++v_t_29064) (v_n_29055 = v_t_29064 + v_r_29056) < 0 || v_s_29057.Bi.length <= v_n_29055 || (0 === v_t_29064 ? v_a_29058 = 0 : (v_a_29058 = 140 * v_t_29064, v_a_29058 += 160 * (0 < v_a_29058 ? 1 : -1)), v_o_29059 && (v_i_29052 & scope.v_hi_27809 ? v_a_29058 -= 310 * (4.5 + scope.mathMin(v_s_29057.Bi.length - 1 - v_r_29056, 3)) : v_a_29058 += 310 * (4.5 + scope.mathMin(v_r_29056, 3))), (!1 === (v_n_29055 = v_s_29057.Bi[v_n_29055].ze).visible || v_i_29052 & scope.v_gi_27815) && v_n_29055.nn(), !v_o_29059 || -7 !== v_t_29064 && 7 !== v_t_29064 ? v_n_29055.visible = !0 : v_n_29055.visible = !1, (0 === v_t_29064 ? v_d_29003 : v_h_29001).Ze(v_n_29055), v_o_29059 || v_l_29060 ? v_n_29055.rn(scope.v_Vo_28136, scope.v_Jo_28133, 24, 0) : v_n_29055.rn(scope.v_Vo_28136, scope.v_jo_28134, v_c_29061, 0), v_l_29060 ? (v_n_29055.rn(scope.v_Xo_28138, scope.v_Jo_28133, 10, 14), v_n_29055.rn(scope.v_zo_28139, scope.v_Jo_28133, 10, 14)) : v_o_29059 ? (v_n_29055.rn(scope.v_Xo_28138, scope.v_Jo_28133, 6, 0), v_n_29055.rn(scope.v_zo_28139, scope.v_Jo_28133, 6, 0)) : (v_n_29055.rn(scope.v_Xo_28138, scope.v_jo_28134, v_c_29061, 0), v_n_29055.rn(scope.v_zo_28139, scope.v_jo_28134, v_c_29061, 0)), v_n_29055.$e(v_a_29058, 0), v_o_29059 || 0 !== v_t_29064 ? v_n_29055.ln(.5, .5) : v_n_29055.ln(1, 1));
+    for (let v_t_29062 = 0; v_t_29062 < v_r_29056 - 7; ++v_t_29062) v_s_29057.Bi[v_t_29062].ze.Be = !1;
+    for (let v_t_29063 = v_r_29056 + 8; v_t_29063 < v_s_29057.Bi.length; ++v_t_29063) v_s_29057.Bi[v_t_29063].ze.Be = !1;
+    for (let v_t_29064 = -7; v_t_29064 < 8; ++v_t_29064) (v_n_29055 = v_t_29064 + v_r_29056) < 0 || v_s_29057.Bi.length <= v_n_29055 || (0 === v_t_29064 ? v_a_29058 = 0 : (v_a_29058 = 140 * v_t_29064, v_a_29058 += 160 * (0 < v_a_29058 ? 1 : -1)), v_o_29059 && (v_i_29052 & scope.v_hi_27809 ? v_a_29058 -= 310 * (4.5 + scope.mathMin(v_s_29057.Bi.length - 1 - v_r_29056, 3)) : v_a_29058 += 310 * (4.5 + scope.mathMin(v_r_29056, 3))), (!1 === (v_n_29055 = v_s_29057.Bi[v_n_29055].ze).Be || v_i_29052 & scope.v_gi_27815) && v_n_29055.nn(), !v_o_29059 || -7 !== v_t_29064 && 7 !== v_t_29064 ? v_n_29055.Be = !0 : v_n_29055.Be = !1, (0 === v_t_29064 ? v_d_29003 : v_h_29001).Ze(v_n_29055), v_o_29059 || v_l_29060 ? v_n_29055.rn(scope.v_Vo_28136, scope.v_Jo_28133, 24, 0) : v_n_29055.rn(scope.v_Vo_28136, scope.v_jo_28134, v_c_29061, 0), v_l_29060 ? (v_n_29055.rn(scope.v_Xo_28138, scope.v_Jo_28133, 10, 14), v_n_29055.rn(scope.v_zo_28139, scope.v_Jo_28133, 10, 14)) : v_o_29059 ? (v_n_29055.rn(scope.v_Xo_28138, scope.v_Jo_28133, 6, 0), v_n_29055.rn(scope.v_zo_28139, scope.v_Jo_28133, 6, 0)) : (v_n_29055.rn(scope.v_Xo_28138, scope.v_jo_28134, v_c_29061, 0), v_n_29055.rn(scope.v_zo_28139, scope.v_jo_28134, v_c_29061, 0)), v_n_29055.$e(v_a_29058, 0), v_o_29059 || 0 !== v_t_29064 ? v_n_29055.ln(.5, .5) : v_n_29055.ln(1, 1));
   }
   function v_y_29017(v_i_29065, v_t_29066) {
     var v_e_29067,
@@ -119,13 +119,13 @@ export function createCoopLobby(scope) {
       v_a_29071 = 0;
     var v_o_29072,
       v_l_29073 = void 0 !== v_i_29065 && (v_i_29065 & scope.v_fi_27807 || v_i_29065 & scope.v__i_27808);
-    for (let v_t_29074 = -4; v_t_29074 < 5; ++v_t_29074) v_e_29067 = scope.v_qa_28086(v_t_29074 + v_n_29068, v_p_29012().length), 0 === v_t_29074 ? v_s_29070 = 0 : (v_s_29070 = 250 * v_t_29074, v_s_29070 += 178 * (0 < v_s_29070 ? 1 : -1)), v_l_29073 && (0 === (v_o_29072 = v_t_29074 + (v_i_29065 & scope.v_fi_27807 ? -1 : 1)) ? v_a_29071 = 0 : (v_a_29071 = 250 * v_o_29072, v_a_29071 += 178 * (0 < v_a_29071 ? 1 : -1))), (v_o_29072 = v_c_29008[v_t_29074 + 4]).We[0].Je = "catPanelCategory", v_o_29072.nn(), v_o_29072.rn(scope.v_Xo_28138, scope.v_jo_28134, v_r_29069, 0), v_o_29072.rn(scope.v_zo_28139, scope.v_jo_28134, v_r_29069, 0), v_o_29072.rn(scope.v_Vo_28136, scope.v_Ho_28132, v_r_29069, 0), v_l_29073 && (v_o_29072.$e(v_a_29071), v_t_29074 + (v_i_29065 & scope.v_fi_27807 ? -1 : 1) === 0 ? v_o_29072.ln(1, 1) : v_o_29072.ln(.7, .7)), v_o_29072.visible = !0, v_o_29072.We[1].Wt = v_p_29012()[v_e_29067].Ei, 0 === v_t_29074 && v_o_29072.Kt(), v_o_29072.$e(v_s_29070), 0 === v_t_29074 ? v_o_29072.ln(1, 1) : v_o_29072.ln(.7, .7);
+    for (let v_t_29074 = -4; v_t_29074 < 5; ++v_t_29074) v_e_29067 = scope.v_qa_28086(v_t_29074 + v_n_29068, v_p_29012().length), 0 === v_t_29074 ? v_s_29070 = 0 : (v_s_29070 = 250 * v_t_29074, v_s_29070 += 178 * (0 < v_s_29070 ? 1 : -1)), v_l_29073 && (0 === (v_o_29072 = v_t_29074 + (v_i_29065 & scope.v_fi_27807 ? -1 : 1)) ? v_a_29071 = 0 : (v_a_29071 = 250 * v_o_29072, v_a_29071 += 178 * (0 < v_a_29071 ? 1 : -1))), (v_o_29072 = v_c_29008[v_t_29074 + 4]).We[0].Je = "catPanelCategory", v_o_29072.nn(), v_o_29072.rn(scope.v_Xo_28138, scope.v_jo_28134, v_r_29069, 0), v_o_29072.rn(scope.v_zo_28139, scope.v_jo_28134, v_r_29069, 0), v_o_29072.rn(scope.v_Vo_28136, scope.v_Ho_28132, v_r_29069, 0), v_l_29073 && (v_o_29072.$e(v_a_29071), v_t_29074 + (v_i_29065 & scope.v_fi_27807 ? -1 : 1) === 0 ? v_o_29072.ln(1, 1) : v_o_29072.ln(.7, .7)), v_o_29072.Be = !0, v_o_29072.We[1].Wt = v_p_29012()[v_e_29067].Ei, 0 === v_t_29074 && v_o_29072.Kt(), v_o_29072.$e(v_s_29070), 0 === v_t_29074 ? v_o_29072.ln(1, 1) : v_o_29072.ln(.7, .7);
   }
   function v_S_29018(v_t_29075, v_i_29076) {
-    v_o_29011() && !v_i_29076 || (v_g_29009.Ui = !0, v_v_29004.Oi.visible = !0, v_v_29004.Ji.visible = !0, v_t_29075 ? (v_v_29004.wn.$e(-20, -225), v_v_29004.pn.$e(20, -225), v_g_29009.Hi === v_t_29075 || v_i_29076 ? (v_v_29004.Oi.visible = !1, v___29000.e8(5), v_g_29009.Ui = !1) : (v___29000.e8(7), scope.renderer.W6(() => {
-      v_v_29004.Oi.visible = !1, v_g_29009.Ui = !1, v___29000.e8(5);
-    }, 26 / 60 * 1e3))) : (v_v_29004.wn.$e(0, 0), v_v_29004.pn.$e(0, 0), v_g_29009.Hi === v_t_29075 || v_i_29076 ? (v_v_29004.Ji.visible = !1, v___29000.e8(5), v_g_29009.Ui = !1) : (v___29000.e8(8), v___29000.e8(rv.nameEntry_seq_panelBounce), scope.renderer.W6(() => {
-      v_v_29004.Ji.visible = !1, v_g_29009.Ui = !1, v___29000.e8(5);
+    v_o_29011() && !v_i_29076 || (v_g_29009.Ui = !0, v_v_29004.Oi.Be = !0, v_v_29004.Ji.Be = !0, v_t_29075 ? (v_v_29004.wn.$e(-20, -225), v_v_29004.pn.$e(20, -225), v_g_29009.Hi === v_t_29075 || v_i_29076 ? (v_v_29004.Oi.Be = !1, v___29000.e8(5), v_g_29009.Ui = !1) : (v___29000.e8(7), scope.renderer.W6(() => {
+      v_v_29004.Oi.Be = !1, v_g_29009.Ui = !1, v___29000.e8(5);
+    }, 26 / 60 * 1e3))) : (v_v_29004.wn.$e(0, 0), v_v_29004.pn.$e(0, 0), v_g_29009.Hi === v_t_29075 || v_i_29076 ? (v_v_29004.Ji.Be = !1, v___29000.e8(5), v_g_29009.Ui = !1) : (v___29000.e8(8), v___29000.e8(rv.nameEntry_seq_panelBounce), scope.renderer.W6(() => {
+      v_v_29004.Ji.Be = !1, v_g_29009.Ui = !1, v___29000.e8(5);
     }, 26 / 60 * 1e3))), v_g_29009.Hi = v_t_29075);
   }
   function v_A_29019(v_t_29077, v_i_29078, v_e_29079, v_n_29080) {
@@ -133,9 +133,9 @@ export function createCoopLobby(scope) {
   }
   function v_x_29020(v_i_29081) {
     for (let v_t_29084 = 0; v_t_29084 < 8; ++v_t_29084) {
-      var v_e_29082 = v_s_29005.elementByName("charCell" + v_t_29084),
-        v_n_29083 = (v_e_29082.elementByName("charCellCursor").visible = v_t_29084 <= v_g_29009.Ny.length && !v_i_29081, v_g_29009.Ny.length === v_t_29084 && v___29000.e8(10, v_e_29082), v_e_29082.elementByName("charCellChar"));
-      v_t_29084 < v_g_29009.Ny.length ? (v_n_29083.visible || v_i_29081 || v___29000.e8(11, v_e_29082), v_n_29083.visible = !0, v_e_29082.elementByName("charCellCharText").Wt = v_g_29009.Ny[v_t_29084]) : v_n_29083.visible = !1;
+      var v_e_29082 = v_s_29005.ot("charCell" + v_t_29084),
+        v_n_29083 = (v_e_29082.ot("charCellCursor").Be = v_t_29084 <= v_g_29009.Ny.length && !v_i_29081, v_g_29009.Ny.length === v_t_29084 && v___29000.e8(10, v_e_29082), v_e_29082.ot("charCellChar"));
+      v_t_29084 < v_g_29009.Ny.length ? (v_n_29083.Be || v_i_29081 || v___29000.e8(11, v_e_29082), v_n_29083.Be = !0, v_e_29082.ot("charCellCharText").Wt = v_g_29009.Ny[v_t_29084]) : v_n_29083.Be = !1;
     }
   }
   function v_C_29021() {
@@ -155,14 +155,14 @@ export function createCoopLobby(scope) {
         case "select":
           scope.v_Ae_27892.dn("menu_in"), 0 === v_e_29088.Gy ? async function () {
             v_g_29009.Ny.length || (v_g_29009.Ny = "ＵＭＩＧＵＲＩ");
-            scope.menuSystem.ft(), v_x_29020(!0), await scope.renderer.C7(scope.v_Ge_28204(30)), v_a_29006.visible = !0, v___29000.e8(4);
+            scope.menuSystem.ft(), v_x_29020(!0), await scope.renderer.C7(scope.v_Ge_28204(30)), v_a_29006.Be = !0, v___29000.e8(4);
             var v_t_29089 = await new Promise(v_e_29090 => {
               function v_n_29091(v_t_29092, v_i_29093) {
                 "down" === v_i_29093 && v_e_29090(v_t_29092);
               }
               scope.menuSystem.vt("yes", "Yes", 0, 8, scope.v_W0_27791, !1, !1, !1, "", (v_t_29094, v_i_29095) => v_n_29091(!0, v_t_29094)), scope.menuSystem.vt("no", "No", 8, 8, scope.v_si_27792, !1, !1, !1, "", (v_t_29096, v_i_29097) => v_n_29091(!1, v_t_29096)), scope.menuSystem.It(!0), scope.menuSystem.T9(scope.v_Ge_28204(20));
             });
-            scope.menuSystem._t(), v___29000.e8(3), await scope.renderer.C7(scope.v_Ge_28204(10)), v_t_29089 ? (scope.menuSystem.dt(), v_b_29016(scope.v_hi_27809), v_v_29004.wn.visible = !1, v_v_29004.pn.visible = !1, v_v_29004.Oi.visible = !1, v___29000.e8(9), await scope.renderer.C7(scope.v_Ge_28204(30)), v_P_29024()) : v_x_29020(!1);
+            scope.menuSystem._t(), v___29000.e8(3), await scope.renderer.C7(scope.v_Ge_28204(10)), v_t_29089 ? (scope.menuSystem.dt(), v_b_29016(scope.v_hi_27809), v_v_29004.wn.Be = !1, v_v_29004.pn.Be = !1, v_v_29004.Oi.Be = !1, v___29000.e8(9), await scope.renderer.C7(scope.v_Ge_28204(30)), v_P_29024()) : v_x_29020(!1);
           }() : v_g_29009.Ny.length < 8 && (v___29000.e8(6), v_g_29009.Ny += String.fromCodePoint(1 !== v_e_29088.Gy ? v_e_29088.Gy : 12288), v_x_29020(), 8 === v_g_29009.Ny.length) && v_l_29014(v_p_29012()[v_g_29009.ji].Bi.length - 1, scope.v_gi_27815, 0);
           break;
         case "backspace":
@@ -181,7 +181,7 @@ export function createCoopLobby(scope) {
     }
   }
   async function v_I_29023() {
-    scope.sceneManager.ni(), scope.sceneManager.ii(), v_g_29009.Ny = "ＵＭＩＧＵＲＩ", scope.menuSystem.dt(), v_v_29004.wn.visible = !1, v_v_29004.pn.visible = !1, v_v_29004.Oi.visible = !1, v_b_29016(scope.v_hi_27809), v___29000.e8(9), await scope.renderer.C7(scope.v_Ge_28204(30)), v_P_29024();
+    scope.sceneManager.ni(), scope.sceneManager.ii(), v_g_29009.Ny = "ＵＭＩＧＵＲＩ", scope.menuSystem.dt(), v_v_29004.wn.Be = !1, v_v_29004.pn.Be = !1, v_v_29004.Oi.Be = !1, v_b_29016(scope.v_hi_27809), v___29000.e8(9), await scope.renderer.C7(scope.v_Ge_28204(30)), v_P_29024();
   }
   function v_P_29024() {
     scope.sceneManager.ni(), scope.sceneManager.ii(), scope.renderer._i("nameEntry"), scope.menuSystem.dt(), scope.handshake.rm.om = v_g_29009.Ny, v_g_29009.Ee && v_g_29009.Ee(), v_g_29009.Ee = void 0;
@@ -195,12 +195,12 @@ export function createCoopLobby(scope) {
       }, v_n_29101 => {
         scope.languagePackages.it("ui/nameEntry.rsb", function (v_t_29102) {
           v_t_29102 ? (v_t_29102 = new scope.v_Dl_28181(v_t_29102), scope.renderer.nt(v_t_29102.rt(scope.renderer.p5()), v_t_29103 => {
-            v___29000 = v_t_29103, v_h_29001 = v_t_29103.rsbTree.elementByIndex(23), v_r_29002 = v_t_29103.rsbTree.elementByIndex(22), v_d_29003 = v_t_29103.rsbTree.elementByIndex(25), v_v_29004.Oi = v_t_29103.rsbTree.elementByIndex(18), v_v_29004.Ji = v_t_29103.rsbTree.elementByIndex(20), v_v_29004.wn = v_t_29103.rsbTree.elementByIndex(28), v_v_29004.pn = v_t_29103.rsbTree.elementByIndex(27), v_s_29005 = v_t_29103.rsbTree.elementByIndex(36), v_a_29006 = v_t_29103.rsbTree.elementByIndex(29);
-            var v_i_29104 = v_t_29103.rsbTree.elementByIndex(86);
-            for (let v_t_29106 = 0; v_t_29106 < v_i_29104.We.length; ++v_t_29106) v_i_29104.We[v_t_29106].visible = !1, v_w_29007[v_i_29104.We[v_t_29106].ct] = v_i_29104.We[v_t_29106];
+            v___29000 = v_t_29103, v_h_29001 = v_t_29103.lt.yk(23), v_r_29002 = v_t_29103.lt.yk(22), v_d_29003 = v_t_29103.lt.yk(25), v_v_29004.Oi = v_t_29103.lt.yk(18), v_v_29004.Ji = v_t_29103.lt.yk(20), v_v_29004.wn = v_t_29103.lt.yk(28), v_v_29004.pn = v_t_29103.lt.yk(27), v_s_29005 = v_t_29103.lt.yk(36), v_a_29006 = v_t_29103.lt.yk(29);
+            var v_i_29104 = v_t_29103.lt.yk(86);
+            for (let v_t_29106 = 0; v_t_29106 < v_i_29104.We.length; ++v_t_29106) v_i_29104.We[v_t_29106].Be = !1, v_w_29007[v_i_29104.We[v_t_29106].ct] = v_i_29104.We[v_t_29106];
             for (let v_t_29107 = 0; v_t_29107 < 9; ++v_t_29107) {
               var v_e_29105 = v_w_29007.catPanel.Ve(!0);
-              v_e_29105.x = 0, v_e_29105.y = 0, v_e_29105.We[1].Nd = 4 === v_t_29107, v_c_29008.push(v_e_29105), v_r_29002.Ze(v_e_29105);
+              v_e_29105.Te = 0, v_e_29105.Qt = 0, v_e_29105.We[1].Nd = 4 === v_t_29107, v_c_29008.push(v_e_29105), v_r_29002.Ze(v_e_29105);
             }
             scope.v_Me_28078(v_n_29101);
           })) : v_e_29098();
@@ -211,7 +211,7 @@ export function createCoopLobby(scope) {
     },
     T0: function (v_t_29109) {
       scope.v_Le_28076([v_i_29110 => {
-        (v_g_29009 = new v_e_28999()).Gi = !0, v_g_29009.Ee = v_t_29109, v_a_29006.visible = !1, v___29000.Jt = !1, scope.renderer.ut("nameEntry", v___29000, 50, v_t_29111 => {
+        (v_g_29009 = new v_e_28999()).Gi = !0, v_g_29009.Ee = v_t_29109, v_a_29006.Be = !1, v___29000.Jt = !1, scope.renderer.ut("nameEntry", v___29000, 50, v_t_29111 => {
           scope.v_Me_28078(v_i_29110);
         });
       }, async v_t_29112 => {
@@ -230,7 +230,7 @@ export function createCoopLobby(scope) {
             if (v_r_29116.Ei = v_n_29115[v_o_29119[1]], 1 === v_o_29119[2]) {
               for (const v_l_29120 of v_m_29010.ff("_list" + v_o_29119[3]).hf()) {
                 var v_s_29117 = new v_f_28997();
-                0 === v_l_29120[2] ? v_s_29117.ze = v_w_29007.charItemPanelEnd.Ve(!0) : 1 === v_l_29120[2] ? v_s_29117.ze = v_w_29007.charItemPanelSpace.Ve(!0) : (v_s_29117.ze = v_w_29007.charItemPanel.Ve(!0), v_s_29117.ze.We[1].Wt = String.fromCodePoint(v_l_29120[2])), v_s_29117.ze.x = 0, v_s_29117.ze.y = 0, v_s_29117.ze.visible = !1, v_s_29117.Gy = v_l_29120[2], v_r_29116.Bi.push(v_s_29117);
+                0 === v_l_29120[2] ? v_s_29117.ze = v_w_29007.charItemPanelEnd.Ve(!0) : 1 === v_l_29120[2] ? v_s_29117.ze = v_w_29007.charItemPanelSpace.Ve(!0) : (v_s_29117.ze = v_w_29007.charItemPanel.Ve(!0), v_s_29117.ze.We[1].Wt = String.fromCodePoint(v_l_29120[2])), v_s_29117.ze.Te = 0, v_s_29117.ze.Qt = 0, v_s_29117.ze.Be = !1, v_s_29117.Gy = v_l_29120[2], v_r_29116.Bi.push(v_s_29117);
               }
               v_i_29113.Jn.push(v_r_29116);
             }
@@ -241,8 +241,8 @@ export function createCoopLobby(scope) {
         });
         scope.menuSystem.yv(), scope.menuSystem.T9(scope.v_Ge_28204(24)), v_S_29018(!1, !0);
         for (let v_t_29124 = 0; v_t_29124 < v_p_29012()[v_g_29009.ji].Bi.length; ++v_t_29124) v_p_29012()[v_g_29009.ji].Bi[v_t_29124].ze.nn();
-        v_b_29016(scope.v_di_27810), v_b_29016(scope.v_wi_27814), v_y_29017(), v_C_29021(), v_x_29020(), v___29000.e8(0), v_v_29004.wn.visible = !1, v_v_29004.pn.visible = !1, v_v_29004.Oi.visible = !1, v___29000.Jt = !0, scope.renderer.W6(function () {
-          scope.v_O1_27910.ti("NameEntry"), v_v_29004.wn.visible = !0, v_v_29004.pn.visible = !0, v_v_29004.Oi.visible = !0, scope.sceneManager.ft(new scope.v_M1_27898(v_I_29023, void 0)), scope.sceneManager.ri(100), scope.sceneManager.ti();
+        v_b_29016(scope.v_di_27810), v_b_29016(scope.v_wi_27814), v_y_29017(), v_C_29021(), v_x_29020(), v___29000.e8(0), v_v_29004.wn.Be = !1, v_v_29004.pn.Be = !1, v_v_29004.Oi.Be = !1, v___29000.Jt = !0, scope.renderer.W6(function () {
+          scope.v_O1_27910.ti("NameEntry"), v_v_29004.wn.Be = !0, v_v_29004.pn.Be = !0, v_v_29004.Oi.Be = !0, scope.sceneManager.ft(new scope.v_M1_27898(v_I_29023, void 0)), scope.sceneManager.ri(100), scope.sceneManager.ti();
         }, scope.v_Ge_28204(24));
       }]);
     },

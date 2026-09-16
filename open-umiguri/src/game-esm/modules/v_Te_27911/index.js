@@ -8,13 +8,13 @@ export function createV_Te_27911(scope) {
   }
   v_l_28931.prototype = {
     Ok: function (v_t_28944) {
-      this.Ci.elementByName("dialogMessage").Wt = v_t_28944;
+      this.Ci.ot("dialogMessage").Wt = v_t_28944;
     },
     Wk: function (v_t_28945) {
-      this.Ci.elementByName("progressDownloadBytes").Wt = v_t_28945;
+      this.Ci.ot("progressDownloadBytes").Wt = v_t_28945;
     },
     zk: function (v_t_28946) {
-      null === v_t_28946 ? (this.Ci.elementByName("progressBarFg").Oe[0] = 1, v_c_28932.e8(4, this.Ci)) : (v_c_28932.i8(4, this.Ci), this.Ci.elementByName("progressBarFg").Oe[0] = v_t_28946);
+      null === v_t_28946 ? (this.Ci.ot("progressBarFg").Oe[0] = 1, v_c_28932.e8(4, this.Ci)) : (v_c_28932.i8(4, this.Ci), this.Ci.ot("progressBarFg").Oe[0] = v_t_28946);
     }
   };
   let v_c_28932 = void 0,
@@ -39,7 +39,7 @@ export function createV_Te_27911(scope) {
   function v_n_28941(v_t_28955, v_i_28956, v_e_28957, v_n_28958) {
     var v_r_28959 = new v_l_28931();
     let v_s_28960 = "dialogSingle";
-    (61440 & v_i_28956) === scope.v_U0_27775 && (v_s_28960 = "dialogWarn"), (3840 & v_i_28956) === scope.v_ni_27774 && (v_s_28960 = "dialog"), 4 == (v_i_28956 & scope.v_tt_27777) ? v_s_28960 = "dialogLoading" : 5 == (v_i_28956 & scope.v_tt_27777) ? v_s_28960 = "dialogProgress" : 6 == (v_i_28956 & scope.v_tt_27777) && (v_s_28960 = "dialogProgressBackground"), v_r_28959.Ci = v_f_28934[v_s_28960].Ve(!0), v_r_28959.Ci.visible = !0, v_r_28959.Ci.elementByName("dialogMessage").Wt = v_t_28955, v_u_28933.Ze(v_r_28959.Ci), v_c_28932.e8(2, v_r_28959.Ci), 4 == (v_i_28956 & scope.v_tt_27777) && v_c_28932.e8(3, v_r_28959.Ci), v_i_28956 & scope.v_it_27778 && (v_r_28959.Ci.elementByName("backdrop").visible = !1, v_r_28959.Ci.elementByName("overlay").visible = !1), v_r_28959.Ee = v_n_28958, v_e_28957 && (v_r_28959.yi = scope.renderer.xt() + v_e_28957);
+    (61440 & v_i_28956) === scope.v_U0_27775 && (v_s_28960 = "dialogWarn"), (3840 & v_i_28956) === scope.v_ni_27774 && (v_s_28960 = "dialog"), 4 == (v_i_28956 & scope.v_tt_27777) ? v_s_28960 = "dialogLoading" : 5 == (v_i_28956 & scope.v_tt_27777) ? v_s_28960 = "dialogProgress" : 6 == (v_i_28956 & scope.v_tt_27777) && (v_s_28960 = "dialogProgressBackground"), v_r_28959.Ci = v_f_28934[v_s_28960].Ve(!0), v_r_28959.Ci.Be = !0, v_r_28959.Ci.ot("dialogMessage").Wt = v_t_28955, v_u_28933.Ze(v_r_28959.Ci), v_c_28932.e8(2, v_r_28959.Ci), 4 == (v_i_28956 & scope.v_tt_27777) && v_c_28932.e8(3, v_r_28959.Ci), v_i_28956 & scope.v_it_27778 && (v_r_28959.Ci.ot("backdrop").Be = !1, v_r_28959.Ci.ot("overlay").Be = !1), v_r_28959.Ee = v_n_28958, v_e_28957 && (v_r_28959.yi = scope.renderer.xt() + v_e_28957);
     var v_a_28961 = [];
     switch (v_i_28956 & scope.v_tt_27777) {
       case scope.v_N0_27771:
@@ -69,9 +69,9 @@ export function createV_Te_27911(scope) {
       scope.v_Le_28076([v_e_28969 => {
         scope.languagePackages.it("ui/commonDialog.rsb", function (v_t_28970) {
           v_t_28970 ? (v_t_28970 = new scope.v_Dl_28181(v_t_28970), scope.renderer.nt(v_t_28970.rt(scope.renderer.p5()), v_t_28971 => {
-            v_c_28932 = v_t_28971, v_u_28933 = v_t_28971.rsbTree.elementByIndex(0);
-            var v_i_28972 = v_t_28971.rsbTree.elementByIndex(1);
-            for (let v_t_28973 = 0; v_t_28973 < v_i_28972.We.length; ++v_t_28973) v_i_28972.We[v_t_28973].visible = !1, v_f_28934[v_i_28972.We[v_t_28973].ct] = v_i_28972.We[v_t_28973];
+            v_c_28932 = v_t_28971, v_u_28933 = v_t_28971.lt.yk(0);
+            var v_i_28972 = v_t_28971.lt.yk(1);
+            for (let v_t_28973 = 0; v_t_28973 < v_i_28972.We.length; ++v_t_28973) v_i_28972.We[v_t_28973].Be = !1, v_f_28934[v_i_28972.We[v_t_28973].ct] = v_i_28972.We[v_t_28973];
             scope.v_Me_28078(v_e_28969);
           })) : v_i_28968();
         });

@@ -67,8 +67,19 @@ export function applySymbols(ast, map) {
     },
   });
   const missing = Object.keys(map).filter((old) => ![...targets.keys()].some((b) => b.identifier.name === old));
-  let renamed = 0;
+  // 去重: 若多个绑定映射到同一个新名, 会在同一/嵌套作用域内互相遮蔽(行为改变)。
+  // 这里给重名逐一加后缀, 保证改名后全局唯一。
+  const usedNames2 = new Set();
+  const effective = new Map();
   for (const [binding, newName] of targets) {
+    let n = newName;
+    let i = 2;
+    while (usedNames2.has(n)) n = `${newName}_${i++}`;
+    usedNames2.add(n);
+    effective.set(binding, n);
+  }
+  let renamed = 0;
+  for (const [binding, newName] of effective) {
     binding.scope.rename(binding.identifier.name, newName);
     renamed++;
   }

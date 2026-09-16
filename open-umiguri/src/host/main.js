@@ -8,7 +8,7 @@ import { installPanelShortcut } from './keypanel/panel.js';
 import { installKeyPanelApi } from './keypanel/api.js';
 import { installUmgrElc } from './bridge/umgr-elc.js';
 import { installNativeInput } from './bridge/native-input.js';
-import { installErrorDiagnostics, reportGlExtensionsNow, reportGlExtensionsDelayed } from './core/diag.js';
+import { installErrorDiagnostics, installConsoleForwarding, reportGlExtensionsNow, reportGlExtensionsDelayed } from './core/diag.js';
 import { setupWindowDragPause } from './platform/window-drag.js';
 import { installDxtSoftwareDecode } from './platform/textures-dxt.js';
 import { setupStorageAccessCheck } from './platform/storage-access.js';
@@ -37,6 +37,7 @@ installDxtSoftwareDecode(); // DXT 软解
 
 // ---- 页面加载完成后再执行(会触发 IPC 的部分) ----
 whenPageReady(() => {
+  installConsoleForwarding();
   installErrorDiagnostics(); // 包裹 umgr_elc.st(内部会 invoke('diag'))
   reportGlExtensionsNow();
   setupStorageAccessCheck();

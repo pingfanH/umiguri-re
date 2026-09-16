@@ -31,7 +31,7 @@ export function createSceneManager(scope) {
     ue: function (v_e_28662) {
       scope.v_Le_28076([v_i_28663 => {
         scope.languagePackages.it("ui/commonTimer.rsb", function (v_t_28664) {
-          v_t_28664 ? (v_t_28664 = new scope.v_Dl_28181(v_t_28664), (v_n_28646 = v_t_28664.rt(scope.renderer.p5())).Jt = !0, v_r_28647 = v_n_28646.rsbTree.elementByIndex(5), v_a_28649 = v_n_28646.rsbTree.elementByIndex(3), v_s_28648 = v_n_28646.rsbTree.elementByIndex(2), v_o_28650 = v_n_28646.rsbTree.elementByIndex(6), (v_l_28651 = v_n_28646.rsbTree.elementByIndex(0)).visible = !1, v_n_28646.rsbTree.elementByIndex(1).visible = !1, scope.renderer.ut("sysTimer", v_n_28646, 4090, v_t_28665 => {
+          v_t_28664 ? (v_t_28664 = new scope.v_Dl_28181(v_t_28664), (v_n_28646 = v_t_28664.rt(scope.renderer.p5())).Jt = !0, v_r_28647 = v_n_28646.lt.yk(5), v_a_28649 = v_n_28646.lt.yk(3), v_s_28648 = v_n_28646.lt.yk(2), v_o_28650 = v_n_28646.lt.yk(6), (v_l_28651 = v_n_28646.lt.yk(0)).Be = !1, v_n_28646.lt.yk(1).Be = !1, scope.renderer.ut("sysTimer", v_n_28646, 4090, v_t_28665 => {
             scope.v_Me_28078(v_i_28663);
           })) : v_e_28662();
         });
@@ -40,16 +40,16 @@ export function createSceneManager(scope) {
       }]);
     },
     qt: function () {
-      v_o_28650.visible = !0, v_s_28648.visible = !1, v_a_28649.visible = !0, v_r_28647.y = 55;
+      v_o_28650.Be = !0, v_s_28648.Be = !1, v_a_28649.Be = !0, v_r_28647.Qt = 55;
     },
     ei: function () {
-      v_o_28650.visible = !1, v_s_28648.visible = !0, v_a_28649.visible = !1, v_r_28647.y = 35;
+      v_o_28650.Be = !1, v_s_28648.Be = !0, v_a_28649.Be = !1, v_r_28647.Qt = 35;
     },
     ti: function () {
-      v_n_28646.rsbTree.elementByIndex(1).visible = !0, v_v_28661();
+      v_n_28646.lt.yk(1).Be = !0, v_v_28661();
     },
     ii: function () {
-      v_n_28646.rsbTree.elementByIndex(1).visible = !1;
+      v_n_28646.lt.yk(1).Be = !1;
     },
     ft: function (v_t_28667) {
       v_i_28652.push(v_t_28667);
@@ -89,7 +89,7 @@ export function createSceneManager(scope) {
       return v_u_28656;
     },
     WS: function (v_t_28671) {
-      v_t_28671 === scope.v_E1_27899 ? (v_l_28651.visible = !1, scope.playerInfoBoard._P(null), scope.playerInfoBoard.kL(null)) : (v_l_28651.visible = !0, v_t_28671 === scope.v_D1_27900 && (scope.playerInfoBoard._P(scope.v_oe_27649.sx()), scope.playerInfoBoard.kL(-1), v_l_28651.Je = "stateCoop"));
+      v_t_28671 === scope.v_E1_27899 ? (v_l_28651.Be = !1, scope.playerInfoBoard._P(null), scope.playerInfoBoard.kL(null)) : (v_l_28651.Be = !0, v_t_28671 === scope.v_D1_27900 && (scope.playerInfoBoard._P(scope.v_oe_27649.sx()), scope.playerInfoBoard.kL(-1), v_l_28651.Je = "stateCoop"));
     }
   };
 }

@@ -49,7 +49,7 @@ export function createUiComponentB(scope) {
         scope.v_Ae_27892.dn("move_cursor"), v_i_29642(v_d_29640.Ni + 1);
         break;
       case "enter":
-        return scope.v_Ae_27892.dn("set_skill"), scope.sceneManager._t(), scope.menuSystem._t(), scope.menuSystem.It(!1), v_h_29639[v_d_29640.Mi].ze.elementByName("listItemBadgeSetBg").visible = !1, v_d_29640.Mi = v_d_29640.Ni, v_h_29639[v_d_29640.Mi].ze.elementByName("listItemBadgeSetBg").visible = !0, v_u_29635.e8(3, v_h_29639[v_d_29640.Mi].ze), void scope.renderer.W6(() => {
+        return scope.v_Ae_27892.dn("set_skill"), scope.sceneManager._t(), scope.menuSystem._t(), scope.menuSystem.It(!1), v_h_29639[v_d_29640.Mi].ze.ot("listItemBadgeSetBg").Be = !1, v_d_29640.Mi = v_d_29640.Ni, v_h_29639[v_d_29640.Mi].ze.ot("listItemBadgeSetBg").Be = !0, v_u_29635.e8(3, v_h_29639[v_d_29640.Mi].ze), void scope.renderer.W6(() => {
           v_d_29640.Ee && v_d_29640.Ee(scope.v_ti_27769, v_d_29640.Mi), v_u_29635.e8(2), scope.renderer.W6(() => {
             scope.renderer._i("transformSelect"), v_d_29640.Ee && v_d_29640.Ee(scope.v_ii_27770, v_d_29640.Mi);
           }, 250);
@@ -62,7 +62,7 @@ export function createUiComponentB(scope) {
     v_n_29637.charaInfoName.Wt = v_d_29640.Mn.ct[v_t_29652], v_n_29637.charaInfoIllustrator.Wt = v_d_29640.Mn.tf[v_t_29652];
     let v_i_29653;
     for (v_i_29653 of v_n_29637.jn) scope.renderer.Yt.Zt[v_r_29632 + v_t_29652] && (v_i_29653.zt = !0, v_i_29653.Xt = v_r_29632 + v_t_29652);
-    for (let v_t_29654 = 0; v_t_29654 < v_h_29639.length; ++v_t_29654) v_h_29639[v_t_29654].ze.elementByName("listItemActiveOverlay").visible = v_t_29654 === v_d_29640.Ni;
+    for (let v_t_29654 = 0; v_t_29654 < v_h_29639.length; ++v_t_29654) v_h_29639[v_t_29654].ze.ot("listItemActiveOverlay").Be = v_t_29654 === v_d_29640.Ni;
     v_u_29635.e8(1);
   }
   return {
@@ -70,9 +70,9 @@ export function createUiComponentB(scope) {
       scope.v_Le_28076([v_e_29656 => {
         scope.languagePackages.it("ui/transformSelect.rsb", function (v_t_29657) {
           v_t_29657 ? (v_t_29657 = new scope.v_Dl_28181(v_t_29657), scope.renderer.nt(v_t_29657.rt(scope.renderer.p5()), v_t_29658 => {
-            v_u_29635 = v_t_29658, v_f_29636 = v_t_29658.rsbTree.elementByIndex(25), v_n_29637.Oi = v_t_29658.rsbTree.elementByIndex(24), v_n_29637.jn = v_t_29658.rsbTree.Yc("charaImg"), v_n_29637.jn = v_n_29637.jn.concat(v_t_29658.rsbTree.Yc("charaImgFrontShadowFx")), v_n_29637.charaInfoName = v_t_29658.rsbTree.elementByIndex(20), v_n_29637.charaInfoIllustrator = v_t_29658.rsbTree.elementByIndex(21);
-            var v_i_29659 = v_t_29658.rsbTree.elementByIndex(26);
-            for (let v_t_29660 = 0; v_t_29660 < v_i_29659.We.length; ++v_t_29660) v_i_29659.We[v_t_29660].visible = !1, v___29638[v_i_29659.We[v_t_29660].ct] = v_i_29659.We[v_t_29660];
+            v_u_29635 = v_t_29658, v_f_29636 = v_t_29658.lt.yk(25), v_n_29637.Oi = v_t_29658.lt.yk(24), v_n_29637.jn = v_t_29658.lt.Yc("charaImg"), v_n_29637.jn = v_n_29637.jn.concat(v_t_29658.lt.Yc("charaImgFrontShadowFx")), v_n_29637.charaInfoName = v_t_29658.lt.yk(20), v_n_29637.charaInfoIllustrator = v_t_29658.lt.yk(21);
+            var v_i_29659 = v_t_29658.lt.yk(26);
+            for (let v_t_29660 = 0; v_t_29660 < v_i_29659.We.length; ++v_t_29660) v_i_29659.We[v_t_29660].Be = !1, v___29638[v_i_29659.We[v_t_29660].ct] = v_i_29659.We[v_t_29660];
             scope.v_Me_28078(v_e_29656);
           })) : v_i_29655();
         });
@@ -93,13 +93,13 @@ export function createUiComponentB(scope) {
           });
         }, () => scope.v_Me_28078(v_t_29668));
       }, v_t_29674 => {
-        v_d_29640.Mn = v_a_29662, v_d_29640.Bn = v_o_29663, v_d_29640.Gn = v_l_29664, v_d_29640.Mi = v_d_29640.Ni = v_o_29663 ? v_o_29663.jm : 0, v_u_29635.rsbTree.elementByIndex(9).visible = !v_a_29662.ub, v_u_29635.rsbTree.elementByIndex(13).visible = v_a_29662.ub;
+        v_d_29640.Mn = v_a_29662, v_d_29640.Bn = v_o_29663, v_d_29640.Gn = v_l_29664, v_d_29640.Mi = v_d_29640.Ni = v_o_29663 ? v_o_29663.jm : 0, v_u_29635.lt.yk(9).Be = !v_a_29662.ub, v_u_29635.lt.yk(13).Be = v_a_29662.ub;
         var v_i_29675 = v_a_29662.Hm,
           v_e_29676 = (v_h_29639 = [], v_f_29636.tn(), 1 < v_i_29675 ? -(142 * (v_i_29675 + 1) - 42) / 2 : -50),
           v_n_29677 = new v_c_29633();
-        if (v_n_29677.ze = v___29638.listItemDefault.Ve(!0), v_n_29677.ze.x = 50 + v_e_29676, v_n_29677.ze.y = 0, v_n_29677.ze.visible = !0, 0 !== v_d_29640.Mi && (v_n_29677.ze.elementByName("listItemBadgeSetBg").visible = !1), v_h_29639.push(v_n_29677), v_f_29636.Ze(v_n_29677.ze), 1 < v_i_29675) for (let v_t_29679 = 0; v_t_29679 < v_i_29675; ++v_t_29679) {
+        if (v_n_29677.ze = v___29638.listItemDefault.Ve(!0), v_n_29677.ze.Te = 50 + v_e_29676, v_n_29677.ze.Qt = 0, v_n_29677.ze.Be = !0, 0 !== v_d_29640.Mi && (v_n_29677.ze.ot("listItemBadgeSetBg").Be = !1), v_h_29639.push(v_n_29677), v_f_29636.Ze(v_n_29677.ze), 1 < v_i_29675) for (let v_t_29679 = 0; v_t_29679 < v_i_29675; ++v_t_29679) {
           var v_r_29678 = new v_c_29633();
-          v_r_29678.ze = v___29638.listItem.Ve(!0), v_r_29678.ze.x = v_e_29676 + 142 * (v_t_29679 + 1) + 50, v_r_29678.ze.y = 0, v_r_29678.ze.visible = !0, v_r_29678.ze.elementByName("listItemCharaImg").zt = !0, v_r_29678.ze.elementByName("listItemCharaImg").Xt = "chara:" + v_t_29679 + ":0:" + v_d_29640.Mn.C0, v_d_29640.Mi !== v_t_29679 + 1 && (v_r_29678.ze.elementByName("listItemBadgeSetBg").visible = !1), v_r_29678.ze.elementByName("listItemActiveOverlay").visible = v_t_29679 === v_d_29640.Ni, v_h_29639.push(v_r_29678), v_f_29636.Ze(v_r_29678.ze);
+          v_r_29678.ze = v___29638.listItem.Ve(!0), v_r_29678.ze.Te = v_e_29676 + 142 * (v_t_29679 + 1) + 50, v_r_29678.ze.Qt = 0, v_r_29678.ze.Be = !0, v_r_29678.ze.ot("listItemCharaImg").zt = !0, v_r_29678.ze.ot("listItemCharaImg").Xt = "chara:" + v_t_29679 + ":0:" + v_d_29640.Mn.C0, v_d_29640.Mi !== v_t_29679 + 1 && (v_r_29678.ze.ot("listItemBadgeSetBg").Be = !1), v_r_29678.ze.ot("listItemActiveOverlay").Be = v_t_29679 === v_d_29640.Ni, v_h_29639.push(v_r_29678), v_f_29636.Ze(v_r_29678.ze);
         }
         v_v_29643(), v_p_29647();
         for (const v_s_29680 of [["left", "Left", 0, 3, scope.v_ai_27793, !0, "left"], ["right", "Right", 3, 3, scope.v_ai_27793, !0, "right"], ["enter", "Enter", 6, 4, scope.v_W0_27791, !1, "enter"]]) scope.menuSystem.vt(v_s_29680[0], v_s_29680[1], v_s_29680[2], v_s_29680[3], v_s_29680[4], v_s_29680[5], !1, !1, v_s_29680[6], function (v_t_29681, v_i_29682) {

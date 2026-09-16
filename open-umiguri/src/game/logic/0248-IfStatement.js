@@ -5,13 +5,13 @@
 
   if (addEventListener("resize", v_m1_27881), addEventListener("unload", v_re_27878), addEventListener("focus", v_w1_27879), addEventListener("blur", v_g1_27880), addEventListener("beforeunload", v_t_35119 => {
     boardLanes && boardLanes.V7(), boardAir && boardAir.V7(), v_D_27646 && v_D_27646.V7(), v_F_27647 && v_F_27647.V7();
-  }), v_y_27559.addEventListener("contextmenu", v_t_35120 => v_t_35120.preventDefault()), v_ee_27876(), v_y_27559.style.display = "block", v_Hl_28188 = umgr_elc._, handshake.rm.I4 = v_Hl_28188.I4, handshake.rm.am = v_Hl_28188.am, handshake.rm.om = v_Hl_28188.O.ct, handshake.rm.lm = v_Hl_28188.O.B, handshake.rm.um = v_Hl_28188.O.p9, handshake.rm.b7 = v_Hl_28188.I, handshake.rm.y7 = v_Hl_28188.R, handshake.rm.A7 = v_Hl_28188.j, handshake.rm.S7 = v_Hl_28188.M, handshake.rm.A9 = v_Hl_28188.L, handshake.rm.S9 = v_Hl_28188.U, handshake.rm.x9 = v_Hl_28188.P, handshake.rm.I9 = v_Hl_28188.G, handshake.rm.OA = v_Hl_28188.Y, handshake.rm.dm = v_Hl_28188.fe, handshake.rm.vm = v_Hl_28188.v1, handshake.rm.gm = v_Hl_28188.J, handshake.rm.u8 = v_Hl_28188.K, handshake.rm.wm = v_Hl_28188.W, handshake.rm.pm = v_Hl_28188.u1, handshake.rm.km = v_Hl_28188.H, handshake.rm.bm = v_Hl_28188.f1, handshake.rm.Sm = v_Hl_28188.h1.T, handshake.rm.xm = v_Hl_28188.h1.rr, handshake.rm.ym = v_Hl_28188.h1.C, handshake.rm.Cm = v_Hl_28188.h1.GA, handshake.rm.Im = v_Hl_28188.Z.X, handshake.rm.Am = v_Hl_28188.Z.a1, handshake.rm.Tm = v_Hl_28188.Z.d1, handshake.rm.Lm = v_Hl_28188.Z.t1, handshake.rm.Rm = v_Hl_28188.Z.s1, handshake.rm.gb = v_Hl_28188.g1, setInterval(v_A1_27887, 500), win.body.addEventListener("keydown", function (v_t_35121) {
+  }), v_y_27559.addEventListener("contextmenu", v_t_35120 => v_t_35120.preventDefault()), v_ee_27876(), v_y_27559.style.display = "block", v_Hl_28188 = umgr_elc._, handshake.rm.I4 = v_Hl_28188.I4, handshake.rm.am = v_Hl_28188.am, handshake.rm.om = v_Hl_28188.O.ct, handshake.rm.lm = v_Hl_28188.O.B, handshake.rm.um = v_Hl_28188.O.p9, handshake.rm.b7 = v_Hl_28188.I, handshake.rm.y7 = v_Hl_28188.R, handshake.rm.A7 = v_Hl_28188.j, handshake.rm.S7 = v_Hl_28188.M, handshake.rm.A9 = v_Hl_28188.L, handshake.rm.S9 = v_Hl_28188.U, handshake.rm.x9 = v_Hl_28188.P, handshake.rm.I9 = v_Hl_28188.G, handshake.rm.OA = v_Hl_28188.Y, handshake.rm.dm = v_Hl_28188.fe, handshake.rm.vm = v_Hl_28188.v1, handshake.rm.gm = v_Hl_28188.J, handshake.rm.u8 = v_Hl_28188.K, handshake.rm.wm = v_Hl_28188.W, handshake.rm.pm = v_Hl_28188.u1, handshake.rm.km = v_Hl_28188.H, handshake.rm.bm = v_Hl_28188.f1, handshake.rm.Sm = v_Hl_28188.h1.T, handshake.rm.xm = v_Hl_28188.h1.rr, handshake.rm.ym = v_Hl_28188.h1.C, handshake.rm.Cm = v_Hl_28188.h1.GA, handshake.rm.Im = v_Hl_28188.Z.X, handshake.rm.Am = v_Hl_28188.Z.a1, handshake.rm.Tm = v_Hl_28188.Z.d1, handshake.rm.Lm = v_Hl_28188.Z.t1, handshake.rm.Rm = v_Hl_28188.Z.s1, handshake.rm.gb = v_Hl_28188.g1, setInterval(v_A1_27887, 500), doc.body.addEventListener("keydown", function (v_t_35121) {
     v_t_35121.repeat || ("Enter" !== v_t_35121.key || v_t_35121.shiftKey || v_t_35121.metaKey || !v_t_35121.altKey || v_t_35121.ctrlKey ? "F1" !== v_t_35121.key || !v_t_35121.shiftKey || v_t_35121.metaKey || v_t_35121.altKey || v_t_35121.ctrlKey || v_ur_27932.bb() : (systemMisc.w2(), v_t_35121.preventDefault()));
   }), currentLang = handshake.rm.I4, v_h1_27859 = handshake.rm.Am, v_R_27641 = handshake.rm.pm, v_L_27642 = handshake.rm.km, v_bn_27637 = handshake.rm.vm || handshake.rm.gm, -1 === supportedLangs.indexOf(currentLang) && (handshake.A4 = !0, currentLang = "ja-JP"), v_Ul_28187.has("errDisp")) {
     var v_Hl_28188 = v_Pe_28064(v_Ul_28187.get("errDisp"));
-    let v_t_35122 = win.createElement("div"),
-      v_i_35123 = (v_t_35122.setAttribute("style", "width: 1920px;height: 1080px;background: #000;font-family: system-ui;font-size: 16px;padding: 12px;z-index:99;"), win.createElement("div")),
-      v_e_35124 = (v_i_35123.setAttribute("style", ""), v_t_35122.appendChild(v_i_35123), win.createElement("div")),
+    let v_t_35122 = doc.createElement("div"),
+      v_i_35123 = (v_t_35122.setAttribute("style", "width: 1920px;height: 1080px;background: #000;font-family: system-ui;font-size: 16px;padding: 12px;z-index:99;"), doc.createElement("div")),
+      v_e_35124 = (v_i_35123.setAttribute("style", ""), v_t_35122.appendChild(v_i_35123), doc.createElement("div")),
       v_n_35125 = (v_e_35124.setAttribute("style", "margin-left:24px"), v_t_35122.appendChild(v_e_35124), v_y_27559.appendChild(v_t_35122), v_i_35123.innerText = "FAITAL ERROR (0x" + v_Xa_28081(v_Hl_28188.toString(16), 4, "0") + ")", "");
     switch (v_Hl_28188) {
       case v_W_27705:
@@ -26,7 +26,7 @@
     }
     v_n_35125 += "\n\n--- App Info ---\nVersion: " + v_U_27653 + "\nBuild Time: " + handshake.rm.Sm + " " + handshake.rm.xm + "\nBuild Hash: " + handshake.rm.ym + "\nBuild Conf: " + handshake.rm.Cm, v_e_35124.innerText = v_n_35125;
   } else if (v_Ul_28187.has("fix")) {
-    let v_t_35126 = win.createElement("canvas"),
+    let v_t_35126 = doc.createElement("canvas"),
       v_e_35127 = (v_t_35126.width = v_yn_27656, v_t_35126.height = v_Sn_27657, v_y_27559.appendChild(v_t_35126), v_t_35126.getContext("2d", {
         alpha: !1
       })),
@@ -151,7 +151,7 @@
     }, function (v_i_35164) {
       languagePackages.it("ui/startup.rsb", function (v_t_35165) {
         v_t_35165 ? (v_t_35165 = new v_Dl_28181(v_t_35165), renderer.ut("startup", v_t_35165.rt(renderer.p5()), 0, v_t_35166 => {
-          (v_r_35144 = v_t_35166).e8(1), v_r_35144.e8(0), v_e_35145 = v_r_35144.rsbTree.elementByIndex(4), v_n_35146 = v_r_35144.rsbTree.elementByIndex(5), v_s_35147 = v_r_35144.rsbTree.elementByIndex(7), v_r_35144.rsbTree.elementByIndex(17).visible = !1, v_n_35146.visible = !1, v_Me_28078(v_i_35164);
+          (v_r_35144 = v_t_35166).e8(1), v_r_35144.e8(0), v_e_35145 = v_r_35144.lt.yk(4), v_n_35146 = v_r_35144.lt.yk(5), v_s_35147 = v_r_35144.lt.yk(7), v_r_35144.lt.yk(17).Be = !1, v_n_35146.Be = !1, v_Me_28078(v_i_35164);
         })) : v_k1_27883();
       });
     }, function (v_t_35167) {
@@ -241,30 +241,30 @@
         0 === v_t_35209 ? v_Me_28078(v_i_35205) : (1 === v_t_35209 ? v_c_35151(v_Ue_28209("startupLedServerErrorCommunication")) : 2 === v_t_35209 && v_c_35151(v_Ue_28209("startupLedServerError")), renderer.W6(() => v_Me_28078(v_i_35205), 500));
       });else {
         if (2 === handshake.rm.b7) {
-          v_r_35144.rsbTree.elementByIndex(17).visible = !0, v_r_35144.e8(2);
-          for (let v_t_35210 = 4; 0 <= v_t_35210; --v_t_35210) v_r_35144.rsbTree.elementByIndex(21).Wt = v_Ba_28069(v_Ue_28209("sysMsgDevInit2"), [["TIME", v_t_35210]]), await renderer.C7(1e3);
+          v_r_35144.lt.yk(17).Be = !0, v_r_35144.e8(2);
+          for (let v_t_35210 = 4; 0 <= v_t_35210; --v_t_35210) v_r_35144.lt.yk(21).Wt = v_Ba_28069(v_Ue_28209("sysMsgDevInit2"), [["TIME", v_t_35210]]), await renderer.C7(1e3);
           var v_t_35206 = new v_Ss_28000(handshake.rm.A7);
           if (await v_t_35206.ue()) {
-            v_r_35144.rsbTree.elementByIndex(21).Wt = v_Ue_28209("sysMsgDevInit2Ok"), (boardLanes = v_t_35206).BR(), boardLanes.o9();
+            v_r_35144.lt.yk(21).Wt = v_Ue_28209("sysMsgDevInit2Ok"), (boardLanes = v_t_35206).BR(), boardLanes.o9();
             var v_e_35207 = new v_As_28001(handshake.rm.S7);
             if (await v_e_35207.ue()) {
-              if (v_r_35144.rsbTree.elementByIndex(23).Wt = "GOOD", (boardAir = v_e_35207).H9(), boardAir.o9(), handshake.rm.A9) {
+              if (v_r_35144.lt.yk(23).Wt = "GOOD", (boardAir = v_e_35207).H9(), boardAir.o9(), handshake.rm.A9) {
                 var v_n_35208 = new v_Rs_28007(handshake.rm.A9, handshake.rm.S9, handshake.rm.x9, handshake.rm.I9);
-                if (!(await v_n_35208.ue())) return v_n_35208.V7(), boardLanes.V7(), boardLanes = null, boardAir.V7(), boardAir = null, v_r_35144.rsbTree.elementByIndex(25).Wt = "BAD", await renderer.C7(2e3), void v_Me_28078(v_i_35205);
-                if (v_r_35144.rsbTree.elementByIndex(25).Wt = "GOOD", v_D_27646 = v_n_35208, handshake.rm.OA) {
+                if (!(await v_n_35208.ue())) return v_n_35208.V7(), boardLanes.V7(), boardLanes = null, boardAir.V7(), boardAir = null, v_r_35144.lt.yk(25).Wt = "BAD", await renderer.C7(2e3), void v_Me_28078(v_i_35205);
+                if (v_r_35144.lt.yk(25).Wt = "GOOD", v_D_27646 = v_n_35208, handshake.rm.OA) {
                   v_n_35208 = new v_xs_28002(handshake.rm.OA);
-                  if (!(await v_n_35208.ue())) return v_n_35208.V7(), v_r_35144.rsbTree.elementByIndex(27).Wt = "BAD", await renderer.C7(2e3), void v_Me_28078(v_i_35205);
-                  v_r_35144.rsbTree.elementByIndex(27).Wt = "GOOD", v_F_27647 = v_n_35208, v_D_27646.HS(v_F_27647);
+                  if (!(await v_n_35208.ue())) return v_n_35208.V7(), v_r_35144.lt.yk(27).Wt = "BAD", await renderer.C7(2e3), void v_Me_28078(v_i_35205);
+                  v_r_35144.lt.yk(27).Wt = "GOOD", v_F_27647 = v_n_35208, v_D_27646.HS(v_F_27647);
                 }
               }
-            } else v_e_35207.V7(), boardLanes.V7(), boardLanes = null, v_r_35144.rsbTree.elementByIndex(23).Wt = "BAD";
-          } else v_t_35206.V7(), v_r_35144.rsbTree.elementByIndex(21).Wt = "BAD";
+            } else v_e_35207.V7(), boardLanes.V7(), boardLanes = null, v_r_35144.lt.yk(23).Wt = "BAD";
+          } else v_t_35206.V7(), v_r_35144.lt.yk(21).Wt = "BAD";
           await renderer.C7(2e3);
         }
         v_Me_28078(v_i_35205);
       }
     }, function (v_t_35211) {
-      v_D_27646 || (v_D_27646 = new v_Ls_28008()).ue(), v_r_35144.rsbTree.elementByIndex(17).visible = !1, v_Me_28078(v_t_35211);
+      v_D_27646 || (v_D_27646 = new v_Ls_28008()).ue(), v_r_35144.lt.yk(17).Be = !1, v_Me_28078(v_t_35211);
     }, function (v_t_35212) {
       menuSystem.ue(() => {
         v_Me_28078(v_t_35212);

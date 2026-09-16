@@ -33,7 +33,7 @@ let ast = parser.parse(code, { sourceType: 'script', allowReturnOutsideFunction:
 {
   const { conflicts } = applySymbols(ast, loadSymbols(path.join(root, 'tools/symbols.json')));
   if (conflicts.length) { console.error('命名冲突: ' + conflicts.join(', ')); process.exit(3); }
-  applyProps(ast, loadProps(path.join(root, 'tools/prop-symbols.json')));
+  if (process.argv.includes('--props')) applyProps(ast, loadProps(path.join(root, 'tools/prop-symbols.json')));
   code = generate(ast, GEN_OPTS, code).code;
   ast = parser.parse(code, { sourceType: 'script', allowReturnOutsideFunction: true, errorRecovery: true });
 }
@@ -178,7 +178,8 @@ const stripDecl = (stmt, out) => {
       }
       if (d.id.type === 'Identifier') {
         const rhs = d.init ? generate(d.init, GEN_OPTS).code : 'undefined';
-        out.push(`scope.${d.id.name} = ${rhs};`);
+        // 右值必须加括号: 逗号表达式等低优先级会改变语义
+        out.push(`scope.${d.id.name} = (${rhs});`);
       } else {
         // 解构声明: 保留局部声明再挂到 scope
         const patternCode = generate(d.id, GEN_OPTS).code;
@@ -193,7 +194,7 @@ const stripDecl = (stmt, out) => {
             case 'RestElement': collect(n.argument); break;
           }
         })(d.id);
-        out.push(`{ const ${patternCode} = ${d.init ? generate(d.init, GEN_OPTS).code : 'undefined'}; ${names.map((n) => `scope.${n} = ${n};`).join(' ')} }`);
+        out.push(`{ const ${patternCode} = (${d.init ? generate(d.init, GEN_OPTS).code : 'undefined'}); ${names.map((n) => `scope.${n} = ${n};`).join(' ')} }`);
       }
     }
     return;

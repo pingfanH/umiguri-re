@@ -5,7 +5,7 @@
 
   function v_rl_28150(v_t_34599, v_i_34600) {
     var v_e_34601 = v_oe_27649.Ox.find(v_t_34607 => v_t_34607.Ae === v_i_34600.nx);
-    v_t_34599.elementByName("guestTitleText").Wt = v_i_34600.ox, v_t_34599.elementByName("guestTitlePlate").Je = "title" + v_ot_27785[v_i_34600.lx], v_t_34599.elementByName("guestPlayerName").Wt = v_i_34600.om, v_t_34599.elementByName("guestChara").zt = !0, v_t_34599.elementByName("guestChara").Xt = v_i_34600.ux, v_t_34599.elementByName("guestSkillName").Wt = v_i_34600.RC;
+    v_t_34599.ot("guestTitleText").Wt = v_i_34600.ox, v_t_34599.ot("guestTitlePlate").Je = "title" + v_ot_27785[v_i_34600.lx], v_t_34599.ot("guestPlayerName").Wt = v_i_34600.om, v_t_34599.ot("guestChara").zt = !0, v_t_34599.ot("guestChara").Xt = v_i_34600.ux, v_t_34599.ot("guestSkillName").Wt = v_i_34600.RC;
     let v_n_34602 = 0;
     switch (v_i_34600.MC) {
       case v_mt_27749:
@@ -31,13 +31,13 @@
       default:
         v_n_34602 = v_gt_27748;
     }
-    v_t_34599.elementByName("guestSkill").Je = (v_Wt_27759 <= v_n_34602 ? "indi" : "icon") + v_Q_27767[v_n_34602], v_e_34601 && (v_t_34599.elementByName("guestNameplate").Je = "namePlate_" + v_Q0_27805[v_e_34601.te], v_t_34599.elementByName("guestDiff").Je = "tagDiff_" + v_Q0_27805[v_e_34601.te]);
+    v_t_34599.ot("guestSkill").Je = (v_Wt_27759 <= v_n_34602 ? "indi" : "icon") + v_Q_27767[v_n_34602], v_e_34601 && (v_t_34599.ot("guestNameplate").Je = "namePlate_" + v_Q0_27805[v_e_34601.te], v_t_34599.ot("guestDiff").Je = "tagDiff_" + v_Q0_27805[v_e_34601.te]);
     var v_e_34601 = v_i_34600.lm,
       v_r_34603 = "" + mathFloor(v_e_34601 / 100),
       v_s_34604 = v_Xa_28081("" + v_e_34601 % 100, 2, "0"),
       v_a_34605 = ratingColorName(v_e_34601),
       v_e_34601 = ratingColorRgba(v_e_34601),
-      v_o_34606 = v_t_34599.elementByName("guestRatingText"),
-      v_t_34599 = v_t_34599.elementByName("guestRatingLabel");
+      v_o_34606 = v_t_34599.ot("guestRatingText"),
+      v_t_34599 = v_t_34599.ot("guestRatingLabel");
     v_o_34606.Wt = v_r_34603 + "P" + v_s_34604, v_o_34606.Ak = "rating" + v_a_34605, v_o_34606.Qe(v_e_34601[0], v_e_34601[1], v_e_34601[2], v_e_34601[3]), v_t_34599.Je = "numRating" + v_a_34605 + "Rating", v_t_34599.Qe(v_e_34601[0], v_e_34601[1], v_e_34601[2], v_e_34601[3]);
   }

@@ -42,7 +42,7 @@ export function createV_N1_27904(scope) {
       scope.v_Le_28076([v_i_28782 => {
         scope.languagePackages.it("ui/advertise.rsb", function (v_t_28783) {
           v_t_28783 ? (v_t_28783 = new scope.v_Dl_28181(v_t_28783), scope.renderer.nt(v_t_28783.rt(scope.renderer.p5()), v_t_28784 => {
-            (v_n_28770 = v_t_28784).rsbTree.elementByIndex(27).Wt = "Version " + scope.v_nc_28202(), v_n_28770.rsbTree.elementByIndex(28).Wt = "Build " + scope.handshake.rm.Sm, scope.v_Me_28078(v_i_28782);
+            (v_n_28770 = v_t_28784).lt.yk(27).Wt = "Version " + scope.v_nc_28202(), v_n_28770.lt.yk(28).Wt = "Build " + scope.handshake.rm.Sm, scope.v_Me_28078(v_i_28782);
           })) : v_e_28781();
         });
       }, v_t_28785 => {

@@ -50,7 +50,7 @@ if (!skipRename) {
   }
   renamedCount = renamed;
 
-  if (!process.argv.includes('--no-props')) {
+  if (process.argv.includes('--props')) {
     const propFile = path.join(root, 'tools/prop-symbols.json');
     if (fs.existsSync(propFile)) {
       const propMap = loadProps(propFile);

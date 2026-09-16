@@ -17,7 +17,7 @@ export function createV_O1_27910(scope) {
       }]);
     },
     ti: function (v_t_28930) {
-      v_n_28924.Jt = !0, v_n_28924.rsbTree.elementByIndex(2).Je = "text" + v_t_28930, v_n_28924.rsbTree.elementByIndex(3).Wt = scope.v_Ue_28209("header" + v_t_28930), v_n_28924.e8(0), scope.sceneManager.ei();
+      v_n_28924.Jt = !0, v_n_28924.lt.yk(2).Je = "text" + v_t_28930, v_n_28924.lt.yk(3).Wt = scope.v_Ue_28209("header" + v_t_28930), v_n_28924.e8(0), scope.sceneManager.ei();
     },
     ii: function () {
       v_n_28924.Jt = !1, scope.sceneManager.qt();

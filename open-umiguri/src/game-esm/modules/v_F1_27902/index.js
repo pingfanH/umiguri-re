@@ -6,11 +6,11 @@ export function createV_F1_27902(scope) {
   let v_r_28672 = void 0;
   async function v_e_28673() {
     v_r_28672.Jt = !0;
-    for (const v_n_28677 of v_r_28672.rsbTree.We) v_n_28677.visible = !1;
-    var v_t_28674 = v_r_28672.rsbTree.elementByIndex(0);
-    let v_i_28675 = v_t_28674.elementByIndex(6),
-      v_e_28676 = v_t_28674.elementByIndex(9);
-    v_t_28674.visible = !0, v_r_28672.e8(2, v_t_28674), v_i_28675.Wt = "0C00P", v_e_28676.ln(0), await scope.v_fo_28103(scope.v_Ge_28204(30)), await function (v_r_28678) {
+    for (const v_n_28677 of v_r_28672.lt.We) v_n_28677.Be = !1;
+    var v_t_28674 = v_r_28672.lt.yk(0);
+    let v_i_28675 = v_t_28674.yk(6),
+      v_e_28676 = v_t_28674.yk(9);
+    v_t_28674.Be = !0, v_r_28672.e8(2, v_t_28674), v_i_28675.Wt = "0C00P", v_e_28676.ln(0), await scope.v_fo_28103(scope.v_Ge_28204(30)), await function (v_r_28678) {
       let v_t_28679 = scope.handshake.rm.bm,
         v_s_28680 = 0,
         v_a_28681 = 0;
