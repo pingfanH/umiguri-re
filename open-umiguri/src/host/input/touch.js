@@ -1,4 +1,4 @@
-// 触摸/鼠标指针输入: 圆形范围触发 + 功能键长按重复。
+// 触摸/鼠标指针输入: 圆形范围触发 + 功能键(单击触发)。
 import { keysInCircle } from './hit.js';
 import { touchPress, touchRelease } from './lanes.js';
 import { setKeyActive } from '../keypanel/panel.js';
@@ -8,43 +8,9 @@ import { flashCircle } from '../keypanel/editor.js';
 const activePointers = new Map();
 let touchedKeys = new Set();
 
-// 功能键长按自动重复: 按住后先等待, 再周期性 pulse(松开->按下),
-// 让游戏的「边沿触发」能把长按识别为连续触发, 而不是只当一次点击。
-const NAV_REPEAT_DELAY = 450; // ms: 首次重复前等待
-const NAV_REPEAT_INTERVAL = 110; // ms: 重复间隔
-const NAV_PULSE_RELEASE = 35; // ms: 每次 pulse 的松开时长(≥2 帧, 保证被采样到)
-const navTimers = new Map(); // nav 元素 -> { delayTimer, repeatTimer, pulseTimer }
+// 功能键(nav): 仅「点击触发」—— 按下时触发一次, 抬起时释放;
+// 不做长按连发(连发会连续产生事件, 把测试菜单等页面刷乱, 表现为"返回无效")。
 const navHold = new Map(); // nav 元素 -> 持有它的 pointerId 集合
-
-function startNavRepeat(k) {
-  stopNavRepeat(k);
-  const vk = +k.dataset.vk;
-  const t = { delayTimer: null, repeatTimer: null, pulseTimer: null };
-  t.delayTimer = setTimeout(() => {
-    t.repeatTimer = setInterval(() => {
-      if (!navHold.has(k)) return;
-      touchRelease(vk);
-      setKeyActive(k, false);
-      t.pulseTimer = setTimeout(() => {
-        if (!navHold.has(k)) return;
-        touchPress(vk);
-        setKeyActive(k, true);
-      }, NAV_PULSE_RELEASE);
-    }, NAV_REPEAT_INTERVAL);
-  }, NAV_REPEAT_DELAY);
-  navTimers.set(k, t);
-}
-
-function stopNavRepeat(k) {
-  const t = navTimers.get(k);
-  if (!t) return;
-  clearTimeout(t.delayTimer);
-  clearInterval(t.repeatTimer);
-  clearTimeout(t.pulseTimer);
-  navTimers.delete(k);
-}
-
-// 功能键(nav): 按下即锁定, 直到该手指抬起 —— 支持长按, 不受半径/抖动影响
 function pressNav(k, id) {
   let set = navHold.get(k);
   if (!set) {
@@ -52,7 +18,6 @@ function pressNav(k, id) {
     navHold.set(k, set);
     touchPress(+k.dataset.vk);
     setKeyActive(k, true);
-    startNavRepeat(k);
   }
   set.add(id);
 }
@@ -61,7 +26,6 @@ function releaseNavPointer(id) {
   for (const [k, set] of navHold) {
     if (set.delete(id) && set.size === 0) {
       navHold.delete(k);
-      stopNavRepeat(k);
       touchRelease(+k.dataset.vk);
       setKeyActive(k, false);
     }
@@ -72,7 +36,6 @@ function clearTouch() {
   activePointers.clear();
   for (const k of [...navHold.keys()]) {
     navHold.delete(k);
-    stopNavRepeat(k);
     touchRelease(+k.dataset.vk);
     setKeyActive(k, false);
   }

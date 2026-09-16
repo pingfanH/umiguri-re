@@ -163,7 +163,7 @@ export function ensureKeyPanel() {
   const grid = document.createElement('div');
   const st = panelCfg;
   grid.style.cssText =
-    'margin:' + ux(st.airGap) + 'px auto 0;display:grid;grid-template-columns:repeat(16,1fr);column-gap:' + ux(st.colGap) + 'px;' +
+    'margin:' + ux(st.airGap) + 'px auto 0;display:grid;grid-template-columns:repeat(16,1fr);column-gap:' + ux(st.colGap > 0 ? st.colGap : 0) + 'px;' +
     'grid-template-rows:repeat(2,' + ux(st.rowH) + 'px);' +
     'width:66.6667%;background:rgba(128,128,128,' + st.bg + ');' +
     'border:1px solid rgba(128,128,128,0.4);pointer-events:auto;box-sizing:border-box;';
@@ -171,6 +171,8 @@ export function ensureKeyPanel() {
     const c = mkKey(vk, 'cell');
     if ((i + 1) % 16 === 0) c.style.borderRight = 'none';
     if (i >= 16) c.style.borderBottom = 'none';
+    // column-gap 不接受负数, 用负 margin 实现"重叠"(每行首个除外)
+    if (st.colGap < 0 && i % 16 !== 0) c.style.marginLeft = ux(st.colGap) + 'px';
     grid.appendChild(c);
   });
   stack.appendChild(grid);

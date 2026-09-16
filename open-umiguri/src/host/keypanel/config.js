@@ -53,12 +53,12 @@ export function panelScale() {
 }
 
 export const EDITOR_ROWS = [
-  { key: 'rowH', label: '按钮高度', min: 60, max: 360, step: 8 },
-  { key: 'colGap', label: '每列间距', min: 0, max: 24, step: 2 },
+  { key: 'rowH', label: '按钮高度', min: 20, max: 400, step: 8 },
+  { key: 'colGap', label: '每列间距', min: -60, max: 60, step: 2 },
   { key: 'airH', label: 'air 条高度', min: 16, max: 140, step: 4 },
-  { key: 'airGap', label: 'air 距底边', min: 0, max: 80, step: 4 },
-  { key: 'airRowGap', label: 'air 间距', min: 0, max: 40, step: 2 },
-  { key: 'bottomInset', label: '距屏幕底边', min: 0, max: 120, step: 4, unit: 'px' },
+  { key: 'airGap', label: 'air 距底边', min: -200, max: 300, step: 4 },
+  { key: 'airRowGap', label: 'air 间距', min: -100, max: 100, step: 2 },
+  { key: 'bottomInset', label: '距屏幕底边', min: -300, max: 400, step: 4, unit: 'px' },
   { key: 'radius', label: '范围触发半径', min: 0, max: 60, step: 1, unit: 'px' },
   { key: 'showLanes', label: '显示虚拟键盘(0/1)', min: 0, max: 1, step: 1 },
   { key: 'alpha', label: '整体不透明度', min: 0.2, max: 1, step: 0.05, fixed: 2 },
