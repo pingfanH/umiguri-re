@@ -14,6 +14,7 @@ import { setupMusicCache } from './core/music-cache.js';
 import { installFullscreenGuard, setFullscreenDesired } from './platform/fullscreen.js';
 import { setupHardware } from './bridge/hardware.js';
 import { setupRenderScale, lockCanvasCssSize } from './platform/render-scale.js';
+import { installTextureFilter } from './platform/texture-filter.js';
 import { setupWindowDragPause } from './platform/window-drag.js';
 import { installDxtSoftwareDecode } from './platform/textures-dxt.js';
 import { setupStorageAccessCheck } from './platform/storage-access.js';
@@ -107,6 +108,10 @@ whenPageReady(async () => {
   } catch (e) {
     diagLog('[umg][render] 设置失败: ' + ((e && e.message) || e));
   }
+  // 纹理过滤(可选): 1x 资源非整数倍放大时 nearest 会锯齿, 可切 linear 对比
+  try {
+    installTextureFilter(cfg);
+  } catch (e) {}
 
   // 手台 + LED: 先起 LED 服务端(游戏的 ledOutput 启动时就会连), 桌面默认自动探测手台
   try {
@@ -148,13 +153,21 @@ whenPageReady(async () => {
   loadMain(); // 解密并执行游戏前端(main.js.enc)
 
   // 验证渲染倍率是否落到画布背衬(设计空间 1920x1080, 背衬应为 1920*k)
-  setTimeout(() => {
+  // resize 后校正画布(glRuntime 会按窗口重置画布尺寸)
+  let fixTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(fixTimer);
+    fixTimer = setTimeout(() => lockCanvasCssSize(), 300);
+  });
+  let probeN = 0;
+  const probe = setInterval(() => {
     lockCanvasCssSize();
     const list = [...document.querySelectorAll('#main_container canvas')].map(
       (c) => `${c.width}x${c.height}`
     );
     diagLog(`[umg][render] canvas 背衬=[${list.join(' | ')}] scale=${window.__umgPixelScale}`);
-  }, 4000);
+    if (++probeN >= 3) clearInterval(probe);
+  }, 5000);
   installLayoutDiagnostics(); // 布局诊断(默认关闭, 见 localStorage.umg_layout_debug)
 
   // iOS 横屏: 启动阶段(方向/安全区未稳定)算出的缩放可能不准且后续不再重算。

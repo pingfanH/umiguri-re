@@ -20,9 +20,9 @@
   "game": {
     "lang": "en-US",
     "player": {
-      "level": 1,
-      "name": "ＵＭＩＧＵＲＩ",
-      "rating": 0
+      "level": 14.9,
+      "name": "PINGFANH",
+      "rating": 165000
     },
     "timelimit": 0
   },
@@ -35,6 +35,7 @@
     "force_120fps": true,
     "hardware_acceleration": true,
     "scaling_quality": 1,
-    "wndmode": ""
+    "wndmode": "",
+    "render_scale": "auto"
   }
 }

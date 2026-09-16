@@ -41,6 +41,16 @@ pub fn channel_of_umiguri_index(idx: usize) -> Option<usize> {
     }
 }
 
+/// lane 与「右边相邻 lane」之间那颗**间隔灯**的通道号(1 起, 与其余映射一致)。
+///
+/// ⚠ 不要用 lane 自己的后通道: 物理上通道 1/2 是「最右键」和「它左边的间隔灯」,
+/// 也就是某个 lane 的「后」通道其实是它**左边**那颗间隔灯 —— 直接拿来当
+/// 「lane 与 lane+1 之间的灯」会整体错一位(lane0 写到最左端空灯、最后一格越界)。
+/// 正确的间隔灯 = 下一个 lane 的后通道(等价于它的前通道)对应的格子。
+pub fn gap_cell_of_lane(lane: usize) -> Option<usize> {
+    channel_of_umiguri_index(2 * (lane + 1) + 1)
+}
+
 /// air 位(0..5) → UMIGURI air 下标(32..37)
 pub fn umiguri_air_index(bit: usize) -> usize {
     TOUCH_CHANNELS + bit.min(AIR_SENSORS - 1)
@@ -83,8 +93,10 @@ impl LedOrder {
 }
 
 impl Default for LedOrder {
+    /// 设备(手台固件/灯珠)把 3 个字节按 **B,R,G** 解释:
+    /// 收到 [x,y,z] 显示为 (R=y, G=z, B=x)。要显示逻辑色 (r,g,b) 必须发 [b,r,g]。
     fn default() -> Self {
-        LedOrder::Rgb
+        LedOrder::Brg
     }
 }
 
@@ -121,13 +133,52 @@ pub fn build_led_frame(payload: &[u8], order: LedOrder) -> Option<[u8; 96]> {
             set(cell, rgb);
         }
     }
-    // 15 个间隔灯 → 各档下排灯的通道(第 i 个间隔取第 i 档的下排)
+    // 15 个间隔灯 → 嵌在相邻两键之间的格子(不是本档自己的后通道, 见 gap_cell_of_lane)
     for i in 0..15 {
         let b = 49 + i * 3;
         let rgb = [scale(payload[b]), scale(payload[b + 1]), scale(payload[b + 2])];
-        if let Some(cell) = channel_of_umiguri_index(2 * i + 1) {
+        if let Some(cell) = gap_cell_of_lane(i) {
             set(cell, rgb);
         }
     }
     Some(led)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn led_cells_are_interleaved() {
+        // 键灯(16 个档位): 0 起格子应为偶数 30,28,...,0
+        let keys: Vec<usize> = (0..16)
+            .map(|i| channel_of_umiguri_index(2 * i).unwrap() - 1)
+            .collect();
+        assert_eq!(keys, vec![30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10, 8, 6, 4, 2, 0]);
+        // 间隔灯(15 个): 应为奇数 29,27,...,1, 正好嵌在相邻两键之间, 且不越界
+        // gap_cell_of_lane 返回 1 起通道, 转成 0 起格子
+        let gaps: Vec<usize> = (0..15).map(|i| gap_cell_of_lane(i).unwrap() - 1).collect();
+        assert_eq!(gaps, vec![29, 27, 25, 23, 21, 19, 17, 15, 13, 11, 9, 7, 5, 3, 1]);
+        for g in &gaps {
+            assert!(*g < 32);
+        }
+    }
+
+    #[test]
+    fn led_payload_maps_keys_and_gaps() {
+        // 亮度 255; 16 个档位灯: 第 0 档纯红, 其余灭; 15 个间隔灯: 第 0 个纯绿, 其余灭
+        let mut p = vec![0u8; 103];
+        p[0] = 255;
+        p[1] = 255;
+        p[2] = 0;
+        p[3] = 0;
+        p[49] = 0;
+        p[50] = 255;
+        p[51] = 0;
+        let f = build_led_frame(&p, LedOrder::default()).unwrap();
+        // 键灯 lane0 = 格子 30; brg 字节序: 红 (255,0,0) -> [0,255,0]
+        assert_eq!(&f[30 * 3..30 * 3 + 3], &[0, 255, 0]);
+        // 间隔灯 0 = 格子 29; 绿 (0,255,0) -> [0,0,255]
+        assert_eq!(&f[29 * 3..29 * 3 + 3], &[0, 0, 255]);
+    }
 }

@@ -116,7 +116,22 @@ export function applyGamePatches(ast) {
       // 仅处理 <某物>.canvas.width/.height = v_yn/v_Sn 形式
       if (!t.isMemberExpression(left.object) || !t.isIdentifier(left.object.property, { name: 'canvas' })) return;
       if (isVyn(path.node.right) || isVsn(path.node.right)) {
-        path.node.right = wrapScale(path.node.right);
+        const wrapped = wrapScale(path.node.right);
+        // 画布宽度那次赋值处顺带打一行诊断(确认补丁执行时 __umgPixelScale 的值)
+        if (left.property.name === 'width') {
+          path.node.right = t.sequenceExpression([
+            t.callExpression(t.memberExpression(t.identifier('console'), t.identifier('log')), [
+              t.binaryExpression(
+                '+',
+                t.stringLiteral('[DIAG] [umg][render] canvas init k='),
+                scaleExpr()
+              ),
+            ]),
+            wrapped,
+          ]);
+        } else {
+          path.node.right = wrapped;
+        }
         scaled++;
       }
     },
@@ -135,7 +150,41 @@ export function applyGamePatches(ast) {
       }
     },
   });
-  if (scaled) applied.push(`渲染倍率(画布背衬 ×__umgPixelScale) ×${scaled}`);
+  // glRuntime(游戏自带 GL 封装)在 resize 时会把画布尺寸按窗口重置
+  // (canvas.width = window.innerWidth - ...), 会把上面的倍率覆盖掉。
+  // 这里把这两处也改成「设计空间 × 倍率」, 使画布背衬与 viewport 始终一致。
+  let fixedVendor = 0;
+  const designFor = (isWidth) =>
+    t.binaryExpression(
+      '*',
+      t.numericLiteral(isWidth ? 1920 : 1080),
+      t.logicalExpression('||', t.memberExpression(t.identifier('window'), t.identifier('__umgPixelScale')), t.numericLiteral(1))
+    );
+  const startsWithWindowSize = (n) =>
+    t.isBinaryExpression(n) &&
+    t.isMemberExpression(n.left) &&
+    t.isIdentifier(n.left.object, { name: 'window' }) &&
+    t.isIdentifier(n.left.property, { name: 'innerWidth' }) ||
+    (t.isBinaryExpression(n) &&
+      t.isMemberExpression(n.left) &&
+      t.isIdentifier(n.left.object, { name: 'window' }) &&
+      t.isIdentifier(n.left.property, { name: 'innerHeight' }));
+  traverse(ast, {
+    AssignmentExpression(path) {
+      const left = path.node.left;
+      if (!t.isMemberExpression(left) || !t.isIdentifier(left.property)) return;
+      const isWidth = left.property.name === 'width';
+      if (!isWidth && left.property.name !== 'height') return;
+      const obj = left.object;
+      if (!t.isMemberExpression(obj) || !t.isIdentifier(obj.property, { name: 'canvas' })) return;
+      if (!startsWithWindowSize(path.node.right)) return;
+      path.node.right = designFor(isWidth);
+      fixedVendor++;
+    },
+  });
+  if (fixedVendor) applied.push(`渲染倍率(glRuntime 窗口重置 → 设计空间×倍率) ×${fixedVendor}`);
+
+  if (scaled || fixedVendor) applied.push(`渲染倍率(画布背衬 ×__umgPixelScale) ×${scaled}`);
 
   return applied;
 }

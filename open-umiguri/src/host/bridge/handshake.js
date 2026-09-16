@@ -61,6 +61,12 @@ export function applyHostConfig(cfg) {
   handshake.O.B = num(cfg.playerRating, handshake.O.B);
   handshake.O.p9 = num(cfg.playerLevel, handshake.O.p9);
   handshake.fe = str(cfg.keymap, handshake.fe);
+  // system.scaling_quality -> handshake.H(游戏的 rm.km -> 画布 imageRendering):
+  //   0 = pixelated(最锐, 有锯齿) / 1 = -webkit-optimize-contrast(就近, 默认) / 2 = high-quality(平滑)
+  if (cfg.scalingQuality !== null && cfg.scalingQuality !== undefined) {
+    const q = num(cfg.scalingQuality, handshake.H);
+    if (q >= 0 && q <= 2) handshake.H = q;
+  }
   handshake.R = num(cfg.ledPort, handshake.R);
   // devices.led_controller.enabled -> handshake.I(游戏的 rm.b7): 游戏据此启用
   // ledOutput 的 WebSocket 客户端(连 ws://localhost:<R>), 由宿主 hardware 模块接住。
