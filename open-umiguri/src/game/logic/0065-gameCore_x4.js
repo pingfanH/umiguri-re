@@ -4667,7 +4667,7 @@
           function v_d_31917(v_t_31918) {
             v_i_31903.uu.elementByName("textMenuMainDeviceInputMode").Wt = v_e_31905, v_i_31903.uu.elementByName("textMenuMainDeviceOutputMode").Wt = v_n_31906, v_i_31903.uu.elementByName("textMenuMainDeviceServerName").Wt = v_r_31907, v_i_31903.uu.elementByName("textMenuMainDeviceServerVersion").Wt = v_s_31908, v_i_31903.uu.elementByName("textMenuMainDeviceHardwareName").Wt = v_a_31909, v_i_31903.uu.elementByName("textMenuMainDeviceHardwareVersion").Wt = v_o_31910, v_i_31903.uu.elementByName("textMenuMainDevicePort").Wt = v_l_31911, v_i_31903.uu.elementByName("textMenuMainDeviceBoardNumber").Wt = v_c_31912, v_i_31903.uu.elementByName("textMenuMainDeviceFirmwareVersion").Wt = v_u_31913, v_i_31903.uu.elementByName("textMenuUmgrIoPort").Wt = v_f_31914, v_i_31903.uu.elementByName("textMenuUmgrIoBoardNumber").Wt = v___31915, v_i_31903.uu.elementByName("textMenuUmgrIoFirmwareVersion").Wt = v_h_31916, v_t_31918 && (v_i_31903.wu = v_v_31819, v_i_31903.On.Ou = !0, v_i_31903.uu.elementByName("loadingDialog").visible = !1);
           }
-          v_d_31917(), v_M_27644 && (v_e_31905 = "COM", v_n_31906 = "COM", v_l_31911 = "COM" + handshake.rm.A7, v_t_31904 = await v_M_27644.CR(), v_c_31912 = "837-" + v_t_31904.bd_num, v_u_31913 = "" + v_t_31904.fw), ledOutput.Bt() && (v_n_31906 = "WebSocket (" + v_Pe_28064(handshake.rm.y7) + ")", v_t_31904 = await new Promise(v_t_31919 => ledOutput.rv(v_t_31919))) && (v_r_31907 = v_t_31904.av, v_s_31908 = v_t_31904.sv[0] + "." + v_t_31904.sv[1], v_a_31909 = v_t_31904.ov, v_o_31910 = v_t_31904.cv[0] + "." + v_t_31904.cv[1]), v_d_31917(), v_E_27645 && (v_f_31914 = "COM" + handshake.rm.S7, v_t_31904 = await v_E_27645.CR(), v___31915 = "000-" + v_t_31904.bd_num, v_h_31916 = "" + v_t_31904.fw), v_d_31917(!0);
+          v_d_31917(), boardLanes && (v_e_31905 = "COM", v_n_31906 = "COM", v_l_31911 = "COM" + handshake.rm.A7, v_t_31904 = await boardLanes.CR(), v_c_31912 = "837-" + v_t_31904.bd_num, v_u_31913 = "" + v_t_31904.fw), ledOutput.Bt() && (v_n_31906 = "WebSocket (" + v_Pe_28064(handshake.rm.y7) + ")", v_t_31904 = await new Promise(v_t_31919 => ledOutput.rv(v_t_31919))) && (v_r_31907 = v_t_31904.av, v_s_31908 = v_t_31904.sv[0] + "." + v_t_31904.sv[1], v_a_31909 = v_t_31904.ov, v_o_31910 = v_t_31904.cv[0] + "." + v_t_31904.cv[1]), v_d_31917(), boardAir && (v_f_31914 = "COM" + handshake.rm.S7, v_t_31904 = await boardAir.CR(), v___31915 = "000-" + v_t_31904.bd_num, v_h_31916 = "" + v_t_31904.fw), v_d_31917(!0);
         }, v_t_31849.du = function (v_t_31920, v_i_31921) {
           this.On.Ou && v_t_31920 & (v_v_31819 | v_c_31820) && v_d_31832("Root");
         }), (v_t_31849 = v_n_31824.Vc("AmReaderTest")) && (v_t_31849.gu = ["AmReaderTestReader", "AmReaderTestLed", "Back"], v_t_31849.au = v_t_31849.gu.indexOf("Back"), v_t_31849.On = {
@@ -4727,9 +4727,9 @@
             for (var v_e_31945 of v_d_31941.Zl()) v_e_31945.lr && (++v_t_31943, v_i_31944 += v_e_31945.xR);
             v_r_31935.visible = !0, v_r_31935.y = v_i_31944 / v_t_31943 / v_h_31940 * 512 + 255, v_n_31931.Wt = 0 === v_t_31943 ? "----" : (v_i_31944 / v_t_31943).toFixed(2);
           }
-          v_M_27644 && v_M_27644.TR(!0), v_Fe_28101(() => {
+          boardLanes && boardLanes.TR(!0), v_Fe_28101(() => {
             renderer.ut("InputDelayTest", new v_Tl_28174((v_t_31946, v_i_31947, v_e_31948) => {
-              v_M_27644 && (v_a_31932.Wt = v_M_27644.PR.toFixed(2), v_o_31933.Wt = v_M_27644.RR.toFixed(2)), v_t_31946 >= v_u_31937 && (v_f_31938 = v_u_31937, v_Ae_27892.dn("guide"), v_u_31937 = v_c_31936 + Math.floor((v_t_31946 - v_c_31936) / v_h_31940) * v_h_31940 + v_h_31940), v_l_31934.y = (v_t_31946 - v_c_31936 + .5 * v_h_31940) % v_h_31940 / v_h_31940 * 512;
+              boardLanes && (v_a_31932.Wt = boardLanes.PR.toFixed(2), v_o_31933.Wt = boardLanes.RR.toFixed(2)), v_t_31946 >= v_u_31937 && (v_f_31938 = v_u_31937, v_Ae_27892.dn("guide"), v_u_31937 = v_c_31936 + Math.floor((v_t_31946 - v_c_31936) / v_h_31940) * v_h_31940 + v_h_31940), v_l_31934.y = (v_t_31946 - v_c_31936 + .5 * v_h_31940) % v_h_31940 / v_h_31940 * 512;
               let v_n_31949 = inputModule.aR(),
                 v_r_31950 = !1;
               for (let v_t_31952 = 0; v_t_31952 < 32; v_t_31952++) if (v_n_31949[v_t_31952]) {
@@ -4743,7 +4743,7 @@
             });
           });
         }, v_t_31849._u = function () {
-          v_M_27644 && v_M_27644.TR(!1), v_Fe_28101(() => renderer._i("InputDelayTest"));
+          boardLanes && boardLanes.TR(!1), v_Fe_28101(() => renderer._i("InputDelayTest"));
         }, v_t_31849.du = function (v_t_31954, v_i_31955) {
           v_t_31954 & (v_v_31819 | v_c_31820) && v_d_31832("Root");
         }), (v_t_31849 = v_n_31824.Vc("DataState")) && (v_t_31849.wu = v_v_31819, v_t_31849.fu = function () {

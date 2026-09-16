@@ -54,143 +54,143 @@
       };
     }(),
     inputModule = function () {
-      let v_r_28343 = ["1", "A", "Q", "Z", "2", "S", "W", "X", "3", "D", "E", "C", "4", "F", "R", "V", "5", "G", "T", "B", "6", "H", "Y", "N", "7", "J", "U", "M", "8", "K", "I", "9", "0", "O", "L", "P", ",", ".", "]"],
-        v_s_28344 = v_r_28343.map(v_t_28358 => 0),
-        v_a_28345 = v_r_28343.map(v_t_28359 => 0),
-        v_o_28346 = v_r_28343.map(v_t_28360 => 0);
-      function v_t_28347(v_t_28361, v_i_28362, v_e_28363, v_n_28364) {
-        this.Ae = v_t_28361, this.lu = v_i_28362, this.rI = v_e_28363, this.sI = v_n_28364;
+      let laneKeyChars = ["1", "A", "Q", "Z", "2", "S", "W", "X", "3", "D", "E", "C", "4", "F", "R", "V", "5", "G", "T", "B", "6", "H", "Y", "N", "7", "J", "U", "M", "8", "K", "I", "9", "0", "O", "L", "P", ",", ".", "]"],
+        laneState = laneKeyChars.map(mapCb => 0),
+        laneVk = laneKeyChars.map(mapCb => 0),
+        laneAnalog = laneKeyChars.map(mapCb => 0);
+      function KeyBinding(keyName, stateBits, vkCode, dikCode) {
+        this.Ae = keyName, this.lu = stateBits, this.rI = vkCode, this.sI = dikCode;
       }
-      let v_l_28348 = [new v_t_28347("left", 0, 37, v_mi_27816.ArrowLeft), new v_t_28347("right", 0, 39, v_mi_27816.ArrowRight), new v_t_28347("up", 0, 38, v_mi_27816.ArrowUp), new v_t_28347("down", 0, 40, v_mi_27816.ArrowDown), new v_t_28347("enter", 0, 13, v_mi_27816.Enter), new v_t_28347("esc", 0, 27, v_mi_27816.Escape), new v_t_28347("space", 0, 32, v_mi_27816.Space), new v_t_28347("shift", 0, 16, v_mi_27816.ShiftL), new v_t_28347("shift", 0, 16, v_mi_27816.ShiftR), new v_t_28347("f1", 0, 112, v_mi_27816.F1), new v_t_28347("f2", 0, 113, v_mi_27816.F2), new v_t_28347("f3", 0, 114, v_mi_27816.F3), new v_t_28347("f4", 0, 115, v_mi_27816.F4), new v_t_28347("f5", 0, 116, v_mi_27816.F5), new v_t_28347("f6", 0, 117, v_mi_27816.F6), new v_t_28347("f7", 0, 118, v_mi_27816.F7), new v_t_28347("f8", 0, 119, v_mi_27816.F8), new v_t_28347("f9", 0, 120, v_mi_27816.F9), new v_t_28347("f10", 0, 121, v_mi_27816.F10), new v_t_28347("f11", 0, 122, v_mi_27816.F11), new v_t_28347("f12", 0, 123, v_mi_27816.F12)],
-        v_c_28349 = !0,
-        v_i_28350 = !1,
-        v_e_28351 = new Map(),
-        v_u_28352 = new Map();
-      function v_n_28353(v_i_28365) {
-        glContext.canvas.setPointerCapture(v_i_28365.pointerId), v_e_28351.forEach(v_t_28366 => {
-          v_t_28366(0, v_i_28365.offsetX, v_i_28365.offsetY);
-        }), window.__umgPadAt && window.__umgPadAt(v_i_28365.offsetX, v_i_28365.offsetY);
+      let keyBindings = [new KeyBinding("left", 0, 37, keyCodes.ArrowLeft), new KeyBinding("right", 0, 39, keyCodes.ArrowRight), new KeyBinding("up", 0, 38, keyCodes.ArrowUp), new KeyBinding("down", 0, 40, keyCodes.ArrowDown), new KeyBinding("enter", 0, 13, keyCodes.Enter), new KeyBinding("esc", 0, 27, keyCodes.Escape), new KeyBinding("space", 0, 32, keyCodes.Space), new KeyBinding("shift", 0, 16, keyCodes.ShiftL), new KeyBinding("shift", 0, 16, keyCodes.ShiftR), new KeyBinding("f1", 0, 112, keyCodes.F1), new KeyBinding("f2", 0, 113, keyCodes.F2), new KeyBinding("f3", 0, 114, keyCodes.F3), new KeyBinding("f4", 0, 115, keyCodes.F4), new KeyBinding("f5", 0, 116, keyCodes.F5), new KeyBinding("f6", 0, 117, keyCodes.F6), new KeyBinding("f7", 0, 118, keyCodes.F7), new KeyBinding("f8", 0, 119, keyCodes.F8), new KeyBinding("f9", 0, 120, keyCodes.F9), new KeyBinding("f10", 0, 121, keyCodes.F10), new KeyBinding("f11", 0, 122, keyCodes.F11), new KeyBinding("f12", 0, 123, keyCodes.F12)],
+        useDirectInput = !0,
+        pointerListenersReady = !1,
+        pointerCallbacks = new Map(),
+        keyEventCallbacks = new Map();
+      function onPointerDown(evt) {
+        glContext.canvas.setPointerCapture(evt.pointerId), pointerCallbacks.forEach(forEachCb => {
+          forEachCb(0, evt.offsetX, evt.offsetY);
+        }), window.__umgPadAt && window.__umgPadAt(evt.offsetX, evt.offsetY);
       }
-      function v_f_28354(v_i_28367) {
-        v_e_28351.forEach(v_t_28368 => {
-          v_t_28368(1, v_i_28367.offsetX, v_i_28367.offsetY);
+      function onPointerMove(evt) {
+        pointerCallbacks.forEach(forEachCb => {
+          forEachCb(1, evt.offsetX, evt.offsetY);
         });
       }
-      function v___28355(v_i_28369) {
-        v_e_28351.forEach(v_t_28370 => {
-          v_t_28370(2, v_i_28369.offsetX, v_i_28369.offsetY);
+      function onPointerUp(evt) {
+        pointerCallbacks.forEach(forEachCb => {
+          forEachCb(2, evt.offsetX, evt.offsetY);
         });
       }
-      function v_h_28356(v_i_28371) {
-        v_e_28351.forEach(v_t_28372 => {
-          v_t_28372(10, v_i_28371.offsetX, v_i_28371.offsetY);
+      function onPointerEnter(evt) {
+        pointerCallbacks.forEach(forEachCb => {
+          forEachCb(10, evt.offsetX, evt.offsetY);
         });
       }
-      function v_d_28357(v_i_28373) {
-        v_e_28351.forEach(v_t_28374 => {
-          v_t_28374(11, v_i_28373.offsetX, v_i_28373.offsetY);
+      function onPointerLeave(evt) {
+        pointerCallbacks.forEach(forEachCb => {
+          forEachCb(11, evt.offsetX, evt.offsetY);
         });
       }
       return {
         ue: function () {
-          v_i_28350 || (v_i_28350 = !0, glContext.canvas.addEventListener("pointerdown", v_n_28353), glContext.canvas.addEventListener("pointermove", v_f_28354), glContext.canvas.addEventListener("pointerup", v___28355), glContext.canvas.addEventListener("pointerenter", v_h_28356), glContext.canvas.addEventListener("pointerleave", v_d_28357), v_c_28349 = handshake.rm.wm, di8KbdStartFn());
+          pointerListenersReady || (pointerListenersReady = !0, glContext.canvas.addEventListener("pointerdown", onPointerDown), glContext.canvas.addEventListener("pointermove", onPointerMove), glContext.canvas.addEventListener("pointerup", onPointerUp), glContext.canvas.addEventListener("pointerenter", onPointerEnter), glContext.canvas.addEventListener("pointerleave", onPointerLeave), useDirectInput = handshake.rm.wm, di8KbdStartFn());
         },
         ce: function () {
           di8KbdShutdownFn();
         },
-        fe: function (v_t_28375) {
-          if (38 === v_t_28375.length && (v_r_28343 = v_t_28375.split(""), !v_c_28349)) {
-            for (let v_t_28377 = 0; v_t_28377 < 38; ++v_t_28377) v_a_28345[v_t_28377] = kbdUni2VirtFn(v_r_28343[v_t_28377].charCodeAt(0));
-            v_t_28375 = v_a_28345;
-            var v_i_28376 = Array.from(new Set(v_t_28375));
-            for (let v_t_28378 = 0; v_t_28378 < v_l_28348.length; ++v_t_28378) v_i_28376.push(v_l_28348[v_t_28378].rI);
-            kbdStartFn(v_i_28376);
+        fe: function (keyString) {
+          if (38 === keyString.length && (laneKeyChars = keyString.split(""), !useDirectInput)) {
+            for (let idx = 0; idx < 38; ++idx) laneVk[idx] = kbdUni2VirtFn(laneKeyChars[idx].charCodeAt(0));
+            keyString = laneVk;
+            var vkList = Array.from(new Set(keyString));
+            for (let idx = 0; idx < keyBindings.length; ++idx) vkList.push(keyBindings[idx].rI);
+            kbdStartFn(vkList);
           }
         },
-        tb: function (v_t_28379, v_i_28380) {
-          v_e_28351.set(v_t_28379, v_i_28380);
+        tb: function (keyId, keyFn) {
+          pointerCallbacks.set(keyId, keyFn);
         },
-        eb: function (v_t_28381) {
-          v_e_28351.delete(v_t_28381);
+        eb: function (keyId) {
+          pointerCallbacks.delete(keyId);
         },
-        $I: function (v_t_28382, v_i_28383) {
-          v_u_28352.set(v_t_28382, v_i_28383);
+        $I: function (keyId, keyFn) {
+          keyEventCallbacks.set(keyId, keyFn);
         },
-        ZI: function (v_t_28384) {
-          v_u_28352.delete(v_t_28384);
+        ZI: function (keyId) {
+          keyEventCallbacks.delete(keyId);
         },
         oe: function () {
-          for (let v_t_28388 = 0; v_t_28388 < v_s_28344.length; ++v_t_28388) v_s_28344[v_t_28388] >>= 1;
-          for (let v_t_28389 = 0; v_t_28389 < v_l_28348.length; ++v_t_28389) v_l_28348[v_t_28389].lu >>= 1;
-          if ((v_c_28349 ? di8KbdUpdateFn : kbdUpdateFn)(), v_P_27640) if (v_c_28349) for (let v_t_28390 = 0; v_t_28390 < v_l_28348.length; ++v_t_28390) v_l_28348[v_t_28390].lu |= di8KbdHeldFn(v_l_28348[v_t_28390].sI) ? 2 : 0;else for (let v_t_28391 = 0; v_t_28391 < v_l_28348.length; ++v_t_28391) v_l_28348[v_t_28391].lu |= kbdHeldFn(v_l_28348[v_t_28391].rI) ? 2 : 0;
-          if (v_M_27644 && v_E_27645) {
-            var v_i_28385 = v_M_27644.x7();
-            for (let v_t_28392 = 0; v_t_28392 < 32; ++v_t_28392) v_s_28344[v_t_28392] |= 20 <= v_i_28385[31 - v_t_28392] ? 2 : 0, v_o_28346[v_t_28392] = v_i_28385[31 - v_t_28392];
-            var v_e_28386 = v_E_27645.I7();
-            for (let v_t_28393 = 0; v_t_28393 < 6; ++v_t_28393) v_s_28344[v_t_28393 + 32] |= 63 < v_e_28386[v_t_28393] ? 2 : 0, v_o_28346[v_t_28393 + 32] = v_e_28386[v_t_28393];
+          for (let idx = 0; idx < laneState.length; ++idx) laneState[idx] >>= 1;
+          for (let idx = 0; idx < keyBindings.length; ++idx) keyBindings[idx].lu >>= 1;
+          if ((useDirectInput ? di8KbdUpdateFn : kbdUpdateFn)(), inputEnabled) if (useDirectInput) for (let idx = 0; idx < keyBindings.length; ++idx) keyBindings[idx].lu |= di8KbdHeldFn(keyBindings[idx].sI) ? 2 : 0;else for (let idx = 0; idx < keyBindings.length; ++idx) keyBindings[idx].lu |= kbdHeldFn(keyBindings[idx].rI) ? 2 : 0;
+          if (boardLanes && boardAir) {
+            var sensorLevels = boardLanes.x7();
+            for (let idx = 0; idx < 32; ++idx) laneState[idx] |= 20 <= sensorLevels[31 - idx] ? 2 : 0, laneAnalog[idx] = sensorLevels[31 - idx];
+            var airSensor = boardAir.I7();
+            for (let idx = 0; idx < 6; ++idx) laneState[idx + 32] |= 63 < airSensor[idx] ? 2 : 0, laneAnalog[idx + 32] = airSensor[idx];
           } else if (ledOutput.Q6()) {
-            var v_n_28387 = ledOutput.ev();
-            for (let v_t_28394 = 0; v_t_28394 < 32; ++v_t_28394) v_s_28344[v_t_28394] |= 20 <= v_n_28387[v_t_28394] ? 2 : 0, v_o_28346[v_t_28394] = v_n_28387[v_t_28394];
-            for (let v_t_28395 = 32; v_t_28395 < 38; ++v_t_28395) v_s_28344[v_t_28395] |= 63 < v_n_28387[v_t_28395] ? 2 : 0, v_o_28346[v_t_28395] = v_n_28387[v_t_28395];
+            var ledValues = ledOutput.ev();
+            for (let idx = 0; idx < 32; ++idx) laneState[idx] |= 20 <= ledValues[idx] ? 2 : 0, laneAnalog[idx] = ledValues[idx];
+            for (let idx = 32; idx < 38; ++idx) laneState[idx] |= 63 < ledValues[idx] ? 2 : 0, laneAnalog[idx] = ledValues[idx];
           } else {
-            if (v_P_27640) if (v_c_28349) {
-              for (let v_t_28396 = 0; v_t_28396 < v_s_28344.length; ++v_t_28396) v_s_28344[v_t_28396] |= di8KbdHeldFn(v_mi_27816[v_r_28343[v_t_28396]]) || window.__umgLanes && window.__umgLanes[v_t_28396] ? 2 : 0;
-              for (let v_t_28397 = 0; v_t_28397 < v_l_28348.length; ++v_t_28397) v_l_28348[v_t_28397].lu |= di8KbdHeldFn(v_l_28348[v_t_28397].sI) ? 2 : 0;
+            if (inputEnabled) if (useDirectInput) {
+              for (let idx = 0; idx < laneState.length; ++idx) laneState[idx] |= di8KbdHeldFn(keyCodes[laneKeyChars[idx]]) || window.__umgLanes && window.__umgLanes[idx] ? 2 : 0;
+              for (let idx = 0; idx < keyBindings.length; ++idx) keyBindings[idx].lu |= di8KbdHeldFn(keyBindings[idx].sI) ? 2 : 0;
             } else {
-              for (let v_t_28398 = 0; v_t_28398 < v_s_28344.length; ++v_t_28398) v_s_28344[v_t_28398] |= kbdHeldFn(v_a_28345[v_t_28398]) || window.__umgLanes && window.__umgLanes[v_t_28398] ? 2 : 0;
-              for (let v_t_28399 = 0; v_t_28399 < v_l_28348.length; ++v_t_28399) v_l_28348[v_t_28399].lu |= kbdHeldFn(v_l_28348[v_t_28399].rI) ? 2 : 0;
+              for (let idx = 0; idx < laneState.length; ++idx) laneState[idx] |= kbdHeldFn(laneVk[idx]) || window.__umgLanes && window.__umgLanes[idx] ? 2 : 0;
+              for (let idx = 0; idx < keyBindings.length; ++idx) keyBindings[idx].lu |= kbdHeldFn(keyBindings[idx].rI) ? 2 : 0;
             }
-            for (let v_t_28400 = 0; v_t_28400 < 38; ++v_t_28400) v_o_28346[v_t_28400] = 2 & v_s_28344[v_t_28400] ? 200 : 0;
+            for (let idx = 0; idx < 38; ++idx) laneAnalog[idx] = 2 & laneState[idx] ? 200 : 0;
           }
-          if (v_u_28352.size) for (let v_i_28401 = 0; v_i_28401 < v_l_28348.length; ++v_i_28401) 2 === v_l_28348[v_i_28401].lu && v_u_28352.forEach(v_t_28402 => v_t_28402(v_l_28348[v_i_28401].Ae));
+          if (keyEventCallbacks.size) for (let idx = 0; idx < keyBindings.length; ++idx) 2 === keyBindings[idx].lu && keyEventCallbacks.forEach(keyName => keyName(keyBindings[idx].Ae));
         },
         he: 20,
         ve: function () {
-          return v_s_28344;
+          return laneState;
         },
         sR: function () {
-          return v_o_28346;
+          return laneAnalog;
         },
         aR: function () {
-          return v_s_28344.map(v_t_28403 => 2 === v_t_28403);
+          return laneState.map(laneEntry => 2 === laneEntry);
         },
         oR: function () {
-          return v_s_28344.map(v_t_28404 => 2 & v_t_28404);
+          return laneState.map(laneEntry => 2 & laneEntry);
         },
         lR: function () {
-          return v_s_28344.map(v_t_28405 => 1 === v_t_28405);
+          return laneState.map(laneEntry => 1 === laneEntry);
         },
         cR: function () {
-          return v_s_28344.map(v_t_28406 => !1 & v_t_28406);
+          return laneState.map(laneEntry => !1 & laneEntry);
         },
         uR: function () {
-          for (let v_t_28407 = 32; v_t_28407 < 38; ++v_t_28407) if (2 & v_s_28344[v_t_28407]) return !0;
+          for (let idx = 32; idx < 38; ++idx) if (2 & laneState[idx]) return !0;
           return !1;
         },
         fR: function () {
-          for (let v_t_28408 = 32; v_t_28408 < 38; ++v_t_28408) if (1 & v_s_28344[v_t_28408]) return !0;
+          for (let idx = 32; idx < 38; ++idx) if (1 & laneState[idx]) return !0;
           return !1;
         },
         _R: function () {
-          for (let v_t_28409 = 32; v_t_28409 < 38; ++v_t_28409) if (2 === v_s_28344[v_t_28409] || 1 === v_s_28344[v_t_28409]) return !0;
+          for (let idx = 32; idx < 38; ++idx) if (2 === laneState[idx] || 1 === laneState[idx]) return !0;
           return !1;
         },
         hR: function () {
-          if (this.uR() && this.fR()) for (let v_t_28410 = 32; v_t_28410 < 38; ++v_t_28410) if (2 === v_s_28344[v_t_28410] || 1 === v_s_28344[v_t_28410]) return !0;
+          if (this.uR() && this.fR()) for (let idx = 32; idx < 38; ++idx) if (2 === laneState[idx] || 1 === laneState[idx]) return !0;
           return !1;
         },
         dR: function () {
-          var v_t_28411 = {
+          var airPos = {
             y: 0,
             hand: !1
           };
-          let v_i_28412 = 0,
-            v_e_28413 = 0;
-          for (let v_t_28414 = 0; v_t_28414 < 6; ++v_t_28414) 2 & v_s_28344[v_t_28414 + 32] && (v_i_28412 += v_t_28414 / 5 * 2 - 1, ++v_e_28413);
-          return 0 < v_e_28413 && (v_t_28411.y = v_i_28412 / v_e_28413, v_t_28411.hand = !0), v_t_28411;
+          let airSum = 0,
+            airCount = 0;
+          for (let idx = 0; idx < 6; ++idx) 2 & laneState[idx + 32] && (airSum += idx / 5 * 2 - 1, ++airCount);
+          return 0 < airCount && (airPos.y = airSum / airCount, airPos.hand = !0), airPos;
         },
         vR: function () {
-          return v_l_28348;
+          return keyBindings;
         }
       };
     }(),
@@ -476,7 +476,7 @@
           v_n_28541 = v_n_28541.fill([0, 0, 0]), v_r_28542 = v_r_28542.fill([0, 0, 0]), v_t_28588 && (v_a_28543 = v_a_28543.fill([0, 0, 0]));
         },
         oe: function () {
-          if (v_M_27644) v_M_27644.T7(v_n_28541, v_r_28542), v_E_27645 && v_E_27645.d9(v_a_28543);else if (v_c_28548) {
+          if (boardLanes) boardLanes.T7(v_n_28541, v_r_28542), boardAir && boardAir.d9(v_a_28543);else if (v_c_28548) {
             for (let v_t_28589 = 0; v_t_28589 < 16; ++v_t_28589) v_i_28544[3 * v_t_28589] = v_n_28541[v_t_28589][0], v_i_28544[3 * v_t_28589 + 1] = v_n_28541[v_t_28589][1], v_i_28544[3 * v_t_28589 + 2] = v_n_28541[v_t_28589][2];
             for (let v_t_28590 = 0; v_t_28590 < 15; ++v_t_28590) v_i_28544[48 + 3 * v_t_28590] = v_r_28542[v_t_28590][0], v_i_28544[48 + 3 * v_t_28590 + 1] = v_r_28542[v_t_28590][1], v_i_28544[48 + 3 * v_t_28590 + 2] = v_r_28542[v_t_28590][2];
             for (let v_t_28591 = 0; v_t_28591 < 3; ++v_t_28591) v_i_28544[93 + 3 * v_t_28591] = v_a_28543[v_t_28591][0], v_i_28544[93 + 3 * v_t_28591 + 1] = v_a_28543[v_t_28591][1], v_i_28544[93 + 3 * v_t_28591 + 2] = v_a_28543[v_t_28591][2];

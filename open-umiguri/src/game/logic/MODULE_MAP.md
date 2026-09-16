@@ -33,7 +33,7 @@
 | `logic/0025-ExpressionStatement.js` | 177087–177087 | ExpressionStatement |  |
 | `logic/0026-v_z0_27799_x10.js` | 177088–177097 | VariableDeclaration |  |
 | `logic/0027-v_hi_27809_x7.js` | 177098–177104 | VariableDeclaration |  |
-| `logic/0028-v_mi_27816_x4.js` | 177105–177232 | VariableDeclaration |  |
+| `logic/0028-keyCodes_x4.js` | 177105–177232 | VariableDeclaration |  |
 | `logic/0029-v_t1_27820.js` | 177233–177233 | VariableDeclaration |  |
 | `logic/0030-mathRandom_x13.js` | 177234–177246 | VariableDeclaration |  |
 | `logic/0031-v_o1_27834_x2.js` | 177247–177248 | VariableDeclaration |  |

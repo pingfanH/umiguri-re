@@ -4,7 +4,7 @@
 // 说明: 本文件是 bundle 片段, 由 build/assemble-game.mjs 按 manifest 拼接;请勿手改拼接顺序。
 
   if (addEventListener("resize", v_m1_27881), addEventListener("unload", v_re_27878), addEventListener("focus", v_w1_27879), addEventListener("blur", v_g1_27880), addEventListener("beforeunload", v_t_35119 => {
-    v_M_27644 && v_M_27644.V7(), v_E_27645 && v_E_27645.V7(), v_D_27646 && v_D_27646.V7(), v_F_27647 && v_F_27647.V7();
+    boardLanes && boardLanes.V7(), boardAir && boardAir.V7(), v_D_27646 && v_D_27646.V7(), v_F_27647 && v_F_27647.V7();
   }), v_y_27559.addEventListener("contextmenu", v_t_35120 => v_t_35120.preventDefault()), v_ee_27876(), v_y_27559.style.display = "block", v_Hl_28188 = umgr_elc._, handshake.rm.I4 = v_Hl_28188.I4, handshake.rm.am = v_Hl_28188.am, handshake.rm.om = v_Hl_28188.O.ct, handshake.rm.lm = v_Hl_28188.O.B, handshake.rm.um = v_Hl_28188.O.p9, handshake.rm.b7 = v_Hl_28188.I, handshake.rm.y7 = v_Hl_28188.R, handshake.rm.A7 = v_Hl_28188.j, handshake.rm.S7 = v_Hl_28188.M, handshake.rm.A9 = v_Hl_28188.L, handshake.rm.S9 = v_Hl_28188.U, handshake.rm.x9 = v_Hl_28188.P, handshake.rm.I9 = v_Hl_28188.G, handshake.rm.OA = v_Hl_28188.Y, handshake.rm.dm = v_Hl_28188.fe, handshake.rm.vm = v_Hl_28188.v1, handshake.rm.gm = v_Hl_28188.J, handshake.rm.u8 = v_Hl_28188.K, handshake.rm.wm = v_Hl_28188.W, handshake.rm.pm = v_Hl_28188.u1, handshake.rm.km = v_Hl_28188.H, handshake.rm.bm = v_Hl_28188.f1, handshake.rm.Sm = v_Hl_28188.h1.T, handshake.rm.xm = v_Hl_28188.h1.rr, handshake.rm.ym = v_Hl_28188.h1.C, handshake.rm.Cm = v_Hl_28188.h1.GA, handshake.rm.Im = v_Hl_28188.Z.X, handshake.rm.Am = v_Hl_28188.Z.a1, handshake.rm.Tm = v_Hl_28188.Z.d1, handshake.rm.Lm = v_Hl_28188.Z.t1, handshake.rm.Rm = v_Hl_28188.Z.s1, handshake.rm.gb = v_Hl_28188.g1, setInterval(v_A1_27887, 500), win.body.addEventListener("keydown", function (v_t_35121) {
     v_t_35121.repeat || ("Enter" !== v_t_35121.key || v_t_35121.shiftKey || v_t_35121.metaKey || !v_t_35121.altKey || v_t_35121.ctrlKey ? "F1" !== v_t_35121.key || !v_t_35121.shiftKey || v_t_35121.metaKey || v_t_35121.altKey || v_t_35121.ctrlKey || v_ur_27932.bb() : (systemMisc.w2(), v_t_35121.preventDefault()));
   }), currentLang = handshake.rm.I4, v_h1_27859 = handshake.rm.Am, v_R_27641 = handshake.rm.pm, v_L_27642 = handshake.rm.km, v_bn_27637 = handshake.rm.vm || handshake.rm.gm, -1 === supportedLangs.indexOf(currentLang) && (handshake.A4 = !0, currentLang = "ja-JP"), v_Ul_28187.has("errDisp")) {
@@ -245,19 +245,19 @@
           for (let v_t_35210 = 4; 0 <= v_t_35210; --v_t_35210) v_r_35144.rsbTree.elementByIndex(21).Wt = v_Ba_28069(v_Ue_28209("sysMsgDevInit2"), [["TIME", v_t_35210]]), await renderer.C7(1e3);
           var v_t_35206 = new v_Ss_28000(handshake.rm.A7);
           if (await v_t_35206.ue()) {
-            v_r_35144.rsbTree.elementByIndex(21).Wt = v_Ue_28209("sysMsgDevInit2Ok"), (v_M_27644 = v_t_35206).BR(), v_M_27644.o9();
+            v_r_35144.rsbTree.elementByIndex(21).Wt = v_Ue_28209("sysMsgDevInit2Ok"), (boardLanes = v_t_35206).BR(), boardLanes.o9();
             var v_e_35207 = new v_As_28001(handshake.rm.S7);
             if (await v_e_35207.ue()) {
-              if (v_r_35144.rsbTree.elementByIndex(23).Wt = "GOOD", (v_E_27645 = v_e_35207).H9(), v_E_27645.o9(), handshake.rm.A9) {
+              if (v_r_35144.rsbTree.elementByIndex(23).Wt = "GOOD", (boardAir = v_e_35207).H9(), boardAir.o9(), handshake.rm.A9) {
                 var v_n_35208 = new v_Rs_28007(handshake.rm.A9, handshake.rm.S9, handshake.rm.x9, handshake.rm.I9);
-                if (!(await v_n_35208.ue())) return v_n_35208.V7(), v_M_27644.V7(), v_M_27644 = null, v_E_27645.V7(), v_E_27645 = null, v_r_35144.rsbTree.elementByIndex(25).Wt = "BAD", await renderer.C7(2e3), void v_Me_28078(v_i_35205);
+                if (!(await v_n_35208.ue())) return v_n_35208.V7(), boardLanes.V7(), boardLanes = null, boardAir.V7(), boardAir = null, v_r_35144.rsbTree.elementByIndex(25).Wt = "BAD", await renderer.C7(2e3), void v_Me_28078(v_i_35205);
                 if (v_r_35144.rsbTree.elementByIndex(25).Wt = "GOOD", v_D_27646 = v_n_35208, handshake.rm.OA) {
                   v_n_35208 = new v_xs_28002(handshake.rm.OA);
                   if (!(await v_n_35208.ue())) return v_n_35208.V7(), v_r_35144.rsbTree.elementByIndex(27).Wt = "BAD", await renderer.C7(2e3), void v_Me_28078(v_i_35205);
                   v_r_35144.rsbTree.elementByIndex(27).Wt = "GOOD", v_F_27647 = v_n_35208, v_D_27646.HS(v_F_27647);
                 }
               }
-            } else v_e_35207.V7(), v_M_27644.V7(), v_M_27644 = null, v_r_35144.rsbTree.elementByIndex(23).Wt = "BAD";
+            } else v_e_35207.V7(), boardLanes.V7(), boardLanes = null, v_r_35144.rsbTree.elementByIndex(23).Wt = "BAD";
           } else v_t_35206.V7(), v_r_35144.rsbTree.elementByIndex(21).Wt = "BAD";
           await renderer.C7(2e3);
         }
