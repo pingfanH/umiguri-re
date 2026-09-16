@@ -24,7 +24,12 @@ export function lockCanvasCssSize() {
   // 背衬 = 设计空间 × 倍率, 并用同一个 GL context 校正 viewport。
   // 必须在这里做: 游戏自带的 glRuntime 会在窗口 resize 时把画布按窗口尺寸重置
   // (canvas.width = window.innerWidth - ...), 会覆盖掉初始倍率。
-  const k = window.__umgPixelScale || 1;
+  // 每次调用都按「当前」窗口/屏幕重算一次: 窗口被放大或切全屏时分辨率自动跟随
+  const k = computePixelScale(cfgRef);
+  if (k !== window.__umgPixelScale) {
+    window.__umgPixelScale = k;
+    diagLog(`[umg][render] 分辨率跟随窗口变化 -> k=${k.toFixed(4)} (win=${innerWidth}x${innerHeight})`);
+  }
   const w = Math.round(DESIGN_W * k);
   const h = Math.round(DESIGN_H * k);
   if (c.width !== w || c.height !== h) {
@@ -38,7 +43,11 @@ export function lockCanvasCssSize() {
   return true;
 }
 
-export function setupRenderScale(cfg) {
+let cfgRef = null;
+
+// 计算当前应有的渲染倍率: 默认按「当前窗口(全屏时按屏幕)缩放比 × dpr」,
+// 因此窗口被放大/缩小/全屏时, 分辨率会自动跟着变。
+export function computePixelScale(cfg) {
   const raw = cfg && cfg.renderScale;
   let k;
   if (typeof raw === 'number' && raw > 0) {
@@ -46,16 +55,19 @@ export function setupRenderScale(cfg) {
   } else if (typeof raw === 'string' && /^\d+(\.\d+)?$/.test(raw)) {
     k = parseFloat(raw);
   } else {
-    // 「和屏幕一样」: 全屏时窗口即屏幕(且此时代码可能还没拿到最终窗口尺寸),
-    // 因此以屏幕尺寸为基准; 窗口化时以窗口尺寸为基准。
-    const fullscreen = (cfg && cfg.windowMode) === 'fullscreen';
-    const w = fullscreen ? screen.width : window.innerWidth;
-    const h = fullscreen ? screen.height : window.innerHeight;
-    const fit = Math.min(w / DESIGN_W, h / DESIGN_H);
-    k = fit * (window.devicePixelRatio || 1);
+    // 一律按「当前窗口」算(全屏时窗口即屏幕, 结果相同), 这样拖大/拖小/切全屏都会自动跟随
+    const w = window.innerWidth || screen.width;
+    const h = window.innerHeight || screen.height;
+    k = Math.min(w / DESIGN_W, h / DESIGN_H) * (window.devicePixelRatio || 1);
   }
   // 限幅(避免 4K×2 之类的超大背衬); 不做取整 —— 取整会让背衬与窗口物理像素对不齐
-  k = Math.min(2, Math.max(0.5, k));
+  return Math.min(2, Math.max(0.5, k));
+}
+
+export function setupRenderScale(cfg) {
+  cfgRef = cfg;
+  const raw = cfg && cfg.renderScale;
+  const k = computePixelScale(cfg);
   window.__umgPixelScale = k;
   // 超采样(背衬 > 窗口物理像素)时, 浏览器/WebView 会把它降采样回窗口 ->
   // 这时需要平滑过滤(H=2)才能把锯齿抹平; 若仍是就近过滤会有锯齿。
