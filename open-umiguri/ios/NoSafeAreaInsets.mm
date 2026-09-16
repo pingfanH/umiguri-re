@@ -9,6 +9,24 @@
 // 并把结果注入页面(window.__umgNative), 便于在画面上确认。
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
+#import <objc/runtime.h>
+
+// ---- 强制 UIScrollView 的 contentInsetAdjustmentBehavior = Never ----
+// wry/tao 会把 WKWebView 的该属性设回 automatic/scrollableAxes, 导致布局视口
+// 被安全区内缩(横屏 750x381 而非 874x402)。这里 swizzle setter 强制 Never。
+@interface UIScrollView (UMGNoSafeArea)
+@end
+@implementation UIScrollView (UMGNoSafeArea)
+- (void)umg_setContentInsetAdjustmentBehavior:(UIScrollViewContentInsetAdjustmentBehavior)behavior {
+    [self umg_setContentInsetAdjustmentBehavior:UIScrollViewContentInsetAdjustmentNever];
+}
+@end
+static void UMGSwizzleInsetBehavior(void) {
+    Class cls = [UIScrollView class];
+    Method m1 = class_getInstanceMethod(cls, @selector(setContentInsetAdjustmentBehavior:));
+    Method m2 = class_getInstanceMethod(cls, @selector(umg_setContentInsetAdjustmentBehavior:));
+    if (m1 && m2) method_exchangeImplementations(m1, m2);
+}
 
 static NSUInteger UMGRunCount = 0;
 
@@ -95,6 +113,7 @@ static void UMGScheduleFix(void) {
 }
 
 __attribute__((constructor)) static void UMGInstallInsetsFix(void) {
+    UMGSwizzleInsetBehavior();
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     NSArray *names = @[
         UIApplicationDidBecomeActiveNotification,
