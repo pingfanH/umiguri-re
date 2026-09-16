@@ -20,13 +20,13 @@ export function applyGamePatches(ast) {
       if (!isThisProp(test.left, 'au') || !t.isNumericLiteral(test.right, { value: 7 })) return;
       const fn = path.getFunctionParent();
       if (!fn || !fn.node.params.length) return;
+      const body = fn.node.body;
+      if (!t.isBlockStatement(body)) return;
+      // 幂等: 函数体开头若已有同类守卫则跳过
+      const first = body.body[0];
+      if (first && t.isIfStatement(first) && JSON.stringify(first).includes('BTN_ENTER')) return;
       const maskName = fn.node.params[0].name;
-      // 若已存在同样守卫则跳过(幂等)
-      const prev = path.getPrevSibling();
-      if (prev && t.isIfStatement(prev.node)) {
-        const s = JSON.stringify(prev.node).slice(0, 200);
-        if (s.includes('BTN_ENTER')) return;
-      }
+      // 注意: 必须放在函数最开头 —— 后面的 dirSign 链在非 左/右/Service 时会提前 return
       const guard = t.ifStatement(
         t.logicalExpression('&&', t.cloneNode(test, true), t.binaryExpression('&', t.identifier(maskName), t.identifier('BTN_ENTER'))),
         t.blockStatement([
@@ -34,7 +34,7 @@ export function applyGamePatches(ast) {
           t.returnStatement(),
         ])
       );
-      path.insertBefore(guard);
+      body.body.unshift(guard);
       applied.push('OutputTest: Back 行接受 BTN_ENTER');
     },
   });
