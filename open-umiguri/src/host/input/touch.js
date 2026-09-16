@@ -8,6 +8,8 @@ import { flashCircle } from '../keypanel/editor.js';
 const activePointers = new Map();
 let touchedKeys = new Set();
 
+const navHold = new Map(); // nav 元素 -> 持有它的 pointerId 集合
+
 // 功能键(nav): 电平保持 —— 按下期间持续为按下, 抬起才释放(不做 pulse)。
 // 这样「Esc+Enter 同时按」等组合可靠, 且不会连续制造边沿刷乱菜单。
 function pressNav(k, id) {
