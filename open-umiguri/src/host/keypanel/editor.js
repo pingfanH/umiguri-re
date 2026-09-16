@@ -282,6 +282,9 @@ export function openKeyPanelEditor() {
 export function setSettingsActive(on) {
   settingsActive = on;
 }
+export function isSettingsActive() {
+  return settingsActive;
+}
 export function setNativeSettings(on) {
   nativeSettings = on;
 }
