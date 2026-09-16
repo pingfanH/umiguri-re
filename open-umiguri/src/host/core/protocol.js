@@ -26,6 +26,26 @@ export async function cachedFile(p) {
   return data;
 }
 
+// 按范围读取(HTTP Range)。用于归档切片读取: 不再把整个 .una(可达 20MB+)
+// 拉进 JS 内存, 只取需要的区间。
+export async function rangeFile(p, offset, size) {
+  const key = String(p).split('?')[0];
+  if (key.endsWith('/')) throw new Error('is directory: ' + key);
+  if (size <= 0) return { data: new Uint8Array(0), total: -1 };
+  const end = offset + size - 1;
+  const resp = await fetch(umgUrl(key), { headers: { Range: `bytes=${offset}-${end}` } });
+  if (resp.status === 416) throw new Error('range not satisfiable: ' + key);
+  if (!resp.ok && resp.status !== 206) throw new Error('HTTP ' + resp.status + ' ' + key);
+  const data = new Uint8Array(await resp.arrayBuffer());
+  let total = -1;
+  const cr = resp.headers.get('content-range');
+  if (cr) {
+    const m = /\/(\d+)\s*$/.exec(cr);
+    if (m) total = Number(m[1]);
+  }
+  return { data, total };
+}
+
 // 把以单个 "/" 开头的虚拟路径转成 umg 协议地址(不处理 // 开头的绝对 URL)。
 function toUmg(url) {
   if (typeof url === 'string' && url.indexOf('/') === 0 && url.indexOf('//') !== 0) {

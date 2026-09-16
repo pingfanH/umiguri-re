@@ -178,3 +178,36 @@ pub fn read_all(vpath: &str) -> Option<Vec<u8>> {
         }
     }
 }
+
+// 文件大小(磁盘或 APK)
+pub fn size_of(vpath: &str) -> Option<u64> {
+    match resolve_src(vpath)? {
+        Src::Disk(p) => std::fs::metadata(p).ok().map(|m| m.len()),
+        Src::Apk(rel) => apk_size(&rel),
+    }
+}
+
+// 按范围读取(供 umg:// 的 HTTP Range) —— 不把整个归档读进内存。
+pub fn read_range(vpath: &str, offset: u64, size: usize) -> Option<Vec<u8>> {
+    match resolve_src(vpath)? {
+        Src::Disk(p) => {
+            use std::io::{Read, Seek, SeekFrom};
+            let mut f = std::fs::File::open(&p).ok()?;
+            if offset > 0 {
+                f.seek(SeekFrom::Start(offset)).ok()?;
+            }
+            let mut buf = vec![0u8; size];
+            let mut read = 0usize;
+            while read < size {
+                match f.read(&mut buf[read..]) {
+                    Ok(0) => break,
+                    Ok(n) => read += n,
+                    Err(_) => return None,
+                }
+            }
+            buf.truncate(read);
+            Some(buf)
+        }
+        Src::Apk(rel) => apk_read_range(&rel, offset, size),
+    }
+}

@@ -1,6 +1,6 @@
 // window.umgr_elc: 游戏 -> 宿主(Tauri)桥。
 import { invoke, tryInvoke } from '../core/invoke.js';
-import { cachedFile } from '../core/protocol.js';
+import { cachedFile, rangeFile } from '../core/protocol.js';
 import { toB64 } from '../core/encoding.js';
 import { handshake } from './handshake.js';
 
@@ -17,10 +17,10 @@ export const umgrElc = {
         .then((r) => ({ status: r.status, data: { val: r.data } }))
         .catch(() => ({ status: -1 })),
     xl: (p, offset, size) =>
-      cachedFile(p)
-        .then((buf) => ({
+      rangeFile(p, offset, size)
+        .then(({ data }) => ({
           status: 0,
-          data: { buf: buf.slice(offset, offset + size), br: Math.min(size, Math.max(0, buf.length - offset)) },
+          data: { buf: data, br: data.length },
         }))
         .catch(() => ({ status: -1 })),
     Qf: async () => ({ status: 0, data: { used: 0, free: 1000000000, cap: 1000000000 } }),

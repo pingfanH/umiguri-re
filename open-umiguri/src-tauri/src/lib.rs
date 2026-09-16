@@ -14,8 +14,8 @@ use tauri::{Emitter, Manager};
 
 use fs::{debug_probe, fs_file, fs_list, fs_read, fs_size, fs_write};
 use handshake::{diag, handshake};
-use paths::read_all;
-use protocol::{mime_from_path, parse_uri};
+use paths::{read_all, read_range, size_of};
+use protocol::{mime_from_path, parse_range, parse_uri};
 
 // 是否已授予「所有文件访问」; 未授予时 Documents 下的补丁文件夹列举为空
 #[tauri::command]
@@ -97,12 +97,61 @@ pub fn run() {
         })
         .register_asynchronous_uri_scheme_protocol("umg", |_ctx, request, responder| {
             let vpath = parse_uri(&request.uri().to_string());
+            let mime = mime_from_path(&vpath);
+            // HTTP Range: 只读需要的区间, 避免把整个归档读进内存/传给 WebView。
+            let total = size_of(&vpath);
+            let range_header = request
+                .headers()
+                .get(header::RANGE)
+                .and_then(|v| v.to_str().ok())
+                .map(|s| s.to_string());
+            let range = range_header
+                .as_deref()
+                .and_then(|spec| parse_range(spec, total.unwrap_or(0)));
+
+            if let (Some(total), Some((start, end))) = (total, range) {
+                let len = (end - start + 1) as usize;
+                if let Some(data) = read_range(&vpath, start, len) {
+                    let resp: Response<Vec<u8>> = Response::builder()
+                        .status(StatusCode::PARTIAL_CONTENT)
+                        .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+                        .header(header::CONTENT_TYPE, mime)
+                        .header(header::ACCEPT_RANGES, "bytes")
+                        .header(
+                            header::CONTENT_RANGE,
+                            format!("bytes {}-{}/{}", start, end, total),
+                        )
+                        .header(header::CONTENT_LENGTH, data.len())
+                        .body(data)
+                        .unwrap();
+                    let _ = responder.respond(resp);
+                    return;
+                }
+            }
+
+            // Range 无法满足 -> 416(不能回退成整文件, 否则等于把归档全传一遍)
+            if range_header.is_some() {
+                if let Some(total) = total {
+                    let resp: Response<Vec<u8>> = Response::builder()
+                        .status(StatusCode::RANGE_NOT_SATISFIABLE)
+                        .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+                        .header(header::ACCEPT_RANGES, "bytes")
+                        .header(header::CONTENT_RANGE, format!("bytes */{}", total))
+                        .body(Vec::new())
+                        .unwrap();
+                    let _ = responder.respond(resp);
+                    return;
+                }
+            }
+
             match read_all(&vpath) {
                 Some(data) => {
                     let resp: Response<Vec<u8>> = Response::builder()
                         .status(StatusCode::OK)
                         .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")
-                        .header(header::CONTENT_TYPE, mime_from_path(&vpath))
+                        .header(header::CONTENT_TYPE, mime)
+                        .header(header::ACCEPT_RANGES, "bytes")
+                        .header(header::CONTENT_LENGTH, data.len())
                         .body(data)
                         .unwrap();
                     let _ = responder.respond(resp);
