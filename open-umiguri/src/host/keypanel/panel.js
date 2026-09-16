@@ -154,7 +154,7 @@ export function ensureKeyPanel() {
   const airVks = AIR_KEYS.map(charToVk);
   airVks.forEach((vk, i) => {
     const el = mkKey(vk, 'air');
-    if (panelCfg.airRowGap > 0 && i < airVks.length - 1) el.style.marginBottom = ux(panelCfg.airRowGap) + 'px';
+    if (panelCfg.airRowGap !== 0 && i < airVks.length - 1) el.style.marginBottom = ux(panelCfg.airRowGap) + 'px';
     airBox.appendChild(el);
   });
   stack.appendChild(airBox);
@@ -268,11 +268,6 @@ export function installPanelResizeHook() {
   if (mc && 'ResizeObserver' in window) {
     try { new ResizeObserver(scheduleRebuild).observe(mc); } catch (e) {}
   }
-  let n = 0;
-  const t = setInterval(() => {
-    if (keyPanel) ensureKeyPanel();
-    if (++n >= 40) clearInterval(t);
-  }, 400);
 }
 
 // 把面板构建回调注册给键盘模块(di8KbdHeld 惰性采集)

@@ -16,6 +16,7 @@ function pressNav(k, id) {
   if (!set) {
     set = new Set();
     navHold.set(k, set);
+    try { console.error('[umg][nav] press vk=' + k.dataset.vk); } catch (e) {}
     touchPress(+k.dataset.vk);
     setKeyActive(k, true);
   }

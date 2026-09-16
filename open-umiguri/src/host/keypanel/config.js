@@ -53,7 +53,7 @@ export function panelScale() {
 }
 
 export const EDITOR_ROWS = [
-  { key: 'rowH', label: '按钮高度', min: 20, max: 400, step: 8 },
+  { key: 'rowH', label: '按钮高度', min: 40, max: 400, step: 8 },
   { key: 'colGap', label: '每列间距', min: -60, max: 60, step: 2 },
   { key: 'airH', label: 'air 条高度', min: 16, max: 140, step: 4 },
   { key: 'airGap', label: 'air 距底边', min: -200, max: 300, step: 4 },
