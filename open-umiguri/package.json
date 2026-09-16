@@ -14,6 +14,8 @@
     "assemble:game": "node build/assemble-game.mjs",
     "check": "node build/check.mjs && node build/contract-check.mjs && node build/freevar-check.mjs",
     "extract:game": "node tools/split-game.mjs",
+    "modularize": "node tools/modularize-game.mjs",
+    "build:game:esm": "node build/bundle-game-esm.mjs",
     "analyze:game": "node tools/analyze-bundle.mjs",
     "analyze:props": "node tools/analyze-props.mjs"
   },

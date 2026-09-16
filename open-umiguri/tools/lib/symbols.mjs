@@ -20,6 +20,7 @@ const traverseMod = req('@babel/traverse');
 export const traverse = traverseMod.default || traverseMod;
 const generateMod = req('@babel/generator');
 export const generate = generateMod.default || generateMod;
+export const t = req('@babel/types');
 
 export function loadSymbols(file) {
   const fs = req('node:fs');

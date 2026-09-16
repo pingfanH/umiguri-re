@@ -119,7 +119,34 @@ cargo tauri android build --debug --apk --target aarch64   # Android
 - 桌面数据目录默认 `../assets`(可用 `UMIGURI_ASSETS_DIR` 或 `UMIGURI_DATA_DIR` 覆盖)。
 - `npm run encrypt -- <in> <out>` 单独加密;`build/bundle-game.mjs --no-minify` 不压缩。
 
-## 游戏本体拆分策略(重要)
+## 游戏本体: 两种源码形态
+
+### A. ES 模块版(推荐, 目标形态)
+
+```
+src/game-esm/
+  index.js                    入口: bootstrap(原 IIFE 顶层语句, 保持顺序) + 创建各模块
+  runtime/scope.js            export const scope = {}   共享运行时作用域
+  runtime/helpers.js          189 个顶层辅助函数(挂到 scope.*, 保持 hoisting 语义)
+  modules/<name>/index.js     55 个功能模块: export function create<Name>(scope)
+```
+
+- **不再依赖 manifest.json 拼接**;`index.js` 用显式 `import` 引用每个模块工厂。
+- 模块之间通过 `scope.xxx` 互相引用(`scope.inputModule.oe()` / `scope.renderer`),
+  避免循环 `import` 与 TDZ。
+- 生成:`npm run deobf && npm run modularize`(由 `dist/game_main.deobf.js` 自动转换)。
+- 构建:`npm run build:game:esm` —— vendor(经典片段按文件名顺序) + esbuild 打包
+  `src/game-esm/index.js` → 压缩 → AES 加密 `dist/www/main.js.enc`。
+
+> 转换原理:`tools/modularize-game.mjs` 在原 AST(作用域完整)上把所有指向 IIFE 闭包
+> 绑定的引用改写为 `scope.<name>`;模块 IIFE → 工厂;顶层 function → helpers;
+> 其余顶层语句按原顺序留在 `index.js`。静态校验(bundle 后无任何未绑定的游戏作用域名)通过。
+
+### B. 片段版(旧, 保留为回退)
+
+`src/game/logic/` + `manifest.json` 字符串拼接, 见下节。构建:`npm run build:game`。
+
+## 游戏本体拆分策略(片段版, 重要)
 
 > ⚠️ 上游的 `game_main.deobf.js` **不可运行**: 原 `tools/deobfuscate.js` 在改名时对每个
 > 标识符现场 `getBinding`，而声明已被就地改过名，导致约 106 个名字「有引用、无声明」
