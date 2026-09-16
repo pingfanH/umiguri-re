@@ -4,7 +4,7 @@ import { installKeyboardListeners } from './input/keyboard.js';
 import { installProtocolInterceptors } from './core/protocol.js';
 import { installPointerHandlers } from './input/touch.js';
 import './input/pad.js';
-import { installPanelShortcut, installPanelResizeHook } from './keypanel/panel.js';
+import { installPanelShortcut } from './keypanel/panel.js';
 import { installKeyPanelApi } from './keypanel/api.js';
 import { installUmgrElc } from './bridge/umgr-elc.js';
 import { installNativeInput } from './bridge/native-input.js';
@@ -28,7 +28,6 @@ function whenPageReady(fn) {
 preventViewportGestures(); // 手势/页面缩放拦截
 installKeyboardListeners(); // 键盘监听
 installPanelShortcut(); // 虚拟按键面板快捷键
-installPanelResizeHook(); // 窗口/方向变化时重建面板
 installPointerHandlers(); // 指针输入
 installProtocolInterceptors(); // 虚拟路径协议拦截(Image/XHR/fetch/iframe)
 installUmgrElc(); // window.umgr_elc
