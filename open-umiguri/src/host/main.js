@@ -11,6 +11,7 @@ import { installNativeInput } from './bridge/native-input.js';
 import { installErrorDiagnostics, installConsoleForwarding, reportGlExtensionsNow, reportGlExtensionsDelayed, diagLog } from './core/diag.js';
 import { prefetchTree, prefetchPacks } from './core/protocol.js';
 import { setupMusicCache } from './core/music-cache.js';
+import { installFullscreenGuard, setFullscreenDesired } from './platform/fullscreen.js';
 import { setupWindowDragPause } from './platform/window-drag.js';
 import { installDxtSoftwareDecode } from './platform/textures-dxt.js';
 import { setupStorageAccessCheck } from './platform/storage-access.js';
@@ -38,6 +39,7 @@ preventViewportGestures(); // 手势/页面缩放拦截
 installKeyboardListeners(); // 键盘监听
 installPanelShortcut(); // 虚拟按键面板快捷键
 installPanelResizeHook(); // 窗口/方向变化时重建面板
+installFullscreenGuard(); // 不让 Esc 等退出全屏(掉出即恢复)
 installPointerHandlers(); // 指针输入
 installProtocolInterceptors(); // 虚拟路径协议拦截(Image/XHR/fetch/iframe)
 installUmgrElc(); // window.umgr_elc
@@ -54,6 +56,7 @@ whenPageReady(async () => {
     const cfg = await loadHostConfig();
     applyHostConfig(cfg);
     if (cfg.windowMode || cfg.resolution) {
+      setFullscreenDesired(cfg.windowMode === 'fullscreen');
       await tryInvoke('apply_window_config', { mode: cfg.windowMode, size: cfg.resolution }, false);
     }
     // 键位布局与档位映射统一以握手 fe 为准
@@ -70,17 +73,21 @@ whenPageReady(async () => {
   reportGlExtensionsNow();
   setupStorageAccessCheck();
   reportGlExtensionsDelayed(1500);
-  // 曲库变化时作废游戏自带的列表缓存(需在游戏读取缓存之前)
-  try {
-    await setupMusicCache('/music');
-  } catch (e) {}
-
   // 批量预取: 一次 IPC 取回整棵子树, 消除逐文件往返延迟(单次往返 10~30ms, 启动约 300 次)。
   // 分两组:
   //   小数据树(曲库/角色/各种表, 几 MB): 启动前 await, 之后全部命中内存;
   //   启动热区(语言包内 UI/纹理/字体、core 纹理、UI 音效, 数十 MB): await 一次取回,
   //   上限内跳过超大文件(它们本来就必须读, 往返次数不多)。
-  for (const root of ['/music', '/chara', '/skills', '/nameplates', '/titles', '/courses']) {
+  // /music 的批量预取顺带回带曲库签名(同一次遍历), 用于判断游戏自带的列表缓存是否失效
+  let musicSig = null;
+  try {
+    const r = await prefetchTree('/music');
+    musicSig = r && r.sig;
+  } catch (e) {}
+  try {
+    await setupMusicCache('/music', musicSig);
+  } catch (e) {}
+  for (const root of ['/chara', '/skills', '/nameplates', '/titles', '/courses']) {
     try {
       await prefetchTree(root);
     } catch (e) {}

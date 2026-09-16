@@ -66,6 +66,12 @@ fn apply_window_config(
     ok
 }
 
+// 当前窗口是否全屏(供宿主在掉出全屏时恢复)
+#[tauri::command]
+fn window_fullscreen(window: tauri::Window) -> bool {
+    window.is_fullscreen().unwrap_or(false)
+}
+
 // 重启应用(授权后需要完整重扫追加数据)
 #[tauri::command]
 fn restart_app_cmd() -> bool {
@@ -230,7 +236,8 @@ pub fn run() {
             storage_access,
             open_storage_access_settings,
             restart_app_cmd,
-            apply_window_config
+            apply_window_config,
+            window_fullscreen
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

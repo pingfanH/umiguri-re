@@ -65,7 +65,10 @@ struct Collector {
     total: u64,
     max_file: u64,
     max_total: u64,
+    // 与 fs_tree_sig 同一算法(路径+大小+mtime), 顺带算出, 避免真机上再遍历一遍
+    hash: u64,
 }
+
 
 impl Collector {
     fn walk(&mut self, vpath: &str) {
@@ -79,6 +82,12 @@ impl Collector {
             let child = format!("{}/{}", vpath.trim_end_matches('/'), name);
             if is_file {
                 let size = size_of(&child).unwrap_or(0);
+                // 签名覆盖整棵子树(含因大小/总量上限被跳过的文件), 才能反映曲库变化
+                fnv_str(&mut self.hash, &child);
+                let mt = file_mtime(&child);
+                for b in size.to_le_bytes().iter().chain(mt.to_le_bytes().iter()) {
+                    fnv_byte(&mut self.hash, *b);
+                }
                 if size == 0 || size > self.max_file || self.total + size > self.max_total {
                     continue;
                 }
@@ -107,6 +116,18 @@ fn fnv_str(h: &mut u64, s: &str) {
     fnv_byte(h, 0);
 }
 
+fn file_mtime(vpath: &str) -> u64 {
+    resolve_src(vpath)
+        .and_then(|src| match src {
+            Src::Disk(p) => std::fs::metadata(p).ok(),
+            _ => None,
+        })
+        .and_then(|m| m.modified().ok())
+        .and_then(|t| t.duration_since(std::time::UNIX_EPOCH).ok())
+        .map(|d| d.as_millis() as u64)
+        .unwrap_or(0)
+}
+
 fn sig_walk(vpath: &str, h: &mut u64, files: &mut u64) {
     for (name, is_file) in list_dir(vpath) {
         if name.starts_with('.') {
@@ -115,15 +136,7 @@ fn sig_walk(vpath: &str, h: &mut u64, files: &mut u64) {
         let child = format!("{}/{}", vpath.trim_end_matches('/'), name);
         if is_file {
             let size = size_of(&child).unwrap_or(0);
-            let mt = resolve_src(&child)
-                .and_then(|src| match src {
-                    Src::Disk(p) => std::fs::metadata(p).ok(),
-                    _ => None,
-                })
-                .and_then(|m| m.modified().ok())
-                .and_then(|t| t.duration_since(std::time::UNIX_EPOCH).ok())
-                .map(|d| d.as_millis() as u64)
-                .unwrap_or(0);
+            let mt = file_mtime(&child);
             fnv_str(h, &child);
             for b in size.to_le_bytes().iter().chain(mt.to_le_bytes().iter()) {
                 fnv_byte(h, *b);
@@ -161,9 +174,13 @@ pub fn fs_bundle_tree(root: String, max_file: u64, max_total: u64) -> tauri::ipc
         total: 0,
         max_file,
         max_total,
+        hash: 0xcbf2_9ce4_8422_2325,
     };
     c.walk(root.trim_end_matches('/'));
-    let mut out: Vec<u8> = Vec::with_capacity(c.total as usize + 8 * c.files.len() + 8);
+    let mut out: Vec<u8> = Vec::with_capacity(c.total as usize + 8 * c.files.len() + 16);
+    // [u64 签名][u32 文件数]: 签名与 fs_tree_sig 同口径, 供乐曲列表缓存失效判断,
+    // 复用同一次遍历(真机上遍历很贵: apk_list 走 JNI, 歌曲在 FUSE 上)。
+    out.extend_from_slice(&c.hash.to_le_bytes());
     out.extend_from_slice(&(c.files.len() as u32).to_le_bytes());
     for (path, data) in &c.files {
         out.extend_from_slice(&(path.len() as u16).to_le_bytes());

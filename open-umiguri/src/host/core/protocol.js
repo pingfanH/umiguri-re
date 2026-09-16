@@ -245,11 +245,15 @@ async function fetchBundle(root, { maxFile = 4 << 20, maxTotal = 48 << 20 } = {}
   const u8 = buf instanceof Uint8Array ? buf : new Uint8Array(buf);
   const dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
   let off = 0;
+  // 载荷: [u64 签名][u32 文件数] 之后是各文件
+  const sig = dv.getBigUint64(off, true).toString(16).padStart(16, '0');
+  off += 8;
   const count = dv.getUint32(off, true);
   off += 4;
   const dec = new TextDecoder();
   const rootTrim = root.replace(/\/+$/, '');
   const out = new Map();
+  out.sig = `${sig}-${count}`;
   for (let i = 0; i < count; i++) {
     const plen = dv.getUint16(off, true);
     off += 2;
@@ -270,7 +274,7 @@ async function fetchBundle(root, { maxFile = 4 << 20, maxTotal = 48 << 20 } = {}
 export async function prefetchTree(root, opts = {}) {
   const t0 = performance.now();
   const files = await fetchBundle(root, opts);
-  if (!files) return { files: 0, bytes: 0 };
+  if (!files) return { files: 0, bytes: 0, sig: null };
   const rootTrim = root.replace(/\/+$/, '');
   let n = 0;
   let bytes = 0;
@@ -287,7 +291,7 @@ export async function prefetchTree(root, opts = {}) {
   diagLog(
     `[umg][bundle] ${root} files=${n} ${(bytes / 1048576).toFixed(2)}MB ${(performance.now() - t0).toFixed(0)}ms`
   );
-  return { files: n, bytes };
+  return { files: n, bytes, sig: files.sig || null };
 }
 
 // 语言包跨包别名: 游戏会按 /reverie_zh-CN/ -> /reverie/ -> /reverie_exField/ 的顺序探测

@@ -12,10 +12,11 @@ import { toB64 } from './encoding.js';
 const SIG_PATH = '/caches/music.sig';
 const CACHE_PATH = '/caches/music.json';
 
-export async function setupMusicCache(root = '/music') {
+// sig 可由调用方传入(prefetchTree 的同一次遍历顺带算出), 省掉真机上昂贵的第二次遍历。
+export async function setupMusicCache(root = '/music', sig = null) {
   const t0 = performance.now();
   try {
-    const sig = await tryInvoke('fs_tree_sig', { root }, null);
+    if (!sig) sig = await tryInvoke('fs_tree_sig', { root }, null);
     if (!sig) return;
     let prev = null;
     try {

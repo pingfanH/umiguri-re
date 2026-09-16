@@ -5,7 +5,7 @@
   "identifier": "jp.inonote.umiguri",
   "build": {
     "beforeDevCommand": "npm run build:esm:dev && node tools/patch-ios.mjs && touch src-tauri/src/lib.rs",
-    "beforeBuildCommand": "npm run build:esm && node tools/patch-ios.mjs",
+    "beforeBuildCommand": "npm run build:esm && node tools/patch-ios.mjs && touch src-tauri/src/lib.rs",
     "frontendDist": "../dist/www"
   },
   "app": {
