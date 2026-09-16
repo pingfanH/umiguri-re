@@ -4,6 +4,7 @@ mod fs;
 mod handshake;
 mod paths;
 mod protocol;
+mod stats;
 
 use std::sync::{Arc, Mutex};
 use std::time::Instant;
@@ -46,6 +47,7 @@ fn restart_app_cmd() -> bool {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    stats::spawn_reporter();
     // 窗口拖动检测: 拖动时暂停前端渲染,缓解 WebView2 拖动卡顿
     let last_move: Arc<Mutex<Option<Instant>>> = Arc::new(Mutex::new(None));
 
@@ -111,7 +113,9 @@ pub fn run() {
 
             if let (Some(total), Some((start, end))) = (total, range) {
                 let len = (end - start + 1) as usize;
+                let t0 = Instant::now();
                 if let Some(data) = read_range(&vpath, start, len) {
+                    stats::record(&vpath, data.len(), t0.elapsed(), true);
                     let resp: Response<Vec<u8>> = Response::builder()
                         .status(StatusCode::PARTIAL_CONTENT)
                         .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")
@@ -144,8 +148,10 @@ pub fn run() {
                 }
             }
 
+            let t0 = Instant::now();
             match read_all(&vpath) {
                 Some(data) => {
+                    stats::record(&vpath, data.len(), t0.elapsed(), false);
                     let resp: Response<Vec<u8>> = Response::builder()
                         .status(StatusCode::OK)
                         .header(header::ACCESS_CONTROL_ALLOW_ORIGIN, "*")

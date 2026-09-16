@@ -13,15 +13,45 @@ export function umgUrl(p) {
 // 整文件缓存: .una 语言包/音频等被反复读,缓存避免重复读取
 const fileCache = new Map();
 
+// 网络/传输统计(用于判断「搬 Rust」是否有收益)
+const net = { calls: 0, bytes: 0, ms: 0, rangeCalls: 0 };
+let netReporterOn = false;
+function netTick(t0, n) {
+  net.calls++;
+  net.bytes += n;
+  net.ms += performance.now() - t0;
+  if (!netReporterOn) {
+    netReporterOn = true;
+    let lastMs = 0;
+    let lastBytes = 0;
+    let lastCalls = 0;
+    setInterval(() => {
+      const dMs = net.ms - lastMs;
+      const dB = net.bytes - lastBytes;
+      const dC = net.calls - lastCalls;
+      lastMs = net.ms;
+      lastBytes = net.bytes;
+      lastCalls = net.calls;
+      if (dC === 0) return; // 空闲不打印
+      console.error(
+        `[umg][net] +${dC} calls +${(dB / 1048576).toFixed(2)}MB in ${dMs.toFixed(0)}ms |` +
+          ` total ${(net.bytes / 1048576).toFixed(2)}MB/${net.calls}calls/${net.ms.toFixed(0)}ms range=${net.rangeCalls}`
+      );
+    }, 2000);
+  }
+}
+
 export async function cachedFile(p) {
   const key = String(p).split('?')[0];
   // 以 / 结尾是目录请求(某些 UI 面板引用了空纹理路径,如 m_Ne.ck("") -> /reverie/)。
   // 直接失败,不发 fetch,避免 404 报错,保持与「读不到」一致的 fallback 语义。
   if (key.endsWith('/')) throw new Error('is directory: ' + key);
   if (fileCache.has(key)) return fileCache.get(key);
+  const t0 = performance.now();
   const resp = await fetch(umgUrl(key));
   if (!resp.ok) throw new Error('HTTP ' + resp.status + ' ' + key);
   const data = new Uint8Array(await resp.arrayBuffer());
+  netTick(t0, data.length);
   fileCache.set(key, data);
   return data;
 }
@@ -33,10 +63,13 @@ export async function rangeFile(p, offset, size) {
   if (key.endsWith('/')) throw new Error('is directory: ' + key);
   if (size <= 0) return { data: new Uint8Array(0), total: -1 };
   const end = offset + size - 1;
+  net.rangeCalls++;
+  const t0 = performance.now();
   const resp = await fetch(umgUrl(key), { headers: { Range: `bytes=${offset}-${end}` } });
   if (resp.status === 416) throw new Error('range not satisfiable: ' + key);
   if (!resp.ok && resp.status !== 206) throw new Error('HTTP ' + resp.status + ' ' + key);
   const data = new Uint8Array(await resp.arrayBuffer());
+  netTick(t0, data.length);
   let total = -1;
   const cr = resp.headers.get('content-range');
   if (cr) {
