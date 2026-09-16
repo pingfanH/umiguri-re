@@ -49,8 +49,27 @@ export function setTouchKeyCollector(fn) {
   touchKeyCollector = fn;
 }
 
+// 临时诊断: DIK 查询计数
+const dikStat = { calls: 0, ret1: 0, escQ: 0, esc1: 0 };
+let dikReporterOn = false;
+function dikReporter() {
+  if (dikReporterOn) return;
+  dikReporterOn = true;
+  setInterval(() => {
+    if (!dikStat.calls) return;
+    try {
+      console.error('[umg][dik] calls=' + dikStat.calls + ' ret1=' + dikStat.ret1 + ' escQ=' + dikStat.escQ + ' esc1=' + dikStat.esc1);
+    } catch (e) {}
+    dikStat.calls = 0; dikStat.ret1 = 0; dikStat.escQ = 0; dikStat.esc1 = 0;
+  }, 2000);
+}
 export function di8KbdHeld(dik) {
   const vk = DIK_TO_VK[dik];
   if (vk !== undefined && touchKeyCollector) touchKeyCollector(vk);
-  return vk !== undefined && (keyState.has(vk) || touchState.has(vk)) ? 1 : 0;
+  const on = vk !== undefined && (keyState.has(vk) || touchState.has(vk)) ? 1 : 0;
+  dikStat.calls++;
+  if (on) dikStat.ret1++;
+  if (vk === 27) { dikStat.escQ++; if (on) dikStat.esc1++; }
+  dikReporter();
+  return on;
 }
