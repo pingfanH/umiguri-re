@@ -37,7 +37,9 @@ export const handshake = {
   fe: DEFAULTS.fe, // keymap.current
   I4: savedLang() || DEFAULTS.lang, // game.lang / localStorage
   am: 0, W: true, H: 1, J: true, K: true,
-  Z: { X: false, a1: false, d1: false, t1: false, s1: false },
+  // Z.X -> rm.Im: 游戏自带的乐曲列表缓存(/caches/music.json)。开启后暖启动跳过逐曲
+  // 扫描(实测曲库多时省数秒); 失效由宿主 core/music-cache.js 负责, 封面由补丁补载。
+  Z: { X: true, a1: false, d1: false, t1: false, s1: false },
   u1: DEFAULTS.resolution, // startup.last_screen_size
   v1: false,
   h1: { T: '2025/05/24', rr: '16:51:06', C: '9f4d448', GA: 'Release', Ph: false },

@@ -9,7 +9,7 @@
 //   repeat: u16 pathLen, path(utf8, 以 '/' 开头), u32 dataLen, data
 use std::collections::HashSet;
 
-use crate::paths::{apk_list, apk_size, disk_roots, read_all, size_of, vpath_to_rel};
+use crate::paths::{apk_list, apk_size, disk_roots, read_all, resolve_src, size_of, vpath_to_rel, Src};
 
 // 默认跳过: 归档/加密包(走 rangeFile 流式读, 且体积大)与音频(播放时按需读)
 const SKIP_EXT: &[&str] = &[
@@ -91,6 +91,61 @@ impl Collector {
             }
         }
     }
+}
+
+// 子树签名(路径+大小+mtime 的 FNV-1a): 用于判断游戏自带的 /caches/music.json 列表
+// 缓存是否还有效。只遍历与 stat, 不读文件内容, 一次 IPC 完成。
+fn fnv_byte(h: &mut u64, b: u8) {
+    *h ^= b as u64;
+    *h = h.wrapping_mul(0x0000_0100_0000_01b3);
+}
+
+fn fnv_str(h: &mut u64, s: &str) {
+    for b in s.as_bytes() {
+        fnv_byte(h, *b);
+    }
+    fnv_byte(h, 0);
+}
+
+fn sig_walk(vpath: &str, h: &mut u64, files: &mut u64) {
+    for (name, is_file) in list_dir(vpath) {
+        if name.starts_with('.') {
+            continue;
+        }
+        let child = format!("{}/{}", vpath.trim_end_matches('/'), name);
+        if is_file {
+            let size = size_of(&child).unwrap_or(0);
+            let mt = resolve_src(&child)
+                .and_then(|src| match src {
+                    Src::Disk(p) => std::fs::metadata(p).ok(),
+                    _ => None,
+                })
+                .and_then(|m| m.modified().ok())
+                .and_then(|t| t.duration_since(std::time::UNIX_EPOCH).ok())
+                .map(|d| d.as_millis() as u64)
+                .unwrap_or(0);
+            fnv_str(h, &child);
+            for b in size.to_le_bytes().iter().chain(mt.to_le_bytes().iter()) {
+                fnv_byte(h, *b);
+            }
+            *files += 1;
+        } else {
+            sig_walk(&child, h, files);
+        }
+    }
+}
+
+#[tauri::command]
+pub fn fs_tree_sig(root: String) -> String {
+    let root = if root.starts_with('/') {
+        root
+    } else {
+        format!("/{root}")
+    };
+    let mut h: u64 = 0xcbf2_9ce4_8422_2325;
+    let mut files: u64 = 0;
+    sig_walk(root.trim_end_matches('/'), &mut h, &mut files);
+    format!("{h:016x}-{files}")
 }
 
 #[tauri::command]

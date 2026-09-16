@@ -98,19 +98,29 @@ export const PAD_RECTS = [
   { x: 1280, w: 320, bit: 536870912 }, // Service(決定)
 ];
 
-// 主键布局(音游 16 键: 上排 front 字母, 下排 back 数字/符号)
-//   来源: 真机握手 dump frontend/handshake_full.json 的 fe 字段(38 键):
-//     A1 B2 C3 D4 E5 F6 G7 H8 I9 J0 K; L' M, N. O/ P-  +  air  R S T U W Y
-// 键位布局: 必须与握手 fe 一致(档位序号 = fe 中字符位置)。
-//   fe[0..15]  上排 16 键   fe[16..31] 下排 16 键   fe[32..37] air 6 键
+// 主键布局(音游 16 档: 每档两个键 —— 上排 front 字母, 下排 back 数字/符号)
+//   来源: 握手 fe(38 个输入槽)。主键 32 个按「每档两个键」交替排列:
+//     fe[2i]   = 第 i 档的上排键(字母)
+//     fe[2i+1] = 第 i 档的下排键(数字/符号)
+//     fe[32..37] = air 6 键
+//   档位序号 = fe 中字符位置(与游戏 inputModule 的 laneVk/laneState 一致)。
+//   ⚠ 不能按「前 16 / 后 16」连续切分: 那样上排会显示成 A 1 B 2 C 3 …(读配置后按键错位)。
 export const DEFAULT_FE = 'A1B2C3D4E5F6G7H8I9J0K;L\'M,N.O/P-RSTUWY';
 function splitFe(fe) {
   const c = String(fe).split('');
-  return { front: c.slice(0, 16), back: c.slice(16, 32), air: c.slice(32, 38) };
+  if (c.length !== 38) return null;
+  const front = [];
+  const back = [];
+  for (let i = 0; i < 32; i += 2) {
+    front.push(c[i]);
+    back.push(c[i + 1]);
+  }
+  return { front, back, air: c.slice(32, 38) };
 }
-let keyLayout = splitFe(DEFAULT_FE);
+let keyLayout = splitFe(DEFAULT_FE) || { front: [], back: [], air: [] };
 export function setKeyLayoutFromFe(fe) {
-  if (typeof fe === 'string' && fe.length === 38) keyLayout = splitFe(fe);
+  const l = typeof fe === 'string' ? splitFe(fe) : null;
+  if (l) keyLayout = l;
   return keyLayout;
 }
 export function getKeyLayout() {

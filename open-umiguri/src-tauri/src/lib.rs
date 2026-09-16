@@ -15,7 +15,7 @@ use tauri::http::status::StatusCode;
 use tauri::http::{header, Response};
 use tauri::{Emitter, Manager};
 
-use bundle::fs_bundle_tree;
+use bundle::{fs_bundle_tree, fs_tree_sig};
 use fs::{debug_probe, fs_file, fs_list, fs_read, fs_size, fs_write};
 use handshake::{diag, handshake};
 use paths::{read_all, read_range, size_of};
@@ -223,6 +223,7 @@ pub fn run() {
             fs_read,
             fs_write,
             fs_bundle_tree,
+            fs_tree_sig,
             handshake,
             diag,
             debug_probe,

@@ -10,6 +10,7 @@ import { installUmgrElc } from './bridge/umgr-elc.js';
 import { installNativeInput } from './bridge/native-input.js';
 import { installErrorDiagnostics, installConsoleForwarding, reportGlExtensionsNow, reportGlExtensionsDelayed, diagLog } from './core/diag.js';
 import { prefetchTree, prefetchPacks } from './core/protocol.js';
+import { setupMusicCache } from './core/music-cache.js';
 import { setupWindowDragPause } from './platform/window-drag.js';
 import { installDxtSoftwareDecode } from './platform/textures-dxt.js';
 import { setupStorageAccessCheck } from './platform/storage-access.js';
@@ -62,13 +63,18 @@ whenPageReady(async () => {
     console.error('[umg][handshake] ' + JSON.stringify({
       ct: handshake.O.ct, B: handshake.O.B, p9: handshake.O.p9, I4: handshake.I4,
       fe: handshake.fe, R: handshake.R, j: handshake.j, M: handshake.M, u1: handshake.u1,
-      windowMode: cfg.windowMode,
+      windowMode: cfg.windowMode, Z: handshake.Z,
     }));
   } catch (e) {}
   installErrorDiagnostics(); // 包裹 umgr_elc.st(内部会 invoke('diag'))
   reportGlExtensionsNow();
   setupStorageAccessCheck();
   reportGlExtensionsDelayed(1500);
+  // 曲库变化时作废游戏自带的列表缓存(需在游戏读取缓存之前)
+  try {
+    await setupMusicCache('/music');
+  } catch (e) {}
+
   // 批量预取: 一次 IPC 取回整棵子树, 消除逐文件往返延迟(单次往返 10~30ms, 启动约 300 次)。
   // 分两组:
   //   小数据树(曲库/角色/各种表, 几 MB): 启动前 await, 之后全部命中内存;

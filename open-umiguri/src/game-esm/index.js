@@ -1573,6 +1573,7 @@ scope.v_br_27943 = {
           });
         }, function (v_t_32585) {
           scope.v_Fe_28101(() => v_i_32551(v_l_32557, v_s_32559, v_a_32560));
+          console.log("[DIAG] [umg][jkt] 列表就绪 n=" + v_l_32557.length + " " + (v_o_32561 ? "缓存" : "扫描"));
         }]);
       } else {
         let v_u_32586 = 0,
@@ -1681,6 +1682,7 @@ scope.v_br_27943 = {
           });
         }, function (v_t_32641) {
           v_l_32557.sort((v_t_32642, v_i_32643) => v_t_32642.w0 < v_i_32643.w0 ? -1 : v_t_32642.w0 > v_i_32643.w0 ? 1 : 0), scope.handshake.rm.Im && scope.hostBridge.Xu("/caches/music.json", JSON.stringify(v_l_32557), "application/json", () => {}, () => {}), scope.v_Fe_28101(() => v_i_32551(v_l_32557, v_s_32559, v_a_32560));
+          console.log("[DIAG] [umg][jkt] 列表就绪 n=" + v_l_32557.length + " " + (v_o_32561 ? "缓存" : "扫描"));
         }]);
       }
     }
@@ -1688,6 +1690,37 @@ scope.v_br_27943 = {
       if (null !== v_t_32644) try {
         v_l_32557 = JSON.parse(v_t_32644), v_o_32561 = !0;
       } catch (v_t_32645) {}
+      let __umgJktN = 0;
+      if (v_o_32561) for (const __umgJkt of v_l_32557) {
+        if (!__umgJkt || !__umgJkt.res_info || void 0 === __umgJkt.res_info.jacket) continue;
+        ++__umgJktN;
+        if (void 0 !== scope.renderer.Yt.Zt["jkt:" + __umgJkt.w0]) continue;
+        const __umgJktPath = "/music/" + __umgJkt.dir + "/" + __umgJkt.res_info.jacket;
+        if (scope.v_Da_28067(__umgJkt.res_info.jacket, ".dds")) {
+          scope.v_$r_27975.it(__umgJktPath, function (__umgJktBuf) {
+            if (null === __umgJktBuf) return;
+            let __umgJktTex = null;
+            scope.v_Io_28120(__umgJktBuf, !1, function (__umgJktStatus, __umgJktW, __umgJktH) {
+              if (__umgJktStatus === scope.v_xo_28116) {
+                __umgJktTex = new glRuntime.Texture(__umgJktW, __umgJktH, {
+                  wrapS: scope.glContext.CLAMP_TO_EDGE,
+                  wrapT: scope.glContext.CLAMP_TO_EDGE,
+                  format: scope.glContext.RGB
+                });
+                scope.glContext.pixelStorei(scope.glContext.UNPACK_FLIP_Y_WEBGL, !1);
+              } else if (__umgJktStatus === scope.v_Ao_28115) {
+                __umgJktTex = null;
+              }
+            });
+            if (__umgJktTex) scope.renderer.Yt.Zt["jkt:" + __umgJkt.w0] = __umgJktTex;
+          });
+        } else {
+          scope.v__o_28104(__umgJktPath, function (__umgJktImg) {
+            if (__umgJktImg) scope.renderer.Yt.Zt["jkt:" + __umgJkt.w0] = glRuntime.Texture.fromImage(__umgJktImg, v_c_32558);
+          });
+        }
+      }
+      console.log("[DIAG] [umg][jkt] 列表缓存命中, 补载封面 " + __umgJktN);
       v_u_32562();
     }) : v_u_32562();
   },
