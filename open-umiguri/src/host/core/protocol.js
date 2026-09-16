@@ -164,6 +164,11 @@ function blockCachePut(key, idx, data) {
   }
 }
 
+// 某些 WebView 对自定义协议不支持 Range(fetch 带 Range 仍返回 200 整包)。
+// 一旦发现就记住该路径, 之后走整包缓存 + 本地切片。
+const noRange = new Set();
+let warnedNoRange = false;
+
 async function fetchBlock(key, idx, total) {
   const hit = blockCacheGet(key, idx);
   if (hit) return hit;
@@ -171,12 +176,23 @@ async function fetchBlock(key, idx, total) {
   if (total >= 0 && start >= total) return new Uint8Array(0);
   const end = total >= 0 ? Math.min(start + RANGE_BLOCK, total) - 1 : start + RANGE_BLOCK - 1;
   const t0 = performance.now();
+  net.rangeCalls++;
   const resp = await fetch(umgUrl(key), { headers: { Range: `bytes=${start}-${end}` } });
   if (resp.status === 416) return new Uint8Array(0);
+  if (resp.status === 200) {
+    if (!warnedNoRange) {
+      warnedNoRange = true;
+      console.error('[umg][net] Range 不支持, 回退为整包缓存+本地切片');
+    }
+    const all = new Uint8Array(await resp.arrayBuffer());
+    netTick(t0, all.length, 'sn');
+    noRange.add(key);
+    fileCache.set(key, all);
+    return all.subarray(start, Math.min(end + 1, all.length));
+  }
   if (!resp.ok && resp.status !== 206) throw new Error('HTTP ' + resp.status + ' ' + key);
   const data = new Uint8Array(await resp.arrayBuffer());
-  netTick(t0, data.length);
-  net.rangeCalls++;
+  netTick(t0, data.length, 'xl');
   blockCachePut(key, idx, data);
   return data;
 }
@@ -186,63 +202,70 @@ export async function rangeFile(p, offset, size) {
   if (key.endsWith('/')) throw new Error('is directory: ' + key);
   if (size <= 0) return { data: new Uint8Array(0), total: -1 };
 
-  // 非归档大文件: 直接单次 range
-  if (!/\.(una|arc)$/i.test(key) || size >= RANGE_BLOCK) {
-    const end = offset + size - 1;
-    const t0 = performance.now();
-    const resp = await fetch(umgUrl(key), { headers: { Range: `bytes=${offset}-${end}` } });
-    if (resp.status === 416) throw new Error('range not satisfiable: ' + key);
-    if (!resp.ok && resp.status !== 206) throw new Error('HTTP ' + resp.status + ' ' + key);
-    const data = new Uint8Array(await resp.arrayBuffer());
-    netTick(t0, data.length);
-    net.rangeCalls++;
-    let total = -1;
-    const cr = resp.headers.get('content-range');
-    if (cr) {
-      const m = /\/(\d+)\s*$/.exec(cr);
-      if (m) total = Number(m[1]);
-    }
-    return { data, total };
+  // Range 不可用: 整包缓存后本地切片
+  if (noRange.has(key)) {
+    const all = await fetchInto(key);
+    return { data: all.subarray(offset, Math.min(offset + size, all.length)), total: all.length };
   }
 
-  // 归档: 块级预读
-  let total = -1;
-  // 先取一次头部块的 Content-Range 得知总长(若缓存里没有)
-  const firstIdx = Math.floor(offset / RANGE_BLOCK);
-  const lastIdx = Math.floor((offset + size - 1) / RANGE_BLOCK);
-  if (blockCacheGet(key, firstIdx) === undefined) {
+  // 归档类: 块级预读(减少往返)
+  if (/\.(una|arc)$/i.test(key) && size < RANGE_BLOCK) {
+    const firstIdx = Math.floor(offset / RANGE_BLOCK);
+    const lastIdx = Math.floor((offset + size - 1) / RANGE_BLOCK);
     const probe = await fetchBlock(key, firstIdx, -1);
-    if (size > 0 && probe.length < RANGE_BLOCK) total = probe.length; // 文件尾即 EOF
-  }
-  const idxs = [];
-  for (let i = firstIdx; i <= lastIdx; i++) if (blockCacheGet(key, i) === undefined) idxs.push(i);
-  // 并发补齐缺失块(小并发, 避免与主线程争抢)
-  for (let i = 0; i < idxs.length; i += 2) {
-    await Promise.all(idxs.slice(i, i + 2).map((ix) => fetchBlock(key, ix, total).catch(() => {})));
-  }
-  const parts = [];
-  let have = 0;
-  for (let ix = firstIdx; ix <= lastIdx; ix++) {
-    const b = blockCacheGet(key, ix) || new Uint8Array(0);
-    parts.push(b);
-    have += b.length;
-  }
-  const out = new Uint8Array(Math.min(size, Math.max(0, have - (offset - firstIdx * RANGE_BLOCK))));
-  let w = 0;
-  let skip = offset - firstIdx * RANGE_BLOCK;
-  for (const b of parts) {
-    if (skip >= b.length) {
-      skip -= b.length;
-      continue;
+    if (noRange.has(key)) {
+      const all = fileCache.get(key);
+      return { data: all.subarray(offset, Math.min(offset + size, all.length)), total: all.length };
     }
-    const src = b.subarray(skip);
-    skip = 0;
-    const n = Math.min(src.length, out.length - w);
-    out.set(src.subarray(0, n), w);
-    w += n;
-    if (w >= out.length) break;
+    const total = probe.length < RANGE_BLOCK ? firstIdx * RANGE_BLOCK + probe.length : -1;
+    const idxs = [];
+    for (let i = firstIdx; i <= lastIdx; i++) if (blockCacheGet(key, i) === undefined) idxs.push(i);
+    for (let i = 0; i < idxs.length; i += 2) {
+      await Promise.all(idxs.slice(i, i + 2).map((ix) => fetchBlock(key, ix, total).catch(() => {})));
+    }
+    const avail = (lastIdx + 1) * RANGE_BLOCK - offset;
+    const out = new Uint8Array(Math.min(size, Math.max(0, avail)));
+    let w = 0;
+    let skip = offset - firstIdx * RANGE_BLOCK;
+    for (let ix = firstIdx; ix <= lastIdx; ix++) {
+      let b = blockCacheGet(key, ix) || new Uint8Array(0);
+      if (skip >= b.length) {
+        skip -= b.length;
+        continue;
+      }
+      const src = b.subarray(skip);
+      skip = 0;
+      const n = Math.min(src.length, out.length - w);
+      out.set(src.subarray(0, n), w);
+      w += n;
+      if (w >= out.length) break;
+    }
+    return { data: out.subarray(0, w), total };
   }
-  return { data: out.subarray(0, w), total };
+
+  // 非归档/大范围: 单次 range
+  const end = offset + size - 1;
+  const t0 = performance.now();
+  net.rangeCalls++;
+  const resp = await fetch(umgUrl(key), { headers: { Range: `bytes=${offset}-${end}` } });
+  if (resp.status === 416) throw new Error('range not satisfiable: ' + key);
+  if (resp.status === 200) {
+    const all = new Uint8Array(await resp.arrayBuffer());
+    netTick(t0, all.length, 'sn');
+    noRange.add(key);
+    fileCache.set(key, all);
+    return { data: all.subarray(offset, Math.min(offset + size, all.length)), total: all.length };
+  }
+  if (!resp.ok && resp.status !== 206) throw new Error('HTTP ' + resp.status + ' ' + key);
+  const data = new Uint8Array(await resp.arrayBuffer());
+  netTick(t0, data.length, 'xl');
+  let total = -1;
+  const cr = resp.headers.get('content-range');
+  if (cr) {
+    const m = /\/(\d+)\s*$/.exec(cr);
+    if (m) total = Number(m[1]);
+  }
+  return { data, total };
 }
 
 // 把以单个 "/" 开头的虚拟路径转成 umg 协议地址(不处理 // 开头的绝对 URL)。
