@@ -9,7 +9,7 @@ import { installKeyPanelApi } from './keypanel/api.js';
 import { installUmgrElc } from './bridge/umgr-elc.js';
 import { installNativeInput } from './bridge/native-input.js';
 import { installErrorDiagnostics, installConsoleForwarding, reportGlExtensionsNow, reportGlExtensionsDelayed, diagLog } from './core/diag.js';
-import { prefetchTree } from './core/protocol.js';
+import { prefetchTree, prefetchPacks } from './core/protocol.js';
 import { setupWindowDragPause } from './platform/window-drag.js';
 import { installDxtSoftwareDecode } from './platform/textures-dxt.js';
 import { setupStorageAccessCheck } from './platform/storage-access.js';
@@ -69,11 +69,22 @@ whenPageReady(async () => {
   reportGlExtensionsNow();
   setupStorageAccessCheck();
   reportGlExtensionsDelayed(1500);
-  // 曲库等数据库信息批量预取: 一次 IPC 取回整棵子树, 消除逐文件往返延迟。
-  // /music 是曲库(meta/封面/谱面), /chara 角色, 其余是列表类小数据表。
+  // 批量预取: 一次 IPC 取回整棵子树, 消除逐文件往返延迟(单次往返 10~30ms, 启动约 300 次)。
+  // 分两组:
+  //   小数据树(曲库/角色/各种表, 几 MB): 启动前 await, 之后全部命中内存;
+  //   启动热区(语言包内 UI/纹理/字体、core 纹理、UI 音效, 数十 MB): await 一次取回,
+  //   上限内跳过超大文件(它们本来就必须读, 往返次数不多)。
   for (const root of ['/music', '/chara', '/skills', '/nameplates', '/titles', '/courses']) {
     try {
       await prefetchTree(root);
+    } catch (e) {}
+  }
+  try {
+    await prefetchPacks({ maxFile: 6 << 20, maxTotal: 40 << 20 });
+  } catch (e) {}
+  for (const root of ['/textures', '/sounds/ui', '/sounds/notes']) {
+    try {
+      await prefetchTree(root, { maxFile: 6 << 20, maxTotal: 40 << 20 });
     } catch (e) {}
   }
 

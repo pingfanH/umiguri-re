@@ -13,6 +13,36 @@ export function umgUrl(p) {
   return UMG_ORIGIN + encodeURI(p.startsWith('/') ? p : '/' + p);
 }
 
+// 解包脚本给每个文件追加过一次猜测的扩展名(advertise.rsb -> advertise.rsb.rsb),
+// 而游戏按原始名请求。批量预取时顺手登记「去掉末层扩展名」的别名 key(共用同一份数据,
+// 不复制字节), 否则包内资源全部 key 对不上、白取一遍。
+function stripGuessedExt(path) {
+  const i = path.lastIndexOf('/');
+  const base = i < 0 ? path : path.slice(i + 1);
+  const dot = base.lastIndexOf('.');
+  if (dot <= 0) return path;
+  return path.slice(0, path.lastIndexOf('.'));
+}
+
+// 负缓存: 已确认「不存在」的路径。游戏会反复探测缺失的可选资源(实测每启动约 49 次
+// 404, 例如三个语言包都缺的 txDummyChara_*.dds), 每次探测都是一次完整往返(10~30ms)。
+// 由于语言包回退在 Rust 侧一次请求内已试遍所有包, 一旦某相对路径 404, 就把各包前缀的
+// 等价路径一并标记, 后续探测直接本地失败。
+const missCache = new Set();
+const PACK_PREFIXES = ['/reverie_zh-CN/', '/reverie_exField/', '/reverie_en-US/', '/reverie/'];
+function markMiss(key) {
+  let marked = false;
+  for (const p of PACK_PREFIXES) {
+    if (key.indexOf(p) === 0) {
+      const rest = key.slice(p.length);
+      for (const q of PACK_PREFIXES) missCache.add(q + rest);
+      marked = true;
+      break;
+    }
+  }
+  if (!marked) missCache.add(key);
+}
+
 // 整文件缓存: .una 语言包/音频等被反复读,缓存避免重复读取
 const fileCache = new Map();
 // 同一路径的并发去重(预取与按需读取共用, 避免重复请求)
@@ -28,11 +58,18 @@ const prefetchedDirs = new Set();
 
 function fetchInto(key) {
   if (fileCache.has(key)) return Promise.resolve(fileCache.get(key));
+  if (missCache.has(key)) return Promise.reject(new Error('cached 404 ' + key));
   if (inflight.has(key)) return inflight.get(key);
   const pr = (async () => {
     const t0 = performance.now();
     const resp = await fetch(umgUrl(key), { cache: 'no-store' });
-    if (!resp.ok) throw new Error('HTTP ' + resp.status + ' ' + key);
+    if (!resp.ok) {
+      if (resp.status === 404) {
+        markMiss(key);
+        diagLog('[umg][miss] ' + key);
+      }
+      throw new Error('HTTP ' + resp.status + ' ' + key);
+    }
     const data = new Uint8Array(await resp.arrayBuffer());
     netPath = key;
     netTick(t0, data.length, 'sn');
@@ -95,6 +132,37 @@ function durBucket(ms) {
   return DUR_EDGES.length - 1;
 }
 const music = { calls: 0, bytes: 0, ms: 0, songs: new Set() };
+
+// 阶段埋点: 按资源大类记录首次/末次访问时间, 某类静默 2s 后打印它的跨度。
+// 用来判断启动时间花在哪个阶段(曲库扫描/语言包/UI 资源/音频...)。
+const PHASE_CATS = ['/music/', '/chara/', '/voices/', '/reverie', '/sounds/', '/data/'];
+function phaseCat(key) {
+  for (const c of PHASE_CATS) if (key.indexOf(c) === 0) return c;
+  return '其它';
+}
+const phases = new Map(); // cat -> {t0, t1, calls, bytes, done}
+function phaseTick(key, bytes) {
+  const c = phaseCat(key);
+  let p = phases.get(c);
+  if (!p) {
+    p = { t0: performance.now(), t1: 0, calls: 0, bytes: 0, done: false };
+    phases.set(c, p);
+  }
+  p.t1 = performance.now();
+  p.calls++;
+  p.bytes += bytes;
+  p.done = false;
+}
+function phaseReport() {
+  const now = performance.now();
+  for (const [c, p] of phases) {
+    if (p.done || p.t1 === 0 || now - p.t1 < 2000) continue;
+    p.done = true;
+    diagLog(
+      `[umg][phase] ${c} 跨度 ${((p.t1 - p.t0) / 1000).toFixed(1)}s calls=${p.calls} ${(p.bytes / 1048576).toFixed(1)}MB`
+    );
+  }
+}
 let netReporterOn = false;
 let netPath = null;
 function netTick(t0, n, kind) {
@@ -104,6 +172,7 @@ function netTick(t0, n, kind) {
   net.ms += dt;
   durCounts[durBucket(dt)]++;
   durBytes[durBucket(dt)] += n;
+  if (kind === 'sn' && netPath) phaseTick(netPath, n);
   if (netPath && netPath.indexOf('/music/') === 0) {
     music.calls++;
     music.bytes += n;
@@ -131,6 +200,7 @@ function netTick(t0, n, kind) {
       lastMs = net.ms;
       lastBytes = net.bytes;
       lastCalls = net.calls;
+      phaseReport();
       if (dC === 0) return; // 空闲不打印
       diagLog(
         `[umg][net] +${dC} calls +${(dB / 1048576).toFixed(2)}MB in ${dMs.toFixed(0)}ms |` +
@@ -163,16 +233,14 @@ export async function cachedFile(p) {
   return fetchInto(key);
 }
 
-// 批量预取: 一次 IPC(fs_bundle_tree)取回整棵子树的文件, 灌入 fileCache。
-// 游戏随后的 sn/qu/Ic/rangeFile 直接命中缓存, 不再逐文件往返(每次 ~10~30ms)。
-export async function prefetchTree(root, { maxFile = 4 << 20, maxTotal = 48 << 20 } = {}) {
-  const t0 = performance.now();
+// 一次 IPC(fs_bundle_tree)取回整棵子树, 返回 Map<相对root的路径, Uint8Array>。
+async function fetchBundle(root, { maxFile = 4 << 20, maxTotal = 48 << 20 } = {}) {
   let buf;
   try {
     buf = await invoke('fs_bundle_tree', { root, maxFile, maxTotal });
   } catch (e) {
     diagLog('[umg][bundle] 失败 ' + root + ' ' + ((e && e.message) || e));
-    return { files: 0, bytes: 0 };
+    return null;
   }
   const u8 = buf instanceof Uint8Array ? buf : new Uint8Array(buf);
   const dv = new DataView(u8.buffer, u8.byteOffset, u8.byteLength);
@@ -180,8 +248,8 @@ export async function prefetchTree(root, { maxFile = 4 << 20, maxTotal = 48 << 2
   const count = dv.getUint32(off, true);
   off += 4;
   const dec = new TextDecoder();
-  let files = 0;
-  let bytes = 0;
+  const rootTrim = root.replace(/\/+$/, '');
+  const out = new Map();
   for (let i = 0; i < count; i++) {
     const plen = dv.getUint16(off, true);
     off += 2;
@@ -192,16 +260,81 @@ export async function prefetchTree(root, { maxFile = 4 << 20, maxTotal = 48 << 2
     const data = u8.slice(off, off + size); // 复制成独立缓冲(游戏会直接用 .buffer)
     off += size;
     const key = path.split('?')[0];
+    out.set(key.indexOf(rootTrim + '/') === 0 ? key.slice(rootTrim.length + 1) : key, data);
+  }
+  return out;
+}
+
+// 批量预取: 取回整棵子树并灌入 fileCache。
+// 游戏随后的 sn/qu/Ic/rangeFile 直接命中缓存, 不再逐文件往返(每次 10~30ms)。
+export async function prefetchTree(root, opts = {}) {
+  const t0 = performance.now();
+  const files = await fetchBundle(root, opts);
+  if (!files) return { files: 0, bytes: 0 };
+  const rootTrim = root.replace(/\/+$/, '');
+  let n = 0;
+  let bytes = 0;
+  for (const [rel, data] of files) {
+    const key = rootTrim + '/' + rel;
     if (!fileCache.has(key)) {
       fileCache.set(key, data);
-      files++;
-      bytes += size;
+      n++;
+      bytes += data.length;
     }
+    const alias = stripGuessedExt(key);
+    if (alias !== key && !fileCache.has(alias)) fileCache.set(alias, data);
   }
   diagLog(
-    `[umg][bundle] ${root} files=${files} ${(bytes / 1048576).toFixed(2)}MB ${(performance.now() - t0).toFixed(0)}ms`
+    `[umg][bundle] ${root} files=${n} ${(bytes / 1048576).toFixed(2)}MB ${(performance.now() - t0).toFixed(0)}ms`
   );
-  return { files, bytes };
+  return { files: n, bytes };
+}
+
+// 语言包跨包别名: 游戏会按 /reverie_zh-CN/ -> /reverie/ -> /reverie_exField/ 的顺序探测
+// 同一个资源(本地化包装没有就回退基础包), 每个失败探测都是一次往返。这里按**同样的顺序**
+// 把回退结果预先登记到各包前缀下(共用同一份数据, 不复制字节): 自己的包优先, 缺失的用
+// 回退链上第一个有的包。实测启动期这类探测约占 ~70MB / ~250 次请求。
+const PACK_CHAIN = ['/reverie_zh-CN/', '/reverie/', '/reverie_exField/', '/reverie_en-US/'];
+
+export async function prefetchPacks(opts = {}) {
+  const t0 = performance.now();
+  const perPack = new Map();
+  for (const p of PACK_CHAIN) {
+    const files = await fetchBundle(p.replace(/\/$/, ''), opts);
+    if (files) perPack.set(p, files);
+  }
+  // 1) 先登记各包自己的文件(保证「自己的包优先」)
+  for (const [prefix, files] of perPack) {
+    for (const [rel, data] of files) {
+      const key = prefix + rel;
+      if (!fileCache.has(key)) fileCache.set(key, data);
+      const alias = stripGuessedExt(key);
+      if (alias !== key && !fileCache.has(alias)) fileCache.set(alias, data);
+    }
+  }
+  // 2) 再按回退链补齐各前缀缺失的 key
+  const content = new Map();
+  for (const p of PACK_CHAIN) {
+    const files = perPack.get(p);
+    if (!files) continue;
+    for (const [rel, data] of files) if (!content.has(rel)) content.set(rel, data);
+  }
+  let added = 0;
+  let bytes = 0;
+  for (const [rel, data] of content) {
+    for (const p of PACK_CHAIN) {
+      for (const k of [p + rel, p + stripGuessedExt(rel)]) {
+        if (!fileCache.has(k)) {
+          fileCache.set(k, data);
+          added++;
+        }
+      }
+    }
+    bytes += data.length;
+  }
+  diagLog(
+    `[umg][bundle] packs rel=${content.size} alias+${added} ${(bytes / 1048576).toFixed(2)}MB ${(performance.now() - t0).toFixed(0)}ms`
+  );
 }
 
 // 按范围读取(HTTP Range)。用于归档切片读取: 不再把整个 .una(可达 20MB+)
@@ -325,6 +458,7 @@ export async function rangeFile(p, offset, size) {
 }
 
 async function rangeFileInner(key, offset, size) {
+  if (missCache.has(key)) throw new Error('cached 404 ' + key);
   // 已由批量预取灌入缓存: 直接切片(省一次整包 fetch 或 range 往返)
   const cachedAll = fileCache.get(key);
   if (cachedAll) {
