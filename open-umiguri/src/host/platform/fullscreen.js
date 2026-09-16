@@ -1,44 +1,29 @@
-// 全屏保持: 不要让 Esc(以及系统/浏览器行为)退出全屏。
+// 全屏相关: 拦掉 Esc 的默认行为, 避免它退出全屏。
 //
-// 全屏是原生窗口状态(Tauri set_fullscreen, 见 apply_window_config), 不由页面控制,
-// 因此 JS 只能: 1) 拦掉 Esc 的默认行为(浏览器/WebView 层); 2) 一旦发现掉出全屏就立刻恢复。
-import { tryInvoke } from '../core/invoke.js';
+// 全屏是原生窗口状态(Tauri apply_window_config -> set_fullscreen), 页面无法读取/控制。
+// 曾尝试「发现掉出全屏就自动恢复」, 但实测:
+//   - window.is_fullscreen() 在桌面恒为 false;
+//   - 窗口尺寸在启动/全屏切换期间会变(曾记录到过渡态的 2560x731),
+// 结果每 2s 调一次 set_fullscreen(true) -> 窗口反复 resize -> 卡顿/掉帧/画面发糊。
+// 因此只保留「拦 Esc 默认行为」这一件事(不影响游戏读键, 它走宿主桥)。
 import { diagLog } from '../core/diag.js';
 
 const IS_MOBILE = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 let want = false;
-let restoring = false;
 
 export function setFullscreenDesired(v) {
   want = !!v;
 }
 
-async function restore() {
-  if (!want || restoring || IS_MOBILE) return; // 移动端全屏由 manifest/主题决定, 无需恢复
-  restoring = true;
-  try {
-    const fs = await tryInvoke('window_fullscreen', {}, null);
-    if (fs === false) {
-      diagLog('[umg][fullscreen] 掉出全屏, 恢复');
-      await tryInvoke('apply_window_config', { mode: 'fullscreen' }, null);
-    }
-  } finally {
-    restoring = false;
-  }
-}
-
 export function installFullscreenGuard() {
-  // Esc: 阻止默认行为(部分平台会用它退出全屏); 游戏读键走宿主桥, 不受影响。
   window.addEventListener(
     'keydown',
     (e) => {
-      if (e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) e.preventDefault();
+      if (e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27) {
+        if (want && !IS_MOBILE) e.preventDefault();
+      }
     },
     true
   );
-  if (IS_MOBILE) return;
-  for (const ev of ['focus', 'resize', 'visibilitychange', 'fullscreenchange']) {
-    window.addEventListener(ev, () => setTimeout(restore, 400));
-  }
-  setInterval(restore, 2000);
+  diagLog('[umg][fullscreen] guard installed (want=' + want + ')');
 }

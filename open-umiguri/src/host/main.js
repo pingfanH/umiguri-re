@@ -69,9 +69,34 @@ whenPageReady(async () => {
       ct: handshake.O.ct, B: handshake.O.B, p9: handshake.O.p9, I4: handshake.I4,
       fe: handshake.fe, R: handshake.R, j: handshake.j, M: handshake.M, u1: handshake.u1,
       windowMode: cfg.windowMode, Z: handshake.Z,
+      // 诊断「糊/掉帧」用: dpr=1 说明整个窗口按 1x 渲染(会被系统放大 -> 糊)
+      dpr: devicePixelRatio, win: innerWidth + 'x' + innerHeight,
+      screen: screen.width + 'x' + screen.height,
     }));
   } catch (e) {}
   installErrorDiagnostics(); // 包裹 umgr_elc.st(内部会 invoke('diag'))
+  // 帧率探针(每 3s): WebView 实际合成帧率, 用于判断「帧率低」是渲染还是逻辑
+  (function fpsProbe() {
+    let frames = 0;
+    let t0 = performance.now();
+    const tick = () => {
+      frames++;
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+    let on = false;
+    try {
+      on = localStorage.getItem('umg_perf_debug') === '1';
+    } catch (e) {}
+    if (!on) return;
+    setInterval(() => {
+      const now = performance.now();
+      const fps = (frames * 1000) / (now - t0);
+      frames = 0;
+      t0 = now;
+      diagLog(`[umg][fps] ${fps.toFixed(1)} (dpr=${devicePixelRatio}, ${innerWidth}x${innerHeight})`);
+    }, 3000);
+  })();
   reportGlExtensionsNow();
   setupStorageAccessCheck();
   reportGlExtensionsDelayed(1500);
