@@ -20,6 +20,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parser, traverse, generate, t, loadSymbols, applySymbols, loadProps, applyProps } from './lib/symbols.mjs';
 import { deferStartup } from './startup-defer.mjs';
+import { applyGamePatches } from './game-patches.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const fixedSrc = path.join(root, 'dist/game_main.deobf.js');
@@ -35,6 +36,8 @@ let ast = parser.parse(code, { sourceType: 'script', allowReturnOutsideFunction:
   const { conflicts } = applySymbols(ast, loadSymbols(path.join(root, 'tools/symbols.json')));
   if (conflicts.length) { console.error('命名冲突: ' + conflicts.join(', ')); process.exit(3); }
   if (process.argv.includes('--props')) applyProps(ast, loadProps(path.join(root, 'tools/prop-symbols.json')));
+  const patches = applyGamePatches(ast);
+  if (patches.length) process.stderr.write(`游戏补丁: ${patches.join(' | ')}\n`);
   code = generate(ast, GEN_OPTS, code).code;
   ast = parser.parse(code, { sourceType: 'script', allowReturnOutsideFunction: true, errorRecovery: true });
 }

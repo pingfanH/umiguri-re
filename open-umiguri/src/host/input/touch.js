@@ -62,11 +62,13 @@ function recomputeTouch() {
   touchedKeys = hit;
 }
 
-function updatePointer(id, x, y) {
+// isDown=true 仅用于「按下瞬间」: 功能键只在此刻触发(不支持划入触发)
+function updatePointer(id, x, y, isDown) {
   const s = new Set();
   for (const k of keysInCircle(x, y)) {
-    if (k.dataset.kind === 'nav') pressNav(k, id);
-    else s.add(k);
+    if (k.dataset.kind === 'nav') {
+      if (isDown) pressNav(k, id);
+    } else s.add(k);
   }
   activePointers.set(id, s);
   recomputeTouch();
@@ -79,7 +81,7 @@ export function installPointerHandlers() {
       // 触摸/触控笔: 阻止长按选择、拖拽默认行为; 鼠标不拦截(避免破坏桌面端 click)
       if (e.pointerType !== 'mouse' && e.cancelable) e.preventDefault();
       flashCircle(e.clientX, e.clientY); // 编辑器开启「实际触发可视化」时闪现圆
-      updatePointer(e.pointerId, e.clientX, e.clientY);
+      updatePointer(e.pointerId, e.clientX, e.clientY, true);
     },
     { passive: false }
   );
@@ -88,7 +90,7 @@ export function installPointerHandlers() {
     (e) => {
       if (e.pointerType === 'mouse' && !e.buttons) return;
       if (!activePointers.has(e.pointerId)) return;
-      updatePointer(e.pointerId, e.clientX, e.clientY);
+      updatePointer(e.pointerId, e.clientX, e.clientY, false);
     },
     { passive: false }
   );

@@ -229,6 +229,10 @@ export function createTestMenu(scope) {
         var keys = ["rowH", "colGap", "airGap", "airRowGap", "bottomInset", "radius", "showLanes", null],
           dirSign = 0;
         if (btnMask_4 & 16) dirSign = 1;else if (btnMask_4 & 8) dirSign = -1;else if (btnMask_4 & BTN_SERVICE) dirSign = 1;else return;
+        if (this.au === 7 && btnMask_4 & BTN_ENTER) {
+          switchPage("Root");
+          return;
+        }
         if (this.au === 7) {
           switchPage("Root");
           return;
