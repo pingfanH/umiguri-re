@@ -57,19 +57,56 @@ export function installLayoutFix() {
       const mc = document.getElementById('main_container');
       const r = mc && mc.getBoundingClientRect();
       const v = visualViewportBox();
-      console.error(
-        '[umg][layout] ' +
-          JSON.stringify({
-            vp: [Math.round(v.w), Math.round(v.h)],
-            off: [v.x, v.y],
-            body: [document.body.clientWidth, document.body.clientHeight],
-            inner: [innerWidth, innerHeight],
-            dpr: devicePixelRatio,
-            rect: r ? [Math.round(r.left), Math.round(r.top), Math.round(r.width), Math.round(r.height)] : null,
-            mc: mc ? { left: mc.style.left, top: mc.style.top, transform: mc.style.transform } : null,
-          })
-      );
+      const info = {
+        vp: [Math.round(v.w), Math.round(v.h)],
+        off: [v.x, v.y],
+        body: [document.body.clientWidth, document.body.clientHeight],
+        inner: [innerWidth, innerHeight],
+        screen: [screen.width, screen.height],
+        dpr: devicePixelRatio,
+        orient: (screen.orientation && screen.orientation.type) || '',
+        rect: r ? [Math.round(r.left), Math.round(r.top), Math.round(r.width), Math.round(r.height)] : null,
+        mc: mc ? { left: mc.style.left, top: mc.style.top, transform: mc.style.transform } : null,
+      };
+      console.error('[umg][layout] ' + JSON.stringify(info));
+      showOverlay(info);
     } catch (e) {}
   }
-  setTimeout(diag, 3200);
+  setInterval(diag, 2000);
+
+  // 临时浮层: 直接在画面上显示尺寸数据(便于截图反馈)
+  let overlay = null;
+  function showOverlay(info) {
+    try {
+      if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.style.cssText =
+          'position:fixed;left:0;top:0;z-index:2147483000;pointer-events:none;' +
+          'background:rgba(0,0,0,.72);color:#7CFC00;font:11px/1.35 ui-monospace,monospace;' +
+          'padding:4px 6px;white-space:pre;max-width:100vw;';
+        document.body.appendChild(overlay);
+      }
+      // 安全区(通过探针元素读取 env())
+      const probe = document.createElement('div');
+      probe.style.cssText =
+        'position:fixed;left:0;top:0;visibility:hidden;width:0;height:0;' +
+        'padding-top:env(safe-area-inset-top);padding-right:env(safe-area-inset-right);' +
+        'padding-bottom:env(safe-area-inset-bottom);padding-left:env(safe-area-inset-left);';
+      document.body.appendChild(probe);
+      const cs = getComputedStyle(probe);
+      const sa = [cs.paddingTop, cs.paddingRight, cs.paddingBottom, cs.paddingLeft].join(',');
+      probe.remove();
+      const lines = [
+        'UMG LAYOUT (temporary overlay)',
+        `vp     ${info.vp.join('x')}  off ${info.off.join(',')}`,
+        `inner  ${info.inner.join('x')}   body ${info.body.join('x')}`,
+        `screen ${info.screen.join('x')}  dpr ${info.dpr}  ${info.orient}`,
+        `safe-area t,r,b,l = ${sa}`,
+        `rect   ${info.rect ? info.rect.join(',') : 'null'}`,
+        `mc     left=${info.mc && info.mc.left} top=${info.mc && info.mc.top}`,
+        `tf     ${(info.mc && info.mc.transform) || ''}`,
+      ];
+      overlay.textContent = lines.join('\n');
+    } catch (e) {}
+  }
 }
