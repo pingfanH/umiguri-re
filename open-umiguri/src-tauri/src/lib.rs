@@ -49,19 +49,21 @@ fn apply_window_config(
     size: Option<String>,
 ) -> bool {
     let mut ok = false;
-    if let Some(m) = mode.as_deref() {
+    let fullscreen = mode.as_deref() == Some("fullscreen");
+    if mode.is_some() {
         ok = true;
         // set_fullscreen 仅桌面可用; 移动端全屏由 AndroidManifest / iOS 处理
         #[cfg(desktop)]
-        let _ = window.set_fullscreen(m == "fullscreen");
-        #[cfg(not(desktop))]
-        let _ = m;
+        let _ = window.set_fullscreen(fullscreen);
     }
-    if let Some(s) = size.as_deref() {
-        if let Some((w, h)) = s.split_once('x') {
-            if let (Ok(w), Ok(h)) = (w.trim().parse::<f64>(), h.trim().parse::<f64>()) {
-                let _ = window.set_size(tauri::Size::Logical(tauri::LogicalSize::new(w, h)));
-                ok = true;
+    // 全屏时不要再用配置里的窗口尺寸覆盖(否则会把全屏窗口拉回固定分辨率)
+    if !fullscreen {
+        if let Some(s) = size.as_deref() {
+            if let Some((w, h)) = s.split_once('x') {
+                if let (Ok(w), Ok(h)) = (w.trim().parse::<f64>(), h.trim().parse::<f64>()) {
+                    let _ = window.set_size(tauri::Size::Logical(tauri::LogicalSize::new(w, h)));
+                    ok = true;
+                }
             }
         }
     }

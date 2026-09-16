@@ -95,6 +95,48 @@ export function applyGamePatches(ast) {
     },
   });
 
+  // 渲染倍率: 游戏内部固定 1920x1080 设计空间, 容器再由 CSS scale 放大到窗口 ->
+  // 非整数倍时插值发虚。这里只放大「画布背衬」(canvas.width/height + viewport +
+  // readPixels), 投影/设计空间保持 1920x1080, 于是背衬 = 窗口物理像素时 1:1 清晰。
+  // 倍率由宿主在载入游戏前写入 window.__umgPixelScale(默认 1)。
+  const scaleExpr = () =>
+    t.logicalExpression('||', t.memberExpression(t.identifier('window'), t.identifier('__umgPixelScale')), t.numericLiteral(1));
+  const wrapScale = (node) => t.binaryExpression('*', node, scaleExpr());
+  // 注意: 补丁阶段这些量还是裸标识符(v_yn_27656), `scope.` 是后续模块生成时补的
+  const nameOf = (n) =>
+    t.isIdentifier(n) ? n.name : t.isMemberExpression(n) && t.isIdentifier(n.property) ? n.property.name : null;
+  const isVyn = (n) => nameOf(n) === 'v_yn_27656';
+  const isVsn = (n) => nameOf(n) === 'v_Sn_27657';
+  let scaled = 0;
+  traverse(ast, {
+    AssignmentExpression(path) {
+      const left = path.node.left;
+      if (!t.isMemberExpression(left) || !t.isThisExpression(left.object) && !t.isMemberExpression(left.object)) return;
+      if (!t.isIdentifier(left.property) || (left.property.name !== 'width' && left.property.name !== 'height')) return;
+      // 仅处理 <某物>.canvas.width/.height = v_yn/v_Sn 形式
+      if (!t.isMemberExpression(left.object) || !t.isIdentifier(left.object.property, { name: 'canvas' })) return;
+      if (isVyn(path.node.right) || isVsn(path.node.right)) {
+        path.node.right = wrapScale(path.node.right);
+        scaled++;
+      }
+    },
+    CallExpression(path) {
+      const callee = path.node.callee;
+      if (!t.isMemberExpression(callee) || !t.isIdentifier(callee.property)) return;
+      const name = callee.property.name;
+      if (name !== 'viewport' && name !== 'readPixels') return;
+      const args = path.node.arguments;
+      const base = name === 'viewport' ? 2 : 2;
+      if (args.length < base + 2) return;
+      if (isVyn(args[base]) && isVsn(args[base + 1])) {
+        args[base] = wrapScale(args[base]);
+        args[base + 1] = wrapScale(args[base + 1]);
+        scaled++;
+      }
+    },
+  });
+  if (scaled) applied.push(`渲染倍率(画布背衬 ×__umgPixelScale) ×${scaled}`);
+
   return applied;
 }
 
