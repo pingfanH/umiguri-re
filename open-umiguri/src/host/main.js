@@ -79,14 +79,16 @@ whenPageReady(async () => {
       await prefetchTree(root);
     } catch (e) {}
   }
+  // 上限: 桌面内存宽裕, 把 >6MB 的大贴图/字体也一次带回(省掉它们的单次往返);
+  // 移动端收紧, 避免几十 MB 常驻。
+  const mobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+  const caps = mobile ? { maxFile: 8 << 20, maxTotal: 48 << 20 } : { maxFile: 20 << 20, maxTotal: 112 << 20 };
   try {
-    await prefetchPacks({ maxFile: 6 << 20, maxTotal: 40 << 20 });
+    await prefetchPacks(caps);
   } catch (e) {}
-  for (const root of ['/textures', '/sounds/ui', '/sounds/notes']) {
-    try {
-      await prefetchTree(root, { maxFile: 6 << 20, maxTotal: 40 << 20 });
-    } catch (e) {}
-  }
+  try {
+    await prefetchTree('/textures', caps);
+  } catch (e) {}
 
   loadMain(); // 解密并执行游戏前端(main.js.enc)
   installLayoutDiagnostics(); // 布局诊断(默认关闭, 见 localStorage.umg_layout_debug)
