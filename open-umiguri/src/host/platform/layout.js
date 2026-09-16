@@ -67,6 +67,7 @@ export function installLayoutFix() {
         orient: (screen.orientation && screen.orientation.type) || '',
         rect: r ? [Math.round(r.left), Math.round(r.top), Math.round(r.width), Math.round(r.height)] : null,
         mc: mc ? { left: mc.style.left, top: mc.style.top, transform: mc.style.transform } : null,
+        native: window.__umgNative || null,
       };
       console.error('[umg][layout] ' + JSON.stringify(info));
       showOverlay(info);
@@ -104,6 +105,7 @@ export function installLayoutFix() {
         `safe-area t,r,b,l = ${sa}`,
         `rect   ${info.rect ? info.rect.join(',') : 'null'}`,
         `mc     left=${info.mc && info.mc.left} top=${info.mc && info.mc.top}`,
+        `native ${info.native ? JSON.stringify(info.native) : '(未注入)'}`,
         `tf     ${(info.mc && info.mc.transform) || ''}`,
       ];
       overlay.textContent = lines.join('\n');
