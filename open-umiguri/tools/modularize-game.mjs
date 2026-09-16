@@ -77,7 +77,11 @@ traverse(ast, {
 const moduleNameOf = new Set(modules.map((m) => m.name));
 
 // IIFE 形参(如 win = window): 必须在改写前取值, 否则会被当成引用替换掉
-const iifeParams = fn.params.filter((p) => p.type === 'Identifier').map((p) => p.name);
+// IIFE 形参(形参名 -> 调用实参): 原调用是 `}(document)`, 不是 window。
+// 必须按实参赋值, 否则 getElementById 等 document 方法会丢失。
+const iifeParams = fn.params
+  .map((p, i) => ({ name: p.type === 'Identifier' ? p.name : null, arg: call.arguments[i] }))
+  .filter((x) => x.name);
 
 // ---------- 改写: 所有指向 IIFE 绑定的引用 -> scope.<name> ----------
 // 说明: 在原 AST(作用域完整)上就地替换; 声明 id 与模块 id 留待后续专门处理。
@@ -159,16 +163,9 @@ lines.push(`import './runtime/helpers.js'; // 载入并挂载顶层辅助函数`
 lines.push(...moduleImports);
 lines.push('');
 lines.push(`// ---- bootstrap(原游戏 IIFE 顶层语句, 保持原始执行顺序) ----`);
-for (const p of iifeParams) lines.push(`scope.${p} = (function () {
-  const cands = [];
-  try { if (typeof window !== "undefined") cands.push(["window", window]); } catch (e) {}
-  try { if (typeof self !== "undefined") cands.push(["self", self]); } catch (e) {}
-  try { if (typeof document !== "undefined" && document.defaultView) cands.push(["defaultView", document.defaultView]); } catch (e) {}
-  try { if (typeof globalThis !== "undefined") cands.push(["globalThis", globalThis]); } catch (e) {}
-  for (const [n, o] of cands) if (o && typeof o.getElementById === "function") return o;
-  console.error("[umg] 找不到有效 window 全局:", cands.map(([n, o]) => n + ":" + Object.prototype.toString.call(o)).join(", "));
-  return cands.length ? cands[0][1] : undefined;
-})(); // IIFE 形参(浏览器 = window)`);
+for (const { name, arg } of iifeParams) {
+  lines.push(`scope.${name} = ${arg ? generate(arg, GEN_OPTS).code : 'undefined'}; // IIFE 形参(实参)`);
+}
 
 const stripDecl = (stmt, out) => {
   if (stmt.type === 'FunctionDeclaration') return; // 已在 helpers.js

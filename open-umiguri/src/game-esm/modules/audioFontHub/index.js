@@ -11,7 +11,7 @@ export function createAudioFontHub(scope) {
   }
   let v_c_29225 = void 0,
     v_o_29226 = new v_t_29224(),
-    v_n_29227 = scope.win.createElement("input");
+    v_n_29227 = scope.doc.createElement("input");
   function v_r_29228(v_t_29240) {
     v_c_29225 && (v_c_29225.rsbTree.elementByIndex(17).visible = !v_n_29227.value.length);
   }

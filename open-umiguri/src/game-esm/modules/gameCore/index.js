@@ -4162,7 +4162,7 @@ export function createGameCore(scope) {
             var v_r_31711 = function (v_t_31713) {
               v_t_31713 && (v_t_31713.muted = !0, v_t_31713.currentTime = 0, v_U_30262.q1.Zu.hw && (v_t_31713.loop = !0), v_U_30262.z1 = v_t_31713, v_k_30287.El(v_U_30262.z1), v_U_30262.Z1 = !0, v_U_30262.q1.Zu.hw) && (v_U_30262.Y1.J6 || v_U_30262.z1.play(), v_U_30262.vk = scope.renderer.xt()), scope.v_Me_28078(v_e_31708);
             };
-            let v_t_31712 = scope.win.createElement("video");
+            let v_t_31712 = scope.doc.createElement("video");
             v_t_31712.oncanplaythrough = function () {
               v_t_31712.oncanplaythrough = void 0, v_r_31711(v_t_31712);
             }, v_t_31712.onerror = function () {
@@ -4170,7 +4170,7 @@ export function createGameCore(scope) {
             }, v_t_31712.src = v_i_31709;
           } else scope.v__o_28104(v_n_31710, function (v_t_31714) {
             var v_i_31715;
-            v_t_31714 && ((v_i_31715 = scope.win.createElement("canvas")).width = 1920, v_i_31715.height = 1080, v_i_31715.getContext("2d").drawImage(v_t_31714, 0, 0, v_t_31714.naturalWidth, v_t_31714.naturalHeight, 0, 0, 1920, 1080), v_k_30287.Tl(v_i_31715), v_U_30262.Z1 = !0), scope.v_Me_28078(v_e_31708);
+            v_t_31714 && ((v_i_31715 = scope.doc.createElement("canvas")).width = 1920, v_i_31715.height = 1080, v_i_31715.getContext("2d").drawImage(v_t_31714, 0, 0, v_t_31714.naturalWidth, v_t_31714.naturalHeight, 0, 0, 1920, 1080), v_k_30287.Tl(v_i_31715), v_U_30262.Z1 = !0), scope.v_Me_28078(v_e_31708);
           });
         } else scope.v_Me_28078(v_e_31708);
       }

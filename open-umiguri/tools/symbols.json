@@ -2,8 +2,8 @@
   "_note": "bindings: 旧绑定名 -> { name, note, confidence }。仅重命名变量绑定, 不改逻辑。confidence=high 来自 MODULE_INDEX/PROJECT_INFO 的既有结论; low 为中性命名。",
   "bindings": {
     "v_He_27558": {
-      "name": "win",
-      "note": "游戏 IIFE 参数 = window",
+      "name": "doc",
+      "note": "游戏 IIFE 形参 = document(getElementById/createElement/body)",
       "confidence": "high"
     },
     "v_ye_27858": {

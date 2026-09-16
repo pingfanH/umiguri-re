@@ -29,7 +29,7 @@ export function createV_G1_27905(scope) {
   async function v_i_28806() {
     if (1 <= scope.handshake.On.Kp || (await new Promise(async v_i_28812 => {
       v_d_28802(v_a_28797), v_u_28793.e8(4), await scope.v_fo_28103(scope.v_Ge_28204(20));
-      let v_e_28813 = scope.win.createElement("iframe");
+      let v_e_28813 = scope.doc.createElement("iframe");
       function v_n_28814(v_t_28816) {
         scope.sceneManager.ni(), scope.sceneManager.ii(), v_e_28813.contentWindow.removeEventListener("scroll", v_r_28815), scope.menuSystem._t(), v_u_28793.e8(5), v_e_28813.parentElement.removeChild(v_e_28813), scope.renderer.W6(() => {
           v_i_28812(v_t_28816);

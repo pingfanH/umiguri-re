@@ -37,19 +37,19 @@ function v_te_27874() {
 }
 
 function v_ie_27875(v_t_28225) {
-  scope.handshake.rm.bm ? scope.win.title = scope.v_G_27652 + " v" + scope.v_U_27653 + " (Sync Mode)" : void 0 === v_t_28225 || 0 === v_t_28225.length ? scope.win.title = scope.v_G_27652 + " v" + scope.v_U_27653 : scope.win.title = scope.v_G_27652 + " v" + scope.v_U_27653 + " " + v_t_28225;
+  scope.handshake.rm.bm ? scope.doc.title = scope.v_G_27652 + " v" + scope.v_U_27653 + " (Sync Mode)" : void 0 === v_t_28225 || 0 === v_t_28225.length ? scope.doc.title = scope.v_G_27652 + " v" + scope.v_U_27653 : scope.doc.title = scope.v_G_27652 + " v" + scope.v_U_27653 + " " + v_t_28225;
 }
 
 function v_ee_27876() {
-  if ("Unknown" !== scope.v_t_27564 && scope.win.body.clientWidth < scope.win.body.clientHeight) {
+  if ("Unknown" !== scope.v_t_27564 && scope.doc.body.clientWidth < scope.doc.body.clientHeight) {
     let v_t_28229 = 1;
     var v_i_28226 = scope.v_I_27639 ? scope.handshake.On.Xp.Zp / 100 : 1,
-      v_e_28227 = scope.win.body.clientWidth,
-      v_n_28228 = scope.win.body.clientHeight;
+      v_e_28227 = scope.doc.body.clientWidth,
+      v_n_28228 = scope.doc.body.clientHeight;
     v_t_28229 = 1.777778 < v_n_28228 / v_e_28227 ? v_e_28227 / scope.v_Sn_27657 : v_n_28228 / scope.v_yn_27656, scope.v_y_27559.style.transform = "scale(" + v_t_28229 * v_i_28226 + ") translate(" + (scope.v_Sn_27657 + (v_e_28227 - scope.v_Sn_27657 * (v_t_28229 * v_i_28226) - (v_i_28226 * v_t_28229 * scope.v_Sn_27657 - v_t_28229 * scope.v_Sn_27657)) / 2 / (v_t_28229 * v_i_28226)) + "px," + (v_n_28228 - scope.v_yn_27656 * (v_t_28229 * v_i_28226)) / 2 / (v_t_28229 * v_i_28226) + "px) rotate(90deg)", scope.v_T_27638 = 1, scope.v_uc_28211(v_t_28229 * devicePixelRatio) && scope.glContext && scope.glContext.canvas ? scope.glContext.canvas.style.imageRendering = "pixelated" : scope.v_ne_27877();
   } else {
     let v_t_28230 = 1;
-    v_e_28227 = scope.v_I_27639 ? scope.handshake.On.Xp.Zp / 100 : 1, v_n_28228 = scope.win.body.clientWidth, v_i_28226 = scope.win.body.clientHeight;
+    v_e_28227 = scope.v_I_27639 ? scope.handshake.On.Xp.Zp / 100 : 1, v_n_28228 = scope.doc.body.clientWidth, v_i_28226 = scope.doc.body.clientHeight;
     v_t_28230 = 1.777778 < v_n_28228 / v_i_28226 ? v_i_28226 / scope.v_Sn_27657 : v_n_28228 / scope.v_yn_27656, scope.v_y_27559.style.transform = "scale(" + v_t_28230 * v_e_28227 + ") translate(" + (v_n_28228 - scope.v_yn_27656 * (v_t_28230 * v_e_28227)) / 2 / (v_t_28230 * v_e_28227) + "px," + (v_i_28226 - scope.v_Sn_27657 * (v_t_28230 * v_e_28227) - (v_e_28227 * v_t_28230 * scope.v_Sn_27657 - v_t_28230 * scope.v_Sn_27657)) / 2 / (v_t_28230 * v_e_28227) + "px)", scope.v_T_27638 = 0, scope.v_uc_28211(v_t_28230 * devicePixelRatio) && scope.glContext && scope.glContext.canvas ? scope.glContext.canvas.style.imageRendering = "pixelated" : scope.v_ne_27877();
   }
 }
@@ -103,7 +103,7 @@ function v_A1_27887() {
 }
 
 function v_x1_27888(v_t_28242) {
-  var v_i_28243 = scope.win.createElement("div");
+  var v_i_28243 = scope.doc.createElement("div");
   v_i_28243.innerText = v_t_28242, scope.v_n_27560.appendChild(v_i_28243), scope.v_S1_27886.push({
     ze: v_i_28243,
     wb: performance.now() + 3e3

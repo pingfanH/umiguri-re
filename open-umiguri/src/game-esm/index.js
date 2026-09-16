@@ -57,19 +57,10 @@ import { createV_Ns_28014 } from './modules/v_Ns_28014/index.js';
 import { createLanguagePackages } from './modules/languagePackages/index.js';
 
 // ---- bootstrap(原游戏 IIFE 顶层语句, 保持原始执行顺序) ----
-scope.win = (function () {
-  const cands = [];
-  try { if (typeof window !== "undefined") cands.push(["window", window]); } catch (e) {}
-  try { if (typeof self !== "undefined") cands.push(["self", self]); } catch (e) {}
-  try { if (typeof document !== "undefined" && document.defaultView) cands.push(["defaultView", document.defaultView]); } catch (e) {}
-  try { if (typeof globalThis !== "undefined") cands.push(["globalThis", globalThis]); } catch (e) {}
-  for (const [n, o] of cands) if (o && typeof o.getElementById === "function") return o;
-  console.error("[umg] 找不到有效 window 全局:", cands.map(([n, o]) => n + ":" + Object.prototype.toString.call(o)).join(", "));
-  return cands.length ? cands[0][1] : undefined;
-})(); // IIFE 形参(浏览器 = window)
-scope.v_y_27559 = scope.win.getElementById("main_container");
-scope.v_n_27560 = scope.win.getElementById("log");
-scope.v_e_27561 = scope.win.getElementById("status");
+scope.doc = document; // IIFE 形参(实参)
+scope.v_y_27559 = scope.doc.getElementById("main_container");
+scope.v_n_27560 = scope.doc.getElementById("log");
+scope.v_e_27561 = scope.doc.getElementById("status");
 scope.glContext = null;
 scope.v_g_27563 = !1;
 scope.v_t_27564 = scope.v_Ul_28187 = navigator.userAgent, /android/i.test(scope.v_Ul_28187) ? "Android" : /iP(ad|hone|od)/.test(scope.v_Ul_28187) ? "iOS" : "Unknown";
@@ -6342,13 +6333,13 @@ scope.languagePackages = createLanguagePackages(scope);
 scope.v_Ul_28187 = new URLSearchParams(location.search);
 if (addEventListener("resize", scope.v_m1_27881), addEventListener("unload", scope.v_re_27878), addEventListener("focus", scope.v_w1_27879), addEventListener("blur", scope.v_g1_27880), addEventListener("beforeunload", v_t_35119 => {
   scope.boardLanes && scope.boardLanes.V7(), scope.boardAir && scope.boardAir.V7(), scope.v_D_27646 && scope.v_D_27646.V7(), scope.v_F_27647 && scope.v_F_27647.V7();
-}), scope.v_y_27559.addEventListener("contextmenu", v_t_35120 => v_t_35120.preventDefault()), scope.v_ee_27876(), scope.v_y_27559.style.display = "block", scope.v_Hl_28188 = umgr_elc._, scope.handshake.rm.I4 = scope.v_Hl_28188.I4, scope.handshake.rm.am = scope.v_Hl_28188.am, scope.handshake.rm.om = scope.v_Hl_28188.O.ct, scope.handshake.rm.lm = scope.v_Hl_28188.O.B, scope.handshake.rm.um = scope.v_Hl_28188.O.p9, scope.handshake.rm.b7 = scope.v_Hl_28188.I, scope.handshake.rm.y7 = scope.v_Hl_28188.R, scope.handshake.rm.A7 = scope.v_Hl_28188.j, scope.handshake.rm.S7 = scope.v_Hl_28188.M, scope.handshake.rm.A9 = scope.v_Hl_28188.L, scope.handshake.rm.S9 = scope.v_Hl_28188.U, scope.handshake.rm.x9 = scope.v_Hl_28188.P, scope.handshake.rm.I9 = scope.v_Hl_28188.G, scope.handshake.rm.OA = scope.v_Hl_28188.Y, scope.handshake.rm.dm = scope.v_Hl_28188.fe, scope.handshake.rm.vm = scope.v_Hl_28188.v1, scope.handshake.rm.gm = scope.v_Hl_28188.J, scope.handshake.rm.u8 = scope.v_Hl_28188.K, scope.handshake.rm.wm = scope.v_Hl_28188.W, scope.handshake.rm.pm = scope.v_Hl_28188.u1, scope.handshake.rm.km = scope.v_Hl_28188.H, scope.handshake.rm.bm = scope.v_Hl_28188.f1, scope.handshake.rm.Sm = scope.v_Hl_28188.h1.T, scope.handshake.rm.xm = scope.v_Hl_28188.h1.rr, scope.handshake.rm.ym = scope.v_Hl_28188.h1.C, scope.handshake.rm.Cm = scope.v_Hl_28188.h1.GA, scope.handshake.rm.Im = scope.v_Hl_28188.Z.X, scope.handshake.rm.Am = scope.v_Hl_28188.Z.a1, scope.handshake.rm.Tm = scope.v_Hl_28188.Z.d1, scope.handshake.rm.Lm = scope.v_Hl_28188.Z.t1, scope.handshake.rm.Rm = scope.v_Hl_28188.Z.s1, scope.handshake.rm.gb = scope.v_Hl_28188.g1, setInterval(scope.v_A1_27887, 500), scope.win.body.addEventListener("keydown", function (v_t_35121) {
+}), scope.v_y_27559.addEventListener("contextmenu", v_t_35120 => v_t_35120.preventDefault()), scope.v_ee_27876(), scope.v_y_27559.style.display = "block", scope.v_Hl_28188 = umgr_elc._, scope.handshake.rm.I4 = scope.v_Hl_28188.I4, scope.handshake.rm.am = scope.v_Hl_28188.am, scope.handshake.rm.om = scope.v_Hl_28188.O.ct, scope.handshake.rm.lm = scope.v_Hl_28188.O.B, scope.handshake.rm.um = scope.v_Hl_28188.O.p9, scope.handshake.rm.b7 = scope.v_Hl_28188.I, scope.handshake.rm.y7 = scope.v_Hl_28188.R, scope.handshake.rm.A7 = scope.v_Hl_28188.j, scope.handshake.rm.S7 = scope.v_Hl_28188.M, scope.handshake.rm.A9 = scope.v_Hl_28188.L, scope.handshake.rm.S9 = scope.v_Hl_28188.U, scope.handshake.rm.x9 = scope.v_Hl_28188.P, scope.handshake.rm.I9 = scope.v_Hl_28188.G, scope.handshake.rm.OA = scope.v_Hl_28188.Y, scope.handshake.rm.dm = scope.v_Hl_28188.fe, scope.handshake.rm.vm = scope.v_Hl_28188.v1, scope.handshake.rm.gm = scope.v_Hl_28188.J, scope.handshake.rm.u8 = scope.v_Hl_28188.K, scope.handshake.rm.wm = scope.v_Hl_28188.W, scope.handshake.rm.pm = scope.v_Hl_28188.u1, scope.handshake.rm.km = scope.v_Hl_28188.H, scope.handshake.rm.bm = scope.v_Hl_28188.f1, scope.handshake.rm.Sm = scope.v_Hl_28188.h1.T, scope.handshake.rm.xm = scope.v_Hl_28188.h1.rr, scope.handshake.rm.ym = scope.v_Hl_28188.h1.C, scope.handshake.rm.Cm = scope.v_Hl_28188.h1.GA, scope.handshake.rm.Im = scope.v_Hl_28188.Z.X, scope.handshake.rm.Am = scope.v_Hl_28188.Z.a1, scope.handshake.rm.Tm = scope.v_Hl_28188.Z.d1, scope.handshake.rm.Lm = scope.v_Hl_28188.Z.t1, scope.handshake.rm.Rm = scope.v_Hl_28188.Z.s1, scope.handshake.rm.gb = scope.v_Hl_28188.g1, setInterval(scope.v_A1_27887, 500), scope.doc.body.addEventListener("keydown", function (v_t_35121) {
   v_t_35121.repeat || ("Enter" !== v_t_35121.key || v_t_35121.shiftKey || v_t_35121.metaKey || !v_t_35121.altKey || v_t_35121.ctrlKey ? "F1" !== v_t_35121.key || !v_t_35121.shiftKey || v_t_35121.metaKey || v_t_35121.altKey || v_t_35121.ctrlKey || scope.v_ur_27932.bb() : (scope.systemMisc.w2(), v_t_35121.preventDefault()));
 }), scope.currentLang = scope.handshake.rm.I4, scope.v_h1_27859 = scope.handshake.rm.Am, scope.v_R_27641 = scope.handshake.rm.pm, scope.v_L_27642 = scope.handshake.rm.km, scope.v_bn_27637 = scope.handshake.rm.vm || scope.handshake.rm.gm, -1 === scope.supportedLangs.indexOf(scope.currentLang) && (scope.handshake.A4 = !0, scope.currentLang = "ja-JP"), scope.v_Ul_28187.has("errDisp")) {
   var v_Hl_28188 = scope.v_Pe_28064(scope.v_Ul_28187.get("errDisp"));
-  let v_t_35122 = scope.win.createElement("div"),
-    v_i_35123 = (v_t_35122.setAttribute("style", "width: 1920px;height: 1080px;background: #000;font-family: system-ui;font-size: 16px;padding: 12px;z-index:99;"), scope.win.createElement("div")),
-    v_e_35124 = (v_i_35123.setAttribute("style", ""), v_t_35122.appendChild(v_i_35123), scope.win.createElement("div")),
+  let v_t_35122 = scope.doc.createElement("div"),
+    v_i_35123 = (v_t_35122.setAttribute("style", "width: 1920px;height: 1080px;background: #000;font-family: system-ui;font-size: 16px;padding: 12px;z-index:99;"), scope.doc.createElement("div")),
+    v_e_35124 = (v_i_35123.setAttribute("style", ""), v_t_35122.appendChild(v_i_35123), scope.doc.createElement("div")),
     v_n_35125 = (v_e_35124.setAttribute("style", "margin-left:24px"), v_t_35122.appendChild(v_e_35124), scope.v_y_27559.appendChild(v_t_35122), v_i_35123.innerText = "FAITAL ERROR (0x" + scope.v_Xa_28081(scope.v_Hl_28188.toString(16), 4, "0") + ")", "");
   switch (scope.v_Hl_28188) {
     case scope.v_W_27705:
@@ -6363,7 +6354,7 @@ if (addEventListener("resize", scope.v_m1_27881), addEventListener("unload", sco
   }
   v_n_35125 += "\n\n--- App Info ---\nVersion: " + scope.v_U_27653 + "\nBuild Time: " + scope.handshake.rm.Sm + " " + scope.handshake.rm.xm + "\nBuild Hash: " + scope.handshake.rm.ym + "\nBuild Conf: " + scope.handshake.rm.Cm, v_e_35124.innerText = v_n_35125;
 } else if (scope.v_Ul_28187.has("fix")) {
-  let v_t_35126 = scope.win.createElement("canvas"),
+  let v_t_35126 = scope.doc.createElement("canvas"),
     v_e_35127 = (v_t_35126.width = scope.v_yn_27656, v_t_35126.height = scope.v_Sn_27657, scope.v_y_27559.appendChild(v_t_35126), v_t_35126.getContext("2d", {
       alpha: !1
     })),
