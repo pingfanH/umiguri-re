@@ -3,10 +3,15 @@
 // 游戏侧在输入刷新时读取 window.__umgLanes[t], 因此面板按下即等同于该档位按下。
 import { kbdUni2Virt } from './vk.js';
 
-export const FE_KEYMAP = 'A1B2C3D4E5F6G7H8I9J0K;L\'M,N.O/P-RSTUWY';
-
+// 档位映射以握手 fe 为准(可与配置 keymap.current 不同), 顺序 = 游戏档位序号
+export const DEFAULT_FE_KEYMAP = 'A1B2C3D4E5F6G7H8I9J0K;L\'M,N.O/P-RSTUWY';
 export const VK_LANE = new Map();
-FE_KEYMAP.split('').forEach((c, i) => VK_LANE.set(kbdUni2Virt(c.charCodeAt(0)), i));
+export function rebuildLaneMap(fe) {
+  const s = typeof fe === 'string' && fe.length === 38 ? fe : DEFAULT_FE_KEYMAP;
+  VK_LANE.clear();
+  s.split('').forEach((c, i) => VK_LANE.set(kbdUni2Virt(c.charCodeAt(0)), i));
+}
+rebuildLaneMap(DEFAULT_FE_KEYMAP);
 
 window.__umgLanes = new Uint8Array(40);
 

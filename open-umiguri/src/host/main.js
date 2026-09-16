@@ -17,6 +17,9 @@ import { loadMain } from './loader/decrypt-loader.js';
 import { loadHostConfig } from './bridge/host-config.js';
 import { applyHostConfig, handshake } from './bridge/handshake.js';
 import { tryInvoke } from './core/invoke.js';
+import { rebuildLaneMap } from './input/lanes.js';
+import { setKeyLayoutFromFe } from './keypanel/config.js';
+import { refreshKeyPanelLayout } from './keypanel/panel.js';
 
 // Tauri v2 在 csp:null 时会拦截「页面加载阶段」的 IPC(fetch ipc://localhost),
 // 见 tauri#14707 / #15216。因此凡会触发 invoke 的初始化(含游戏启动)一律推迟到
@@ -50,6 +53,10 @@ whenPageReady(async () => {
     if (cfg.windowMode || cfg.resolution) {
       await tryInvoke('apply_window_config', { mode: cfg.windowMode, size: cfg.resolution }, false);
     }
+    // 键位布局与档位映射统一以握手 fe 为准
+    rebuildLaneMap(handshake.fe);
+    setKeyLayoutFromFe(handshake.fe);
+    refreshKeyPanelLayout();
     console.error('[umg][handshake] ' + JSON.stringify({
       ct: handshake.O.ct, B: handshake.O.B, p9: handshake.O.p9, I4: handshake.I4,
       fe: handshake.fe, R: handshake.R, j: handshake.j, M: handshake.M, u1: handshake.u1,

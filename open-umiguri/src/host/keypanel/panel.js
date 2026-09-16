@@ -1,5 +1,5 @@
 // 虚拟按键面板: DOM 构建与显隐。
-import { panelCfg, panelScale, MAIN_FRONT, MAIN_BACK, AIR_KEYS } from './config.js';
+import { panelCfg, panelScale, getKeyLayout } from './config.js';
 import { charToVk } from '../input/vk.js';
 import { touchPress, touchRelease } from '../input/lanes.js';
 import { setTouchKeyCollector } from '../input/keyboard.js';
@@ -151,7 +151,7 @@ export function ensureKeyPanel() {
   // (始终构建; showLanes=false 时只设为不可见, 不销毁、不影响触摸)
   const airBox = document.createElement('div');
   airBox.style.cssText = 'width:100%;display:flex;flex-direction:column;pointer-events:auto;';
-  const airVks = AIR_KEYS.map(charToVk);
+  const airVks = getKeyLayout().air.map(charToVk);
   airVks.forEach((vk, i) => {
     const el = mkKey(vk, 'air');
     if (panelCfg.airRowGap !== 0 && i < airVks.length - 1) el.style.marginBottom = ux(panelCfg.airRowGap) + 'px';
@@ -167,7 +167,7 @@ export function ensureKeyPanel() {
     'grid-template-rows:repeat(2,' + ux(st.rowH) + 'px);' +
     'width:66.6667%;background:rgba(128,128,128,' + st.bg + ');' +
     'border:1px solid rgba(128,128,128,0.4);pointer-events:auto;box-sizing:border-box;';
-  MAIN_FRONT.concat(MAIN_BACK).map(charToVk).forEach((vk, i) => {
+  getKeyLayout().front.concat(getKeyLayout().back).map(charToVk).forEach((vk, i) => {
     const c = mkKey(vk, 'cell');
     if ((i + 1) % 16 === 0) c.style.borderRight = 'none';
     if (i >= 16) c.style.borderBottom = 'none';
@@ -247,6 +247,11 @@ export function collectTouchKey(vk) {
       }
     }, 300);
   }
+}
+
+// 配置/键位变化后重建面板(若已构建)
+export function refreshKeyPanelLayout() {
+  if (keyPanel) ensureKeyPanel();
 }
 
 // 跟随容器/窗口变化重建

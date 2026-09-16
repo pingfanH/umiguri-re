@@ -101,6 +101,18 @@ export const PAD_RECTS = [
 // 主键布局(音游 16 键: 上排 front 字母, 下排 back 数字/符号)
 //   来源: 真机握手 dump frontend/handshake_full.json 的 fe 字段(38 键):
 //     A1 B2 C3 D4 E5 F6 G7 H8 I9 J0 K; L' M, N. O/ P-  +  air  R S T U W Y
-export const MAIN_FRONT = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P'];
-export const MAIN_BACK = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', ';', "'", ',', '.', '/', '-'];
-export const AIR_KEYS = ['R', 'S', 'T', 'U', 'W', 'Y'];
+// 键位布局: 必须与握手 fe 一致(档位序号 = fe 中字符位置)。
+//   fe[0..15]  上排 16 键   fe[16..31] 下排 16 键   fe[32..37] air 6 键
+export const DEFAULT_FE = 'A1B2C3D4E5F6G7H8I9J0K;L\'M,N.O/P-RSTUWY';
+function splitFe(fe) {
+  const c = String(fe).split('');
+  return { front: c.slice(0, 16), back: c.slice(16, 32), air: c.slice(32, 38) };
+}
+let keyLayout = splitFe(DEFAULT_FE);
+export function setKeyLayoutFromFe(fe) {
+  if (typeof fe === 'string' && fe.length === 38) keyLayout = splitFe(fe);
+  return keyLayout;
+}
+export function getKeyLayout() {
+  return keyLayout;
+}
