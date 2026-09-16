@@ -4361,13 +4361,13 @@
       };
     }(),
     testMenu = function () {
-      const v_o_31817 = 1,
-        v_l_31818 = 2,
-        v_v_31819 = 4,
-        v_c_31820 = 268435456,
-        v_u_31821 = 536870912;
-      function v_t_31822() {
-        this.Gi = !1, this.r0 = "", this.a0 = null, this.Qc = !1, this.eu = 0, this.tu = 0, this.ve = [new v_i_31823(0, 3, v_o_31817), new v_i_31823(3, 3, v_l_31818), new v_i_31823(6, 3, 8), new v_i_31823(9, 3, 16), new v_i_31823(12, 4, v_v_31819)], this.iu = {
+      const BTN_DOWN = 1,
+        BTN_UP = 2,
+        BTN_ENTER = 4,
+        BTN_TEST = 268435456,
+        BTN_SERVICE = 536870912;
+      function MenuState() {
+        this.Gi = !1, this.r0 = "", this.a0 = null, this.Qc = !1, this.eu = 0, this.tu = 0, this.ve = [new SliderZone(0, 3, BTN_DOWN), new SliderZone(3, 3, BTN_UP), new SliderZone(6, 3, 8), new SliderZone(9, 3, 16), new SliderZone(12, 4, BTN_ENTER)], this.iu = {
           nu: !1,
           ru: 0,
           au: 0,
@@ -4375,29 +4375,29 @@
           Ee: void 0
         };
       }
-      function v_i_31823(v_t_31836, v_i_31837, v_e_31838) {
-        this.ou = v_t_31836, this.w = v_i_31837, this.lu = 0, this.Ae = v_e_31838;
+      function SliderZone(colStart, colWidth, action) {
+        this.ou = colStart, this.w = colWidth, this.lu = 0, this.Ae = action;
       }
-      function v_n_31824() {
-        this.cu = "", this.uu = void 0, this.fu = void 0, this._u = void 0, this.du = void 0, this.hu = void 0, this.vu = void 0, this.au = 0, this.gu = [], this.wu = v_o_31817 | v_l_31818 | v_v_31819, this.On = {};
+      function MenuPage() {
+        this.cu = "", this.uu = void 0, this.fu = void 0, this._u = void 0, this.du = void 0, this.hu = void 0, this.vu = void 0, this.au = 0, this.gu = [], this.wu = BTN_DOWN | BTN_UP | BTN_ENTER, this.On = {};
       }
-      v_n_31824.prototype = {
-        pu: function (v_t_31839, v_i_31840) {
-          return v_t_31839 & (v_o_31817 | v_u_31821) && 0 < this.gu.length ? (this.au = v_qa_28086(this.au + 1, this.gu.length), this.vu && this.vu(), !0) : !!(v_t_31839 & v_l_31818 && 0 < this.gu.length) && (this.au = v_qa_28086(this.au - 1, this.gu.length), this.vu && this.vu(), !0);
+      MenuPage.prototype = {
+        pu: function (btnMask, heldMask) {
+          return btnMask & (BTN_DOWN | BTN_SERVICE) && 0 < this.gu.length ? (this.au = v_qa_28086(this.au + 1, this.gu.length), this.vu && this.vu(), !0) : !!(btnMask & BTN_UP && 0 < this.gu.length) && (this.au = v_qa_28086(this.au - 1, this.gu.length), this.vu && this.vu(), !0);
         },
-        ku: function (v_t_31841) {
-          return this.uu.elementByName("textMenu" + v_t_31841);
+        ku: function (itemName) {
+          return this.uu.elementByName("textMenu" + itemName);
         },
         bu: function () {
           return this.ku(this.gu[this.au]);
         }
-      }, v_n_31824.Vc = function (v_t_31842) {
-        var v_i_31843 = new v_n_31824();
-        return v_i_31843.cu = v_t_31842, v_i_31843.uu = v_w_31825.rsbTree.elementByName("page" + v_t_31842), v_e_31828[v_t_31842] = v_i_31843;
+      }, MenuPage.Vc = function (pageName) {
+        var pageObj = new MenuPage();
+        return pageObj.cu = pageName, pageObj.uu = currentRsb.rsbTree.elementByName("page" + pageName), pages[pageName] = pageObj;
       };
-      let v_w_31825 = void 0,
-        v_f_31826 = new v_t_31822(),
-        v___31827 = {
+      let currentRsb = void 0,
+        menuState = new MenuState(),
+        guideElements = {
           mu: void 0,
           Su: void 0,
           xu: void 0,
@@ -4408,213 +4408,213 @@
           Tu: void 0,
           Lu: void 0
         },
-        v_e_31828 = {};
-      function v_h_31829(v_t_31844) {
-        if (v_t_31844 & (v_o_31817 | v_u_31821) && 1 < v_f_31826.iu.su && (v_f_31826.iu.au = v_qa_28086(v_f_31826.iu.au + 1, v_f_31826.iu.su), v_r_31830()), v_t_31844 & v_l_31818 && 1 < v_f_31826.iu.su && (v_f_31826.iu.au = v_qa_28086(v_f_31826.iu.au - 1, v_f_31826.iu.su), v_r_31830()), v_t_31844 & (v_v_31819 | v_c_31820)) {
-          if (v_f_31826.iu.Ee) switch (v_f_31826.iu.ru & v_tt_27777) {
+        pages = {};
+      function handleDialogInput(buttons) {
+        if (buttons & (BTN_DOWN | BTN_SERVICE) && 1 < menuState.iu.su && (menuState.iu.au = v_qa_28086(menuState.iu.au + 1, menuState.iu.su), positionDialogCursor()), buttons & BTN_UP && 1 < menuState.iu.su && (menuState.iu.au = v_qa_28086(menuState.iu.au - 1, menuState.iu.su), positionDialogCursor()), buttons & (BTN_ENTER | BTN_TEST)) {
+          if (menuState.iu.Ee) switch (menuState.iu.ru & v_tt_27777) {
             case v_N0_27771:
-              v_f_31826.iu.Ee(v_nt_27780);
+              menuState.iu.Ee(v_nt_27780);
               break;
             case v_G0_27772:
-              0 === v_f_31826.iu.au ? v_f_31826.iu.Ee(v_H0_27781) : v_f_31826.iu.Ee(v_rt_27782);
+              0 === menuState.iu.au ? menuState.iu.Ee(v_H0_27781) : menuState.iu.Ee(v_rt_27782);
           }
-          v_f_31826.iu.nu = !1, v_f_31826.iu.ru = 0, v_f_31826.iu.Ee = void 0, v___31827.Iu.visible = !1;
+          menuState.iu.nu = !1, menuState.iu.ru = 0, menuState.iu.Ee = void 0, guideElements.Iu.visible = !1;
         }
       }
-      function v_r_31830() {
-        switch (v_f_31826.iu.ru & v_tt_27777) {
+      function positionDialogCursor() {
+        switch (menuState.iu.ru & v_tt_27777) {
           case v_N0_27771:
-            v___31827.Cu.y = v___31827.Au.y;
+            guideElements.Cu.y = guideElements.Au.y;
             break;
           case v_G0_27772:
-            0 === v_f_31826.iu.au ? v___31827.Cu.y = v___31827.Tu.y : v___31827.Cu.y = v___31827.Lu.y;
+            0 === menuState.iu.au ? guideElements.Cu.y = guideElements.Tu.y : guideElements.Cu.y = guideElements.Lu.y;
         }
       }
-      function v_a_31831(v_t_31845, v_i_31846, v_e_31847) {
-        if (!v_f_31826.iu.nu) {
-          switch (v_f_31826.iu.nu = !0, v_f_31826.iu.au = 0, v_f_31826.iu.ru = v_i_31846, v_f_31826.iu.Ee = v_e_31847, v_f_31826.iu.ru & v_tt_27777) {
+      function confirmDialog(dialogMsg, dialogType, dialogCb) {
+        if (!menuState.iu.nu) {
+          switch (menuState.iu.nu = !0, menuState.iu.au = 0, menuState.iu.ru = dialogType, menuState.iu.Ee = dialogCb, menuState.iu.ru & v_tt_27777) {
             case v_N0_27771:
-              v_f_31826.iu.su = 1, v___31827.Au.visible = !0, v___31827.Tu.visible = !1, v___31827.Lu.visible = !1;
+              menuState.iu.su = 1, guideElements.Au.visible = !0, guideElements.Tu.visible = !1, guideElements.Lu.visible = !1;
               break;
             case v_G0_27772:
-              v_f_31826.iu.su = 2, v___31827.Au.visible = !1, v___31827.Tu.visible = !0, v___31827.Lu.visible = !0;
+              menuState.iu.su = 2, guideElements.Au.visible = !1, guideElements.Tu.visible = !0, guideElements.Lu.visible = !0;
           }
-          v___31827.yu.Wt = v_t_31845, v_r_31830(), v___31827.Iu.visible = !0;
+          guideElements.yu.Wt = dialogMsg, positionDialogCursor(), guideElements.Iu.visible = !0;
         }
       }
-      function v_d_31832(v_t_31848) {
-        v_f_31826.a0 && (v_f_31826.a0.uu.visible = !1, v_f_31826.a0._u && v_f_31826.a0._u(), v_f_31826.Qc = !0), v_f_31826.r0 = v_t_31848, v_f_31826.a0 = v_e_31828[v_t_31848], v_f_31826.a0.fu && v_f_31826.a0.fu(), v_f_31826.a0.vu && v_f_31826.a0.vu(), v_f_31826.a0.uu.visible = !0;
+      function switchPage(pageName) {
+        menuState.a0 && (menuState.a0.uu.visible = !1, menuState.a0._u && menuState.a0._u(), menuState.Qc = !0), menuState.r0 = pageName, menuState.a0 = pages[pageName], menuState.a0.fu && menuState.a0.fu(), menuState.a0.vu && menuState.a0.vu(), menuState.a0.uu.visible = !0;
       }
-      function v_s_31833() {
-        let v_t_31849;
-        var v_i_31850, v_e_31851;
-        function v_s_31852() {
+      function buildPages() {
+        let pageObj;
+        var fillCount, fillValue;
+        function DelayEntry() {
           this.lr = !1, this.xR = 0;
         }
-        (v_t_31849 = v_n_31824.Vc("Root")) && (v_t_31849.gu = ["InputTest", "OutputTest", "Graphics", "HardwareInfo", "AmReaderTest", "VfdTest", "InputDelayTest", "DataState", "VideoExportTest", "Reboot", "Shutdown", "Exit"], v_t_31849.au = v_t_31849.gu.indexOf("Exit"), v_t_31849.fu = function () {}, v_t_31849.du = function (v_t_31853, v_i_31854) {
-          if (!this.pu(v_t_31853, v_i_31854) && v_t_31853 & (v_v_31819 | v_c_31820)) switch (this.gu[this.au]) {
+        (pageObj = MenuPage.Vc("Root")) && (pageObj.gu = ["InputTest", "OutputTest", "Graphics", "HardwareInfo", "AmReaderTest", "VfdTest", "InputDelayTest", "DataState", "VideoExportTest", "Reboot", "Shutdown", "Exit"], pageObj.au = pageObj.gu.indexOf("Exit"), pageObj.fu = function () {}, pageObj.du = function (btnMask, heldMask) {
+          if (!this.pu(btnMask, heldMask) && btnMask & (BTN_ENTER | BTN_TEST)) switch (this.gu[this.au]) {
             case "InputTest":
-              v_d_31832("InputTest");
+              switchPage("InputTest");
               break;
             case "OutputTest":
-              v_d_31832("OutputTest");
+              switchPage("OutputTest");
               break;
             case "Graphics":
-              v_d_31832("Graphics");
+              switchPage("Graphics");
               break;
             case "HardwareInfo":
-              v_d_31832("HardwareInfo");
+              switchPage("HardwareInfo");
               break;
             case "AmReaderTest":
-              v_d_31832("AmReaderTest");
+              switchPage("AmReaderTest");
               break;
             case "VfdTest":
-              v_d_31832("VfdTest");
+              switchPage("VfdTest");
               break;
             case "InputDelayTest":
-              v_d_31832("InputDelayTest");
+              switchPage("InputDelayTest");
               break;
             case "DataState":
-              v_d_31832("DataState");
+              switchPage("DataState");
               break;
             case "VideoExportTest":
-              v_d_31832("VideoExportTest");
+              switchPage("VideoExportTest");
               break;
             case "SystemConfig":
-              v_a_31831(v_Ue_28209("svcMenuShutdownMessage"), v_G0_27772, function (v_t_31855) {
-                v_t_31855 === v_H0_27781 && (location.href = "/sysconf.html");
+              confirmDialog(v_Ue_28209("svcMenuShutdownMessage"), v_G0_27772, function (dialogResult) {
+                dialogResult === v_H0_27781 && (location.href = "/sysconf.html");
               });
               break;
             case "Reboot":
-              v_a_31831(v_Ue_28209("svcMenuRebootMessage"), v_G0_27772, function (v_t_31856) {
-                v_t_31856 === v_H0_27781 && location.reload();
+              confirmDialog(v_Ue_28209("svcMenuRebootMessage"), v_G0_27772, function (dialogResult) {
+                dialogResult === v_H0_27781 && location.reload();
               });
               break;
             case "Shutdown":
-              v_a_31831(v_Ue_28209("svcMenuShutdownMessage"), v_G0_27772, function (v_t_31857) {
-                v_t_31857 === v_H0_27781 && window.close();
+              confirmDialog(v_Ue_28209("svcMenuShutdownMessage"), v_G0_27772, function (dialogResult) {
+                dialogResult === v_H0_27781 && window.close();
               });
               break;
             case "Exit":
-              sceneManager.Jk(!1), renderer.v9(-1), renderer._i("sysTestMenu"), v_D_27646.oS(), v_f_31826.Gi = !1;
+              sceneManager.Jk(!1), renderer.v9(-1), renderer._i("sysTestMenu"), v_D_27646.oS(), menuState.Gi = !1;
           }
-        }, v_t_31849.vu = function () {
+        }, pageObj.vu = function () {
           this.uu.elementByName("textMenuCursor").y = this.bu().y;
-        }), (v_t_31849 = v_n_31824.Vc("InputTest")) && (v_t_31849.wu = 0, v_t_31849.On = {
-          Eu: v_t_31849.uu.elementByName("textGeneralInputState"),
-          Fu: [v_t_31849.uu.elementByName("textMainInputState0"), v_t_31849.uu.elementByName("textMainInputState1")],
-          Bu: v_t_31849.uu.elementByName("textSideInputState"),
-          Mu: (v_i_31850 = 32, v_e_31851 = 0, Array.from({
-            length: v_i_31850
-          }, () => v_e_31851))
-        }, v_t_31849.On.Eu.Tn || (v_t_31849.On.Eu.Tn = new v_Bo_28128()), v_t_31849.On.Fu[0].Tn || (v_t_31849.On.Fu[0].Tn = new v_Bo_28128()), v_t_31849.On.Fu[1].Tn || (v_t_31849.On.Fu[1].Tn = new v_Bo_28128()), v_t_31849.On.Bu.Tn || (v_t_31849.On.Bu.Tn = new v_Bo_28128()), v_t_31849.fu = function () {
+        }), (pageObj = MenuPage.Vc("InputTest")) && (pageObj.wu = 0, pageObj.On = {
+          Eu: pageObj.uu.elementByName("textGeneralInputState"),
+          Fu: [pageObj.uu.elementByName("textMainInputState0"), pageObj.uu.elementByName("textMainInputState1")],
+          Bu: pageObj.uu.elementByName("textSideInputState"),
+          Mu: (fillCount = 32, fillValue = 0, Array.from({
+            length: fillCount
+          }, () => fillValue))
+        }, pageObj.On.Eu.Tn || (pageObj.On.Eu.Tn = new v_Bo_28128()), pageObj.On.Fu[0].Tn || (pageObj.On.Fu[0].Tn = new v_Bo_28128()), pageObj.On.Fu[1].Tn || (pageObj.On.Fu[1].Tn = new v_Bo_28128()), pageObj.On.Bu.Tn || (pageObj.On.Bu.Tn = new v_Bo_28128()), pageObj.fu = function () {
           this.On.Mu.fill(0);
-        }, v_t_31849.hu = function () {
-          var v_e_31858 = inputModule.sR();
-          let v_n_31859 = "";
-          v_n_31859 = (v_n_31859 += (v_f_31826.tu & v_c_31820 ? "<#c:62cbf5>ON<#r>" : "OFF") + "\n") + (v_f_31826.tu & v_u_31821 ? "<#c:62cbf5>ON<#r>" : "OFF"), this.On.Eu.Wt = this.On.Eu.Tn.An(v_n_31859);
-          for (let v_i_31861 = 0; v_i_31861 < 2; ++v_i_31861) {
-            v_n_31859 = "";
-            for (let v_t_31862 = 16 * v_i_31861; v_t_31862 < 16 * v_i_31861 + 16; ++v_t_31862) {
-              this.On.Mu[31 - v_t_31862] < v_e_31858[31 - v_t_31862] && (this.On.Mu[31 - v_t_31862] = v_e_31858[31 - v_t_31862]);
-              var v_r_31860 = v_e_31858[31 - v_t_31862] >= inputModule.he;
-              v_n_31859 += (v_r_31860 ? "<#c:62cbf5>ON  " : "OFF ") + v_Xa_28081("" + v_e_31858[31 - v_t_31862], 3, " ") + "/" + v_Xa_28081("" + this.On.Mu[31 - v_t_31862], 3, " ") + "<#r>\n";
+        }, pageObj.hu = function () {
+          var analogValues = inputModule.sR();
+          let textBuf = "";
+          textBuf = (textBuf += (menuState.tu & BTN_TEST ? "<#c:62cbf5>ON<#r>" : "OFF") + "\n") + (menuState.tu & BTN_SERVICE ? "<#c:62cbf5>ON<#r>" : "OFF"), this.On.Eu.Wt = this.On.Eu.Tn.An(textBuf);
+          for (let halfIdx = 0; halfIdx < 2; ++halfIdx) {
+            textBuf = "";
+            for (let laneIdx = 16 * halfIdx; laneIdx < 16 * halfIdx + 16; ++laneIdx) {
+              this.On.Mu[31 - laneIdx] < analogValues[31 - laneIdx] && (this.On.Mu[31 - laneIdx] = analogValues[31 - laneIdx]);
+              var isOn = analogValues[31 - laneIdx] >= inputModule.he;
+              textBuf += (isOn ? "<#c:62cbf5>ON  " : "OFF ") + v_Xa_28081("" + analogValues[31 - laneIdx], 3, " ") + "/" + v_Xa_28081("" + this.On.Mu[31 - laneIdx], 3, " ") + "<#r>\n";
             }
-            this.On.Fu[v_i_31861].Wt = this.On.Fu[v_i_31861].Tn.An(v_n_31859);
+            this.On.Fu[halfIdx].Wt = this.On.Fu[halfIdx].Tn.An(textBuf);
           }
-          v_n_31859 = "";
-          for (let v_t_31863 = 32; v_t_31863 < 38; ++v_t_31863) v_n_31859 += 63 <= v_e_31858[v_t_31863] ? "<#c:62cbf5>ON<#r>\n" : "OFF\n";
-          this.On.Bu.Wt = this.On.Bu.Tn.An(v_n_31859);
-        }, v_t_31849.du = function (v_t_31864, v_i_31865) {
-          this.pu(v_t_31864, v_i_31865) || v_t_31864 & (v_c_31820 | v_u_31821) && v_i_31865 & v_c_31820 && v_i_31865 & v_u_31821 && v_d_31832("Root");
-        }), (v_t_31849 = v_n_31824.Vc("OutputTest")) && (v_t_31849.wu = v_l_31818 | v_o_31817 | v_v_31819, v_t_31849.gu = ["OutputTest0", "OutputTest1", "OutputTest2", "OutputTest3", "OutputTest4", "OutputTest5", "OutputTest6", "Back"], v_t_31849.au = 0, v_t_31849.K = function () {
+          textBuf = "";
+          for (let airIdx = 32; airIdx < 38; ++airIdx) textBuf += 63 <= analogValues[airIdx] ? "<#c:62cbf5>ON<#r>\n" : "OFF\n";
+          this.On.Bu.Wt = this.On.Bu.Tn.An(textBuf);
+        }, pageObj.du = function (btnMask, heldMask) {
+          this.pu(btnMask, heldMask) || btnMask & (BTN_TEST | BTN_SERVICE) && heldMask & BTN_TEST && heldMask & BTN_SERVICE && switchPage("Root");
+        }), (pageObj = MenuPage.Vc("OutputTest")) && (pageObj.wu = BTN_UP | BTN_DOWN | BTN_ENTER, pageObj.gu = ["OutputTest0", "OutputTest1", "OutputTest2", "OutputTest3", "OutputTest4", "OutputTest5", "OutputTest6", "Back"], pageObj.au = 0, pageObj.K = function () {
           try {
-            var v_glL_31866 = v_w_31825 && v_w_31825.rsbTree && v_w_31825.rsbTree.elementByName("keyGuideLeft"),
-              v_glR_31867 = v_w_31825 && v_w_31825.rsbTree && v_w_31825.rsbTree.elementByName("keyGuideRight");
-            if (v_glL_31866) {
-              v_glL_31866.visible = !0;
-              for (var v_qi_31868 = 0; v_qi_31868 < v_glL_31866.We.length; ++v_qi_31868) v_glL_31866.We[v_qi_31868].visible = !0;
+            var guideLeftEl = currentRsb && currentRsb.rsbTree && currentRsb.rsbTree.elementByName("keyGuideLeft"),
+              guideRightEl = currentRsb && currentRsb.rsbTree && currentRsb.rsbTree.elementByName("keyGuideRight");
+            if (guideLeftEl) {
+              guideLeftEl.visible = !0;
+              for (var idx = 0; idx < guideLeftEl.We.length; ++idx) guideLeftEl.We[idx].visible = !0;
             }
-            if (v_glR_31867) {
-              v_glR_31867.visible = !0;
-              for (var v_qj_31869 = 0; v_qj_31869 < v_glR_31867.We.length; ++v_qj_31869) v_glR_31867.We[v_qj_31869].visible = !0;
+            if (guideRightEl) {
+              guideRightEl.visible = !0;
+              for (var idx = 0; idx < guideRightEl.We.length; ++idx) guideRightEl.We[idx].visible = !0;
             }
-            var v_p_31870 = window.umgKeyPanel && window.umgKeyPanel.get();
-            if (!v_p_31870) return;
-            var v_u_31871 = this.uu;
-            var rows = [["textMenuOutputTest0Value", v_p_31870.rowH], ["textMenuOutputTest1Value", v_p_31870.colGap], ["textMenuOutputTest2Value", v_p_31870.airGap], ["textMenuOutputTest3Value", v_p_31870.airRowGap], ["textMenuOutputTest4Value", v_p_31870.bottomInset], ["textMenuOutputTest5Value", v_p_31870.radius], ["textMenuOutputTest6Value", v_p_31870.showLanes ? "ON" : "OFF"]];
-            for (var v_i_31872 = 0; v_i_31872 < rows.length; ++v_i_31872) {
-              var v_e_31873 = v_u_31871.elementByName(rows[v_i_31872][0]);
-              if (v_e_31873) v_e_31873.Wt = "" + rows[v_i_31872][1];
+            var panelCfg = window.umgKeyPanel && window.umgKeyPanel.get();
+            if (!panelCfg) return;
+            var pageRootEl = this.uu;
+            var rows = [["textMenuOutputTest0Value", panelCfg.rowH], ["textMenuOutputTest1Value", panelCfg.colGap], ["textMenuOutputTest2Value", panelCfg.airGap], ["textMenuOutputTest3Value", panelCfg.airRowGap], ["textMenuOutputTest4Value", panelCfg.bottomInset], ["textMenuOutputTest5Value", panelCfg.radius], ["textMenuOutputTest6Value", panelCfg.showLanes ? "ON" : "OFF"]];
+            for (var idx = 0; idx < rows.length; ++idx) {
+              var valueEl = pageRootEl.elementByName(rows[idx][0]);
+              if (valueEl) valueEl.Wt = "" + rows[idx][1];
             }
-            var v_gr_31874 = v_u_31871.elementByName("textMenuOutputTest5Value");
-            if (v_gr_31874 && window.umgKeyPanel) window.umgKeyPanel.setGuidePos((v_u_31871.x || 0) + v_gr_31874.x, (v_u_31871.y || 0) + v_gr_31874.y, v_gr_31874.w, v_gr_31874.h);
-          } catch (v_e_31875) {}
-        }, v_t_31849.fu = function () {
+            var radiusEl = pageRootEl.elementByName("textMenuOutputTest5Value");
+            if (radiusEl && window.umgKeyPanel) window.umgKeyPanel.setGuidePos((pageRootEl.x || 0) + radiusEl.x, (pageRootEl.y || 0) + radiusEl.y, radiusEl.w, radiusEl.h);
+          } catch (catchErr) {}
+        }, pageObj.fu = function () {
           try {
             window.umgKeyPanel && (window.umgKeyPanel.settingsBegin(), this.K());
           } catch (v_e_31876) {}
-        }, v_t_31849._u = function () {
+        }, pageObj._u = function () {
           try {
-            var v_glL_31877 = v_w_31825 && v_w_31825.rsbTree && v_w_31825.rsbTree.elementByName("keyGuideLeft"),
-              v_glR_31878 = v_w_31825 && v_w_31825.rsbTree && v_w_31825.rsbTree.elementByName("keyGuideRight");
+            var v_glL_31877 = currentRsb && currentRsb.rsbTree && currentRsb.rsbTree.elementByName("keyGuideLeft"),
+              v_glR_31878 = currentRsb && currentRsb.rsbTree && currentRsb.rsbTree.elementByName("keyGuideRight");
             if (v_glL_31877) v_glL_31877.visible = !1;
             if (v_glR_31878) v_glR_31878.visible = !1;
             window.umgKeyPanel && window.umgKeyPanel.settingsEnd();
-          } catch (v_e_31879) {}
-        }, v_t_31849.du = function (v_t_31880, v_i_31881) {
+          } catch (catchErr) {}
+        }, pageObj.du = function (btnMask, heldMask) {
           try {
-            if (v_t_31880 & v_l_31818) {
-              var v_n_31882 = this.gu.length,
-                v_a_31883 = this.au - 1;
-              this.au = v_a_31883 < 0 ? v_n_31882 - 1 : v_a_31883;
+            if (btnMask & BTN_UP) {
+              var itemCount = this.gu.length,
+                prevIdx = this.au - 1;
+              this.au = prevIdx < 0 ? itemCount - 1 : prevIdx;
               this.vu();
               this.K();
               return;
             }
-            if (v_t_31880 & v_o_31817) {
-              var v_n2_31884 = this.gu.length,
-                v_a2_31885 = this.au + 1;
-              this.au = v_a2_31885 >= v_n2_31884 ? 0 : v_a2_31885;
+            if (btnMask & BTN_DOWN) {
+              var itemCount2 = this.gu.length,
+                nextIdx = this.au + 1;
+              this.au = nextIdx >= itemCount2 ? 0 : nextIdx;
               this.vu();
               this.K();
               return;
             }
-            if (v_t_31880 & v_c_31820) {
-              v_d_31832("Root");
+            if (btnMask & BTN_TEST) {
+              switchPage("Root");
               return;
             }
             var keys = ["rowH", "colGap", "airGap", "airRowGap", "bottomInset", "radius", "showLanes", null],
-              v_dir_31886 = 0;
-            if (v_t_31880 & 16) v_dir_31886 = 1;else if (v_t_31880 & 8) v_dir_31886 = -1;else if (v_t_31880 & v_u_31821) v_dir_31886 = 1;else return;
+              dirSign = 0;
+            if (btnMask & 16) dirSign = 1;else if (btnMask & 8) dirSign = -1;else if (btnMask & BTN_SERVICE) dirSign = 1;else return;
             if (this.au === 7) {
-              v_d_31832("Root");
+              switchPage("Root");
               return;
             }
-            var v_k_31887 = keys[this.au];
-            if (!v_k_31887) {
+            var cfgKey = keys[this.au];
+            if (!cfgKey) {
               return;
             }
-            if (v_k_31887 === "showLanes") {
+            if (cfgKey === "showLanes") {
               window.umgKeyPanel && window.umgKeyPanel.setLanes(!window.umgKeyPanel.get().showLanes);
             } else {
-              window.umgKeyPanel && window.umgKeyPanel.cycle(v_k_31887, v_dir_31886);
+              window.umgKeyPanel && window.umgKeyPanel.cycle(cfgKey, dirSign);
             }
             this.K();
-          } catch (v_e_31888) {}
-        }, v_t_31849.vu = function () {
+          } catch (catchErr) {}
+        }, pageObj.vu = function () {
           try {
-            var v_c_31889 = this.uu && this.uu.elementByName("textMenuCursor"),
-              v_b_31890 = this.bu();
-            if (v_c_31889 && v_b_31890) v_c_31889.y = v_b_31890.y;
-          } catch (v_e_31891) {}
-        }), (v_t_31849 = v_n_31824.Vc("Graphics")) && (v_t_31849.gu = ["Resolution", "FpsLimit", "ShowStat", "Back"], v_t_31849.au = v_t_31849.gu.indexOf("Back"), v_t_31849.On = {
+            var cursorEl = this.uu && this.uu.elementByName("textMenuCursor"),
+              targetEl = this.bu();
+            if (cursorEl && targetEl) cursorEl.y = targetEl.y;
+          } catch (catchErr) {}
+        }), (pageObj = MenuPage.Vc("Graphics")) && (pageObj.gu = ["Resolution", "FpsLimit", "ShowStat", "Back"], pageObj.au = pageObj.gu.indexOf("Back"), pageObj.On = {
           Ru: [["640x360", "640 X 360", 640, 360], ["960x540", "960 X 540", 960, 540], ["1280x720", "1280 X 720", 1280, 720], ["1920x1080", "1920 X 1080 (DEFAULT)", 1920, 1080], ["2560x1440", "2560 X 1440", 2560, 1440]],
           Pu: [[0, "OFF"], [1, "30 fps"], [2, "60 fps"]]
-        }, v_t_31849.fu = function () {
+        }, pageObj.fu = function () {
           this.Du(), this.Gu(), this.ju();
-        }, v_t_31849.du = function (v_t_31892, v_i_31893) {
-          if (!this.pu(v_t_31892, v_i_31893) && v_t_31892 & (v_v_31819 | v_c_31820)) switch (this.gu[this.au]) {
+        }, pageObj.du = function (btnMask, heldMask) {
+          if (!this.pu(btnMask, heldMask) && btnMask & (BTN_ENTER | BTN_TEST)) switch (this.gu[this.au]) {
             case "Resolution":
               this.Nu();
               break;
@@ -4625,217 +4625,217 @@
               this.Uu();
               break;
             case "Back":
-              v_d_31832("Root");
+              switchPage("Root");
           }
-        }, v_t_31849.vu = function () {
+        }, pageObj.vu = function () {
           this.uu.elementByName("textMenuCursor").y = this.bu().y;
-        }, v_t_31849.Du = function () {
-          let v_t_31894 = this.On.Ru.findIndex(v_t_31895 => v_t_31895[0] === v_R_27641);
-          -1 === v_t_31894 && (v_t_31894 = 2), this.uu.elementByName("textMenuResolutionValue").Wt = this.On.Ru[v_t_31894][1];
-        }, v_t_31849.Nu = function () {
-          let v_t_31896 = this.On.Ru.findIndex(v_t_31898 => v_t_31898[0] === v_R_27641);
-          var v_i_31897 = v_qa_28086((v_t_31896 = -1 === v_t_31896 ? 2 : v_t_31896) + 1, this.On.Ru.length);
-          systemMisc.Vu(this.On.Ru[v_i_31897][2], this.On.Ru[v_i_31897][3]), this.Du();
-        }, v_t_31849.Gu = function () {
-          let v_t_31899 = this.On.Pu.findIndex(v_t_31900 => v_t_31900[0] === v_p_27572);
-          -1 === v_t_31899 && (v_t_31899 = 0), this.uu.elementByName("textMenuFpsLimitValue").Wt = this.On.Pu[v_t_31899][1];
-        }, v_t_31849.Hu = function () {
-          var v_t_31901 = v_qa_28086(this.On.Pu.findIndex(v_t_31902 => v_t_31902[0] === v_p_27572) + 1, this.On.Pu.length);
-          v_p_27572 = this.On.Pu[v_t_31901][0], this.Gu();
-        }, v_t_31849.ju = function () {
+        }, pageObj.Du = function () {
+          let resIndex = this.On.Ru.findIndex(resEntry => resEntry[0] === v_R_27641);
+          -1 === resIndex && (resIndex = 2), this.uu.elementByName("textMenuResolutionValue").Wt = this.On.Ru[resIndex][1];
+        }, pageObj.Nu = function () {
+          let resIndex = this.On.Ru.findIndex(resEntry => resEntry[0] === v_R_27641);
+          var nextIndex = v_qa_28086((resIndex = -1 === resIndex ? 2 : resIndex) + 1, this.On.Ru.length);
+          systemMisc.Vu(this.On.Ru[nextIndex][2], this.On.Ru[nextIndex][3]), this.Du();
+        }, pageObj.Gu = function () {
+          let fpsIndex = this.On.Pu.findIndex(fpsEntry => fpsEntry[0] === v_p_27572);
+          -1 === fpsIndex && (fpsIndex = 0), this.uu.elementByName("textMenuFpsLimitValue").Wt = this.On.Pu[fpsIndex][1];
+        }, pageObj.Hu = function () {
+          var nextIndex = v_qa_28086(this.On.Pu.findIndex(fpsEntry => fpsEntry[0] === v_p_27572) + 1, this.On.Pu.length);
+          v_p_27572 = this.On.Pu[nextIndex][0], this.Gu();
+        }, pageObj.ju = function () {
           this.uu.elementByName("textMenuShowStatValue").Wt = v_k_27573 ? "ON" : "OFF";
-        }, v_t_31849.Uu = function () {
+        }, pageObj.Uu = function () {
           v_k_27573 = !v_k_27573, this.ju();
-        }), (v_t_31849 = v_n_31824.Vc("HardwareInfo")) && (v_t_31849.wu = 0, v_t_31849.On = {
+        }), (pageObj = MenuPage.Vc("HardwareInfo")) && (pageObj.wu = 0, pageObj.On = {
           Ou: !1
-        }, v_t_31849.fu = async function () {
-          let v_i_31903 = this;
-          this.wu = 0, this.On.Ou = !1, this.uu.elementByName("loadingDialog").visible = !0, v_w_31825.e8(0, this.uu.elementByName("loadingDialog"));
-          var v_t_31904 = "----";
-          let v_e_31905 = "KEYBOARD EMULATION",
-            v_n_31906 = v_t_31904,
-            v_r_31907 = v_t_31904,
-            v_s_31908 = v_t_31904,
-            v_a_31909 = v_t_31904,
-            v_o_31910 = v_t_31904,
-            v_l_31911 = v_t_31904,
-            v_c_31912 = v_t_31904,
-            v_u_31913 = v_t_31904,
-            v_f_31914 = v_t_31904,
-            v___31915 = v_t_31904,
-            v_h_31916 = v_t_31904;
-          function v_d_31917(v_t_31918) {
-            v_i_31903.uu.elementByName("textMenuMainDeviceInputMode").Wt = v_e_31905, v_i_31903.uu.elementByName("textMenuMainDeviceOutputMode").Wt = v_n_31906, v_i_31903.uu.elementByName("textMenuMainDeviceServerName").Wt = v_r_31907, v_i_31903.uu.elementByName("textMenuMainDeviceServerVersion").Wt = v_s_31908, v_i_31903.uu.elementByName("textMenuMainDeviceHardwareName").Wt = v_a_31909, v_i_31903.uu.elementByName("textMenuMainDeviceHardwareVersion").Wt = v_o_31910, v_i_31903.uu.elementByName("textMenuMainDevicePort").Wt = v_l_31911, v_i_31903.uu.elementByName("textMenuMainDeviceBoardNumber").Wt = v_c_31912, v_i_31903.uu.elementByName("textMenuMainDeviceFirmwareVersion").Wt = v_u_31913, v_i_31903.uu.elementByName("textMenuUmgrIoPort").Wt = v_f_31914, v_i_31903.uu.elementByName("textMenuUmgrIoBoardNumber").Wt = v___31915, v_i_31903.uu.elementByName("textMenuUmgrIoFirmwareVersion").Wt = v_h_31916, v_t_31918 && (v_i_31903.wu = v_v_31819, v_i_31903.On.Ou = !0, v_i_31903.uu.elementByName("loadingDialog").visible = !1);
+        }, pageObj.fu = async function () {
+          let menuSelf = this;
+          this.wu = 0, this.On.Ou = !1, this.uu.elementByName("loadingDialog").visible = !0, currentRsb.e8(0, this.uu.elementByName("loadingDialog"));
+          var infoResult = "----";
+          let inputModeText = "KEYBOARD EMULATION",
+            outputModeText = infoResult,
+            serverName = infoResult,
+            serverVersion = infoResult,
+            hardwareName = infoResult,
+            hardwareVersion = infoResult,
+            comPort = infoResult,
+            boardNumber = infoResult,
+            firmwareVersion = infoResult,
+            ioPort = infoResult,
+            ioBoardNumber = infoResult,
+            ioFirmwareVersion = infoResult;
+          function applyInfo(infoDone) {
+            menuSelf.uu.elementByName("textMenuMainDeviceInputMode").Wt = inputModeText, menuSelf.uu.elementByName("textMenuMainDeviceOutputMode").Wt = outputModeText, menuSelf.uu.elementByName("textMenuMainDeviceServerName").Wt = serverName, menuSelf.uu.elementByName("textMenuMainDeviceServerVersion").Wt = serverVersion, menuSelf.uu.elementByName("textMenuMainDeviceHardwareName").Wt = hardwareName, menuSelf.uu.elementByName("textMenuMainDeviceHardwareVersion").Wt = hardwareVersion, menuSelf.uu.elementByName("textMenuMainDevicePort").Wt = comPort, menuSelf.uu.elementByName("textMenuMainDeviceBoardNumber").Wt = boardNumber, menuSelf.uu.elementByName("textMenuMainDeviceFirmwareVersion").Wt = firmwareVersion, menuSelf.uu.elementByName("textMenuUmgrIoPort").Wt = ioPort, menuSelf.uu.elementByName("textMenuUmgrIoBoardNumber").Wt = ioBoardNumber, menuSelf.uu.elementByName("textMenuUmgrIoFirmwareVersion").Wt = ioFirmwareVersion, infoDone && (menuSelf.wu = BTN_ENTER, menuSelf.On.Ou = !0, menuSelf.uu.elementByName("loadingDialog").visible = !1);
           }
-          v_d_31917(), boardLanes && (v_e_31905 = "COM", v_n_31906 = "COM", v_l_31911 = "COM" + handshake.rm.A7, v_t_31904 = await boardLanes.CR(), v_c_31912 = "837-" + v_t_31904.bd_num, v_u_31913 = "" + v_t_31904.fw), ledOutput.Bt() && (v_n_31906 = "WebSocket (" + v_Pe_28064(handshake.rm.y7) + ")", v_t_31904 = await new Promise(v_t_31919 => ledOutput.rv(v_t_31919))) && (v_r_31907 = v_t_31904.av, v_s_31908 = v_t_31904.sv[0] + "." + v_t_31904.sv[1], v_a_31909 = v_t_31904.ov, v_o_31910 = v_t_31904.cv[0] + "." + v_t_31904.cv[1]), v_d_31917(), boardAir && (v_f_31914 = "COM" + handshake.rm.S7, v_t_31904 = await boardAir.CR(), v___31915 = "000-" + v_t_31904.bd_num, v_h_31916 = "" + v_t_31904.fw), v_d_31917(!0);
-        }, v_t_31849.du = function (v_t_31920, v_i_31921) {
-          this.On.Ou && v_t_31920 & (v_v_31819 | v_c_31820) && v_d_31832("Root");
-        }), (v_t_31849 = v_n_31824.Vc("AmReaderTest")) && (v_t_31849.gu = ["AmReaderTestReader", "AmReaderTestLed", "Back"], v_t_31849.au = v_t_31849.gu.indexOf("Back"), v_t_31849.On = {
+          applyInfo(), boardLanes && (inputModeText = "COM", outputModeText = "COM", comPort = "COM" + handshake.rm.A7, infoResult = await boardLanes.CR(), boardNumber = "837-" + infoResult.bd_num, firmwareVersion = "" + infoResult.fw), ledOutput.Bt() && (outputModeText = "WebSocket (" + v_Pe_28064(handshake.rm.y7) + ")", infoResult = await new Promise(promiseResolve => ledOutput.rv(promiseResolve))) && (serverName = infoResult.av, serverVersion = infoResult.sv[0] + "." + infoResult.sv[1], hardwareName = infoResult.ov, hardwareVersion = infoResult.cv[0] + "." + infoResult.cv[1]), applyInfo(), boardAir && (ioPort = "COM" + handshake.rm.S7, infoResult = await boardAir.CR(), ioBoardNumber = "000-" + infoResult.bd_num, ioFirmwareVersion = "" + infoResult.fw), applyInfo(!0);
+        }, pageObj.du = function (btnMask, heldMask) {
+          this.On.Ou && btnMask & (BTN_ENTER | BTN_TEST) && switchPage("Root");
+        }), (pageObj = MenuPage.Vc("AmReaderTest")) && (pageObj.gu = ["AmReaderTestReader", "AmReaderTestLed", "Back"], pageObj.au = pageObj.gu.indexOf("Back"), pageObj.On = {
           w9: 0,
           uS: !1
-        }, v_t_31849.fu = function () {
+        }, pageObj.fu = function () {
           this.On.w9 = 0, this.fS(), this.uu.elementByName("textMenuAmReaderStateValue").Wt = "----", this.uu.elementByName("textMenuAmReaderResultValue").Wt = "----", this.uu.elementByName("textMenuAmReaderTimeValue").Wt = "----";
-        }, v_t_31849._u = function () {
+        }, pageObj._u = function () {
           v_D_27646._S(0), v_D_27646.C9();
-        }, v_t_31849.du = function (v_t_31922, v_i_31923) {
-          if (!this.On.uS && !this.pu(v_t_31922, v_i_31923) && v_t_31922 & (v_v_31819 | v_c_31820)) switch (this.gu[this.au]) {
+        }, pageObj.du = function (btnMask, heldMask) {
+          if (!this.On.uS && !this.pu(btnMask, heldMask) && btnMask & (BTN_ENTER | BTN_TEST)) switch (this.gu[this.au]) {
             case "AmReaderTestReader":
-              this.On.uS = !0, this.On.w9 = 0, this.fS(), this.uu.elementByName("textMenuAmReaderStateValue").Wt = v_Ue_28209("svcMenuAmReaderStateInit"), this.uu.elementByName("textMenuAmReaderResultValue").Wt = "----", this.uu.elementByName("textMenuAmReaderTimeValue").Wt = "----", v_w_31825.e8(1, this.uu), v_Fe_28101(async () => {
-                let v_i_31924 = 0,
-                  v_e_31925 = 0;
-                var v_t_31926 = v_uo_28102(() => {
+              this.On.uS = !0, this.On.w9 = 0, this.fS(), this.uu.elementByName("textMenuAmReaderStateValue").Wt = v_Ue_28209("svcMenuAmReaderStateInit"), this.uu.elementByName("textMenuAmReaderResultValue").Wt = "----", this.uu.elementByName("textMenuAmReaderTimeValue").Wt = "----", currentRsb.e8(1, this.uu), v_Fe_28101(async () => {
+                let startTimeMs = 0,
+                  endTimeMs = 0;
+                var timeoutId = v_uo_28102(() => {
                     v_D_27646.C9();
                   }, 1e4),
-                  v_n_31927 = await v_D_27646.R9(v_t_31928 => {
-                    v_w_31825.e8(1, this.uu), 1 === v_t_31928 ? v_i_31924 = performance.now() : 2 === v_t_31928 && (v_e_31925 = performance.now()), this.uu.elementByName("textMenuAmReaderStateValue").Wt = v_Ue_28209(["svcMenuAmReaderStateIdling", "svcMenuAmReaderStatePolling", "svcMenuAmReaderStateDone"][v_t_31928]);
+                  readResult = await v_D_27646.R9(stateCb => {
+                    currentRsb.e8(1, this.uu), 1 === stateCb ? startTimeMs = performance.now() : 2 === stateCb && (endTimeMs = performance.now()), this.uu.elementByName("textMenuAmReaderStateValue").Wt = v_Ue_28209(["svcMenuAmReaderStateIdling", "svcMenuAmReaderStatePolling", "svcMenuAmReaderStateDone"][stateCb]);
                   }),
-                  v_t_31926 = (clearTimeout(v_t_31926), 0 === v_e_31925 && (this.uu.elementByName("textMenuAmReaderStateValue").Wt = v_Ue_28209("svcMenuAmReaderStateTimedout")), v_n_31927 === v_Ts_28004 || v_n_31927 === v_Is_28005);
-                v_w_31825.i8(1, this.uu), this.uu.elementByName("textMenuAmReaderResultValue").Wt = v_t_31926 ? "BAD" : "GOOD", this.uu.elementByName("textMenuAmReaderTimeValue").Wt = v_t_31926 ? "----" : (v_e_31925 - v_i_31924).toFixed(2) + "ms", this.On.uS = !1;
+                  timeoutId = (clearTimeout(timeoutId), 0 === endTimeMs && (this.uu.elementByName("textMenuAmReaderStateValue").Wt = v_Ue_28209("svcMenuAmReaderStateTimedout")), readResult === v_Ts_28004 || readResult === v_Is_28005);
+                currentRsb.i8(1, this.uu), this.uu.elementByName("textMenuAmReaderResultValue").Wt = timeoutId ? "BAD" : "GOOD", this.uu.elementByName("textMenuAmReaderTimeValue").Wt = timeoutId ? "----" : (endTimeMs - startTimeMs).toFixed(2) + "ms", this.On.uS = !1;
               });
               break;
             case "AmReaderTestLed":
               this.On.w9 = (this.On.w9 + 1) % 5, v_D_27646._S(this.On.w9), this.fS();
               break;
             case "Back":
-              v_d_31832("Root");
+              switchPage("Root");
           }
-        }, v_t_31849.fS = function () {
+        }, pageObj.fS = function () {
           this.uu.elementByName("textMenuAmReaderLedValue").Wt = this.On.w9 ? "ON" : "OFF";
-        }, v_t_31849.vu = function () {
+        }, pageObj.vu = function () {
           this.uu.elementByName("textMenuCursor").y = this.bu().y;
-        }), (v_t_31849 = v_n_31824.Vc("VfdTest")) && (v_t_31849.wu = v_v_31819, v_t_31849.fu = function () {
+        }), (pageObj = MenuPage.Vc("VfdTest")) && (pageObj.wu = BTN_ENTER, pageObj.fu = function () {
           v_D_27646.hS();
-        }, v_t_31849._u = function () {
+        }, pageObj._u = function () {
           v_D_27646.dS();
-        }, v_t_31849.du = function (v_t_31929, v_i_31930) {
-          v_t_31929 & (v_v_31819 | v_c_31820) && v_d_31832("Root");
-        }), (v_t_31849 = v_n_31824.Vc("InputDelayTest")) && (v_t_31849.wu = v_v_31819, v_t_31849.fu = function () {
-          let v_n_31931 = this.uu.elementByName("textMenuDelayValue"),
-            v_a_31932 = this.uu.elementByName("textMenuAutoScanIntervalValue"),
-            v_o_31933 = this.uu.elementByName("textMenuAutoScanIntervalValueMax"),
-            v_l_31934 = (v_n_31931.Wt = "----", v_a_31932.Wt = "----", v_o_31933.Wt = "----", this.uu.elementByName("inputDelayTestNote")),
-            v_r_31935 = this.uu.elementByName("inputDelayTestDelay"),
-            v_c_31936 = (v_r_31935.visible = !1, performance.now()),
-            v_u_31937 = 0,
-            v_f_31938 = 0,
-            v___31939 = 0,
-            v_h_31940 = 500,
-            v_d_31941 = new v_ps_27996(v_s_31852, 1);
-          function v_v_31942() {
-            let v_t_31943 = 0,
-              v_i_31944 = 0;
-            for (var v_e_31945 of v_d_31941.Zl()) v_e_31945.lr && (++v_t_31943, v_i_31944 += v_e_31945.xR);
-            v_r_31935.visible = !0, v_r_31935.y = v_i_31944 / v_t_31943 / v_h_31940 * 512 + 255, v_n_31931.Wt = 0 === v_t_31943 ? "----" : (v_i_31944 / v_t_31943).toFixed(2);
+        }, pageObj.du = function (btnMask, heldMask) {
+          btnMask & (BTN_ENTER | BTN_TEST) && switchPage("Root");
+        }), (pageObj = MenuPage.Vc("InputDelayTest")) && (pageObj.wu = BTN_ENTER, pageObj.fu = function () {
+          let delayEl = this.uu.elementByName("textMenuDelayValue"),
+            intervalEl = this.uu.elementByName("textMenuAutoScanIntervalValue"),
+            intervalMaxEl = this.uu.elementByName("textMenuAutoScanIntervalValueMax"),
+            noteEl = (delayEl.Wt = "----", intervalEl.Wt = "----", intervalMaxEl.Wt = "----", this.uu.elementByName("inputDelayTestNote")),
+            delayBarEl = this.uu.elementByName("inputDelayTestDelay"),
+            delayStart = (delayBarEl.visible = !1, performance.now()),
+            nextTick = 0,
+            prevTick = 0,
+            lastDelay = 0,
+            tickInterval = 500,
+            delayList = new v_ps_27996(DelayEntry, 1);
+          function updateDelay() {
+            let itemCount = 0,
+              sum = 0;
+            for (var entry of delayList.Zl()) entry.lr && (++itemCount, sum += entry.xR);
+            delayBarEl.visible = !0, delayBarEl.y = sum / itemCount / tickInterval * 512 + 255, delayEl.Wt = 0 === itemCount ? "----" : (sum / itemCount).toFixed(2);
           }
           boardLanes && boardLanes.TR(!0), v_Fe_28101(() => {
-            renderer.ut("InputDelayTest", new v_Tl_28174((v_t_31946, v_i_31947, v_e_31948) => {
-              boardLanes && (v_a_31932.Wt = boardLanes.PR.toFixed(2), v_o_31933.Wt = boardLanes.RR.toFixed(2)), v_t_31946 >= v_u_31937 && (v_f_31938 = v_u_31937, v_Ae_27892.dn("guide"), v_u_31937 = v_c_31936 + Math.floor((v_t_31946 - v_c_31936) / v_h_31940) * v_h_31940 + v_h_31940), v_l_31934.y = (v_t_31946 - v_c_31936 + .5 * v_h_31940) % v_h_31940 / v_h_31940 * 512;
-              let v_n_31949 = inputModule.aR(),
-                v_r_31950 = !1;
-              for (let v_t_31952 = 0; v_t_31952 < 32; v_t_31952++) if (v_n_31949[v_t_31952]) {
-                v_r_31950 = !0;
+            renderer.ut("InputDelayTest", new v_Tl_28174((tickTime, tickArg2, tickArg3) => {
+              boardLanes && (intervalEl.Wt = boardLanes.PR.toFixed(2), intervalMaxEl.Wt = boardLanes.RR.toFixed(2)), tickTime >= nextTick && (prevTick = nextTick, v_Ae_27892.dn("guide"), nextTick = delayStart + Math.floor((tickTime - delayStart) / tickInterval) * tickInterval + tickInterval), noteEl.y = (tickTime - delayStart + .5 * tickInterval) % tickInterval / tickInterval * 512;
+              let heldArr = inputModule.aR(),
+                anyHeld = !1;
+              for (let laneIdx = 0; laneIdx < 32; laneIdx++) if (heldArr[laneIdx]) {
+                anyHeld = !0;
                 break;
               }
-              var v_s_31951;
-              v_r_31950 && (v___31939 = v_t_31946 >= v_u_31937 - v_h_31940 / 2 ? (v___31939 !== v_f_31938 && v___31939 !== v_u_31937 && ((v_s_31951 = v_d_31941.Vc()).lr = !0, v_s_31951.xR = v_t_31946 - v_u_31937, v_v_31942()), v_u_31937) : (v___31939 !== v_f_31938 && ((v_s_31951 = v_d_31941.Vc()).lr = !0, v_s_31951.xR = v_t_31946 - v_f_31938, v_v_31942()), v_f_31938));
-            }), 400, v_t_31953 => {
-              v_t_31953.p9 = 10;
+              var entry;
+              anyHeld && (lastDelay = tickTime >= nextTick - tickInterval / 2 ? (lastDelay !== prevTick && lastDelay !== nextTick && ((entry = delayList.Vc()).lr = !0, entry.xR = tickTime - nextTick, updateDelay()), nextTick) : (lastDelay !== prevTick && ((entry = delayList.Vc()).lr = !0, entry.xR = tickTime - prevTick, updateDelay()), prevTick));
+            }), 400, sceneCfg => {
+              sceneCfg.p9 = 10;
             });
           });
-        }, v_t_31849._u = function () {
+        }, pageObj._u = function () {
           boardLanes && boardLanes.TR(!1), v_Fe_28101(() => renderer._i("InputDelayTest"));
-        }, v_t_31849.du = function (v_t_31954, v_i_31955) {
-          v_t_31954 & (v_v_31819 | v_c_31820) && v_d_31832("Root");
-        }), (v_t_31849 = v_n_31824.Vc("DataState")) && (v_t_31849.wu = v_v_31819, v_t_31849.fu = function () {
-          let v_t_31956 = 0;
-          this.uu.elementByName("textMenuSongsValue").Wt = "" + v_be_27857.Pp.length, v_t_31956 = 0;
-          for (const v_i_31957 of v_be_27857.Gp) v_t_31956 += v_i_31957.items.length;
-          this.uu.elementByName("textMenuCoursesValue").Wt = "" + v_t_31956, this.uu.elementByName("textMenuCharaValue").Wt = "" + v_be_27857.Np.length, this.uu.elementByName("textMenuTitlesValue").Wt = "" + v_be_27857.Hp.length, this.uu.elementByName("textMenuNameplatesValue").Wt = "" + v_be_27857.Up.length, this.uu.elementByName("textMenuVoicesValue").Wt = "" + v_be_27857.Vp.length;
-        }, v_t_31849.du = function (v_t_31958, v_i_31959) {
-          v_t_31958 & (v_v_31819 | v_c_31820) && v_d_31832("Root");
-        }), (v_t_31849 = v_n_31824.Vc("VideoExportTest")) && (v_t_31849.wu = 0, v_t_31849.fu = async function () {
+        }, pageObj.du = function (btnMask, heldMask) {
+          btnMask & (BTN_ENTER | BTN_TEST) && switchPage("Root");
+        }), (pageObj = MenuPage.Vc("DataState")) && (pageObj.wu = BTN_ENTER, pageObj.fu = function () {
+          let itemCount = 0;
+          this.uu.elementByName("textMenuSongsValue").Wt = "" + v_be_27857.Pp.length, itemCount = 0;
+          for (const group of v_be_27857.Gp) itemCount += group.items.length;
+          this.uu.elementByName("textMenuCoursesValue").Wt = "" + itemCount, this.uu.elementByName("textMenuCharaValue").Wt = "" + v_be_27857.Np.length, this.uu.elementByName("textMenuTitlesValue").Wt = "" + v_be_27857.Hp.length, this.uu.elementByName("textMenuNameplatesValue").Wt = "" + v_be_27857.Up.length, this.uu.elementByName("textMenuVoicesValue").Wt = "" + v_be_27857.Vp.length;
+        }, pageObj.du = function (btnMask, heldMask) {
+          btnMask & (BTN_ENTER | BTN_TEST) && switchPage("Root");
+        }), (pageObj = MenuPage.Vc("VideoExportTest")) && (pageObj.wu = 0, pageObj.fu = async function () {
           this.uu.elementByName("testPattern0").visible = !1;
-          var v_t_31960 = await systemMisc.O6(v_Se_27889.y6(), v_yn_27656 * v_Sn_27657 * 4, v_Se_27889.dv());
-          v_t_31960.ok ? (this.uu.elementByName("testPattern0").visible = !0, v_Se_27889.p6(), v_d1_27871(), await renderer.C7(v_Ge_28204(120)), v_v1_27872(), v_Se_27889.C6(), systemMisc.K6(), await systemMisc.Fp(), v_ie_27875(), v_a_31831("Video exported successfully", v_N0_27771, function () {
-            v_d_31832("Root");
-          })) : v_a_31831("Video Exporter Error\n" + v_t_31960.msg, v_N0_27771, function () {
-            v_d_31832("Root");
+          var exportResult = await systemMisc.O6(v_Se_27889.y6(), v_yn_27656 * v_Sn_27657 * 4, v_Se_27889.dv());
+          exportResult.ok ? (this.uu.elementByName("testPattern0").visible = !0, v_Se_27889.p6(), v_d1_27871(), await renderer.C7(v_Ge_28204(120)), v_v1_27872(), v_Se_27889.C6(), systemMisc.K6(), await systemMisc.Fp(), v_ie_27875(), confirmDialog("Video exported successfully", v_N0_27771, function () {
+            switchPage("Root");
+          })) : confirmDialog("Video Exporter Error\n" + exportResult.msg, v_N0_27771, function () {
+            switchPage("Root");
           });
         });
       }
-      function v_g_31834(v_t_31961, v_i_31962, v_e_31963) {
-        if (v_f_31826.Gi) {
-          if (v_f_31826.a0) {
-            v_f_31826.iu.nu ? (v___31827.mu.visible = 1 < v_f_31826.iu.su, v___31827.Su.visible = 1 < v_f_31826.iu.su, v___31827.xu.visible = !0) : (v___31827.mu.visible = !!(v_f_31826.a0.wu & v_o_31817), v___31827.Su.visible = !!(v_f_31826.a0.wu & v_l_31818), v___31827.xu.visible = !!(v_f_31826.a0.wu & v_v_31819));
+      function menuLoop(btnMask, heldMask, frameArg) {
+        if (menuState.Gi) {
+          if (menuState.a0) {
+            menuState.iu.nu ? (guideElements.mu.visible = 1 < menuState.iu.su, guideElements.Su.visible = 1 < menuState.iu.su, guideElements.xu.visible = !0) : (guideElements.mu.visible = !!(menuState.a0.wu & BTN_DOWN), guideElements.Su.visible = !!(menuState.a0.wu & BTN_UP), guideElements.xu.visible = !!(menuState.a0.wu & BTN_ENTER));
             {
-              var v_n_31964 = inputModule.oR(),
-                v_r_31965 = inputModule.vR();
-              let v_i_31967 = 0,
-                v_e_31968 = 0;
-              for (let v_t_31969 = 0; v_t_31969 < v_r_31965.length; ++v_t_31969) switch (v_r_31965[v_t_31969].Ae) {
+              var heldArr = inputModule.oR(),
+                keyBindings = inputModule.vR();
+              let edgeMask = 0,
+                heldButtons = 0;
+              for (let idx = 0; idx < keyBindings.length; ++idx) switch (keyBindings[idx].Ae) {
                 case "esc":
-                  2 & v_r_31965[v_t_31969].lu && (v_e_31968 |= v_c_31820), 2 === v_r_31965[v_t_31969].lu && (v_i_31967 |= v_c_31820);
+                  2 & keyBindings[idx].lu && (heldButtons |= BTN_TEST), 2 === keyBindings[idx].lu && (edgeMask |= BTN_TEST);
                   break;
                 case "enter":
-                  2 & v_r_31965[v_t_31969].lu && (v_e_31968 |= v_u_31821), 2 === v_r_31965[v_t_31969].lu && (v_i_31967 |= v_u_31821);
+                  2 & keyBindings[idx].lu && (heldButtons |= BTN_SERVICE), 2 === keyBindings[idx].lu && (edgeMask |= BTN_SERVICE);
                   break;
                 case "up":
-                  2 & v_r_31965[v_t_31969].lu && (v_e_31968 |= v_l_31818), 2 === v_r_31965[v_t_31969].lu && (v_i_31967 |= v_l_31818);
+                  2 & keyBindings[idx].lu && (heldButtons |= BTN_UP), 2 === keyBindings[idx].lu && (edgeMask |= BTN_UP);
                   break;
                 case "down":
-                  2 & v_r_31965[v_t_31969].lu && (v_e_31968 |= v_o_31817), 2 === v_r_31965[v_t_31969].lu && (v_i_31967 |= v_o_31817);
+                  2 & keyBindings[idx].lu && (heldButtons |= BTN_DOWN), 2 === keyBindings[idx].lu && (edgeMask |= BTN_DOWN);
                   break;
                 case "left":
-                  2 & v_r_31965[v_t_31969].lu && (v_e_31968 |= 8), 2 === v_r_31965[v_t_31969].lu && (v_i_31967 |= 8);
+                  2 & keyBindings[idx].lu && (heldButtons |= 8), 2 === keyBindings[idx].lu && (edgeMask |= 8);
                   break;
                 case "right":
-                  2 & v_r_31965[v_t_31969].lu && (v_e_31968 |= 16), 2 === v_r_31965[v_t_31969].lu && (v_i_31967 |= 16);
+                  2 & keyBindings[idx].lu && (heldButtons |= 16), 2 === keyBindings[idx].lu && (edgeMask |= 16);
               }
-              for (const v_a_31970 of v_f_31826.ve) {
-                v_a_31970.lu >>= 1;
-                for (let v_t_31971 = 0; v_t_31971 < 32; ++v_t_31971) if (v_n_31964[v_t_31971] && v_t_31971 >= 2 * v_a_31970.ou && v_t_31971 < 2 * (v_a_31970.ou + v_a_31970.w)) {
-                  v_a_31970.lu |= 2;
+              for (const zone of menuState.ve) {
+                zone.lu >>= 1;
+                for (let laneIdx = 0; laneIdx < 32; ++laneIdx) if (heldArr[laneIdx] && laneIdx >= 2 * zone.ou && laneIdx < 2 * (zone.ou + zone.w)) {
+                  zone.lu |= 2;
                   break;
                 }
-                2 & v_a_31970.lu && (v_e_31968 |= v_a_31970.Ae), 2 === v_a_31970.lu && (v_i_31967 |= v_a_31970.Ae);
+                2 & zone.lu && (heldButtons |= zone.Ae), 2 === zone.lu && (edgeMask |= zone.Ae);
               }
-              v_f_31826.tu = v_e_31968, v_f_31826.eu = v_i_31967, window.__umgPadTake && (v_f_31826.eu |= window.__umgPadTake(), v_f_31826.tu = v_f_31826.eu);
+              menuState.tu = heldButtons, menuState.eu = edgeMask, window.__umgPadTake && (menuState.eu |= window.__umgPadTake(), menuState.tu = menuState.eu);
             }
-            v_f_31826.iu.nu ? v_h_31829(v_f_31826.eu, v_f_31826.tu) : (!v_f_31826.Qc && v_f_31826.a0.du && v_f_31826.a0.du(v_f_31826.eu, v_f_31826.tu), !v_f_31826.Qc && v_f_31826.a0.hu && v_f_31826.a0.hu()), v_f_31826.Qc = !1;
+            menuState.iu.nu ? handleDialogInput(menuState.eu, menuState.tu) : (!menuState.Qc && menuState.a0.du && menuState.a0.du(menuState.eu, menuState.tu), !menuState.Qc && menuState.a0.hu && menuState.a0.hu()), menuState.Qc = !1;
           }
         } else {
-          var v_s_31966 = inputModule.vR();
-          for (let v_t_31972 = 0; v_t_31972 < v_s_31966.length; ++v_t_31972) "esc" === v_s_31966[v_t_31972].Ae ? 2 === v_s_31966[v_t_31972].lu && v_m_31835() : "enter" === v_s_31966[v_t_31972].Ae && 2 === v_s_31966[v_t_31972].lu && v_R1_27896.WA();
+          var keyBindingsAlt = inputModule.vR();
+          for (let idx = 0; idx < keyBindingsAlt.length; ++idx) "esc" === keyBindingsAlt[idx].Ae ? 2 === keyBindingsAlt[idx].lu && openTestMenu() : "enter" === keyBindingsAlt[idx].Ae && 2 === keyBindingsAlt[idx].lu && v_R1_27896.WA();
         }
       }
-      function v_m_31835() {
-        v_Le_28076([v_i_31973 => {
-          renderer.v9(9), sceneManager.Jk(!0), ledOutput.iv(!0), v_D_27646.C9(), v_D_27646.dS(), (v_f_31826 = new v_t_31822()).Gi = !0, renderer.ut("sysTestMenu", v_w_31825, 9001, v_t_31974 => {
-            v_Me_28078(v_i_31973);
+      function openTestMenu() {
+        v_Le_28076([taskDone => {
+          renderer.v9(9), sceneManager.Jk(!0), ledOutput.iv(!0), v_D_27646.C9(), v_D_27646.dS(), (menuState = new MenuState()).Gi = !0, renderer.ut("sysTestMenu", currentRsb, 9001, sceneCfg => {
+            v_Me_28078(taskDone);
           });
-        }, v_t_31975 => {
-          v_w_31825.rsbTree.elementByIndex(2).Wt = `${v_G_27652} v${v_nc_28202()} Build ${handshake.rm.Sm} ${handshake.rm.xm} (${handshake.rm.ym}) @` + handshake.rm.Cm, v_d_31832("Root");
+        }, afterLoad => {
+          currentRsb.rsbTree.elementByIndex(2).Wt = `${v_G_27652} v${v_nc_28202()} Build ${handshake.rm.Sm} ${handshake.rm.xm} (${handshake.rm.ym}) @` + handshake.rm.Cm, switchPage("Root");
         }]);
       }
       return {
-        ue: function (v_e_31976) {
-          v_Le_28076([v_i_31977 => {
-            languagePackages.it("ui/testMenu.rsb", function (v_t_31978) {
-              v_t_31978 ? (v_t_31978 = new v_Dl_28181(v_t_31978), renderer.nt(v_t_31978.rt(renderer.p5()), v_t_31979 => {
-                (v_w_31825 = v_t_31979).p9 = 10, v___31827.mu = v_w_31825.rsbTree.elementByIndex(182), v___31827.Su = v_w_31825.rsbTree.elementByIndex(186), v___31827.xu = v_w_31825.rsbTree.elementByIndex(190), v___31827.Iu = v_w_31825.rsbTree.elementByIndex(172), v___31827.yu = v___31827.Iu.elementByIndex(176), v___31827.Cu = v___31827.Iu.elementByIndex(177), v___31827.Au = v___31827.Iu.elementByIndex(178), v___31827.Tu = v___31827.Iu.elementByIndex(179), v___31827.Lu = v___31827.Iu.elementByIndex(180), v_s_31833(), v_Me_28078(v_i_31977);
-              })) : v_e_31976();
+        ue: function (onReady) {
+          v_Le_28076([taskDone => {
+            languagePackages.it("ui/testMenu.rsb", function (rsbBuf) {
+              rsbBuf ? (rsbBuf = new v_Dl_28181(rsbBuf), renderer.nt(rsbBuf.rt(renderer.p5()), sceneRef => {
+                (currentRsb = sceneRef).p9 = 10, guideElements.mu = currentRsb.rsbTree.elementByIndex(182), guideElements.Su = currentRsb.rsbTree.elementByIndex(186), guideElements.xu = currentRsb.rsbTree.elementByIndex(190), guideElements.Iu = currentRsb.rsbTree.elementByIndex(172), guideElements.yu = guideElements.Iu.elementByIndex(176), guideElements.Cu = guideElements.Iu.elementByIndex(177), guideElements.Au = guideElements.Iu.elementByIndex(178), guideElements.Tu = guideElements.Iu.elementByIndex(179), guideElements.Lu = guideElements.Iu.elementByIndex(180), buildPages(), v_Me_28078(taskDone);
+              })) : onReady();
             });
-          }, v_t_31980 => {
-            v_Fe_28101(v_e_31976);
+          }, onFail => {
+            v_Fe_28101(onReady);
           }]);
         },
         Ju: function () {
-          renderer.ut("sysTestMenuLoop", new v_Tl_28174(v_g_31834), 9e3, v_t_31981 => {
-            v_t_31981.p9 = 10;
+          renderer.ut("sysTestMenuLoop", new v_Tl_28174(menuLoop), 9e3, sceneCfg => {
+            sceneCfg.p9 = 10;
           });
         },
-        T0: v_m_31835,
-        Gi: () => v_f_31826.Gi
+        T0: openTestMenu,
+        Gi: () => menuState.Gi
       };
     }(),
     v_ur_27932 = function () {

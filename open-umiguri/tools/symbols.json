@@ -1,159 +1,1472 @@
 {
   "_note": "bindings: 旧绑定名 -> { name, note, confidence }。仅重命名变量绑定, 不改逻辑。confidence=high 来自 MODULE_INDEX/PROJECT_INFO 的既有结论; low 为中性命名。",
   "bindings": {
-    "v_He_27558": { "name": "win", "note": "游戏 IIFE 参数 = window", "confidence": "high" },
-    "v_ye_27858": { "name": "handshake", "note": "window.umgr_elc._ 握手对象(.rm)", "confidence": "high" },
-    "m_GL_0": { "name": "glRuntime", "note": "WebGL 渲染初始化(顶层)", "confidence": "high" },
-
-    "v_I1_27893": { "name": "inputModule", "note": "输入模块(32 档位+6 air)", "confidence": "high" },
-    "v_xe_27894": { "name": "menuSystem", "note": "菜单/对话框子系统(vt/It/T9)", "confidence": "medium" },
-    "v_P1_27895": { "name": "ledOutput", "note": "LED/灯光/串口输出", "confidence": "medium" },
-    "v_L1_27897": { "name": "playerInfoBoard", "note": "玩家信息板", "confidence": "medium" },
-    "v_Ce_27901": { "name": "sceneManager", "note": "场景切换(ft/ri/ti)", "confidence": "medium" },
-    "v_B1_27903": { "name": "localization", "note": "语言/文案", "confidence": "medium" },
-    "v_W1_27913": { "name": "coopLobby", "note": "合作大厅", "confidence": "medium" },
-    "v_Y1_27917": { "name": "settingsStore", "note": "设置持久化", "confidence": "medium" },
-    "v_q1_27918": { "name": "audioFontHub", "note": "音频+字体+输入聚合", "confidence": "medium" },
-    "v_tr_27922": { "name": "uiComponentA", "note": "UI 组件(职责待确认)", "confidence": "low" },
-    "v_ir_27923": { "name": "uiComponentB", "note": "UI 组件(职责待确认)", "confidence": "low" },
-    "v_er_27924": { "name": "uiComponentC", "note": "UI 组件(职责待确认)", "confidence": "low" },
-    "v_or_27929": { "name": "gameCore", "note": "游戏核心(成绩/存档/场景/贴图)", "confidence": "high" },
-    "v_b_30288": { "name": "backgroundRenderer", "note": "背景场景渲染(model:/player_scenes/)", "confidence": "medium" },
-    "v_W_30307": { "name": "judgeSound", "note": "判定音", "confidence": "medium" },
-    "v_X_30308": { "name": "skillTrigger", "note": "技能触发", "confidence": "medium" },
-    "v_cr_27931": { "name": "testMenu", "note": "测试菜单(sysTestMenu)", "confidence": "high" },
-    "v_kr_27942": { "name": "chartParser", "note": "谱面解析(.mgxc/.ugc)", "confidence": "medium" },
-    "v_Pr_27951": { "name": "dataLoader", "note": "数据加载(贴图/包)", "confidence": "medium" },
-    "v_Jr_27963": { "name": "settingsTables", "note": "设置+存档表", "confidence": "medium" },
-    "v_jr_27964": { "name": "recordsStore", "note": "存档表(records/player.krtbl)", "confidence": "medium" },
-    "v_Zr_27974": { "name": "hostBridge", "note": "前端桥封装(window.umgr_elc)", "confidence": "high" },
-    "v_Qr_27976": { "name": "systemMisc", "note": "窗口/媒体/截图/系统杂项", "confidence": "medium" },
-    "v_Ne_28186": { "name": "languagePackages", "note": "语言包管理(/una/*.una)", "confidence": "high" },
-
-    "v_ge_27821": { "name": "mathRandom", "note": "Math.random", "confidence": "high" },
-    "v_me_27822": { "name": "mathMin", "note": "Math.min", "confidence": "high" },
-    "v_pe_27823": { "name": "mathMax", "note": "Math.max", "confidence": "high" },
-    "v_ke_27824": { "name": "mathFloor", "note": "Math.floor", "confidence": "high" },
-    "v_i1_27825": { "name": "mathRound", "note": "Math.round", "confidence": "high" },
-    "v_e1_27826": { "name": "mathCeil", "note": "Math.ceil", "confidence": "high" },
-    "v_n1_27827": { "name": "mathSin", "note": "Math.sin", "confidence": "high" },
-    "v_r1_27828": { "name": "mathCos", "note": "Math.cos", "confidence": "high" },
-    "v_yi_27829": { "name": "mathTan", "note": "Math.tan", "confidence": "high" },
-    "v_s1_27830": { "name": "mathAbs", "note": "Math.abs", "confidence": "high" },
-    "v_Si_27831": { "name": "mathSqrt", "note": "Math.sqrt", "confidence": "high" },
-    "v_Ai_27832": { "name": "mathPow", "note": "Math.pow", "confidence": "high" },
-    "v_a1_27833": { "name": "mathPI", "note": "Math.PI", "confidence": "high" },
-
-    "v_Ci_27837": { "name": "raf", "note": "requestAnimationFrame 引用", "confidence": "high" },
-    "v_Ti_27838": { "name": "kbdStartFn", "note": "kbdStart 引用", "confidence": "high" },
-    "v_Ii_27839": { "name": "kbdUpdateFn", "note": "kbdUpdate 引用", "confidence": "high" },
-    "v_Pi_27840": { "name": "kbdHeldFn", "note": "kbdHeld 引用", "confidence": "high" },
-    "v_Ri_27841": { "name": "kbdUni2VirtFn", "note": "kbdUni2Virt 引用", "confidence": "high" },
-    "v_Li_27842": { "name": "di8KbdStartFn", "note": "di8KbdStart 引用", "confidence": "high" },
-    "v_Mi_27843": { "name": "di8KbdUpdateFn", "note": "di8KbdUpdate 引用", "confidence": "high" },
-    "v_Ei_27844": { "name": "di8KbdHeldFn", "note": "di8KbdHeld 引用", "confidence": "high" },
-    "v_Di_27845": { "name": "di8KbdShutdownFn", "note": "di8KbdShutdown 引用", "confidence": "high" },
-    "v_Ni_27852": { "name": "arrayPush", "note": "Array.prototype.push 引用", "confidence": "medium" },
-
-    "v_xi_27836": { "name": "rankName", "note": "分数 -> 段位名(sssp/sss/…)", "confidence": "medium" },
-    "v_c1_27846": { "name": "rankLabel", "note": "分数 -> 段位标签(Sssp/…)", "confidence": "medium" },
-    "v_u1_27847": { "name": "rankLevel", "note": "分数 -> 段位数值", "confidence": "medium" },
-    "v_f1_27848": { "name": "rankGrade", "note": "分数 -> 评级字母(S/A/B/…)", "confidence": "medium" },
-    "v_Fi_27849": { "name": "ratingColorName", "note": "rating -> 颜色名", "confidence": "medium" },
-    "v__1_27850": { "name": "ratingColorName2", "note": "rating -> 颜色名(第二套)", "confidence": "medium" },
-    "v_Bi_27851": { "name": "ratingColorRgba", "note": "rating -> rgba", "confidence": "medium" },
-
-    "v_Hi_27855": { "name": "currentLang", "note": "当前语言(默认 ja-JP)", "confidence": "high" },
-    "v_Ui_27854": { "name": "supportedLangs", "note": "支持语言列表", "confidence": "high" },
-    "v_se_27562": { "name": "glContext", "note": "WebGL 上下文(clearColor/clearStencil)", "confidence": "high" },
-
-    "v_Gl_28185": { "name": "Renderer", "note": "渲染器类(RS SCENES/SPRITES/DRAW CALLS)", "confidence": "high" },
-    "v_ae_27643": { "name": "renderer", "note": "Renderer 实例(全局共享)", "confidence": "high" },
-    "v_Bl_28183": { "name": "RenderScene", "note": "renderer.Yt: 场景/绘制批次管理", "confidence": "medium" },
-    "v_Fl_28182": { "name": "Framebuffer", "note": "FBO 包装(Zh/_5 bindFramebuffer)", "confidence": "medium" },
-    "v_ho_28105": { "name": "MeshBuffer", "note": "顶点/UV/颜色缓冲包装(.yl 定义布局)", "confidence": "medium" },
-
-    "v_r_28343": { "name": "laneKeyChars", "note": "档位按键字符表(38,fe 串)", "confidence": "high" },
-    "v_s_28344": { "name": "laneState", "note": "档位状态位(bit0=上一帧,bit1=当前按下)", "confidence": "high" },
-    "v_a_28345": { "name": "laneVk", "note": "档位 -> VK 码(W=false 路径)", "confidence": "high" },
-    "v_o_28346": { "name": "laneAnalog", "note": "档位传感值(200/0 或 LED)", "confidence": "medium" },
-    "v_t_28347": { "name": "KeyBinding", "note": "导航键绑定类(name/vk/dik)", "confidence": "high" },
-    "v_l_28348": { "name": "keyBindings", "note": "导航键绑定表(left/right/enter/…)", "confidence": "high" },
-    "v_c_28349": { "name": "useDirectInput", "note": "是否走 DIK 轮询(W/handshake.rm.wm)", "confidence": "high" },
-    "v_i_28350": { "name": "pointerListenersReady", "note": "指针监听已安装", "confidence": "medium" },
-    "v_e_28351": { "name": "pointerCallbacks", "note": "指针回调表(tb/eb 增删)", "confidence": "high" },
-    "v_u_28352": { "name": "keyEventCallbacks", "note": "按键事件回调表($I/ZI 增删)", "confidence": "high" },
-    "v_n_28353": { "name": "onPointerDown", "confidence": "medium" },
-    "v_f_28354": { "name": "onPointerMove", "confidence": "medium" },
-    "v___28355": { "name": "onPointerUp", "confidence": "medium" },
-    "v_h_28356": { "name": "onPointerEnter", "confidence": "medium" },
-    "v_d_28357": { "name": "onPointerLeave", "confidence": "medium" },
-
-    "v_t_28358": { "name": "mapCb", "confidence": "low" },
-    "v_t_28359": { "name": "mapCb", "confidence": "low" },
-    "v_t_28360": { "name": "mapCb", "confidence": "low" },
-    "v_t_28361": { "name": "keyName", "note": "KeyBinding 构造: 名字", "confidence": "high" },
-    "v_i_28362": { "name": "stateBits", "note": "KeyBinding 构造: 状态", "confidence": "medium" },
-    "v_e_28363": { "name": "vkCode", "note": "KeyBinding 构造: VK 码", "confidence": "high" },
-    "v_n_28364": { "name": "dikCode", "note": "KeyBinding 构造: DIK 码", "confidence": "high" },
-
-    "v_i_28365": { "name": "evt", "note": "pointer 事件", "confidence": "medium" },
-    "v_t_28366": { "name": "forEachCb", "confidence": "low" },
-    "v_i_28367": { "name": "evt", "confidence": "medium" },
-    "v_t_28368": { "name": "forEachCb", "confidence": "low" },
-    "v_i_28369": { "name": "evt", "confidence": "medium" },
-    "v_t_28370": { "name": "forEachCb", "confidence": "low" },
-    "v_i_28371": { "name": "evt", "confidence": "medium" },
-    "v_t_28372": { "name": "forEachCb", "confidence": "low" },
-    "v_i_28373": { "name": "evt", "confidence": "medium" },
-    "v_t_28374": { "name": "forEachCb", "confidence": "low" },
-
-    "v_t_28375": { "name": "keyString", "note": "fe(): 38 字符键位串", "confidence": "high" },
-    "v_t_28377": { "name": "idx", "confidence": "low" },
-    "v_t_28378": { "name": "idx", "confidence": "low" },
-    "v_t_28379": { "name": "keyId", "note": "tb: 回调 id", "confidence": "medium" },
-    "v_i_28380": { "name": "keyFn", "note": "tb: 回调", "confidence": "medium" },
-    "v_t_28381": { "name": "keyId", "confidence": "low" },
-    "v_t_28382": { "name": "keyId", "confidence": "low" },
-    "v_i_28383": { "name": "keyFn", "confidence": "low" },
-    "v_t_28384": { "name": "keyId", "confidence": "low" },
-
-    "v_i_28385": { "name": "sensorLevels", "note": "oe(): 32 档位传感电平(x7())", "confidence": "medium" },
-    "v_e_28386": { "name": "airSensor", "note": "oe(): 6 air 传感值(I7())", "confidence": "medium" },
-    "v_n_28387": { "name": "ledValues", "note": "oe(): LED 输出值(ev())", "confidence": "medium" },
-    "v_t_28388": { "name": "idx", "confidence": "low" },
-    "v_t_28389": { "name": "idx", "confidence": "low" },
-    "v_t_28390": { "name": "idx", "confidence": "low" },
-    "v_t_28391": { "name": "idx", "confidence": "low" },
-    "v_t_28392": { "name": "idx", "confidence": "low" },
-    "v_t_28393": { "name": "idx", "confidence": "low" },
-    "v_t_28394": { "name": "idx", "confidence": "low" },
-    "v_t_28395": { "name": "idx", "confidence": "low" },
-    "v_t_28396": { "name": "idx", "confidence": "low" },
-    "v_t_28397": { "name": "idx", "confidence": "low" },
-    "v_t_28398": { "name": "idx", "confidence": "low" },
-    "v_t_28399": { "name": "idx", "confidence": "low" },
-    "v_t_28400": { "name": "idx", "confidence": "low" },
-    "v_i_28401": { "name": "idx", "confidence": "low" },
-    "v_t_28402": { "name": "keyName", "note": "keyEventCallbacks 回调收到的键名", "confidence": "medium" },
-
-    "v_t_28403": { "name": "laneEntry", "confidence": "low" },
-    "v_t_28404": { "name": "laneEntry", "confidence": "low" },
-    "v_t_28405": { "name": "laneEntry", "confidence": "low" },
-    "v_t_28406": { "name": "laneEntry", "confidence": "low" },
-    "v_t_28407": { "name": "idx", "confidence": "low" },
-    "v_t_28408": { "name": "idx", "confidence": "low" },
-    "v_t_28409": { "name": "idx", "confidence": "low" },
-    "v_t_28410": { "name": "idx", "confidence": "low" },
-    "v_t_28411": { "name": "airPos", "note": "dR(): {y, hand} air 位置", "confidence": "medium" },
-    "v_i_28412": { "name": "airSum", "confidence": "medium" },
-    "v_e_28413": { "name": "airCount", "confidence": "medium" },
-    "v_t_28414": { "name": "idx", "confidence": "low" },
-
-    "v_mi_27816": { "name": "keyCodes", "note": "键码常量表(ArrowLeft/Enter/Escape/ShiftL/F1…)", "confidence": "high" },
-    "v_P_27640": { "name": "inputEnabled", "note": "输入轮询开关", "confidence": "medium" },
-    "v_i_28376": { "name": "vkList", "note": "fe(): 去重后的 VK 列表", "confidence": "medium" },
-    "v_M_27644": { "name": "boardLanes", "note": "街机板 lane 输入(.x7() 返回 32 档电平)", "confidence": "low" },
-    "v_E_27645": { "name": "boardAir", "note": "街机板 air 输入(.I7() 返回 6 值)", "confidence": "low" }
+    "v_He_27558": {
+      "name": "win",
+      "note": "游戏 IIFE 参数 = window",
+      "confidence": "high"
+    },
+    "v_ye_27858": {
+      "name": "handshake",
+      "note": "window.umgr_elc._ 握手对象(.rm)",
+      "confidence": "high"
+    },
+    "m_GL_0": {
+      "name": "glRuntime",
+      "note": "WebGL 渲染初始化(顶层)",
+      "confidence": "high"
+    },
+    "v_I1_27893": {
+      "name": "inputModule",
+      "note": "输入模块(32 档位+6 air)",
+      "confidence": "high"
+    },
+    "v_xe_27894": {
+      "name": "menuSystem",
+      "note": "菜单/对话框子系统(vt/It/T9)",
+      "confidence": "medium"
+    },
+    "v_P1_27895": {
+      "name": "ledOutput",
+      "note": "LED/灯光/串口输出",
+      "confidence": "medium"
+    },
+    "v_L1_27897": {
+      "name": "playerInfoBoard",
+      "note": "玩家信息板",
+      "confidence": "medium"
+    },
+    "v_Ce_27901": {
+      "name": "sceneManager",
+      "note": "场景切换(ft/ri/ti)",
+      "confidence": "medium"
+    },
+    "v_B1_27903": {
+      "name": "localization",
+      "note": "语言/文案",
+      "confidence": "medium"
+    },
+    "v_W1_27913": {
+      "name": "coopLobby",
+      "note": "合作大厅",
+      "confidence": "medium"
+    },
+    "v_Y1_27917": {
+      "name": "settingsStore",
+      "note": "设置持久化",
+      "confidence": "medium"
+    },
+    "v_q1_27918": {
+      "name": "audioFontHub",
+      "note": "音频+字体+输入聚合",
+      "confidence": "medium"
+    },
+    "v_tr_27922": {
+      "name": "uiComponentA",
+      "note": "UI 组件(职责待确认)",
+      "confidence": "low"
+    },
+    "v_ir_27923": {
+      "name": "uiComponentB",
+      "note": "UI 组件(职责待确认)",
+      "confidence": "low"
+    },
+    "v_er_27924": {
+      "name": "uiComponentC",
+      "note": "UI 组件(职责待确认)",
+      "confidence": "low"
+    },
+    "v_or_27929": {
+      "name": "gameCore",
+      "note": "游戏核心(成绩/存档/场景/贴图)",
+      "confidence": "high"
+    },
+    "v_b_30288": {
+      "name": "backgroundRenderer",
+      "note": "背景场景渲染(model:/player_scenes/)",
+      "confidence": "medium"
+    },
+    "v_W_30307": {
+      "name": "judgeSound",
+      "note": "判定音",
+      "confidence": "medium"
+    },
+    "v_X_30308": {
+      "name": "skillTrigger",
+      "note": "技能触发",
+      "confidence": "medium"
+    },
+    "v_cr_27931": {
+      "name": "testMenu",
+      "note": "测试菜单(sysTestMenu)",
+      "confidence": "high"
+    },
+    "v_kr_27942": {
+      "name": "chartParser",
+      "note": "谱面解析(.mgxc/.ugc)",
+      "confidence": "medium"
+    },
+    "v_Pr_27951": {
+      "name": "dataLoader",
+      "note": "数据加载(贴图/包)",
+      "confidence": "medium"
+    },
+    "v_Jr_27963": {
+      "name": "settingsTables",
+      "note": "设置+存档表",
+      "confidence": "medium"
+    },
+    "v_jr_27964": {
+      "name": "recordsStore",
+      "note": "存档表(records/player.krtbl)",
+      "confidence": "medium"
+    },
+    "v_Zr_27974": {
+      "name": "hostBridge",
+      "note": "前端桥封装(window.umgr_elc)",
+      "confidence": "high"
+    },
+    "v_Qr_27976": {
+      "name": "systemMisc",
+      "note": "窗口/媒体/截图/系统杂项",
+      "confidence": "medium"
+    },
+    "v_Ne_28186": {
+      "name": "languagePackages",
+      "note": "语言包管理(/una/*.una)",
+      "confidence": "high"
+    },
+    "v_ge_27821": {
+      "name": "mathRandom",
+      "note": "Math.random",
+      "confidence": "high"
+    },
+    "v_me_27822": {
+      "name": "mathMin",
+      "note": "Math.min",
+      "confidence": "high"
+    },
+    "v_pe_27823": {
+      "name": "mathMax",
+      "note": "Math.max",
+      "confidence": "high"
+    },
+    "v_ke_27824": {
+      "name": "mathFloor",
+      "note": "Math.floor",
+      "confidence": "high"
+    },
+    "v_i1_27825": {
+      "name": "mathRound",
+      "note": "Math.round",
+      "confidence": "high"
+    },
+    "v_e1_27826": {
+      "name": "mathCeil",
+      "note": "Math.ceil",
+      "confidence": "high"
+    },
+    "v_n1_27827": {
+      "name": "mathSin",
+      "note": "Math.sin",
+      "confidence": "high"
+    },
+    "v_r1_27828": {
+      "name": "mathCos",
+      "note": "Math.cos",
+      "confidence": "high"
+    },
+    "v_yi_27829": {
+      "name": "mathTan",
+      "note": "Math.tan",
+      "confidence": "high"
+    },
+    "v_s1_27830": {
+      "name": "mathAbs",
+      "note": "Math.abs",
+      "confidence": "high"
+    },
+    "v_Si_27831": {
+      "name": "mathSqrt",
+      "note": "Math.sqrt",
+      "confidence": "high"
+    },
+    "v_Ai_27832": {
+      "name": "mathPow",
+      "note": "Math.pow",
+      "confidence": "high"
+    },
+    "v_a1_27833": {
+      "name": "mathPI",
+      "note": "Math.PI",
+      "confidence": "high"
+    },
+    "v_Ci_27837": {
+      "name": "raf",
+      "note": "requestAnimationFrame 引用",
+      "confidence": "high"
+    },
+    "v_Ti_27838": {
+      "name": "kbdStartFn",
+      "note": "kbdStart 引用",
+      "confidence": "high"
+    },
+    "v_Ii_27839": {
+      "name": "kbdUpdateFn",
+      "note": "kbdUpdate 引用",
+      "confidence": "high"
+    },
+    "v_Pi_27840": {
+      "name": "kbdHeldFn",
+      "note": "kbdHeld 引用",
+      "confidence": "high"
+    },
+    "v_Ri_27841": {
+      "name": "kbdUni2VirtFn",
+      "note": "kbdUni2Virt 引用",
+      "confidence": "high"
+    },
+    "v_Li_27842": {
+      "name": "di8KbdStartFn",
+      "note": "di8KbdStart 引用",
+      "confidence": "high"
+    },
+    "v_Mi_27843": {
+      "name": "di8KbdUpdateFn",
+      "note": "di8KbdUpdate 引用",
+      "confidence": "high"
+    },
+    "v_Ei_27844": {
+      "name": "di8KbdHeldFn",
+      "note": "di8KbdHeld 引用",
+      "confidence": "high"
+    },
+    "v_Di_27845": {
+      "name": "di8KbdShutdownFn",
+      "note": "di8KbdShutdown 引用",
+      "confidence": "high"
+    },
+    "v_Ni_27852": {
+      "name": "arrayPush",
+      "note": "Array.prototype.push 引用",
+      "confidence": "medium"
+    },
+    "v_xi_27836": {
+      "name": "rankName",
+      "note": "分数 -> 段位名(sssp/sss/…)",
+      "confidence": "medium"
+    },
+    "v_c1_27846": {
+      "name": "rankLabel",
+      "note": "分数 -> 段位标签(Sssp/…)",
+      "confidence": "medium"
+    },
+    "v_u1_27847": {
+      "name": "rankLevel",
+      "note": "分数 -> 段位数值",
+      "confidence": "medium"
+    },
+    "v_f1_27848": {
+      "name": "rankGrade",
+      "note": "分数 -> 评级字母(S/A/B/…)",
+      "confidence": "medium"
+    },
+    "v_Fi_27849": {
+      "name": "ratingColorName",
+      "note": "rating -> 颜色名",
+      "confidence": "medium"
+    },
+    "v__1_27850": {
+      "name": "ratingColorName2",
+      "note": "rating -> 颜色名(第二套)",
+      "confidence": "medium"
+    },
+    "v_Bi_27851": {
+      "name": "ratingColorRgba",
+      "note": "rating -> rgba",
+      "confidence": "medium"
+    },
+    "v_Hi_27855": {
+      "name": "currentLang",
+      "note": "当前语言(默认 ja-JP)",
+      "confidence": "high"
+    },
+    "v_Ui_27854": {
+      "name": "supportedLangs",
+      "note": "支持语言列表",
+      "confidence": "high"
+    },
+    "v_se_27562": {
+      "name": "glContext",
+      "note": "WebGL 上下文(clearColor/clearStencil)",
+      "confidence": "high"
+    },
+    "v_Gl_28185": {
+      "name": "Renderer",
+      "note": "渲染器类(RS SCENES/SPRITES/DRAW CALLS)",
+      "confidence": "high"
+    },
+    "v_ae_27643": {
+      "name": "renderer",
+      "note": "Renderer 实例(全局共享)",
+      "confidence": "high"
+    },
+    "v_Bl_28183": {
+      "name": "RenderScene",
+      "note": "renderer.Yt: 场景/绘制批次管理",
+      "confidence": "medium"
+    },
+    "v_Fl_28182": {
+      "name": "Framebuffer",
+      "note": "FBO 包装(Zh/_5 bindFramebuffer)",
+      "confidence": "medium"
+    },
+    "v_ho_28105": {
+      "name": "MeshBuffer",
+      "note": "顶点/UV/颜色缓冲包装(.yl 定义布局)",
+      "confidence": "medium"
+    },
+    "v_r_28343": {
+      "name": "laneKeyChars",
+      "note": "档位按键字符表(38,fe 串)",
+      "confidence": "high"
+    },
+    "v_s_28344": {
+      "name": "laneState",
+      "note": "档位状态位(bit0=上一帧,bit1=当前按下)",
+      "confidence": "high"
+    },
+    "v_a_28345": {
+      "name": "laneVk",
+      "note": "档位 -> VK 码(W=false 路径)",
+      "confidence": "high"
+    },
+    "v_o_28346": {
+      "name": "laneAnalog",
+      "note": "档位传感值(200/0 或 LED)",
+      "confidence": "medium"
+    },
+    "v_t_28347": {
+      "name": "KeyBinding",
+      "note": "导航键绑定类(name/vk/dik)",
+      "confidence": "high"
+    },
+    "v_l_28348": {
+      "name": "keyBindings",
+      "note": "导航键绑定表(left/right/enter/…)",
+      "confidence": "high"
+    },
+    "v_c_28349": {
+      "name": "useDirectInput",
+      "note": "是否走 DIK 轮询(W/handshake.rm.wm)",
+      "confidence": "high"
+    },
+    "v_i_28350": {
+      "name": "pointerListenersReady",
+      "note": "指针监听已安装",
+      "confidence": "medium"
+    },
+    "v_e_28351": {
+      "name": "pointerCallbacks",
+      "note": "指针回调表(tb/eb 增删)",
+      "confidence": "high"
+    },
+    "v_u_28352": {
+      "name": "keyEventCallbacks",
+      "note": "按键事件回调表($I/ZI 增删)",
+      "confidence": "high"
+    },
+    "v_n_28353": {
+      "name": "onPointerDown",
+      "confidence": "medium"
+    },
+    "v_f_28354": {
+      "name": "onPointerMove",
+      "confidence": "medium"
+    },
+    "v___28355": {
+      "name": "onPointerUp",
+      "confidence": "medium"
+    },
+    "v_h_28356": {
+      "name": "onPointerEnter",
+      "confidence": "medium"
+    },
+    "v_d_28357": {
+      "name": "onPointerLeave",
+      "confidence": "medium"
+    },
+    "v_t_28358": {
+      "name": "mapCb",
+      "confidence": "low"
+    },
+    "v_t_28359": {
+      "name": "mapCb",
+      "confidence": "low"
+    },
+    "v_t_28360": {
+      "name": "mapCb",
+      "confidence": "low"
+    },
+    "v_t_28361": {
+      "name": "keyName",
+      "note": "KeyBinding 构造: 名字",
+      "confidence": "high"
+    },
+    "v_i_28362": {
+      "name": "stateBits",
+      "note": "KeyBinding 构造: 状态",
+      "confidence": "medium"
+    },
+    "v_e_28363": {
+      "name": "vkCode",
+      "note": "KeyBinding 构造: VK 码",
+      "confidence": "high"
+    },
+    "v_n_28364": {
+      "name": "dikCode",
+      "note": "KeyBinding 构造: DIK 码",
+      "confidence": "high"
+    },
+    "v_i_28365": {
+      "name": "evt",
+      "note": "pointer 事件",
+      "confidence": "medium"
+    },
+    "v_t_28366": {
+      "name": "forEachCb",
+      "confidence": "low"
+    },
+    "v_i_28367": {
+      "name": "evt",
+      "confidence": "medium"
+    },
+    "v_t_28368": {
+      "name": "forEachCb",
+      "confidence": "low"
+    },
+    "v_i_28369": {
+      "name": "evt",
+      "confidence": "medium"
+    },
+    "v_t_28370": {
+      "name": "forEachCb",
+      "confidence": "low"
+    },
+    "v_i_28371": {
+      "name": "evt",
+      "confidence": "medium"
+    },
+    "v_t_28372": {
+      "name": "forEachCb",
+      "confidence": "low"
+    },
+    "v_i_28373": {
+      "name": "evt",
+      "confidence": "medium"
+    },
+    "v_t_28374": {
+      "name": "forEachCb",
+      "confidence": "low"
+    },
+    "v_t_28375": {
+      "name": "keyString",
+      "note": "fe(): 38 字符键位串",
+      "confidence": "high"
+    },
+    "v_t_28377": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_t_28378": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_t_28379": {
+      "name": "keyId",
+      "note": "tb: 回调 id",
+      "confidence": "medium"
+    },
+    "v_i_28380": {
+      "name": "keyFn",
+      "note": "tb: 回调",
+      "confidence": "medium"
+    },
+    "v_t_28381": {
+      "name": "keyId",
+      "confidence": "low"
+    },
+    "v_t_28382": {
+      "name": "keyId",
+      "confidence": "low"
+    },
+    "v_i_28383": {
+      "name": "keyFn",
+      "confidence": "low"
+    },
+    "v_t_28384": {
+      "name": "keyId",
+      "confidence": "low"
+    },
+    "v_i_28385": {
+      "name": "sensorLevels",
+      "note": "oe(): 32 档位传感电平(x7())",
+      "confidence": "medium"
+    },
+    "v_e_28386": {
+      "name": "airSensor",
+      "note": "oe(): 6 air 传感值(I7())",
+      "confidence": "medium"
+    },
+    "v_n_28387": {
+      "name": "ledValues",
+      "note": "oe(): LED 输出值(ev())",
+      "confidence": "medium"
+    },
+    "v_t_28388": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_t_28389": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_t_28390": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_t_28391": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_t_28392": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_t_28393": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_t_28394": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_t_28395": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_t_28396": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_t_28397": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_t_28398": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_t_28399": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_t_28400": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_i_28401": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_t_28402": {
+      "name": "keyName",
+      "note": "keyEventCallbacks 回调收到的键名",
+      "confidence": "medium"
+    },
+    "v_t_28403": {
+      "name": "laneEntry",
+      "confidence": "low"
+    },
+    "v_t_28404": {
+      "name": "laneEntry",
+      "confidence": "low"
+    },
+    "v_t_28405": {
+      "name": "laneEntry",
+      "confidence": "low"
+    },
+    "v_t_28406": {
+      "name": "laneEntry",
+      "confidence": "low"
+    },
+    "v_t_28407": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_t_28408": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_t_28409": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_t_28410": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_t_28411": {
+      "name": "airPos",
+      "note": "dR(): {y, hand} air 位置",
+      "confidence": "medium"
+    },
+    "v_i_28412": {
+      "name": "airSum",
+      "confidence": "medium"
+    },
+    "v_e_28413": {
+      "name": "airCount",
+      "confidence": "medium"
+    },
+    "v_t_28414": {
+      "name": "idx",
+      "confidence": "low"
+    },
+    "v_mi_27816": {
+      "name": "keyCodes",
+      "note": "键码常量表(ArrowLeft/Enter/Escape/ShiftL/F1…)",
+      "confidence": "high"
+    },
+    "v_P_27640": {
+      "name": "inputEnabled",
+      "note": "输入轮询开关",
+      "confidence": "medium"
+    },
+    "v_i_28376": {
+      "name": "vkList",
+      "note": "fe(): 去重后的 VK 列表",
+      "confidence": "medium"
+    },
+    "v_M_27644": {
+      "name": "boardLanes",
+      "note": "街机板 lane 输入(.x7() 返回 32 档电平)",
+      "confidence": "low"
+    },
+    "v_E_27645": {
+      "name": "boardAir",
+      "note": "街机板 air 输入(.I7() 返回 6 值)",
+      "confidence": "low"
+    },
+    "v_o_31817": {
+      "name": "BTN_DOWN",
+      "note": "按钮位: 下",
+      "confidence": "medium"
+    },
+    "v_l_31818": {
+      "name": "BTN_UP",
+      "note": "按钮位: 上",
+      "confidence": "medium"
+    },
+    "v_v_31819": {
+      "name": "BTN_ENTER",
+      "note": "按钮位: 決定",
+      "confidence": "medium"
+    },
+    "v_c_31820": {
+      "name": "BTN_TEST",
+      "note": "按钮位: Test(Esc)",
+      "confidence": "medium"
+    },
+    "v_u_31821": {
+      "name": "BTN_SERVICE",
+      "note": "按钮位: Service(Enter)",
+      "confidence": "medium"
+    },
+    "v_t_31822": {
+      "name": "MenuState",
+      "note": "测试菜单全局状态",
+      "confidence": "medium"
+    },
+    "v_i_31823": {
+      "name": "SliderZone",
+      "note": "滑块区域(colStart,colWidth,action)",
+      "confidence": "medium"
+    },
+    "v_n_31824": {
+      "name": "MenuPage",
+      "note": "菜单页(name/items/cursor/回调)",
+      "confidence": "medium"
+    },
+    "v_s_31852": {
+      "name": "DelayEntry",
+      "note": "InputDelayTest 的延迟样本 {lr,xR}",
+      "confidence": "medium"
+    },
+    "v_w_31825": {
+      "name": "currentRsb",
+      "note": "当前加载的 testMenu rsb 场景",
+      "confidence": "medium"
+    },
+    "v_f_31826": {
+      "name": "menuState",
+      "note": "MenuState 实例",
+      "confidence": "medium"
+    },
+    "v___31827": {
+      "name": "guideElements",
+      "note": "keyGuide 各元素",
+      "confidence": "medium"
+    },
+    "v_e_31828": {
+      "name": "pages",
+      "note": "页面注册表 name->MenuPage",
+      "confidence": "medium"
+    },
+    "v_h_31829": {
+      "name": "handleDialogInput",
+      "note": "确认框输入处理",
+      "confidence": "medium"
+    },
+    "v_r_31830": {
+      "name": "positionDialogCursor",
+      "note": "摆放确认框光标",
+      "confidence": "medium"
+    },
+    "v_a_31831": {
+      "name": "confirmDialog",
+      "note": "显示确认框(msg,type,cb)",
+      "confidence": "medium"
+    },
+    "v_d_31832": {
+      "name": "switchPage",
+      "note": "切换页面",
+      "confidence": "medium"
+    },
+    "v_s_31833": {
+      "name": "buildPages",
+      "note": "注册全部页面",
+      "confidence": "medium"
+    },
+    "v_g_31834": {
+      "name": "menuLoop",
+      "note": "测试菜单每帧更新",
+      "confidence": "medium"
+    },
+    "v_m_31835": {
+      "name": "openTestMenu",
+      "note": "打开测试菜单",
+      "confidence": "medium"
+    },
+    "v_t_31849": {
+      "name": "pageObj",
+      "note": "当前正在配置的 MenuPage",
+      "confidence": "medium"
+    },
+    "v_i_31850": {
+      "name": "fillCount",
+      "note": "Array.from 长度参数",
+      "confidence": "medium"
+    },
+    "v_e_31851": {
+      "name": "fillValue",
+      "note": "Array.from 填充值",
+      "confidence": "medium"
+    },
+    "v_t_31836": {
+      "name": "colStart",
+      "note": "SliderZone: 起始列",
+      "confidence": "medium"
+    },
+    "v_i_31837": {
+      "name": "colWidth",
+      "note": "SliderZone: 列数",
+      "confidence": "medium"
+    },
+    "v_e_31838": {
+      "name": "action",
+      "note": "SliderZone: 动作位",
+      "confidence": "medium"
+    },
+    "v_t_31839": {
+      "name": "btnMask",
+      "note": "输入位",
+      "confidence": "medium"
+    },
+    "v_i_31840": {
+      "name": "heldMask",
+      "note": "输入位(edge)",
+      "confidence": "medium"
+    },
+    "v_t_31841": {
+      "name": "itemName",
+      "note": "条目名",
+      "confidence": "medium"
+    },
+    "v_t_31842": {
+      "name": "pageName",
+      "note": "页面名",
+      "confidence": "medium"
+    },
+    "v_i_31843": {
+      "name": "pageObj",
+      "note": "新建的 MenuPage",
+      "confidence": "medium"
+    },
+    "v_t_31844": {
+      "name": "buttons",
+      "note": "输入位",
+      "confidence": "medium"
+    },
+    "v_t_31845": {
+      "name": "dialogMsg",
+      "note": "确认框文案",
+      "confidence": "medium"
+    },
+    "v_i_31846": {
+      "name": "dialogType",
+      "note": "确认框类型",
+      "confidence": "medium"
+    },
+    "v_e_31847": {
+      "name": "dialogCb",
+      "note": "确认框回调",
+      "confidence": "medium"
+    },
+    "v_t_31848": {
+      "name": "pageName",
+      "note": "目标页面名",
+      "confidence": "medium"
+    },
+    "v_t_31853": {
+      "name": "btnMask",
+      "note": "输入位",
+      "confidence": "medium"
+    },
+    "v_i_31854": {
+      "name": "heldMask",
+      "note": "输入位(edge)",
+      "confidence": "medium"
+    },
+    "v_t_31855": {
+      "name": "dialogResult",
+      "note": "确认框结果",
+      "confidence": "medium"
+    },
+    "v_t_31856": {
+      "name": "dialogResult",
+      "note": "确认框结果",
+      "confidence": "medium"
+    },
+    "v_t_31857": {
+      "name": "dialogResult",
+      "note": "确认框结果",
+      "confidence": "medium"
+    },
+    "v_e_31858": {
+      "name": "analogValues",
+      "note": "inputModule.sR() 传感值",
+      "confidence": "medium"
+    },
+    "v_n_31859": {
+      "name": "textBuf",
+      "note": "拼接的显示文本",
+      "confidence": "medium"
+    },
+    "v_r_31860": {
+      "name": "isOn",
+      "note": "是否达到阈值",
+      "confidence": "medium"
+    },
+    "v_i_31861": {
+      "name": "halfIdx",
+      "note": "上下半区索引",
+      "confidence": "medium"
+    },
+    "v_t_31862": {
+      "name": "laneIdx",
+      "note": "档位索引",
+      "confidence": "medium"
+    },
+    "v_t_31863": {
+      "name": "airIdx",
+      "note": "air 索引",
+      "confidence": "medium"
+    },
+    "v_t_31864": {
+      "name": "btnMask",
+      "note": "输入位",
+      "confidence": "medium"
+    },
+    "v_i_31865": {
+      "name": "heldMask",
+      "note": "输入位(edge)",
+      "confidence": "medium"
+    },
+    "v_glL_31866": {
+      "name": "guideLeftEl",
+      "note": "keyGuideLeft 元素",
+      "confidence": "medium"
+    },
+    "v_glR_31867": {
+      "name": "guideRightEl",
+      "note": "keyGuideRight 元素",
+      "confidence": "medium"
+    },
+    "v_qi_31868": {
+      "name": "idx",
+      "note": "循环索引",
+      "confidence": "medium"
+    },
+    "v_qj_31869": {
+      "name": "idx",
+      "note": "循环索引",
+      "confidence": "medium"
+    },
+    "v_p_31870": {
+      "name": "panelCfg",
+      "note": "umgKeyPanel.get() 配置",
+      "confidence": "medium"
+    },
+    "v_u_31871": {
+      "name": "pageRootEl",
+      "note": "页面根元素",
+      "confidence": "medium"
+    },
+    "v_i_31872": {
+      "name": "idx",
+      "note": "循环索引",
+      "confidence": "medium"
+    },
+    "v_e_31873": {
+      "name": "valueEl",
+      "note": "数值文本元素",
+      "confidence": "medium"
+    },
+    "v_gr_31874": {
+      "name": "radiusEl",
+      "note": "半径数值元素",
+      "confidence": "medium"
+    },
+    "v_e_31875": {
+      "name": "catchErr",
+      "note": "异常",
+      "confidence": "medium"
+    },
+    "v_t_31880": {
+      "name": "btnMask",
+      "note": "输入位",
+      "confidence": "medium"
+    },
+    "v_i_31881": {
+      "name": "heldMask",
+      "note": "输入位(edge)",
+      "confidence": "medium"
+    },
+    "v_n_31882": {
+      "name": "itemCount",
+      "note": "条目数",
+      "confidence": "medium"
+    },
+    "v_a_31883": {
+      "name": "prevIdx",
+      "note": "上一索引",
+      "confidence": "medium"
+    },
+    "v_n2_31884": {
+      "name": "itemCount2",
+      "note": "条目数",
+      "confidence": "medium"
+    },
+    "v_a2_31885": {
+      "name": "nextIdx",
+      "note": "下一索引",
+      "confidence": "medium"
+    },
+    "v_dir_31886": {
+      "name": "dirSign",
+      "note": "调整方向",
+      "confidence": "medium"
+    },
+    "v_k_31887": {
+      "name": "cfgKey",
+      "note": "面板参数键",
+      "confidence": "medium"
+    },
+    "v_e_31888": {
+      "name": "catchErr",
+      "note": "异常",
+      "confidence": "medium"
+    },
+    "v_c_31889": {
+      "name": "cursorEl",
+      "note": "光标元素",
+      "confidence": "medium"
+    },
+    "v_b_31890": {
+      "name": "targetEl",
+      "note": "目标元素",
+      "confidence": "medium"
+    },
+    "v_e_31891": {
+      "name": "catchErr",
+      "note": "异常",
+      "confidence": "medium"
+    },
+    "v_e_31879": {
+      "name": "catchErr",
+      "note": "异常",
+      "confidence": "medium"
+    },
+    "v_t_31892": {
+      "name": "btnMask",
+      "note": "输入位",
+      "confidence": "medium"
+    },
+    "v_i_31893": {
+      "name": "heldMask",
+      "note": "输入位(edge)",
+      "confidence": "medium"
+    },
+    "v_t_31894": {
+      "name": "resIndex",
+      "note": "分辨率索引",
+      "confidence": "medium"
+    },
+    "v_t_31895": {
+      "name": "resEntry",
+      "note": "分辨率条目",
+      "confidence": "medium"
+    },
+    "v_t_31896": {
+      "name": "resIndex",
+      "note": "分辨率索引",
+      "confidence": "medium"
+    },
+    "v_i_31897": {
+      "name": "nextIndex",
+      "note": "下一索引",
+      "confidence": "medium"
+    },
+    "v_t_31898": {
+      "name": "resEntry",
+      "note": "分辨率条目",
+      "confidence": "medium"
+    },
+    "v_t_31899": {
+      "name": "fpsIndex",
+      "note": "帧率索引",
+      "confidence": "medium"
+    },
+    "v_t_31900": {
+      "name": "fpsEntry",
+      "note": "帧率条目",
+      "confidence": "medium"
+    },
+    "v_t_31901": {
+      "name": "nextIndex",
+      "note": "下一索引",
+      "confidence": "medium"
+    },
+    "v_t_31902": {
+      "name": "fpsEntry",
+      "note": "帧率条目",
+      "confidence": "medium"
+    },
+    "v_t_31920": {
+      "name": "btnMask",
+      "note": "输入位",
+      "confidence": "medium"
+    },
+    "v_i_31921": {
+      "name": "heldMask",
+      "note": "输入位(edge)",
+      "confidence": "medium"
+    },
+    "v_i_31903": {
+      "name": "menuSelf",
+      "note": "页面 this",
+      "confidence": "medium"
+    },
+    "v_t_31904": {
+      "name": "infoResult",
+      "note": "设备信息结果",
+      "confidence": "medium"
+    },
+    "v_e_31905": {
+      "name": "inputModeText",
+      "note": "设备输入模式",
+      "confidence": "medium"
+    },
+    "v_n_31906": {
+      "name": "outputModeText",
+      "note": "设备输出模式",
+      "confidence": "medium"
+    },
+    "v_r_31907": {
+      "name": "serverName",
+      "note": "服务器名",
+      "confidence": "medium"
+    },
+    "v_s_31908": {
+      "name": "serverVersion",
+      "note": "服务器版本",
+      "confidence": "medium"
+    },
+    "v_a_31909": {
+      "name": "hardwareName",
+      "note": "硬件名",
+      "confidence": "medium"
+    },
+    "v_o_31910": {
+      "name": "hardwareVersion",
+      "note": "硬件版本",
+      "confidence": "medium"
+    },
+    "v_l_31911": {
+      "name": "comPort",
+      "note": "COM 端口",
+      "confidence": "medium"
+    },
+    "v_c_31912": {
+      "name": "boardNumber",
+      "note": "板号",
+      "confidence": "medium"
+    },
+    "v_u_31913": {
+      "name": "firmwareVersion",
+      "note": "固件版本",
+      "confidence": "medium"
+    },
+    "v_f_31914": {
+      "name": "ioPort",
+      "note": "IO 端口",
+      "confidence": "medium"
+    },
+    "v___31915": {
+      "name": "ioBoardNumber",
+      "note": "IO 板号",
+      "confidence": "medium"
+    },
+    "v_h_31916": {
+      "name": "ioFirmwareVersion",
+      "note": "IO 固件版本",
+      "confidence": "medium"
+    },
+    "v_d_31917": {
+      "name": "applyInfo",
+      "note": "应用设备信息到界面",
+      "confidence": "medium"
+    },
+    "v_t_31918": {
+      "name": "infoDone",
+      "note": "完成标志",
+      "confidence": "medium"
+    },
+    "v_t_31919": {
+      "name": "promiseResolve",
+      "note": "Promise resolve",
+      "confidence": "medium"
+    },
+    "v_t_31922": {
+      "name": "btnMask",
+      "note": "输入位",
+      "confidence": "medium"
+    },
+    "v_i_31923": {
+      "name": "heldMask",
+      "note": "输入位(edge)",
+      "confidence": "medium"
+    },
+    "v_i_31924": {
+      "name": "startTimeMs",
+      "note": "起始时间",
+      "confidence": "medium"
+    },
+    "v_e_31925": {
+      "name": "endTimeMs",
+      "note": "结束时间",
+      "confidence": "medium"
+    },
+    "v_t_31926": {
+      "name": "timeoutId",
+      "note": "超时定时器",
+      "confidence": "medium"
+    },
+    "v_n_31927": {
+      "name": "readResult",
+      "note": "读取结果",
+      "confidence": "medium"
+    },
+    "v_t_31928": {
+      "name": "stateCb",
+      "note": "状态回调",
+      "confidence": "medium"
+    },
+    "v_t_31929": {
+      "name": "btnMask",
+      "note": "输入位",
+      "confidence": "medium"
+    },
+    "v_i_31930": {
+      "name": "heldMask",
+      "note": "输入位(edge)",
+      "confidence": "medium"
+    },
+    "v_n_31931": {
+      "name": "delayEl",
+      "note": "延迟数值元素",
+      "confidence": "medium"
+    },
+    "v_a_31932": {
+      "name": "intervalEl",
+      "note": "扫描间隔元素",
+      "confidence": "medium"
+    },
+    "v_o_31933": {
+      "name": "intervalMaxEl",
+      "note": "最大间隔元素",
+      "confidence": "medium"
+    },
+    "v_l_31934": {
+      "name": "noteEl",
+      "note": "判定线元素",
+      "confidence": "medium"
+    },
+    "v_r_31935": {
+      "name": "delayBarEl",
+      "note": "延迟条元素",
+      "confidence": "medium"
+    },
+    "v_c_31936": {
+      "name": "delayStart",
+      "note": "开始时间",
+      "confidence": "medium"
+    },
+    "v_u_31937": {
+      "name": "nextTick",
+      "note": "下一拍",
+      "confidence": "medium"
+    },
+    "v_f_31938": {
+      "name": "prevTick",
+      "note": "上一拍",
+      "confidence": "medium"
+    },
+    "v___31939": {
+      "name": "lastDelay",
+      "note": "上次延迟",
+      "confidence": "medium"
+    },
+    "v_h_31940": {
+      "name": "tickInterval",
+      "note": "拍间隔",
+      "confidence": "medium"
+    },
+    "v_d_31941": {
+      "name": "delayList",
+      "note": "延迟样本列表",
+      "confidence": "medium"
+    },
+    "v_v_31942": {
+      "name": "updateDelay",
+      "note": "刷新延迟显示",
+      "confidence": "medium"
+    },
+    "v_t_31943": {
+      "name": "itemCount",
+      "note": "样本数",
+      "confidence": "medium"
+    },
+    "v_i_31944": {
+      "name": "sum",
+      "note": "延迟合计",
+      "confidence": "medium"
+    },
+    "v_e_31945": {
+      "name": "entry",
+      "note": "样本",
+      "confidence": "medium"
+    },
+    "v_t_31946": {
+      "name": "tickTime",
+      "note": "当前拍时间",
+      "confidence": "medium"
+    },
+    "v_i_31947": {
+      "name": "tickArg2",
+      "note": "渲染回调参数2",
+      "confidence": "medium"
+    },
+    "v_e_31948": {
+      "name": "tickArg3",
+      "note": "渲染回调参数3",
+      "confidence": "medium"
+    },
+    "v_n_31949": {
+      "name": "heldArr",
+      "note": "inputModule.aR() 结果",
+      "confidence": "medium"
+    },
+    "v_r_31950": {
+      "name": "anyHeld",
+      "note": "是否有按下",
+      "confidence": "medium"
+    },
+    "v_t_31952": {
+      "name": "laneIdx",
+      "note": "档位索引",
+      "confidence": "medium"
+    },
+    "v_s_31951": {
+      "name": "entry",
+      "note": "样本",
+      "confidence": "medium"
+    },
+    "v_t_31953": {
+      "name": "sceneCfg",
+      "note": "场景配置",
+      "confidence": "medium"
+    },
+    "v_t_31954": {
+      "name": "btnMask",
+      "note": "输入位",
+      "confidence": "medium"
+    },
+    "v_i_31955": {
+      "name": "heldMask",
+      "note": "输入位(edge)",
+      "confidence": "medium"
+    },
+    "v_t_31956": {
+      "name": "itemCount",
+      "note": "计数",
+      "confidence": "medium"
+    },
+    "v_i_31957": {
+      "name": "group",
+      "note": "分组",
+      "confidence": "medium"
+    },
+    "v_t_31958": {
+      "name": "btnMask",
+      "note": "输入位",
+      "confidence": "medium"
+    },
+    "v_i_31959": {
+      "name": "heldMask",
+      "note": "输入位(edge)",
+      "confidence": "medium"
+    },
+    "v_t_31960": {
+      "name": "exportResult",
+      "note": "导出结果",
+      "confidence": "medium"
+    },
+    "v_t_31961": {
+      "name": "btnMask",
+      "note": "输入位",
+      "confidence": "medium"
+    },
+    "v_i_31962": {
+      "name": "heldMask",
+      "note": "输入位(edge)",
+      "confidence": "medium"
+    },
+    "v_e_31963": {
+      "name": "frameArg",
+      "note": "每帧参数",
+      "confidence": "medium"
+    },
+    "v_n_31964": {
+      "name": "heldArr",
+      "note": "inputModule.oR() 结果",
+      "confidence": "medium"
+    },
+    "v_r_31965": {
+      "name": "keyBindings",
+      "note": "inputModule.vR()",
+      "confidence": "medium"
+    },
+    "v_i_31967": {
+      "name": "edgeMask",
+      "note": "边沿位",
+      "confidence": "medium"
+    },
+    "v_e_31968": {
+      "name": "heldButtons",
+      "note": "按住位",
+      "confidence": "medium"
+    },
+    "v_t_31969": {
+      "name": "idx",
+      "note": "循环索引",
+      "confidence": "medium"
+    },
+    "v_a_31970": {
+      "name": "zone",
+      "note": "滑块区域",
+      "confidence": "medium"
+    },
+    "v_t_31971": {
+      "name": "laneIdx",
+      "note": "档位索引",
+      "confidence": "medium"
+    },
+    "v_s_31966": {
+      "name": "keyBindingsAlt",
+      "note": "inputModule.vR()(非菜单态)",
+      "confidence": "medium"
+    },
+    "v_t_31972": {
+      "name": "idx",
+      "note": "循环索引",
+      "confidence": "medium"
+    },
+    "v_i_31973": {
+      "name": "taskDone",
+      "note": "任务完成回调",
+      "confidence": "medium"
+    },
+    "v_t_31974": {
+      "name": "sceneCfg",
+      "note": "场景配置",
+      "confidence": "medium"
+    },
+    "v_t_31975": {
+      "name": "afterLoad",
+      "note": "加载后回调",
+      "confidence": "medium"
+    },
+    "v_e_31976": {
+      "name": "onReady",
+      "note": "就绪回调",
+      "confidence": "medium"
+    },
+    "v_i_31977": {
+      "name": "taskDone",
+      "note": "任务完成回调",
+      "confidence": "medium"
+    },
+    "v_t_31978": {
+      "name": "rsbBuf",
+      "note": "testMenu.rsb 数据",
+      "confidence": "medium"
+    },
+    "v_t_31979": {
+      "name": "sceneRef",
+      "note": "加载好的场景",
+      "confidence": "medium"
+    },
+    "v_t_31980": {
+      "name": "onFail",
+      "note": "失败回调",
+      "confidence": "medium"
+    },
+    "v_t_31981": {
+      "name": "sceneCfg",
+      "note": "场景配置",
+      "confidence": "medium"
+    }
   }
 }
