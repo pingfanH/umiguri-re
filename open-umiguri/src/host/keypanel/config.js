@@ -24,12 +24,15 @@ const BASE_DEFAULTS = {
 // 移动端默认值(覆盖/新增 BASE_DEFAULTS 的项)
 const MOBILE_DEFAULTS = {
   radius: 10, // 范围触发圆半径(视口 px), 触屏手指更粗 -> 更小
-  bottomInset: 34, // 避开 Android 手势条
+  bottomInset: 36, // 避开 Android 手势条
+  airGap: 0,
 };
 
 // 桌面端默认值
 const DESKTOP_DEFAULTS = {
   radius: 25,
+  showLanes: false,
+  airRowGap: 10,
 };
 
 // 最终默认值(按平台合并)
