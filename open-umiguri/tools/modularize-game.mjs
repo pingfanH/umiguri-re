@@ -76,6 +76,9 @@ traverse(ast, {
 });
 const moduleNameOf = new Set(modules.map((m) => m.name));
 
+// IIFE 形参(如 win = window): 必须在改写前取值, 否则会被当成引用替换掉
+const iifeParams = fn.params.filter((p) => p.type === 'Identifier').map((p) => p.name);
+
 // ---------- 改写: 所有指向 IIFE 绑定的引用 -> scope.<name> ----------
 // 说明: 在原 AST(作用域完整)上就地替换; 声明 id 与模块 id 留待后续专门处理。
 const scopeMember = (name) => t.memberExpression(t.identifier('scope'), t.identifier(name));
@@ -91,13 +94,8 @@ traverse(ast, {
     if ((par.isClassMethod() || par.isClassProperty()) && par.node.key === p.node && !par.node.computed) return;
     if (par.isLabeledStatement() && par.node.label === p.node) return;
     if ((par.isBreakStatement() || par.isContinueStatement()) && par.node.label === p.node) return;
-    // 绑定自身的声明位置: 交给专门处理(声明 -> 赋值 / 模块 -> 工厂)
-    if (b.identifier === p.node) {
-      if (par.isVariableDeclarator() && par.node.id === p.node) return;
-      if (par.isFunctionDeclaration() && par.node.id === p.node) return;
-      if (par.isClassDeclaration() && par.node.id === p.node) return;
-      if (par.isFunctionExpression() && par.node.id === p.node) return;
-    }
+    // 绑定自身的声明位置一律跳过(声明 -> 赋值 / 模块 -> 工厂 / 形参 -> scope.win)
+    if (b.identifier === p.node) return;
     p.replaceWith(scopeMember(name));
   },
 });
@@ -152,14 +150,13 @@ fs.writeFileSync(
 );
 
 // 4) index.js: bootstrap(状态/表达式/模块创建, 保持原顺序)
-const paramName = fn.params[0] && fn.params[0].name;
 const lines = [];
 lines.push(`import { scope } from './runtime/scope.js';`);
 lines.push(`import './runtime/helpers.js'; // 载入并挂载顶层辅助函数`);
 lines.push(...moduleImports);
 lines.push('');
 lines.push(`// ---- bootstrap(原游戏 IIFE 顶层语句, 保持原始执行顺序) ----`);
-if (paramName) lines.push(`scope.${paramName} = window; // IIFE 参数 = window`);
+for (const p of iifeParams) lines.push(`scope.${p} = window; // IIFE 形参`);
 
 const stripDecl = (stmt, out) => {
   if (stmt.type === 'FunctionDeclaration') return; // 已在 helpers.js

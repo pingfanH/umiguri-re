@@ -57,6 +57,7 @@ import { createV_Ns_28014 } from './modules/v_Ns_28014/index.js';
 import { createLanguagePackages } from './modules/languagePackages/index.js';
 
 // ---- bootstrap(原游戏 IIFE 顶层语句, 保持原始执行顺序) ----
+scope.win = window; // IIFE 形参
 scope.v_y_27559 = scope.win.getElementById("main_container");
 scope.v_n_27560 = scope.win.getElementById("log");
 scope.v_e_27561 = scope.win.getElementById("status");
