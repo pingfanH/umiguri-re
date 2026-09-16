@@ -54,6 +54,7 @@ function pressNav(k, id) {
     set = new Set();
     navHold.set(k, set);
     navPressAt.set(+k.dataset.vk, performance.now());
+    try { console.error('[umg][nav-down] vk=' + k.dataset.vk); } catch (e) {}
     touchPress(+k.dataset.vk);
     setKeyActive(k, true);
     if (isSettingsActive()) startNavRepeat(k); // 仅设置页内连发
