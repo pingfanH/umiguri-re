@@ -9,6 +9,7 @@ const activePointers = new Map();
 let touchedKeys = new Set();
 
 const navHold = new Map(); // nav 元素 -> 持有它的 pointerId 集合
+const navPressAt = new Map(); // vk -> 按下时间(临时诊断)
 
 // 长按连发: 仅在「虚拟按键设置」页(游戏调用 settingsBegin)启用,
 // 用于长按连续调数值; 打歌/其它页面保持电平(组合键与持续按住可靠)。
@@ -52,6 +53,7 @@ function pressNav(k, id) {
   if (!set) {
     set = new Set();
     navHold.set(k, set);
+    navPressAt.set(+k.dataset.vk, performance.now());
     touchPress(+k.dataset.vk);
     setKeyActive(k, true);
     if (isSettingsActive()) startNavRepeat(k); // 仅设置页内连发
@@ -64,6 +66,12 @@ function releaseNavPointer(id) {
     if (set.delete(id) && set.size === 0) {
       navHold.delete(k);
       stopNavRepeat(k);
+      {
+        const vk = +k.dataset.vk;
+        const t0 = navPressAt.get(vk);
+        navPressAt.delete(vk);
+        if (t0 !== undefined) { try { console.error('[umg][nav-hold] vk=' + vk + ' held=' + Math.round(performance.now() - t0) + 'ms'); } catch (e) {} }
+      }
       touchRelease(+k.dataset.vk);
       setKeyActive(k, false);
     }
@@ -75,6 +83,7 @@ function clearTouch() {
   for (const k of [...navHold.keys()]) {
     navHold.delete(k);
     stopNavRepeat(k);
+    navPressAt.delete(+k.dataset.vk);
     touchRelease(+k.dataset.vk);
     setKeyActive(k, false);
   }
