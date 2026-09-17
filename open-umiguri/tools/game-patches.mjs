@@ -95,6 +95,32 @@ export function applyGamePatches(ast) {
     },
   });
 
+  // 设计空间(实验): 让 v_yn_27656/v_Sn_27657 可由宿主提供(默认仍是 1920x1080),
+  // 用于验证「游戏 UI 布局是否随设计空间等比缩放」(rsb 坐标是相对还是绝对像素)。
+  let designPatched = 0;
+  traverse(ast, {
+    VariableDeclarator(path) {
+      const id = path.node.id;
+      if (!t.isIdentifier(id) || !t.isNumericLiteral(path.node.init)) return;
+      if (id.name === 'v_yn_27656') {
+        path.node.init = t.logicalExpression(
+          '||',
+          t.memberExpression(t.identifier('window'), t.identifier('__umgDesignW')),
+          t.numericLiteral(1920)
+        );
+        designPatched++;
+      } else if (id.name === 'v_Sn_27657') {
+        path.node.init = t.logicalExpression(
+          '||',
+          t.memberExpression(t.identifier('window'), t.identifier('__umgDesignH')),
+          t.numericLiteral(1080)
+        );
+        designPatched++;
+      }
+    },
+  });
+  if (designPatched) applied.push(`设计空间可由宿主覆盖 ×${designPatched}`);
+
   return applied;
 }
 

@@ -58,20 +58,31 @@ export function touchRadius() {
   return panelCfg.radius;
 }
 
-// 与游戏一致的视口缩放比: 游戏布局用 min(body宽/1920, body高/1080)。
-// 面板尺寸以容器单位表示, 换算成视口像素时用这个(不依赖容器 rect, 更稳)。
+// 游戏的设计空间(排版坐标系)。默认 1920x1080; 实验开关 system.design_resolution
+// 可把它改成屏幕尺寸(见 host/main.js 写入的 window.__umgDesignW/H)。
+// 面板的尺寸参数都按「设计单位」配置, 因此换算时必须除以当前设计空间宽度,
+// 否则设计空间一变(如 2560), 面板就会显得变小。
+export function designSize() {
+  const w = window.__umgDesignW || 1920;
+  const h = window.__umgDesignH || 1080;
+  return [w > 0 ? w : 1920, h > 0 ? h : 1080];
+}
+
+// 与游戏一致的视口缩放比: 游戏布局用 min(body宽/设计宽, body高/设计高)。
 export function viewportScale() {
-  const w = window.innerWidth || 1920;
-  const h = window.innerHeight || 1080;
-  const k = Math.min(w / 1920, h / 1080);
+  const [dw, dh] = designSize();
+  const w = window.innerWidth || dw;
+  const h = window.innerHeight || dh;
+  const k = Math.min(w / dw, h / dh);
   return k > 0 ? k : 1;
 }
 
-// #main_container 的缩放比(1 单位容器 px = 多少视口 px)
+// #main_container 的缩放比(1 设计单位 = 多少视口 px)
 export function panelScale() {
+  const [dw] = designSize();
   const mc = document.getElementById('main_container');
   const r = mc ? mc.getBoundingClientRect() : null;
-  return r && r.width ? r.width / 1920 : 1;
+  return r && r.width ? r.width / dw : 1;
 }
 
 export const EDITOR_ROWS = [

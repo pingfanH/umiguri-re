@@ -77,6 +77,8 @@ export async function loadHostConfig() {
     scalingQuality: pick(game, 'system.scaling_quality', null),
     // system.texture_filter: 'linear'(平滑, 略软) | 'nearest'; 不填则不干预游戏自身设置
     textureFilter: pick(game, 'system.texture_filter', null),
+    // 实验: 'auto'(=屏幕尺寸) | '宽x高' | 不填(默认 1920x1080 设计空间)
+    designResolution: pick(game, 'system.design_resolution', null),
     // 手台/灯光(hardware): { autoConnect?: bool, ledOrder?: 'rgb'|'bgr'|..., port?: string }
     hardware: pick(game, 'hardware', null),
   };

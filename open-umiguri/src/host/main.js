@@ -101,6 +101,23 @@ whenPageReady(async () => {
   reportGlExtensionsNow();
   setupStorageAccessCheck();
   reportGlExtensionsDelayed(1500);
+  // 实验: 设计空间(= 游戏排版坐标系)是否可改为窗口/屏幕尺寸。
+  // 游戏 UI 坐标若相对设计空间 -> 会整体等比放大(可行); 若是绝对像素 -> 会挤在左上角(不可行)。
+  try {
+    const dr = cfg && cfg.designResolution;
+    if (dr === 'auto') {
+      window.__umgDesignW = screen.width;
+      window.__umgDesignH = screen.height;
+    } else if (typeof dr === 'string' && /^\d+x\d+$/.test(dr)) {
+      const [w, h] = dr.split('x').map(Number);
+      window.__umgDesignW = w;
+      window.__umgDesignH = h;
+    }
+    if (window.__umgDesignW) {
+      diagLog(`[umg][design] 设计空间 = ${window.__umgDesignW}x${window.__umgDesignH} (cfg=${dr})`);
+    }
+  } catch (e) {}
+
   // 纹理过滤(可选): 1x 资源非整数倍放大时 nearest 会锯齿, 可切 linear 对比
   try {
     installTextureFilter(cfg);
