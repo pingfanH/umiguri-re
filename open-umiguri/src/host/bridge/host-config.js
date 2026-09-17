@@ -75,8 +75,6 @@ export async function loadHostConfig() {
     bgThrottling: pick(game, 'system.bg_throttling', null),
     blockSleep: pick(game, 'system.block_sleep', null),
     scalingQuality: pick(game, 'system.scaling_quality', null),
-    // 渲染倍率: 'auto'(默认, 窗口物理像素) | 数字(如 2 = 2 倍超采样)
-    renderScale: pick(game, 'system.render_scale', null),
     // system.texture_filter: 'linear'(平滑, 略软) | 'nearest'; 不填则不干预游戏自身设置
     textureFilter: pick(game, 'system.texture_filter', null),
     // 手台/灯光(hardware): { autoConnect?: bool, ledOrder?: 'rgb'|'bgr'|..., port?: string }

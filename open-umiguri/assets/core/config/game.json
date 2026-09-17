@@ -35,7 +35,6 @@
     "force_120fps": true,
     "hardware_acceleration": true,
     "scaling_quality": 1,
-    "wndmode": "",
-    "render_scale": "auto"
+    "wndmode": ""
   }
 }

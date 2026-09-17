@@ -13,7 +13,6 @@ import { prefetchTree, prefetchPacks } from './core/protocol.js';
 import { setupMusicCache } from './core/music-cache.js';
 import { installFullscreenGuard, setFullscreenDesired } from './platform/fullscreen.js';
 import { setupHardware } from './bridge/hardware.js';
-import { setupRenderScale, lockCanvasCssSize } from './platform/render-scale.js';
 import { installTextureFilter } from './platform/texture-filter.js';
 import { setupWindowDragPause } from './platform/window-drag.js';
 import { installDxtSoftwareDecode } from './platform/textures-dxt.js';
@@ -102,12 +101,6 @@ whenPageReady(async () => {
   reportGlExtensionsNow();
   setupStorageAccessCheck();
   reportGlExtensionsDelayed(1500);
-  // 渲染倍率: 必须在游戏初始化前设置(它会读 window.__umgPixelScale 决定画布背衬)
-  try {
-    setupRenderScale(cfg);
-  } catch (e) {
-    diagLog('[umg][render] 设置失败: ' + ((e && e.message) || e));
-  }
   // 纹理过滤(可选): 1x 资源非整数倍放大时 nearest 会锯齿, 可切 linear 对比
   try {
     installTextureFilter(cfg);
@@ -152,54 +145,15 @@ whenPageReady(async () => {
 
   loadMain(); // 解密并执行游戏前端(main.js.enc)
 
-  // 验证渲染倍率是否落到画布背衬(设计空间 1920x1080, 背衬应为 1920*k)
-  // 窗口尺寸变化后: 校正画布(glRuntime 会按窗口重置画布尺寸) 并让游戏重算 fit。
-  // 游戏只有 resize 时才会重算缩放: 若它在窗口还很大时算过一次、之后窗口变小,
-  // 画面就会按过大的比例放大 -> 右侧/底部被切掉。
-  let reflowing = false;
-  const reflow = () => {
-    if (reflowing) return;
-    reflowing = true;
-    try {
-      lockCanvasCssSize();
-      window.dispatchEvent(new Event('resize'));
-    } catch (e) {}
-    finally {
-      reflowing = false;
-    }
-  };
-  let fixTimer = null;
-  window.addEventListener('resize', () => {
-    clearTimeout(fixTimer);
-    fixTimer = setTimeout(reflow, 300);
-  });
-  // 启动阶段(全屏切换/安全区未稳定)多补几次: 这些点在游戏挂上监听之后
+  // iOS 横屏: 启动阶段(方向/安全区未稳定)算出的缩放可能不准且后续不再重算。
+  // 主动触发几次 resize, 让游戏按最终尺寸重算布局。
   let n = 0;
   const t = setInterval(() => {
-    reflow();
+    try {
+      window.dispatchEvent(new Event('resize'));
+    } catch (e) {}
     if (++n >= 4) clearInterval(t);
-  }, 2000);
-  let probeN = 0;
-  const probe = setInterval(() => {
-    // 先记录「游戏自然状态」, 再看我们干预后的状态
-    const c0 = document.querySelector('#main_container > canvas');
-    const b0 = document.getElementById('main_container');
-    diagLog(
-      `[umg][render] 自然: canvas=${c0 ? c0.width + 'x' + c0.height : '-'} css=${c0 ? c0.clientWidth + 'x' + c0.clientHeight : '-'}` +
-        ` inlineStyle=${c0 ? (c0.style.width || 'none') + '/' + (c0.style.height || 'none') : '-'}` +
-        ` box=${b0 ? b0.clientWidth + 'x' + b0.clientHeight : '-'} win=${innerWidth}x${innerHeight}`
-    );
-    lockCanvasCssSize();
-    const c = document.querySelector('#main_container > canvas');
-    const box = document.getElementById('main_container');
-    const cs = box ? getComputedStyle(box) : null;
-    diagLog(
-      `[umg][render] canvas=${c ? c.width + 'x' + c.height : '-'} css=${c ? c.clientWidth + 'x' + c.clientHeight : '-'}` +
-        ` box=${box ? box.clientWidth + 'x' + box.clientHeight : '-'} styleW=${box ? box.style.width : '-'}` +
-        ` transform=${cs ? cs.transform : '-'} win=${innerWidth}x${innerHeight} k=${window.__umgPixelScale}`
-    );
-    if (++probeN >= 3) clearInterval(probe);
-  }, 5000);
+  }, 600);
   installLayoutDiagnostics(); // 布局诊断(默认关闭, 见 localStorage.umg_layout_debug)
 
 
