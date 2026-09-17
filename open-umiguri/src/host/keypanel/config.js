@@ -77,12 +77,15 @@ export function viewportScale() {
   return k > 0 ? k : 1;
 }
 
-// #main_container 的缩放比(1 设计单位 = 多少视口 px)
+// #main_container 的缩放比(1 「1920 设计单位」= 多少视口 px)。
+// ⚠ 面板的尺寸参数(rowH/airH/边距…)是按 1920 设计空间调出来的, 所以基准常量必须是
+// 1920, 而不是当前设计空间宽度: 容器 rect 本身已经包含了「新设计空间 × 新缩放」,
+// 再除当前设计宽度会把面板算小(实测设计空间改成 2560 后面板略小)。
+// 这样无论设计空间是 1920 还是 2560, 面板相对游戏 UI 的大小都保持一致。
 export function panelScale() {
-  const [dw] = designSize();
   const mc = document.getElementById('main_container');
   const r = mc ? mc.getBoundingClientRect() : null;
-  return r && r.width ? r.width / dw : 1;
+  return r && r.width ? r.width / 1920 : 1;
 }
 
 export const EDITOR_ROWS = [
