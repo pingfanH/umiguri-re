@@ -1,8 +1,0 @@
-DefSkill	sp_th_003_000_kenjanoishi_0
-Category	東方Project
-
-Lang	ja
-Variation	パチュリー・ノーレッジ	kaoru (幻想幽玄庵)
-
-Lang	en
-Variation	Patchouli Knowledge	kaoru (幻想幽玄庵)
