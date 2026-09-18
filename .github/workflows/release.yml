@@ -1,6 +1,14 @@
 name: release
 
-# 手动触发, 或推 v* 标签时触发; 产出 Windows 安装包(NSIS)以及可选的 macOS/Linux 包。
+# 手动触发(Actions → release → Run workflow)或推 v* 标签。
+# 桌面端(windows/macos/linux)用 tauri-action: 构建 + 上传产物, 推标签时自动建 Release。
+# 移动端(ios/android)用 tauri CLI + upload-artifact 上传产物。
+#
+# 注意:
+#   - 资源(open-umiguri/assets, 526 个文件)已入库, CI 能打包语言包/内置曲目;
+#     但用户自建的曲库目录 assets/data/music/PING 被 gitignore, 不会出现在 CI 产物里。
+#   - iOS 产物为未签名(需 Apple 证书/描述文件才能分发); 见 ios job 注释。
+#   - Android CI 会生成一次性签名密钥; 要长期分发请改用固定密钥(见 android job 注释)。
 on:
   workflow_dispatch:
   push:
@@ -8,44 +16,174 @@ on:
       - 'v*'
 
 jobs:
-  build:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - platform: windows-latest
-            args: ''
-          # 需要 mac/linux 时取消注释:
-          # - platform: macos-latest
-          #   args: '--target aarch64-apple-darwin'
-          # - platform: ubuntu-22.04
-          #   args: ''
-    runs-on: ${{ matrix.platform }}
+  # ---------------- 桌面: Windows ----------------
+  windows:
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
           cache-dependency-path: open-umiguri/package-lock.json
-
       - uses: dtolnay/rust-toolchain@stable
-
-      - name: Rust 缓存
-        uses: swatinem/rust-cache@v2
+      - uses: swatinem/rust-cache@v2
         with:
           workspaces: open-umiguri/src-tauri -> target
-
       - name: 安装前端依赖
         working-directory: open-umiguri
         run: npm ci
-
-      # tauri-action 会执行 tauri.conf.json 的 beforeBuildCommand(
-      # 即 npm run build:esm: 打包 assets -> dist/game_data, 构建宿主与游戏 ESM)
+      # beforeBuildCommand 会自动执行 npm run build:esm(打包 assets + 构建宿主与游戏 ESM)
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           projectPath: open-umiguri
-          args: ${{ matrix.args }}
+          tagName: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
+          releaseName: ${{ github.ref_type == 'tag' && format('UMIGURI {0}', github.ref_name) || '' }}
+          releaseDraft: true
+
+  # ---------------- 桌面: macOS(通用二进制) ----------------
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: open-umiguri/package-lock.json
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: open-umiguri/src-tauri -> target
+      - name: 安装前端依赖
+        working-directory: open-umiguri
+        run: npm ci
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          projectPath: open-umiguri
+          args: --target universal-apple-darwin
+          tagName: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
+          releaseName: ${{ github.ref_type == 'tag' && format('UMIGURI {0}', github.ref_name) || '' }}
+          releaseDraft: true
+
+  # ---------------- 桌面: Linux ----------------
+  linux:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: open-umiguri/package-lock.json
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: open-umiguri/src-tauri -> target
+      - name: 系统依赖(WebKitGTK 等)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwebkit2gtk-4.1-dev build-essential curl wget file \
+            libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev \
+            patchelf libfuse2
+      - name: 安装前端依赖
+        working-directory: open-umiguri
+        run: npm ci
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          projectPath: open-umiguri
+          tagName: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
+          releaseName: ${{ github.ref_type == 'tag' && format('UMIGURI {0}', github.ref_name) || '' }}
+          releaseDraft: true
+
+  # ---------------- iOS(未签名) ----------------
+  ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: open-umiguri/package-lock.json
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-ios,aarch64-apple-ios-sim
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: open-umiguri/src-tauri -> target
+      - name: 安装前端依赖
+        working-directory: open-umiguri
+        run: npm ci
+      - name: 生成 Xcode 工程(gen/apple)
+        working-directory: open-umiguri/src-tauri
+        run: cargo tauri ios init
+      # 未签名: 需要分发(.ipa)时在仓库 secrets 配置 Apple 证书/描述文件, 并去掉 --no-sign。
+      # tools/patch-ios.mjs(全屏/安全区原生补丁)由 beforeBuildCommand 自动应用。
+      - name: 构建 iOS(未签名)
+        working-directory: open-umiguri/src-tauri
+        run: cargo tauri ios build --no-sign
+      - uses: actions/upload-artifact@v4
+        with:
+          name: UMIGURI-ios-unsigned
+          path: |
+            open-umiguri/src-tauri/target/**/release/bundle/ios/**
+            open-umiguri/src-tauri/target/**/release/**/*.ipa
+          if-no-files-found: warn
+
+  # ---------------- Android ----------------
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: open-umiguri/package-lock.json
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android,armv7-linux-androideabi
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: open-umiguri/src-tauri -> target
+      - uses: android-actions/setup-android@v3
+      - name: 安装 NDK
+        run: sdkmanager "ndk;26.1.10909125"
+      - name: 安装前端依赖
+        working-directory: open-umiguri
+        run: npm ci
+      - name: 初始化 Android 工程
+        working-directory: open-umiguri/src-tauri
+        run: cargo tauri android init
+      # 一次性密钥: 长期分发请改为固定密钥(把 jks 存为 secret, 这里 base64 解码到
+      # src-tauri/gen/android/umiguri-release.jks 并写 keystore.properties)。
+      - name: 接入 release 签名
+        working-directory: open-umiguri
+        env:
+          UMG_KEYSTORE_PASS: ${{ secrets.UMG_KEYSTORE_PASS || 'umiguri-release' }}
+        run: npm run android:sign
+      - name: 构建 APK + AAB
+        working-directory: open-umiguri/src-tauri
+        env:
+          NDK_HOME: ${{ env.ANDROID_NDK_HOME }}
+        run: |
+          export NDK_HOME="$ANDROID_SDK_ROOT/ndk/26.1.10909125"
+          export ANDROID_NDK_HOME="$NDK_HOME"
+          cargo tauri android build --apk --aab --split-per-abi -t arm64 armv7
+      - uses: actions/upload-artifact@v4
+        with:
+          name: UMIGURI-android
+          path: |
+            open-umiguri/src-tauri/gen/android/app/build/outputs/apk/**/*.apk
+            open-umiguri/src-tauri/gen/android/app/build/outputs/bundle/**/*.aab
+          if-no-files-found: warn
