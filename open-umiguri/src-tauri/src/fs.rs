@@ -188,6 +188,7 @@ pub fn fs_write(path: String, data: String) -> Result<(), String> {
 // 临时诊断: 探测虚拟路径在磁盘侧的真实状态(read_dir 的 errno 等)
 #[tauri::command]
 pub fn debug_probe(path: String) -> String {
+    #[cfg(unix)]
     use std::os::unix::fs::MetadataExt;
     let rel = vpath_to_rel(&path);
     let root = data_root();
@@ -199,14 +200,25 @@ pub fn debug_probe(path: String) -> String {
         disk.display()
     );
     match std::fs::metadata(&disk) {
-        Ok(m) => out.push_str(&format!(
-            " | meta: dir={} file={} mode={:o} uid={} gid={}",
-            m.is_dir(),
-            m.is_file(),
-            m.mode() & 0o7777,
-            m.uid(),
-            m.gid()
-        )),
+        Ok(m) => {
+            // mode/uid/gid 仅 Unix 有; Windows 上退化为基本信息
+            #[cfg(unix)]
+            out.push_str(&format!(
+                " | meta: dir={} file={} mode={:o} uid={} gid={}",
+                m.is_dir(),
+                m.is_file(),
+                m.mode() & 0o7777,
+                m.uid(),
+                m.gid()
+            ));
+            #[cfg(not(unix))]
+            out.push_str(&format!(
+                " | meta: dir={} file={} len={}",
+                m.is_dir(),
+                m.is_file(),
+                m.len()
+            ));
+        }
         Err(e) => out.push_str(&format!(" | meta ERR: {e}")),
     }
     match std::fs::read_dir(&disk) {

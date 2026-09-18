@@ -21,7 +21,8 @@
     "analyze:props": "node tools/analyze-props.mjs",
     "patch:ios": "node tools/patch-ios.mjs",
     "clean:android": "node tools/clean-android.mjs",
-    "build:esm:dev": "npm run build:host && npm run build:game:esm"
+    "build:esm:dev": "npm run build:host && npm run build:game:esm",
+    "android:sign": "node tools/patch-android-sign.mjs"
   },
   "devDependencies": {
     "@babel/generator": "^7.24.0",

@@ -1,0 +1,51 @@
+name: release
+
+# 手动触发, 或推 v* 标签时触发; 产出 Windows 安装包(NSIS)以及可选的 macOS/Linux 包。
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows-latest
+            args: ''
+          # 需要 mac/linux 时取消注释:
+          # - platform: macos-latest
+          #   args: '--target aarch64-apple-darwin'
+          # - platform: ubuntu-22.04
+          #   args: ''
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: open-umiguri/package-lock.json
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Rust 缓存
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: open-umiguri/src-tauri -> target
+
+      - name: 安装前端依赖
+        working-directory: open-umiguri
+        run: npm ci
+
+      # tauri-action 会执行 tauri.conf.json 的 beforeBuildCommand(
+      # 即 npm run build:esm: 打包 assets -> dist/game_data, 构建宿主与游戏 ESM)
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          projectPath: open-umiguri
+          args: ${{ matrix.args }}

@@ -55,3 +55,7 @@ tauri/src-tauri/gen/apple/build/
 tauri/src-tauri/gen/apple/Pods/
 tauri/src-tauri/gen/apple/Podfile.lock
 tauri/src-tauri/gen/apple/**/xcuserdata/
+
+# Android 发布签名(勿提交密钥)
+open-umiguri/src-tauri/gen/android/keystore.properties
+open-umiguri/src-tauri/gen/android/*.jks
