@@ -61,26 +61,26 @@ open-umiguri/src-tauri/gen/android/keystore.properties
 open-umiguri/src-tauri/gen/android/*.jks
 
 # 游戏本体/早期阶段的遗留(只在本地保留, 不入库; open-umiguri/ 已自足构建)
-asar_ui_original/
-assets/
-assets - 副本/
-core_logic.snippets.txt
-decrypt_arc.js
-deobf-rename-map.json
-desktop/
-fix-missing-assets.js
-frontend/
-game_logic.deobf.js
-game_logic.min.js
-game_main.deobf.js
-game_main.original.js
-license.xml
-mainproc_strings.md
-mainproc_strings.txt
-mobile/
-panel.html
-preload.js
-string_constants.txt
-tauri/
-tools/
-verify_run.js
+/asar_ui_original/
+/assets/
+/assets - 副本/
+/core_logic.snippets.txt
+/decrypt_arc.js
+/deobf-rename-map.json
+/desktop/
+/fix-missing-assets.js
+/frontend/
+/game_logic.deobf.js
+/game_logic.min.js
+/game_main.deobf.js
+/game_main.original.js
+/license.xml
+/mainproc_strings.md
+/mainproc_strings.txt
+/mobile/
+/panel.html
+/preload.js
+/string_constants.txt
+/tauri/
+/tools/
+/verify_run.js
