@@ -126,7 +126,7 @@ jobs:
         run: npm ci
       - name: 生成 Xcode 工程(gen/apple)
         working-directory: open-umiguri/src-tauri
-        run: cargo tauri ios init
+        run: cargo tauri ios init --ci
       # 未签名: 需要分发(.ipa)时在仓库 secrets 配置 Apple 证书/描述文件, 并去掉 --no-sign。
       # tools/patch-ios.mjs(全屏/安全区原生补丁)由 beforeBuildCommand 自动应用。
       - name: 构建 iOS(未签名)
@@ -174,12 +174,10 @@ jobs:
         run: npm run android:sign
       - name: 构建 APK + AAB
         working-directory: open-umiguri/src-tauri
-        env:
-          NDK_HOME: ${{ env.ANDROID_NDK_HOME }}
         run: |
           export NDK_HOME="$ANDROID_SDK_ROOT/ndk/26.1.10909125"
           export ANDROID_NDK_HOME="$NDK_HOME"
-          cargo tauri android build --apk --aab --split-per-abi -t arm64 armv7
+          cargo tauri android build --apk --aab --split-per-abi -t aarch64 armv7
       - uses: actions/upload-artifact@v4
         with:
           name: UMIGURI-android
