@@ -48,9 +48,13 @@ const gradle = path.join(androidDir, 'app', 'build.gradle.kts');
 let g = fs.readFileSync(gradle, 'utf8');
 let changed = false;
 
-if (!g.includes('import java.util.Properties')) {
-  g = 'import java.util.Properties\nimport java.io.FileInputStream\n\n' + g;
-  changed = true;
+// 逐个补 import: 新模板本身可能已含 java.util.Properties(其签名模板用到了),
+// 若按「缺 Properties 才补两个」的条件会漏掉 FileInputStream。
+for (const imp of ['import java.io.FileInputStream', 'import java.util.Properties']) {
+  if (!g.includes(imp)) {
+    g = imp + '\n' + g;
+    changed = true;
+  }
 }
 if (!g.includes('signingConfigs {')) {
   g = g.replace(

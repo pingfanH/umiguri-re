@@ -22,7 +22,8 @@
     "patch:ios": "node tools/patch-ios.mjs",
     "clean:android": "node tools/clean-android.mjs",
     "build:esm:dev": "npm run build:host && npm run build:game:esm",
-    "android:sign": "node tools/patch-android-sign.mjs"
+    "android:sign": "node tools/patch-android-sign.mjs",
+    "tauri": "tauri"
   },
   "devDependencies": {
     "@babel/generator": "^7.24.0",

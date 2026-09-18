@@ -9,6 +9,11 @@ name: release
 #     但用户自建的曲库目录 assets/data/music/PING 被 gitignore, 不会出现在 CI 产物里。
 #   - iOS 产物为未签名(需 Apple 证书/描述文件才能分发); 见 ios job 注释。
 #   - Android CI 会生成一次性签名密钥; 要长期分发请改用固定密钥(见 android job 注释)。
+# 建 Release 需要写权限(默认 GITHUB_TOKEN 只读, 会出现
+# "Resource not accessible by integration")
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:
   push:
