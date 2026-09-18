@@ -29,6 +29,7 @@
     "@babel/parser": "^7.24.0",
     "@babel/traverse": "^7.24.0",
     "@babel/types": "^7.24.0",
+    "@tauri-apps/cli": "^2.11.4",
     "esbuild": "^0.23.0",
     "three": "^0.137.0"
   }

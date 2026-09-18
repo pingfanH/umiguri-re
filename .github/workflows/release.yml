@@ -42,6 +42,13 @@ jobs:
           tagName: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
           releaseName: ${{ github.ref_type == 'tag' && format('UMIGURI {0}', github.ref_name) || '' }}
           releaseDraft: true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: UMIGURI-windows
+          path: |
+            open-umiguri/src-tauri/target/release/bundle/nsis/*
+            open-umiguri/src-tauri/target/release/bundle/msi/*
+          if-no-files-found: warn
 
   # ---------------- 桌面: macOS(通用二进制) ----------------
   macos:
@@ -71,6 +78,13 @@ jobs:
           tagName: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
           releaseName: ${{ github.ref_type == 'tag' && format('UMIGURI {0}', github.ref_name) || '' }}
           releaseDraft: true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: UMIGURI-macos
+          path: |
+            open-umiguri/src-tauri/target/universal-apple-darwin/release/bundle/dmg/*
+            open-umiguri/src-tauri/target/universal-apple-darwin/release/bundle/macos/*
+          if-no-files-found: warn
 
   # ---------------- 桌面: Linux ----------------
   linux:
@@ -104,6 +118,14 @@ jobs:
           tagName: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
           releaseName: ${{ github.ref_type == 'tag' && format('UMIGURI {0}', github.ref_name) || '' }}
           releaseDraft: true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: UMIGURI-linux
+          path: |
+            open-umiguri/src-tauri/target/release/bundle/deb/*
+            open-umiguri/src-tauri/target/release/bundle/appimage/*
+            open-umiguri/src-tauri/target/release/bundle/rpm/*
+          if-no-files-found: warn
 
   # ---------------- iOS(未签名) ----------------
   ios:
@@ -126,12 +148,12 @@ jobs:
         run: npm ci
       - name: 生成 Xcode 工程(gen/apple)
         working-directory: open-umiguri/src-tauri
-        run: cargo tauri ios init --ci
+        run: npx tauri ios init --ci
       # 未签名: 需要分发(.ipa)时在仓库 secrets 配置 Apple 证书/描述文件, 并去掉 --no-sign。
       # tools/patch-ios.mjs(全屏/安全区原生补丁)由 beforeBuildCommand 自动应用。
       - name: 构建 iOS(未签名)
         working-directory: open-umiguri/src-tauri
-        run: cargo tauri ios build --no-sign
+        run: npx tauri ios build --no-sign
       - uses: actions/upload-artifact@v4
         with:
           name: UMIGURI-ios-unsigned
@@ -156,15 +178,23 @@ jobs:
       - uses: swatinem/rust-cache@v2
         with:
           workspaces: open-umiguri/src-tauri -> target
-      - uses: android-actions/setup-android@v3
-      - name: 安装 NDK
-        run: sdkmanager "ndk;26.1.10909125"
+      - name: 配置 Android SDK / NDK
+        run: |
+          # runner 自带 Android SDK, 不需要 setup-android(其 sdkmanager tools 已失效)
+          SDK="${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}"
+          echo "ANDROID_HOME=$SDK" >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=$SDK" >> "$GITHUB_ENV"
+          SDKMGR="$(ls -d "$SDK"/cmdline-tools/*/bin/sdkmanager 2>/dev/null | tail -1)"
+          yes | "$SDKMGR" --licenses >/dev/null 2>&1 || true
+          "$SDKMGR" "ndk;26.1.10909125"
+          echo "NDK_HOME=$SDK/ndk/26.1.10909125" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK_HOME=$SDK/ndk/26.1.10909125" >> "$GITHUB_ENV"
       - name: 安装前端依赖
         working-directory: open-umiguri
         run: npm ci
       - name: 初始化 Android 工程
         working-directory: open-umiguri/src-tauri
-        run: cargo tauri android init
+        run: npx tauri android init
       # 一次性密钥: 长期分发请改为固定密钥(把 jks 存为 secret, 这里 base64 解码到
       # src-tauri/gen/android/umiguri-release.jks 并写 keystore.properties)。
       - name: 接入 release 签名
@@ -174,10 +204,7 @@ jobs:
         run: npm run android:sign
       - name: 构建 APK + AAB
         working-directory: open-umiguri/src-tauri
-        run: |
-          export NDK_HOME="$ANDROID_SDK_ROOT/ndk/26.1.10909125"
-          export ANDROID_NDK_HOME="$NDK_HOME"
-          cargo tauri android build --apk --aab --split-per-abi -t aarch64 armv7
+        run: npx tauri android build --apk --aab --split-per-abi -t aarch64 armv7
       - uses: actions/upload-artifact@v4
         with:
           name: UMIGURI-android
