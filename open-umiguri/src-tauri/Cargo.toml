@@ -23,8 +23,8 @@ anyhow = "1"
 default = ["custom-protocol"]
 custom-protocol = ["tauri/custom-protocol"]
 
-# 手台串口 + UMIGURI LED WebSocket 服务端(仅桌面: serialport 不支持 Android)
-[target.'cfg(not(target_os = "android"))'.dependencies]
+# 手台串口 + UMIGURI LED WebSocket 服务端(仅桌面: serialport 在 Android/iOS 上不可用)
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
 serialport = "4.4"
 tungstenite = "0.21"
 

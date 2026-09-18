@@ -8,7 +8,7 @@
 //!   通道 2*(15-lane)+1 = lane(左起, 0..15) 的上排键, +2 = 下排键
 
 // Android 无串口, 灯光帧构造链路不会被用到(仅桌面 LED 服务端调用)
-#![cfg_attr(target_os = "android", allow(dead_code))]
+#![cfg_attr(any(target_os = "android", target_os = "ios"), allow(dead_code))]
 
 pub const TOUCH_CHANNELS: usize = 32;
 pub const AIR_SENSORS: usize = 6;

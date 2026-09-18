@@ -54,6 +54,8 @@ fn apply_window_config(
         // set_fullscreen 仅桌面可用; 移动端全屏由 AndroidManifest / iOS 处理
         #[cfg(desktop)]
         let _ = window.set_fullscreen(m == "fullscreen");
+        #[cfg(not(desktop))]
+        let _ = m;
     }
     {
         if let Some(s) = size.as_deref() {

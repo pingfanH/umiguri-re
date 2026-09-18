@@ -3,11 +3,11 @@
 //! 手台是严格的「命令 → 响应」协议, 用同步 `write_cmd` + `read_exact` 实现,
 //! 每帧前 `drain` 清残留字节保证帧对齐。
 //!
-//! Android 无串口 API(serialport crate 也不支持), 因此本模块在 Android 上为桩实现。
+//! Android/iOS 无串口 API(serialport 在移动端不可用), 因此本模块在移动端为桩实现。
 use anyhow::Result;
 use std::sync::{Arc, Mutex};
 
-#[cfg(not(target_os = "android"))]
+#[cfg(not(any(target_os = "android", target_os = "ios")))]
 mod imp {
     pub const BAUD_RATE: u32 = 115_200;
     use std::time::Duration;
@@ -136,7 +136,7 @@ mod imp {
     }
 }
 
-#[cfg(target_os = "android")]
+#[cfg(any(target_os = "android", target_os = "ios"))]
 mod imp {
     use super::Result;
 

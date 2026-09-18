@@ -13,10 +13,10 @@ use std::thread::JoinHandle;
 use crate::hardware::mapping::LedOrder;
 use crate::hardware::serial::SharedConn;
 
-#[cfg(not(target_os = "android"))]
+#[cfg(not(any(target_os = "android", target_os = "ios")))]
 pub use imp::start;
 
-#[cfg(target_os = "android")]
+#[cfg(any(target_os = "android", target_os = "ios"))]
 pub fn start(
     _addr: &str,
     _running: Arc<AtomicBool>,
@@ -27,7 +27,7 @@ pub fn start(
     Ok(None)
 }
 
-#[cfg(not(target_os = "android"))]
+#[cfg(not(any(target_os = "android", target_os = "ios")))]
 mod imp {
     use super::*;
 
