@@ -6,6 +6,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { build, transform } from 'esbuild';
 import { aesEncrypt } from './encrypt.mjs';
+import { obfuscate } from './obfuscate.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const esmDir = path.join(root, 'src/game-esm');
@@ -50,7 +51,9 @@ const result = await transform(raw, {
   charset: 'utf8',
 });
 const plainFile = path.join(distDir, 'main.esm.js');
-fs.writeFileSync(plainFile, result.code);
+// release 打包: 混淆后再加密(main.js.enc)
+const finalCode = obfuscate(result.code, 'game');
+fs.writeFileSync(plainFile, finalCode);
 // 另存未压缩版便于 freevar 检查
 fs.writeFileSync(path.join(distDir, 'game.esm.raw.js'), raw);
 console.log(`[build:game-esm] 合并+压缩 -> dist/main.esm.js (${(raw.length / 1048576).toFixed(2)} -> ${(result.code.length / 1048576).toFixed(2)} MB, minify=${minify})`);
@@ -59,4 +62,4 @@ console.log(`[build:game-esm] 合并+压缩 -> dist/main.esm.js (${(raw.length /
 const encFile = path.join(wwwDir, 'main.js.enc');
 fs.mkdirSync(wwwDir, { recursive: true });
 const r = aesEncrypt(plainFile, encFile);
-console.log(`[build:game-esm] 加密 -> dist/www/main.js.enc (${r.enc} 字节)`);
+console.log(`[build:game-esm] 加密 -> dist/www/main.js.enc (${r.enc} 字节${finalCode !== result.code ? ', 已混淆' : ''})`);

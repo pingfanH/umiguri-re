@@ -1,5 +1,7 @@
 // 打包宿主层: src/host/main.js -> dist/www/tauri-bridge.js(经典 IIFE, 先于游戏执行)
 import { build } from 'esbuild';
+import { readFile, writeFile } from 'node:fs/promises';
+import { obfuscate, OBFUSCATE } from './obfuscate.mjs';
 import { mkdir, copyFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -20,6 +22,13 @@ await build({
   legalComments: 'none',
   banner: { js: '// open-umiguri host bridge (generated) - do not edit' },
 });
+
+// release 打包: 混淆宿主 bundle(dev 不带 --obfuscate)
+if (OBFUSCATE) {
+  const js = resolve(outDir, 'tauri-bridge.js');
+  const code = await readFile(js, 'utf8');
+  await writeFile(js, obfuscate(code, 'host'), 'utf8');
+}
 
 await copyFile(resolve(root, 'src/host/index.html'), resolve(outDir, 'index.html'));
 await copyFile(resolve(root, 'src/host/main.css'), resolve(outDir, 'main.css'));
