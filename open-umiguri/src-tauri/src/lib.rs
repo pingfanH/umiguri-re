@@ -94,32 +94,47 @@ pub fn run() {
     tauri::Builder::default()
         .manage(hardware::HardwareState::default())
         .setup(|app| {
-            // 存档/配置目录: release 用系统标准用户目录(app_data_dir = 各平台的
-            // Application Support / %APPDATA% / XDG_DATA_HOME + identifier);
-            // debug 保留仓库内 dist/userdata(开发方便, 现有存档不受影响)。
-            if cfg!(debug_assertions) {
-                eprintln!(
-                    "[umg] data root = {} | asset root = {} (debug: 仓库内)",
-                    paths::data_root().display(),
-                    paths::asset_root().display()
-                );
-            } else {
-                // 打包资源(tauri.conf.json bundle.resources -> resource_dir()/game_data)
-                match app.path().resource_dir() {
-                    Ok(dir) => {
-                        let assets = dir.join("game_data");
-                        eprintln!("[umg] asset root = {} (bundle resources)", assets.display());
-                        paths::set_asset_root(assets);
+            // 桌面: release 把存档放「文档/UMIGURI」、资源读打包目录;
+            // debug 用仓库内的 dist/userdata 与 assets/。Android 的可写层由
+            // android.rs 的 default_data_root() 决定(Documents/UMIGURI), 这里不接管。
+            #[cfg(not(target_os = "android"))]
+            {
+                if cfg!(debug_assertions) {
+                    eprintln!(
+                        "[umg] data root = {} | asset root = {} (debug: 仓库内)",
+                        paths::data_root().display(),
+                        paths::asset_root().display()
+                    );
+                } else {
+                    // 打包资源: tauri.conf.json 的 bundle.resources -> resource_dir()/game_data
+                    match app.path().resource_dir() {
+                        Ok(dir) => {
+                            let assets = dir.join("game_data");
+                            eprintln!("[umg] asset root = {} (bundle resources)", assets.display());
+                            paths::set_asset_root(assets);
+                        }
+                        Err(e) => eprintln!("[umg] resource_dir 解析失败, 回退默认: {e}"),
                     }
-                    Err(e) => eprintln!("[umg] resource_dir 解析失败, 回退默认: {e}"),
-                }
-                match app.path().app_data_dir() {
-                    Ok(dir) => {
-                        let _ = std::fs::create_dir_all(&dir);
-                        eprintln!("[umg] data root = {} (app_data_dir)", dir.display());
-                        paths::set_data_root(dir);
+                    // 存档/配置: 「文档」目录下的 UMIGURI/(与 Android 的 Documents/UMIGURI 一致,
+                    // 用户可见、便于备份迁移); 解析失败回退 app_data_dir。
+                    match app.path().document_dir().map(|d| d.join("UMIGURI")) {
+                        Ok(root) => {
+                            let _ = std::fs::create_dir_all(&root);
+                            eprintln!("[umg] data root = {} (Documents)", root.display());
+                            paths::set_data_root(root);
+                        }
+                        Err(e) => {
+                            eprintln!("[umg] document_dir 解析失败({e}), 回退 app_data_dir");
+                            match app.path().app_data_dir() {
+                                Ok(dir) => {
+                                    let _ = std::fs::create_dir_all(&dir);
+                                    eprintln!("[umg] data root = {} (app_data_dir)", dir.display());
+                                    paths::set_data_root(dir);
+                                }
+                                Err(e2) => eprintln!("[umg] app_data_dir 也失败, 回退默认: {e2}"),
+                            }
+                        }
                     }
-                    Err(e) => eprintln!("[umg] app_data_dir 解析失败, 回退默认: {e}"),
                 }
             }
             if let Some(win) = app.get_webview_window("main") {

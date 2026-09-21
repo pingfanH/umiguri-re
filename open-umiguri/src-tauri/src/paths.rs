@@ -47,6 +47,7 @@ pub enum Src {
 // 由 lib.rs 的 setup() 通过 Tauri 的 app_data_dir() 解析后写入这里。
 static DATA_ROOT: std::sync::OnceLock<PathBuf> = std::sync::OnceLock::new();
 
+#[cfg(not(target_os = "android"))]
 pub fn set_data_root(dir: PathBuf) {
     let _ = DATA_ROOT.set(dir);
 }
