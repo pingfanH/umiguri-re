@@ -184,7 +184,7 @@ export function createCoopLobby(scope) {
     scope.sceneManager.ni(), scope.sceneManager.ii(), v_g_29009.Ny = "ＵＭＩＧＵＲＩ", scope.menuSystem.dt(), v_v_29004.wn.Be = !1, v_v_29004.pn.Be = !1, v_v_29004.Oi.Be = !1, v_b_29016(scope.v_hi_27809), v___29000.e8(9), await scope.renderer.C7(scope.v_Ge_28204(30)), v_P_29024();
   }
   function v_P_29024() {
-    scope.sceneManager.ni(), scope.sceneManager.ii(), scope.renderer._i("nameEntry"), scope.menuSystem.dt(), scope.handshake.rm.om = v_g_29009.Ny, v_g_29009.Ee && v_g_29009.Ee(), v_g_29009.Ee = void 0;
+    scope.sceneManager.ni(), scope.sceneManager.ii(), scope.renderer._i("nameEntry"), scope.menuSystem.dt(), scope.handshake.rm.om = window.__umgForceProfile["name"] || v_g_29009.Ny, v_g_29009.Ee && v_g_29009.Ee(), v_g_29009.Ee = void 0;
   }
   return {
     ue: function (v_e_29098) {

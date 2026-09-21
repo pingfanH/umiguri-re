@@ -95,6 +95,38 @@ export function applyGamePatches(ast) {
     },
   });
 
+  // 配置文件优先: 游戏读档时会把存档里的玩家信息写回握手
+  // (scope.handshake.rm.om/um/lm = 存档的 name/level/rating)。
+  // 宿主可用 window.__umgForceProfile 下发"强制值"(只含配置里确实写了的字段),
+  // 这里把三处赋值改为「强制值优先, 否则沿用存档值」——于是配置文件始终优先,
+  // 同时不会把用户没在配置里指定的字段顶掉。
+  let forceProfile = 0;
+  const FORCE_PROFILE_KEYS = { om: 'name', um: 'level', lm: 'rating' };
+  traverse(ast, {
+    AssignmentExpression(path) {
+      const left = path.node.left;
+      if (!t.isMemberExpression(left) || !t.isIdentifier(left.property)) return;
+      const key = FORCE_PROFILE_KEYS[left.property.name];
+      if (!key) return;
+      // 形状必须是 <握手对象>.rm.<om|um|lm>(补丁阶段握手对象还是短名, 如 v_ye_27858)
+      const rm = left.object;
+      if (!t.isMemberExpression(rm) || !t.isIdentifier(rm.property, { name: 'rm' })) return;
+      const rhs = path.node.right;
+      if (JSON.stringify(rhs).includes('__umgForceProfile')) return; // 幂等
+      path.node.right = t.logicalExpression(
+        '||',
+        t.memberExpression(
+          t.memberExpression(t.identifier('window'), t.identifier('__umgForceProfile')),
+          t.stringLiteral(key),
+          true
+        ),
+        rhs
+      );
+      forceProfile++;
+    },
+  });
+  if (forceProfile) applied.push(`配置优先: 玩家信息(姓名/等级/rating) ×${forceProfile}`);
+
   // 设计空间(实验): 让 v_yn_27656/v_Sn_27657 可由宿主提供(默认仍是 1920x1080),
   // 用于验证「游戏 UI 布局是否随设计空间等比缩放」(rsb 坐标是相对还是绝对像素)。
   let designPatched = 0;

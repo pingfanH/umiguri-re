@@ -118,6 +118,19 @@ whenPageReady(async () => {
     }
   } catch (e) {}
 
+  // 配置文件优先: 把 game.json -> game.player 里写了的字段下发给游戏,
+  // 让它覆盖存档里的同名值(见 tools/game-patches.mjs 的「配置优先」补丁)。
+  try {
+    const force = {};
+    if (cfg && cfg.playerName !== null && cfg.playerName !== undefined) force.name = cfg.playerName;
+    if (cfg && cfg.playerLevel !== null && cfg.playerLevel !== undefined) force.level = cfg.playerLevel;
+    if (cfg && cfg.playerRating !== null && cfg.playerRating !== undefined) force.rating = cfg.playerRating;
+    if (Object.keys(force).length) {
+      window.__umgForceProfile = force;
+      diagLog('[umg][profile] 配置优先: ' + JSON.stringify(force));
+    }
+  } catch (e) {}
+
   // 纹理过滤(可选): 1x 资源非整数倍放大时 nearest 会锯齿, 可切 linear 对比
   try {
     installTextureFilter(cfg);
