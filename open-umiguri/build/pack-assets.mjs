@@ -21,6 +21,25 @@ fs.rmSync(outDir, { recursive: true, force: true });
 fs.mkdirSync(outDir, { recursive: true });
 fs.cpSync(srcDir, outDir, { recursive: true });
 
+// 用户数据(存档)不属于资源: core/config/*.krtbl 由游戏写入「可写层」,
+// 若误放进 assets 会被打进安装包, 于是新装的机器也会读到旧存档(可写层为空时
+// 回退到只读资源)。这里直接剔除并提示。
+const USER_DATA = [/^core\/config\/.*\.krtbl$/];
+let skippedUserData = 0;
+(function prune(dir, rel) {
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, e.name);
+    const r = rel ? rel + '/' + e.name : e.name;
+    if (e.isDirectory()) prune(p, r);
+    else if (USER_DATA.some((re) => re.test(r))) {
+      fs.rmSync(p, { force: true });
+      skippedUserData++;
+      console.log(`  跳过用户数据(不打进资源): ${r}`);
+    }
+  }
+})(outDir, '');
+if (skippedUserData) console.log(`pack-assets: 已剔除 ${skippedUserData} 个用户数据文件(存档)`);
+
 // 收集需要打包的归档目录(名字以 .una/.arc 结尾的目录)
 const dirs = [];
 (function walk(d) {

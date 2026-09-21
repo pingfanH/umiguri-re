@@ -84,3 +84,6 @@ open-umiguri/src-tauri/gen/android/*.jks
 /tauri/
 /tools/
 /verify_run.js
+
+# 用户数据(存档): 不要放进 assets(会被打进安装包读成"旧存档")
+open-umiguri/assets/core/config/*.krtbl
