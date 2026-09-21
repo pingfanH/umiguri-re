@@ -55,9 +55,19 @@ jobs:
             open-umiguri/src-tauri/target/release/bundle/msi/*
           if-no-files-found: warn
 
-  # ---------------- 桌面: macOS(通用二进制) ----------------
+  # ---------------- 桌面: macOS(按架构分开, 避免 lipo 合并失败) ----------------
   macos:
-    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-latest   # Apple Silicon
+            target: aarch64-apple-darwin
+            suffix: aarch64
+          - runner: macos-13       # Intel
+            target: x86_64-apple-darwin
+            suffix: x86_64
+    runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -67,10 +77,11 @@ jobs:
           cache-dependency-path: open-umiguri/package-lock.json
       - uses: dtolnay/rust-toolchain@stable
         with:
-          targets: aarch64-apple-darwin,x86_64-apple-darwin
+          targets: ${{ matrix.target }}
       - uses: swatinem/rust-cache@v2
         with:
           workspaces: open-umiguri/src-tauri -> target
+          key: ${{ matrix.target }}
       - name: 安装前端依赖
         working-directory: open-umiguri
         run: npm ci
@@ -79,16 +90,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           projectPath: open-umiguri
-          args: --target universal-apple-darwin
+          args: --target ${{ matrix.target }}
           tagName: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
           releaseName: ${{ github.ref_type == 'tag' && format('UMIGURI {0}', github.ref_name) || '' }}
           releaseDraft: true
       - uses: actions/upload-artifact@v5
         with:
-          name: UMIGURI-macos
+          name: UMIGURI-macos-${{ matrix.suffix }}
           path: |
-            open-umiguri/src-tauri/target/universal-apple-darwin/release/bundle/dmg/*
-            open-umiguri/src-tauri/target/universal-apple-darwin/release/bundle/macos/*
+            open-umiguri/src-tauri/target/${{ matrix.target }}/release/bundle/dmg/*
+            open-umiguri/src-tauri/target/${{ matrix.target }}/release/bundle/macos/*
           if-no-files-found: warn
 
   # ---------------- 桌面: Linux ----------------
