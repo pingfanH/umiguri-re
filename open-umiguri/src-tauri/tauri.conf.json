@@ -39,6 +39,9 @@
       "icons/128x128@2x.png",
       "icons/icon.ico",
       "icons/icon.icns"
-    ]
+    ],
+    "resources": {
+      "../dist/game_data/": "game_data/"
+    }
   }
 }

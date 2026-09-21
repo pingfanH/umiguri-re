@@ -98,8 +98,21 @@ pub fn run() {
             // Application Support / %APPDATA% / XDG_DATA_HOME + identifier);
             // debug 保留仓库内 dist/userdata(开发方便, 现有存档不受影响)。
             if cfg!(debug_assertions) {
-                eprintln!("[umg] data root = {} (debug: 仓库内)", paths::data_root().display());
+                eprintln!(
+                    "[umg] data root = {} | asset root = {} (debug: 仓库内)",
+                    paths::data_root().display(),
+                    paths::asset_root().display()
+                );
             } else {
+                // 打包资源(tauri.conf.json bundle.resources -> resource_dir()/game_data)
+                match app.path().resource_dir() {
+                    Ok(dir) => {
+                        let assets = dir.join("game_data");
+                        eprintln!("[umg] asset root = {} (bundle resources)", assets.display());
+                        paths::set_asset_root(assets);
+                    }
+                    Err(e) => eprintln!("[umg] resource_dir 解析失败, 回退默认: {e}"),
+                }
                 match app.path().app_data_dir() {
                     Ok(dir) => {
                         let _ = std::fs::create_dir_all(&dir);

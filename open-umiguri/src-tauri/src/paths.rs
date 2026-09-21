@@ -65,10 +65,25 @@ pub fn data_root() -> PathBuf {
 // 桌面调试(dev): 直接读解密解包态 assets/ —— 无需打包, .una/.arc 目录由 archive.rs
 // 按需合成归档字节; 打包构建(release / Android)才用 dist/game_data 的预打包产物。
 // Android 无此层(直接读 APK assets)。
+// 只读资源根目录。优先级:
+//   UMIGURI_ASSETS_DIR(env) > 启动时解析的打包资源目录 > 仓库内(debug: assets/, 其它: dist/game_data)
+// release 桌面构建把 dist/game_data 作为 bundle resources 打进去(见 tauri.conf.json 的
+// bundle.resources), 由 lib.rs 的 setup() 通过 app.path().resource_dir() 解析后写入这里 ——
+// 否则会退回编译期路径(构建机器上的 dist/game_data), 用户机器上不存在。
+static ASSET_ROOT: std::sync::OnceLock<PathBuf> = std::sync::OnceLock::new();
+
+#[cfg(not(target_os = "android"))]
+pub fn set_asset_root(dir: PathBuf) {
+    let _ = ASSET_ROOT.set(dir);
+}
+
 #[cfg(not(target_os = "android"))]
 pub fn asset_root() -> PathBuf {
     if let Ok(dir) = std::env::var("UMIGURI_ASSETS_DIR") {
         return PathBuf::from(dir);
+    }
+    if let Some(d) = ASSET_ROOT.get() {
+        return d.clone();
     }
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .parent()
