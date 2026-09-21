@@ -95,6 +95,23 @@ export function applyGamePatches(ast) {
     },
   });
 
+  // 应用名: 游戏里 v_G_27652 = "UMIGURI" 会用于 document.title 与错误/修复页标题。
+  // 允许宿主用 window.__umgAppName 覆盖(默认取 Tauri 的 productName), 便于改名(如 UMIGURI DX)。
+  let appNamePatched = 0;
+  traverse(ast, {
+    VariableDeclarator(path) {
+      if (!t.isIdentifier(path.node.id, { name: 'v_G_27652' })) return;
+      if (!t.isStringLiteral(path.node.init)) return;
+      path.node.init = t.logicalExpression(
+        '||',
+        t.memberExpression(t.identifier('window'), t.identifier('__umgAppName')),
+        path.node.init
+      );
+      appNamePatched++;
+    },
+  });
+  if (appNamePatched) applied.push(`应用名可由宿主覆盖 ×${appNamePatched}`);
+
   // 配置文件优先: 游戏读档时会把存档里的玩家信息写回握手
   // (scope.handshake.rm.om/um/lm = 存档的 name/level/rating)。
   // 宿主可用 window.__umgForceProfile 下发"强制值"(只含配置里确实写了的字段),

@@ -118,6 +118,12 @@ whenPageReady(async () => {
     }
   } catch (e) {}
 
+  // 应用名: 取自 Tauri 配置的 productName, 供游戏覆盖 v_G_27652(document.title/错误页)
+  try {
+    const name = await tryInvoke('app_name', {}, null);
+    if (name) window.__umgAppName = name;
+  } catch (e) {}
+
   // 配置文件优先: 把 game.json -> game.player 里写了的字段下发给游戏,
   // 让它覆盖存档里的同名值(见 tools/game-patches.mjs 的「配置优先」补丁)。
   try {
@@ -174,6 +180,7 @@ whenPageReady(async () => {
   } catch (e) {}
 
   loadMain(); // 解密并执行游戏前端(main.js.enc)
+  setTimeout(() => diagLog('[umg][app] document.title=' + document.title), 5000);
 
   // iOS 横屏: 启动阶段(方向/安全区未稳定)算出的缩放可能不准且后续不再重算。
   // 主动触发几次 resize, 让游戏按最终尺寸重算布局。

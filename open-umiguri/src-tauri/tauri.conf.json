@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "UMIGURI",
+  "productName": "UMIGURI DX",
   "version": "2.0.1",
   "identifier": "jp.inonote.umiguri",
   "build": {
@@ -12,7 +12,7 @@
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "UMIGURI",
+        "title": "UMIGURI DX",
         "width": 1920,
         "height": 1080,
         "resizable": true,

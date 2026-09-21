@@ -76,6 +76,15 @@ fn window_fullscreen(window: tauri::Window) -> bool {
     window.is_fullscreen().unwrap_or(false)
 }
 
+// 应用显示名(来自 tauri.conf.json 的 productName), 供宿主下发给游戏(标题/错误页)
+#[tauri::command]
+fn app_name(app: tauri::AppHandle) -> String {
+    app.config()
+        .product_name
+        .clone()
+        .unwrap_or_else(|| "UMIGURI".to_string())
+}
+
 // 重启应用(授权后需要完整重扫追加数据)
 #[tauri::command]
 fn restart_app_cmd() -> bool {
@@ -135,6 +144,16 @@ pub fn run() {
                             }
                         }
                     }
+                }
+            }
+            // 可写层复刻只读资源的目录骨架(仅目录名, 不含文件): 用户可直接往
+            // <数据根>/data/music/<分类>/ 丢额外曲目等补丁, 不必手工建目录。
+            // 放在数据/资源根都解析完之后, 保证用对目录。
+            #[cfg(not(target_os = "android"))]
+            for top in ["data", "core"] {
+                let n = paths::ensure_asset_dir_layout(&paths::data_root(), &paths::asset_root(), top);
+                if n > 0 {
+                    eprintln!("[umg] 已复刻 {n} 个 {top}/ 目录到可写层(便于放补丁)");
                 }
             }
             if let Some(win) = app.get_webview_window("main") {
@@ -285,6 +304,7 @@ pub fn run() {
             open_storage_access_settings,
             restart_app_cmd,
             apply_window_config,
+            app_name,
             window_fullscreen,
             hw_init,
             hw_connect,

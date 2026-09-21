@@ -311,3 +311,33 @@ pub fn read_range(vpath: &str, offset: u64, size: usize) -> Option<Vec<u8>> {
         }
     }
 }
+
+// 在可写层里复刻只读资源的目录骨架(**仅目录, 不含文件**)。
+// 用途: 让用户把"额外补丁"(新增曲目/角色/技能等)直接丢进已有层级, 不必手工建目录;
+// 例如原资源里 data/music/EXAMPLE/<曲目>/, 复刻后用户可直接往 data/music/EXAMPLE/ 里
+// 放自己的曲目文件夹。写盘时与只读资源合并(fs_list 会合并两个根), 因此不影响原内容。
+pub fn ensure_asset_dir_layout(data_root: &Path, asset_root: &Path, top: &str) -> usize {
+    let base = asset_root.join(top);
+    if !base.is_dir() {
+        return 0;
+    }
+    let mut stack = vec![base];
+    let mut created = 0usize;
+    while let Some(dir) = stack.pop() {
+        let Ok(rd) = std::fs::read_dir(&dir) else { continue };
+        for e in rd.flatten() {
+            let Ok(ft) = e.file_type() else { continue };
+            if !ft.is_dir() {
+                continue;
+            }
+            if let Ok(rel) = e.path().strip_prefix(asset_root) {
+                let dst = data_root.join(rel);
+                if !dst.exists() && std::fs::create_dir_all(&dst).is_ok() {
+                    created += 1;
+                }
+            }
+            stack.push(e.path());
+        }
+    }
+    created
+}
