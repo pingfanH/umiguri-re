@@ -61,10 +61,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - runner: macos-latest   # Apple Silicon
+          # 两个架构都在 macos-latest 上构建(macos-13 正在被淘汰, 排队极慢);
+          # 不做 lipo 合并, 因此跨架构编译没问题。
+          - runner: macos-latest
             target: aarch64-apple-darwin
             suffix: aarch64
-          - runner: macos-13       # Intel
+          - runner: macos-latest
             target: x86_64-apple-darwin
             suffix: x86_64
     runs-on: ${{ matrix.runner }}
