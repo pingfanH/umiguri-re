@@ -71,6 +71,7 @@ pub fn data_root() -> PathBuf {
 // release 桌面构建把 dist/game_data 作为 bundle resources 打进去(见 tauri.conf.json 的
 // bundle.resources), 由 lib.rs 的 setup() 通过 app.path().resource_dir() 解析后写入这里 ——
 // 否则会退回编译期路径(构建机器上的 dist/game_data), 用户机器上不存在。
+#[cfg(not(target_os = "android"))]
 static ASSET_ROOT: std::sync::OnceLock<PathBuf> = std::sync::OnceLock::new();
 
 #[cfg(not(target_os = "android"))]
