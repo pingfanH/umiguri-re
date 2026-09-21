@@ -94,6 +94,21 @@ pub fn run() {
     tauri::Builder::default()
         .manage(hardware::HardwareState::default())
         .setup(|app| {
+            // 存档/配置目录: release 用系统标准用户目录(app_data_dir = 各平台的
+            // Application Support / %APPDATA% / XDG_DATA_HOME + identifier);
+            // debug 保留仓库内 dist/userdata(开发方便, 现有存档不受影响)。
+            if cfg!(debug_assertions) {
+                eprintln!("[umg] data root = {} (debug: 仓库内)", paths::data_root().display());
+            } else {
+                match app.path().app_data_dir() {
+                    Ok(dir) => {
+                        let _ = std::fs::create_dir_all(&dir);
+                        eprintln!("[umg] data root = {} (app_data_dir)", dir.display());
+                        paths::set_data_root(dir);
+                    }
+                    Err(e) => eprintln!("[umg] app_data_dir 解析失败, 回退默认: {e}"),
+                }
+            }
             if let Some(win) = app.get_webview_window("main") {
                 // 从 tauri.conf.json 读取窗口尺寸配置(不硬编码)
                 let (w, h) = app

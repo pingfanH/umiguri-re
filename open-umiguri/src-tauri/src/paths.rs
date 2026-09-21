@@ -36,10 +36,27 @@ pub enum Src {
     Synth { dir: PathBuf, p2: u8 },
 }
 
-// 可写层根目录(存档/配置写入处)。env UMIGURI_DATA_DIR 可覆盖。
+// 可写层根目录(存档/配置写入处)。优先级:
+//   UMIGURI_DATA_DIR(env) > 启动时解析的系统用户目录 > 仓库内 dist/userdata(仅 debug 兜底)
+//
+// release 构建不能再用编译期路径(env!("CARGO_MANIFEST_DIR")): 那会把打包机器的路径
+// 烘焙进二进制, 用户机器上不存在 -> 存档写不进去。因此 release 用系统标准位置:
+//   macOS   ~/Library/Application Support/<identifier>/
+//   Windows %APPDATA%\<identifier>\
+//   Linux   $XDG_DATA_HOME/<identifier>/ (默认 ~/.local/share/<identifier>/)
+// 由 lib.rs 的 setup() 通过 Tauri 的 app_data_dir() 解析后写入这里。
+static DATA_ROOT: std::sync::OnceLock<PathBuf> = std::sync::OnceLock::new();
+
+pub fn set_data_root(dir: PathBuf) {
+    let _ = DATA_ROOT.set(dir);
+}
+
 pub fn data_root() -> PathBuf {
     if let Ok(dir) = std::env::var("UMIGURI_DATA_DIR") {
         return PathBuf::from(dir);
+    }
+    if let Some(d) = DATA_ROOT.get() {
+        return d.clone();
     }
     default_data_root()
 }
