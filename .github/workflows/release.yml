@@ -162,6 +162,11 @@ jobs:
       - name: 安装前端依赖
         working-directory: open-umiguri
         run: npm ci
+      # ios init 会校验 tauri.conf.json 的 bundle.resources(../dist/game_data),
+      # 因此必须先生成资源; beforeBuildCommand 也会跑一次(幂等)。
+      - name: 构建资源与前端包
+        working-directory: open-umiguri
+        run: npm run build:esm
       - name: 生成 Xcode 工程(gen/apple)
         working-directory: open-umiguri/src-tauri
         run: npx tauri ios init --ci
