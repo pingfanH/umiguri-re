@@ -96,7 +96,7 @@ export function applyGamePatches(ast) {
   });
 
   // 应用名: 游戏里 v_G_27652 = "UMIGURI" 会用于 document.title 与错误/修复页标题。
-  // 允许宿主用 window.__umgAppName 覆盖(默认取 Tauri 的 productName), 便于改名(如 UMIGURI DX)。
+  // 允许宿主用 window.__umgAppName 覆盖(默认取 Tauri 的 productName), 便于改名(如 OpenUmiguri)。
   let appNamePatched = 0;
   traverse(ast, {
     VariableDeclarator(path) {
@@ -105,7 +105,7 @@ export function applyGamePatches(ast) {
       path.node.init = t.logicalExpression(
         '||',
         t.memberExpression(t.identifier('window'), t.identifier('__umgAppName')),
-        path.node.init
+        t.stringLiteral('OpenUmiguri')
       );
       appNamePatched++;
     },

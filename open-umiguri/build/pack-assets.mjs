@@ -17,9 +17,25 @@ const umg = require('../tools/umg.cjs');
 const srcDir = path.resolve(process.argv[2] || path.join(root, 'assets'));
 const outDir = path.resolve(process.argv[3] || path.join(root, 'dist', 'game_data'));
 
-fs.rmSync(outDir, { recursive: true, force: true });
+// 纯 JS 递归拷贝: 不用 fs.cpSync —— 某些环境(如 Node 25 + libc++ 的原生实现)在
+// 目标已存在同名条目时会抛未捕获的 std::filesystem::create_directory 异常而 abort。
+function copyTree(src, dst) {
+  fs.mkdirSync(dst, { recursive: true });
+  for (const e of fs.readdirSync(src, { withFileTypes: true })) {
+    const s = path.join(src, e.name);
+    const d = path.join(dst, e.name);
+    if (e.isDirectory()) copyTree(s, d);
+    else if (e.isSymbolicLink()) {
+      try { fs.symlinkSync(fs.readlinkSync(s), d); } catch (err) { /* ignore */ }
+    } else {
+      fs.copyFileSync(s, d);
+    }
+  }
+}
+
+fs.rmSync(outDir, { recursive: true, force: true, maxRetries: 3 });
 fs.mkdirSync(outDir, { recursive: true });
-fs.cpSync(srcDir, outDir, { recursive: true });
+copyTree(srcDir, outDir);
 
 // 用户数据(存档)不属于资源: core/config/*.krtbl 由游戏写入「可写层」,
 // 若误放进 assets 会被打进安装包, 于是新装的机器也会读到旧存档(可写层为空时
