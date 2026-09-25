@@ -34,10 +34,30 @@ export function setLaneTapHandler(fn) {
 }
 
 const lanePressAt = new Map();
+
+// 输入抑制: 当更新提示等宿主弹窗打开时, 档位/触摸只交给宿主订阅者(导航),
+// 不再写入 __umgLanes / touchState —— 游戏完全收不到输入。
+let inputSuppressed = false;
+export function setInputSuppressed(on) {
+  inputSuppressed = !!on;
+}
+export function isInputSuppressed() {
+  return inputSuppressed;
+}
+
 export function touchPress(vk) {
   const isNew = !touchState.has(vk);
-  touchState.add(vk);
   const lane = VK_LANE.get(vk);
+  if (inputSuppressed) {
+    // 抑制期只把档位按下交给导航订阅者, 不产生任何游戏输入
+    if (lane !== undefined && isNew && laneTapHandlers.length) {
+      for (const h of laneTapHandlers) {
+        try { h(lane); } catch (e) {}
+      }
+    }
+    return;
+  }
+  touchState.add(vk);
   if (lane !== undefined) {
     if (isNew && !lanePressAt.has(vk)) lanePressAt.set(vk, performance.now());
     window.__umgLanes[lane] = 1;
@@ -50,6 +70,7 @@ export function touchPress(vk) {
 }
 
 export function touchRelease(vk) {
+  if (inputSuppressed) return;
   const lane = VK_LANE.get(vk);
   if (lane !== undefined) {
     const t0 = lanePressAt.get(vk);

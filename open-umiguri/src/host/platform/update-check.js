@@ -6,13 +6,12 @@
 import { invoke } from '../core/invoke.js';
 import { diagLog } from '../core/diag.js';
 import { hostConfig } from '../bridge/host-config.js';
-import { addLaneTapHandler } from '../input/lanes.js';
+import { addLaneTapHandler, setInputSuppressed, releaseAllTouch } from '../input/lanes.js';
 import { addKeyInterceptor } from '../input/keyboard.js';
 import { createHintRow, showHintRow, laneAction } from '../keypanel/navhint.js';
 // 未在 game.json 配 system.update_url 时的默认清单地址
 const DEFAULT_URL = 'https://phira.pingfanh.top/umgr-check-update';
 const FONT = 'font-family:system-ui,-apple-system,"Segoe UI",sans-serif;';
-const NAV_VKS = [27, 13, 37, 38, 39, 40];
 
 // 「忽略此版本」只在本次网页会话内有效(不写 localStorage):
 // 刷新/重启网页后会再次提示, 直到真的更新到该版本为止。
@@ -115,6 +114,7 @@ function activateSel() {
 
 function closeDialog() {
   open = false;
+  setInputSuppressed(false);
   if (overlay) overlay.style.display = 'none';
   showHintRow(hintBox, false);
 }
@@ -130,15 +130,14 @@ function onLaneTap(lane) {
 
 function interceptKey(vk, e) {
   if (!open) return false;
-  if (e && e.repeat && NAV_VKS.indexOf(vk) >= 0) {
-    if (e.cancelable) e.preventDefault();
-    return true;
-  }
+  // 弹窗独占输入: 所有按键都不给游戏(游戏收不到 keyState), 这里只做导航
+  if (e && e.cancelable) e.preventDefault();
+  if (e && e.repeat) return true;
   if (vk === 27) { closeDialog(); return true; } // Esc = 关闭
   if (vk === 13) { activateSel(); return true; }
   if (vk === 38 || vk === 37) { moveSel(-1); return true; }
   if (vk === 40 || vk === 39) { moveSel(1); return true; }
-  return false;
+  return true; // 其余按键也吞掉
 }
 
 function ensureHandlers() {
@@ -154,7 +153,7 @@ function showDialog(info) {
   box.style.cssText =
     'display:flex;flex-direction:column;align-items:center;max-width:min(680px,86vw);max-height:60vh;overflow:auto;' +
     'padding:clamp(20px,4vmin,40px);border-radius:1em;background:rgba(18,18,18,0.96);' +
-    'border:1px solid rgba(255,255,255,0.18);box-shadow:0 0 2em rgba(0,0,0,0.6);';
+    'border:1px solid rgba(255,255,255,0.18);box-shadow:0 0 2em rgba(0,0,0,0.6);pointer-events:auto;';
 
   const title = document.createElement('div');
   title.textContent = '发现新版本 ' + (info.version || '');
@@ -187,13 +186,14 @@ function showDialog(info) {
   box.appendChild(row);
   items.push(goBtn, ignoreBtn, closeBtn);
 
-  // 遮罩 z-index 低于虚拟键盘(99999): 键盘在上、可用于档位切换; 选项内容上移避开键盘
+  // 遮罩置于虚拟键盘之上, 但根节点 pointer-events:none: 弹窗内容可点(touch),
+  // 根节点透明处的触摸会穿透到下层虚拟键盘 —— 因此底部按键提示/档位切换照常可用。
   overlay = document.createElement('div');
   overlay.id = 'umg_update';
   overlay.style.cssText =
-    'position:fixed;inset:0;z-index:50000;display:flex;align-items:center;justify-content:center;' +
+    'position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;' +
     'box-sizing:border-box;padding-bottom:38vh;background:rgba(0,0,0,0.55);color:#fff;' + FONT +
-    'user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;';
+    'pointer-events:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;';
   overlay.appendChild(box);
 
   hintBox = createHintRow();
@@ -201,6 +201,8 @@ function showDialog(info) {
   document.body.appendChild(overlay);
   showHintRow(hintBox, true);
   renderSel();
+  setInputSuppressed(true); // 弹窗独占输入: 游戏收不到键盘/档位/触摸
+  releaseAllTouch(); // 清掉弹窗打开前按住的档位
   open = true;
 }
 
