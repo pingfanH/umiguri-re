@@ -13,7 +13,7 @@ export const DEFAULTS = {
   playerName: 'PINGFANH',
   playerRating: 1650000,
   playerLevel: 69,
-  lang: 'ja-JP',
+  lang: 'zh-CN',
   fe: 'A1B2C3D4E5F6G7H8I9J0K;L\'M,N.O/P-RSTUWY',
   ledPort: 8090,
   comMainPort: 1,

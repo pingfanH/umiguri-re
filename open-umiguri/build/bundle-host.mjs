@@ -2,7 +2,7 @@
 import { build } from 'esbuild';
 import { readFile, writeFile } from 'node:fs/promises';
 import { obfuscate, OBFUSCATE } from './obfuscate.mjs';
-import { mkdir, copyFile } from 'node:fs/promises';
+import { mkdir, copyFile, readdir } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -32,5 +32,18 @@ if (OBFUSCATE) {
 
 await copyFile(resolve(root, 'src/host/index.html'), resolve(outDir, 'index.html'));
 await copyFile(resolve(root, 'src/host/main.css'), resolve(outDir, 'main.css'));
+
+// 使用条款: 游戏用「同源」iframe 加载 /terms/<lang>.html(以便读取 contentDocument 做滚动判定),
+// 因此必须放进前端产物根目录(否则该路径 404 -> 条款空白)。
+try {
+  const termsSrc = resolve(root, 'assets/terms');
+  const termsDst = resolve(outDir, 'terms');
+  await mkdir(termsDst, { recursive: true });
+  for (const f of await readdir(termsSrc)) {
+    if (f.endsWith('.html')) await copyFile(resolve(termsSrc, f), resolve(termsDst, f));
+  }
+} catch (e) {
+  console.warn('[build:host] 复制 terms 失败: ' + e.message);
+}
 
 console.log('[build:host] ->', outDir);

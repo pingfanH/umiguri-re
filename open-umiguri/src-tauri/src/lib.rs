@@ -204,6 +204,16 @@ pub fn run() {
                     eprintln!("[umg] 已复刻 {n} 个 {top}/ 目录到可写层(便于放补丁)");
                 }
             }
+            // 首次启动: 把只读资源里的 core/config/*.json(游戏/音频/启动配置)复制到可写层,
+            // 便于用户在「文档/UMIGURI」直接查看与修改(已存在的文件不覆盖, 保留用户改动)。
+            // 仅 release: dev 的可写层是仓库内 dist/userdata, 复制会遮蔽 assets 里的源配置。
+            #[cfg(all(not(target_os = "android"), not(debug_assertions)))]
+            {
+                let n = paths::ensure_config_files(&paths::data_root(), &paths::asset_root());
+                if n > 0 {
+                    eprintln!("[umg] 已复制 {n} 个 config/*.json 到可写层({})", paths::data_root().display());
+                }
+            }
             if let Some(win) = app.get_webview_window("main") {
                 // 从 tauri.conf.json 读取窗口尺寸配置(不硬编码)
                 let (w, h) = app

@@ -23,6 +23,7 @@
     "clean:android": "node tools/clean-android.mjs",
     "build:esm:dev": "npm run build:host && npm run build:game:esm",
     "android:sign": "node tools/patch-android-sign.mjs",
+    "icon": "tauri icon src-tauri/app-icon.json",
     "ios:build": "tauri ios build --no-sign",
     "ios:dev": "tauri ios dev",
     "tauri": "tauri"

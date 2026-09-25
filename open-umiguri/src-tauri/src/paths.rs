@@ -359,9 +359,72 @@ pub fn ensure_asset_dir_layout(data_root: &Path, asset_root: &Path, top: &str) -
     created
 }
 
+// 首次启动: 把只读资源里的 core/config/*.json 复制到可写层(文档/UMIGURI),
+// 便于用户直接查看与修改配置。已存在的文件不覆盖(保留用户改动 / 游戏写入)。
+// (仅 release 调用, 见 lib.rs; debug 下允许未使用。)
+#[allow(dead_code)]
+pub fn ensure_config_files(data_root: &Path, asset_root: &Path) -> usize {
+    let rel_dir = "core/config";
+    let dst_dir = data_root.join(rel_dir);
+    if std::fs::create_dir_all(&dst_dir).is_err() {
+        return 0;
+    }
+    let mut names: Vec<String> = Vec::new();
+    if let Ok(rd) = std::fs::read_dir(asset_root.join(rel_dir)) {
+        for e in rd.flatten() {
+            let name = e.file_name().to_string_lossy().to_string();
+            if name.ends_with(".json") {
+                names.push(name);
+            }
+        }
+    }
+    let mut copied = 0usize;
+    for name in names {
+        let dst = dst_dir.join(&name);
+        if dst.exists() {
+            continue;
+        }
+        let bytes = std::fs::read(asset_root.join(rel_dir).join(&name))
+            .ok()
+            .or_else(|| {
+                let rel = format!("{rel_dir}/{name}");
+                let len = apk_size(&rel)? as usize;
+                apk_read_range(&rel, 0, len)
+            });
+        if let Some(b) = bytes {
+            if std::fs::write(&dst, b).is_ok() {
+                copied += 1;
+            }
+        }
+    }
+    copied
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    // 首次启动把 config/*.json 复制到可写层, 且不覆盖已有文件。
+    #[test]
+    fn config_files_copied_once() {
+        let base = std::env::temp_dir().join(format!("umg_cfg_test_{}", std::process::id()));
+        let data = base.join("userdata");
+        let assets = base.join("assets");
+        let _ = std::fs::remove_dir_all(&base);
+        std::fs::create_dir_all(assets.join("core/config")).unwrap();
+        std::fs::write(assets.join("core/config/game.json"), b"{\"a\":1}").unwrap();
+        std::fs::write(assets.join("core/config/se.json"), b"{}").unwrap();
+        std::fs::write(assets.join("core/config/notes.txt"), b"x").unwrap();
+
+        assert_eq!(ensure_config_files(&data, &assets), 2); // 只复制 .json
+        assert_eq!(std::fs::read(data.join("core/config/game.json")).unwrap(), b"{\"a\":1}");
+        // 用户改过之后再次启动不得覆盖
+        std::fs::write(data.join("core/config/game.json"), b"{\"a\":2}").unwrap();
+        assert_eq!(ensure_config_files(&data, &assets), 0);
+        assert_eq!(std::fs::read(data.join("core/config/game.json")).unwrap(), b"{\"a\":2}");
+
+        let _ = std::fs::remove_dir_all(&base);
+    }
 
     // 可写层的空归档镜像目录不得遮蔽只读资源里的真归档(角色/语音曾在 dev 下读不到)。
     #[test]
