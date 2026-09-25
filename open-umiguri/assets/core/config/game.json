@@ -36,6 +36,7 @@
     "hardware_acceleration": true,
     "scaling_quality": 1,
     "wndmode": "",
-    "design_resolution": "auto"
+    "design_resolution": "auto",
+    "update_url": "https://phira.pingfanh.top/umgr-check-update"
   }
 }

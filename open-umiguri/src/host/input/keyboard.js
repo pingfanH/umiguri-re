@@ -7,9 +7,23 @@ export { codeToVk, kbdUni2Virt, charToVk };
 // 物理键盘按下的 VK 集合(含 'down:<vk>' 一次性边沿标记)
 export const keyState = new Set();
 
+// 按键拦截器: 返回 true 表示该按键已被宿主消费(不写入 keyState, 游戏读不到)。
+// 用于游玩中把 Esc 改为暂停、暂停菜单/更新弹窗内的方向键与确认导航。支持多个订阅者(后注册优先)。
+const keyInterceptors = [];
+export function addKeyInterceptor(fn) {
+  if (typeof fn === 'function' && keyInterceptors.indexOf(fn) < 0) keyInterceptors.push(fn);
+}
+export function setKeyInterceptor(fn) {
+  keyInterceptors.length = 0;
+  if (typeof fn === 'function') keyInterceptors.push(fn);
+}
+
 export function installKeyboardListeners() {
   window.addEventListener('keydown', (e) => {
     const vk = codeToVk(e.code) || e.keyCode;
+    for (let i = keyInterceptors.length - 1; i >= 0; i--) {
+      try { if (keyInterceptors[i](vk, e)) return; } catch (err) {}
+    }
     keyState.add(vk);
     if (!e.repeat) keyState.add('down:' + vk);
   });

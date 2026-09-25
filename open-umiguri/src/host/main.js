@@ -6,6 +6,7 @@ import { installPointerHandlers } from './input/touch.js';
 import './input/pad.js';
 import { installPanelShortcut, installPanelResizeHook } from './keypanel/panel.js';
 import { installKeyPanelApi } from './keypanel/api.js';
+import { installPauseMenu } from './keypanel/pausemenu.js';
 import { installUmgrElc } from './bridge/umgr-elc.js';
 import { installNativeInput } from './bridge/native-input.js';
 import { installErrorDiagnostics, installConsoleForwarding, reportGlExtensionsNow, reportGlExtensionsDelayed, diagLog } from './core/diag.js';
@@ -18,6 +19,8 @@ import { setupWindowDragPause } from './platform/window-drag.js';
 import { installDxtSoftwareDecode } from './platform/textures-dxt.js';
 import { setupStorageAccessCheck } from './platform/storage-access.js';
 import { installLayoutDiagnostics } from './platform/layout.js';
+import { installDevtoolsShortcut } from './platform/devtools.js';
+import { checkUpdate } from './platform/update-check.js';
 import { loadMain } from './loader/decrypt-loader.js';
 import { loadHostConfig } from './bridge/host-config.js';
 import { applyHostConfig, handshake } from './bridge/handshake.js';
@@ -40,6 +43,7 @@ diagLog('[umg][nav] ' + location.href); // 埋点: 区分 ?fix(修复模式)/?er
 preventViewportGestures(); // 手势/页面缩放拦截
 installKeyboardListeners(); // 键盘监听
 installPanelShortcut(); // 虚拟按键面板快捷键
+installDevtoolsShortcut(); // DevTools 快捷键(F12 / Ctrl+Shift+I), 不默认打开
 installPanelResizeHook(); // 窗口/方向变化时重建面板
 installFullscreenGuard(); // 不让 Esc 等退出全屏(掉出即恢复)
 installPointerHandlers(); // 指针输入
@@ -47,6 +51,7 @@ installProtocolInterceptors(); // 虚拟路径协议拦截(Image/XHR/fetch/ifram
 installUmgrElc(); // window.umgr_elc
 installNativeInput(); // kbd*/di8Kbd*/串口桩
 installKeyPanelApi(); // window.umgKeyPanel
+installPauseMenu(); // 游玩暂停菜单(三键替换为暂停按钮)
 setupWindowDragPause(); // 拖动暂停 RAF
 installDxtSoftwareDecode(); // DXT 软解
 
@@ -124,6 +129,12 @@ whenPageReady(async () => {
     if (name) window.__umgAppName = name;
   } catch (e) {}
 
+  // 应用版本: 供游戏覆盖 v_U_27653(登陆页「Version x.y.z」)
+  try {
+    const ver = await tryInvoke('app_version', {}, null);
+    if (ver) window.__umgAppVersion = ver;
+  } catch (e) {}
+
   // 配置文件优先: 把 game.json -> game.player 里写了的字段下发给游戏,
   // 让它覆盖存档里的同名值(见 tools/game-patches.mjs 的「配置优先」补丁)。
   try {
@@ -181,6 +192,7 @@ whenPageReady(async () => {
 
   loadMain(); // 解密并执行游戏前端(main.js.enc)
   setTimeout(() => diagLog('[umg][app] document.title=' + document.title), 5000);
+  setTimeout(() => { checkUpdate().catch(() => {}); }, 4000); // 更新检查(延迟, 不挡启动)
 
   // iOS 横屏: 启动阶段(方向/安全区未稳定)算出的缩放可能不准且后续不再重算。
   // 主动触发几次 resize, 让游戏按最终尺寸重算布局。

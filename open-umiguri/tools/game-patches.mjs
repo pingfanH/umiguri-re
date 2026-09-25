@@ -112,6 +112,23 @@ export function applyGamePatches(ast) {
   });
   if (appNamePatched) applied.push(`应用名可由宿主覆盖 ×${appNamePatched}`);
 
+  // 版本号: 登陆页显示 "Version " + v_U_27653。允许宿主用 window.__umgAppVersion 覆盖
+  // (取 Tauri 的 app_version = tauri.conf.json 的 version), 避免与 package/安装包版本脱节。
+  let appVersionPatched = 0;
+  traverse(ast, {
+    VariableDeclarator(path) {
+      if (!t.isIdentifier(path.node.id, { name: 'v_U_27653' })) return;
+      if (!t.isStringLiteral(path.node.init)) return;
+      path.node.init = t.logicalExpression(
+        '||',
+        t.memberExpression(t.identifier('window'), t.identifier('__umgAppVersion')),
+        path.node.init
+      );
+      appVersionPatched++;
+    },
+  });
+  if (appVersionPatched) applied.push(`版本号可由宿主覆盖 ×${appVersionPatched}`);
+
   // 配置文件优先: 游戏读档时会把存档里的玩家信息写回握手
   // (scope.handshake.rm.om/um/lm = 存档的 name/level/rating)。
   // 宿主可用 window.__umgForceProfile 下发"强制值"(只含配置里确实写了的字段),
@@ -170,8 +187,72 @@ export function applyGamePatches(ast) {
   });
   if (designPatched) applied.push(`设计空间可由宿主覆盖 ×${designPatched}`);
 
+  // 游玩状态/控制桥: 游玩会话(v_U_30262)是 gameCore 模块内的局部变量, 宿主读不到。
+  // 在 gameCore 工厂 `return { ue, T0, lg, ri }` 之前挂一个 globalThis.__umgPlay:
+  //   state  只读状态(主界面/加载/游玩/结算, 是否暂停, 进度/分数等)
+  //   pause/resume/retry/settle/exit 对应游戏自身的暂停、继续、(seek 0)重来、立即结算
+  // 供宿主暂停菜单(host/keypanel/pausemenu.js)使用。
+  traverse(ast, {
+    ReturnStatement(path) {
+      const arg = path.node.argument;
+      if (!t.isObjectExpression(arg)) return;
+      const isGameCoreReturn = arg.properties.some(
+        (p) =>
+          t.isObjectProperty(p) &&
+          t.isIdentifier(p.key, { name: 'ri' }) &&
+          t.isIdentifier(p.value, { name: 'v_ji_30334' })
+      );
+      if (!isGameCoreReturn) return;
+      if (JSON.stringify(arg).includes('__umgPlay')) return; // 幂等
+      path.insertBefore(parser.parse(UMG_PLAY_BRIDGE, { sourceType: 'script' }).program.body);
+      applied.push('游玩状态/控制桥 __umgPlay');
+    },
+  });
+
   return applied;
 }
+
+// gameCore 私有的游玩状态/控制桥(注入在模块 return 之前; 名字在该模块作用域内可见)。
+const UMG_PLAY_BRIDGE = `
+globalThis.__umgPlay = {
+  get state() {
+    var s = v_U_30262;
+    var tm = !!(scope.testMenu && scope.testMenu.Gi && scope.testMenu.Gi());
+    if (!s) return { scene: "menu", playing: false, paused: false, testMenu: tm };
+    var inPlay = s.n1 === v_S_30187;
+    return {
+      scene: inPlay ? "play" : s.n1 >= v_B_30188 ? "result" : "loading",
+      playing: inPlay && s.o1 === true,
+      paused: inPlay && s.o1 === false,
+      testMenu: tm,
+      failed: !!s.J1,
+      practice: !!(s.Y1 && s.Y1.k0),
+      progress: s.rr,
+      length: s.q1 ? s.q1.Zu._w : 0,
+      speed: s.b1,
+      difficulty: s.Y1 ? s.Y1.te : null,
+      score: s.Ta ? s.Ta.Sr : 0
+    };
+  },
+  pause: function () {
+    if (v_U_30262 && v_U_30262.i1 && v_U_30262.n1 === v_S_30187 && v_U_30262.o1) v_Wi_30337();
+  },
+  resume: function () {
+    if (v_U_30262 && v_U_30262.i1 && v_U_30262.n1 === v_S_30187 && !v_U_30262.o1) v_Vi_30336();
+  },
+  retry: function () {
+    if (!v_U_30262 || v_U_30262.n1 !== v_S_30187) return;
+    v_Yi_30341(0);
+  },
+  settle: function () {
+    if (!v_U_30262 || v_U_30262.n1 !== v_S_30187) return;
+    v_Hi_30330();
+  },
+  exit: function () {
+    if (v_U_30262) v_Oi_30335();
+  }
+};
+`;
 
 // 与建表循环里的封面加载等价(dds 走 it+软件/硬件解码, 其它走 Image)
 const JACKET_PRELOAD = `

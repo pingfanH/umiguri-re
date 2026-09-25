@@ -1,6 +1,6 @@
 {
   "name": "open-umiguri",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "UMIGURI 反混淆重构工程: 模块化宿主层(Tauri 2) + 模块化游戏本体",
   "type": "module",
   "private": true,

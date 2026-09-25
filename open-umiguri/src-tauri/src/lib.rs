@@ -76,13 +76,60 @@ fn window_fullscreen(window: tauri::Window) -> bool {
     window.is_fullscreen().unwrap_or(false)
 }
 
+// 切换 DevTools(不默认打开; 由宿主快捷键 F12 / Ctrl(Cmd)+Shift+I 调用)。
+// 仅调试构建或启用 tauri "devtools" feature 时可用, 否则为无操作。
+#[tauri::command]
+fn toggle_devtools(window: tauri::WebviewWindow) -> bool {
+    #[cfg(any(debug_assertions, feature = "devtools"))]
+    {
+        if window.is_devtools_open() {
+            window.close_devtools();
+            false
+        } else {
+            window.open_devtools();
+            true
+        }
+    }
+    #[cfg(not(any(debug_assertions, feature = "devtools")))]
+    {
+        let _ = window;
+        false
+    }
+}
+
 // 应用显示名(来自 tauri.conf.json 的 productName), 供宿主下发给游戏(标题/错误页)
 #[tauri::command]
-fn app_name(app: tauri::AppHandle) -> String {
-    app.config()
+fn app_name(app: tauri::AppHandle) -> String {    app.config()
         .product_name
         .clone()
         .unwrap_or_else(|| "UMIGURI".to_string())
+}
+
+// 应用版本(来自 tauri.conf.json 的 version), 供宿主做更新检查
+#[tauri::command]
+fn app_version(app: tauri::AppHandle) -> String {
+    app.package_info().version.to_string()
+}
+
+// 用系统默认浏览器打开链接(更新提示的「前往更新」)
+#[tauri::command]
+fn open_url(app: tauri::AppHandle, url: String) -> bool {
+    use tauri_plugin_opener::OpenerExt;
+    app.opener().open_url(url, None::<String>).is_ok()
+}
+
+// 由 Rust 侧拉取文本(更新清单): 绕过 WebView 的跨源(CORS)限制。
+#[tauri::command]
+async fn fetch_text(url: String) -> Result<String, String> {
+    tauri::async_runtime::spawn_blocking(move || -> Result<String, String> {
+        let resp = ureq::get(&url)
+            .timeout(std::time::Duration::from_secs(12))
+            .call()
+            .map_err(|e| e.to_string())?;
+        resp.into_string().map_err(|e| e.to_string())
+    })
+    .await
+    .map_err(|e| e.to_string())?
 }
 
 // 重启应用(授权后需要完整重扫追加数据)
@@ -101,6 +148,7 @@ pub fn run() {
     let last_move: Arc<Mutex<Option<Instant>>> = Arc::new(Mutex::new(None));
 
     tauri::Builder::default()
+        .plugin(tauri_plugin_opener::init())
         .manage(hardware::HardwareState::default())
         .setup(|app| {
             // 桌面: release 把存档放「文档/UMIGURI」、资源读打包目录;
@@ -170,9 +218,6 @@ pub fn run() {
                 let _ = win.set_min_size(Some(tauri::Size::Logical(tauri::LogicalSize::new(
                     960.0, 540.0,
                 ))));
-                // 启动时自动打开 DevTools(仅调试构建)
-                #[cfg(debug_assertions)]
-                win.open_devtools();
             }
             Ok(())
         })
@@ -305,7 +350,11 @@ pub fn run() {
             restart_app_cmd,
             apply_window_config,
             app_name,
+            app_version,
+            open_url,
+            fetch_text,
             window_fullscreen,
+            toggle_devtools,
             hw_init,
             hw_connect,
             hw_disconnect,

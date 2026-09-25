@@ -14,6 +14,38 @@ export function setPanelRebuildHook(fn) {
   rebuiltHook = fn;
 }
 
+// 左侧功能键区: 非游玩时显示 Test/Service/FN 三键, 游玩时(由宿主暂停菜单切换)只显示脉冲暂停按钮
+let navBoxEl = null;
+let navRowEl = null;
+let fnWrapEl = null;
+let pauseBtnEl = null;
+let navMode = false;
+let navHidden = false;
+let pauseHandler = null;
+
+export function setPauseButtonHandler(fn) {
+  pauseHandler = fn;
+}
+
+// inPlay=true: 收起三键, 显示暂停按钮
+export function setNavMode(inPlay) {
+  navMode = !!inPlay;
+  applyNavMode();
+}
+
+// 整块隐藏(进入游戏内测试界面时暂时收起暂停按钮)
+export function setNavHidden(on) {
+  navHidden = !!on;
+  applyNavMode();
+}
+
+export function applyNavMode() {
+  if (navBoxEl) navBoxEl.style.display = navHidden ? 'none' : 'flex';
+  if (navRowEl) navRowEl.style.display = navMode ? 'none' : 'flex';
+  if (fnWrapEl && navMode) fnWrapEl.style.display = 'none';
+  if (pauseBtnEl) pauseBtnEl.style.display = navMode ? 'flex' : 'none';
+}
+
 export function panelElement() {
   return keyPanel;
 }
@@ -210,6 +242,33 @@ export function ensureKeyPanel() {
   const fnBtn = barStyle(mkFnBtn('FN'), ux(200), ux(46));
   navRow.appendChild(fnBtn);
   navBox.appendChild(navRow);
+  navRowEl = navRow;
+
+  // 暂停按钮(游玩时替换三键): 两个竖条
+  const pauseBtn = document.createElement('div');
+  pauseBtn.id = 'ugv_pause';
+  pauseBtn.style.cssText =
+    'display:none;align-items:center;justify-content:center;gap:' + Math.round(ux(12)) + 'px;' +
+    'width:' + ux(200) + 'px;height:' + ux(46) + 'px;' +
+    'background:rgba(128,128,128,0.15);border:1px solid rgba(128,128,128,0.4);' +
+    'cursor:pointer;touch-action:none;pointer-events:auto;box-sizing:border-box;' +
+    'user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;';
+  for (let i = 0; i < 2; i++) {
+    const b = document.createElement('div');
+    b.style.cssText =
+      'width:' + Math.round(ux(12)) + 'px;height:' + Math.round(ux(28)) + 'px;border-radius:' + Math.round(ux(2)) + 'px;background:rgba(255,255,255,0.85);';
+    pauseBtn.appendChild(b);
+  }
+  pauseBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    pauseBtn.style.background = 'rgba(128,128,128,0.3)';
+    if (pauseHandler) pauseHandler();
+  });
+  pauseBtn.addEventListener('pointerup', () => { pauseBtn.style.background = 'rgba(128,128,128,0.15)'; });
+  pauseBtn.addEventListener('pointercancel', () => { pauseBtn.style.background = 'rgba(128,128,128,0.15)'; });
+  navBox.appendChild(pauseBtn);
+  pauseBtnEl = pauseBtn;
   // F1-F5 弹层: 功能键行下方, 横向
   const fWrap = document.createElement('div');
   fWrap.style.cssText = 'display:none;flex-direction:row;gap:4px;';
@@ -223,8 +282,11 @@ export function ensureKeyPanel() {
     fWrap.style.display = fWrap.style.display === 'none' ? 'flex' : 'none';
   });
   navBox.appendChild(fWrap);
+  fnWrapEl = fWrap;
   keyPanel.appendChild(navBox);
+  navBoxEl = navBox;
 
+  applyNavMode();
   keyPanel.style.display = panelVisible ? '' : 'none';
 }
 

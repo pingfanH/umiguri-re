@@ -4235,6 +4235,49 @@ export function createGameCore(scope) {
       v_x_30250.Jt = !0, v_m_30256.Jt = v_U_30262.Y1.k0, v_U_30262.Y1.k0 && scope.inputModule.tb(v_ht_30217, v_Li_30320), v_U_30262.rr = v_U_30262.q1.Zu.fw - v_U_30262.m1, v_U_30262.C1 = v_U_30262.rr + v_U_30262.E1, v_U_30262.w1 = v_U_30262.q1.Zu.yi - v_U_30262.m1, v_ie_30347(), null !== v_U_30262.Ar.Om && (v_U_30262.Ar.Km = v_U_30262.Ar.Om), v_i_31706 && v_i_31706(!0);
     }]);
   }
+  globalThis.__umgPlay = {
+    get state() {
+      var s = v_U_30262;
+      var tm = !!(scope.testMenu && scope.testMenu.Gi && scope.testMenu.Gi());
+      if (!s) return {
+        scene: "menu",
+        playing: false,
+        paused: false,
+        testMenu: tm
+      };
+      var inPlay = s.n1 === v_S_30187;
+      return {
+        scene: inPlay ? "play" : s.n1 >= v_B_30188 ? "result" : "loading",
+        playing: inPlay && s.o1 === true,
+        paused: inPlay && s.o1 === false,
+        testMenu: tm,
+        failed: !!s.J1,
+        practice: !!(s.Y1 && s.Y1.k0),
+        progress: s.rr,
+        length: s.q1 ? s.q1.Zu._w : 0,
+        speed: s.b1,
+        difficulty: s.Y1 ? s.Y1.te : null,
+        score: s.Ta ? s.Ta.Sr : 0
+      };
+    },
+    pause: function () {
+      if (v_U_30262 && v_U_30262.i1 && v_U_30262.n1 === v_S_30187 && v_U_30262.o1) v_Wi_30337();
+    },
+    resume: function () {
+      if (v_U_30262 && v_U_30262.i1 && v_U_30262.n1 === v_S_30187 && !v_U_30262.o1) v_Vi_30336();
+    },
+    retry: function () {
+      if (!v_U_30262 || v_U_30262.n1 !== v_S_30187) return;
+      v_Yi_30341(0);
+    },
+    settle: function () {
+      if (!v_U_30262 || v_U_30262.n1 !== v_S_30187) return;
+      v_Hi_30330();
+    },
+    exit: function () {
+      if (v_U_30262) v_Oi_30335();
+    }
+  };
   return {
     ue: function (v_e_31762) {
       scope.v_Le_28076([v_i_31763 => {

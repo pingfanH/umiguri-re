@@ -42,7 +42,7 @@ export const handshake = {
   Z: { X: true, a1: false, d1: false, t1: false, s1: false },
   u1: DEFAULTS.resolution, // startup.last_screen_size
   v1: false,
-  h1: { T: '2025/05/24', rr: '16:51:06', C: '9f4d448', GA: 'Release', Ph: false },
+  h1: { T: '2026/09/21', rr: '11:02:14', C: '3aa8ebc', GA: 'Release', Ph: false },
   f1: false,
   g1: [
     { name: 'ja-JP', version: 6, packageName: 'hiiragi.una' },

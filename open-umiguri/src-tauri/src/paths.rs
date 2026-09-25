@@ -239,17 +239,22 @@ pub fn resolve_src(vpath: &str) -> Option<Src> {
         if apk_size(&rel).is_some() {
             return Some(Src::Apk(rel));
         }
-        for root in &roots {
-            let disk = root.join(&rel);
-            // .una/.arc 的解包目录 == 归档: 按需合成(dev 文件夹态)
-            if disk.is_dir() {
-                if let Some(p2) = crate::archive::archive_p2(&rel) {
+        // .una/.arc 的解包目录 == 归档: 按需合成(dev 文件夹态)。
+        // 必须挑「实际有内容」的那个根: 可写层骨架会复刻出空镜像目录, 直接返回空归档
+        // 会遮蔽只读资源里的真归档(表现为角色 / 语音 / 语言包读不到)。
+        if let Some(p2) = crate::archive::archive_p2(&rel) {
+            for root in &roots {
+                let disk = root.join(&rel);
+                if disk.is_dir() && crate::archive::dir_has_files(&disk) {
                     return Some(Src::Synth { dir: disk, p2 });
                 }
-                return Some(Src::Disk(disk)); // 普通目录: 由上层返回错误
             }
+            continue; // 各根里该归档目录都为空: 试下一个候选(.ext.ext / .txt)
+        }
+        for root in &roots {
+            let disk = root.join(&rel);
             if disk.exists() {
-                return Some(Src::Disk(disk)); // 不可读: 由上层返回错误
+                return Some(Src::Disk(disk)); // 普通目录/不可读: 由上层返回错误
             }
         }
     }
@@ -330,6 +335,18 @@ pub fn ensure_asset_dir_layout(data_root: &Path, asset_root: &Path, top: &str) -
             if !ft.is_dir() {
                 continue;
             }
+            // 归档目录(.una/.arc)不是「放补丁」的目标, 不要复刻它的空镜像:
+            // 空镜像会遮蔽只读资源里的真归档(见 resolve_src)。
+            let name = e.file_name().to_string_lossy().to_string();
+            if name.ends_with(".una") || name.ends_with(".arc") {
+                if let Ok(rel) = e.path().strip_prefix(asset_root) {
+                    let mirror = data_root.join(rel);
+                    if mirror.is_dir() && !crate::archive::dir_has_files(&mirror) {
+                        let _ = std::fs::remove_dir_all(&mirror); // 清掉历史遗留的空镜像
+                    }
+                }
+                continue;
+            }
             if let Ok(rel) = e.path().strip_prefix(asset_root) {
                 let dst = data_root.join(rel);
                 if !dst.exists() && std::fs::create_dir_all(&dst).is_ok() {
@@ -340,4 +357,41 @@ pub fn ensure_asset_dir_layout(data_root: &Path, asset_root: &Path, top: &str) -
         }
     }
     created
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // 可写层的空归档镜像目录不得遮蔽只读资源里的真归档(角色/语音曾在 dev 下读不到)。
+    #[test]
+    fn archive_prefers_root_with_content() {
+        let base = std::env::temp_dir().join(format!("umg_paths_test_{}", std::process::id()));
+        let data = base.join("userdata");
+        let assets = base.join("assets");
+        let _ = std::fs::remove_dir_all(&base);
+        // 可写层: 空镜像目录
+        std::fs::create_dir_all(data.join("data/x.arc")).unwrap();
+        // 只读资源: 有内容的归档目录
+        std::fs::create_dir_all(assets.join("data/x.arc")).unwrap();
+        std::fs::write(assets.join("data/x.arc/a.bin"), b"hello").unwrap();
+        // 只读资源里的普通文件
+        std::fs::write(assets.join("plain.txt"), b"ok").unwrap();
+
+        std::env::set_var("UMIGURI_DATA_DIR", &data);
+        std::env::set_var("UMIGURI_ASSETS_DIR", &assets);
+
+        match resolve_src("/data/x.arc") {
+            Some(Src::Synth { dir, p2 }) => {
+                assert_eq!(p2, 1);
+                assert!(dir.starts_with(&assets), "应选中只读资源里的归档: {dir:?}");
+            }
+            other => panic!("期望 Synth(只读归档), 实际 {:?}", other.is_some()),
+        }
+        assert!(matches!(resolve_src("/plain.txt"), Some(Src::Disk(_))));
+
+        std::env::remove_var("UMIGURI_DATA_DIR");
+        std::env::remove_var("UMIGURI_ASSETS_DIR");
+        let _ = std::fs::remove_dir_all(&base);
+    }
 }

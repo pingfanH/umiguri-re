@@ -269,6 +269,25 @@ pub fn archive_p2(rel: &str) -> Option<u8> {
     }
 }
 
+// 目录(归档)里是否至少有一个文件(递归)。
+// 用途: 可写层的目录骨架会复刻出「空的归档镜像目录」, 不能让它遮蔽只读资源里的真归档。
+pub fn dir_has_files(dir: &Path) -> bool {
+    let Ok(rd) = std::fs::read_dir(dir) else {
+        return false;
+    };
+    for e in rd.flatten() {
+        if let Ok(ft) = e.file_type() {
+            if ft.is_file() {
+                return true;
+            }
+            if ft.is_dir() && dir_has_files(&e.path()) {
+                return true;
+            }
+        }
+    }
+    false
+}
+
 type Cache = Mutex<HashMap<PathBuf, (Sig, Arc<Vec<u8>>)>>;
 static CACHE: OnceLock<Cache> = OnceLock::new();
 

@@ -22,12 +22,31 @@ export function laneForVk(vk) {
   return VK_LANE.get(vk);
 }
 
+// 虚拟键盘档位按下的回调(边沿): 供暂停菜单/更新提示等按档位导航
+// (与游戏测试菜单的 SliderZone 同一套档位区间)。支持多个订阅者。
+const laneTapHandlers = [];
+export function addLaneTapHandler(fn) {
+  if (typeof fn === 'function' && laneTapHandlers.indexOf(fn) < 0) laneTapHandlers.push(fn);
+}
+export function setLaneTapHandler(fn) {
+  laneTapHandlers.length = 0;
+  if (typeof fn === 'function') laneTapHandlers.push(fn);
+}
+
 const lanePressAt = new Map();
 export function touchPress(vk) {
+  const isNew = !touchState.has(vk);
   touchState.add(vk);
   const lane = VK_LANE.get(vk);
-  if (lane !== undefined && !lanePressAt.has(vk)) lanePressAt.set(vk, performance.now());
-  if (lane !== undefined) window.__umgLanes[lane] = 1;
+  if (lane !== undefined) {
+    if (isNew && !lanePressAt.has(vk)) lanePressAt.set(vk, performance.now());
+    window.__umgLanes[lane] = 1;
+    if (isNew && laneTapHandlers.length) {
+      for (const h of laneTapHandlers) {
+        try { h(lane); } catch (e) {}
+      }
+    }
+  }
 }
 
 export function touchRelease(vk) {
@@ -45,4 +64,15 @@ export function touchRelease(vk) {
 
 export function clearTouchState() {
   touchState.clear();
+}
+
+// 释放所有触摸档位(进暂停菜单等场景): 清 touchState 并复位 __umgLanes,
+// 避免玩家按住档位时点暂停导致该档位卡住。
+export function releaseAllTouch() {
+  for (const vk of [...touchState]) {
+    const lane = VK_LANE.get(vk);
+    if (lane !== undefined) window.__umgLanes[lane] = 0;
+  }
+  touchState.clear();
+  lanePressAt.clear();
 }
